@@ -7,7 +7,7 @@
 
 #define DELAY		100
 
-void displayTitleScreen();
-void openTitleScreen();
+void displayTitleScreen(int pPrompt);
+void openTitleScreen(struct sPlayer sPlayer);
 
-#endif
+#endif 

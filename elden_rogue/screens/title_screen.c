@@ -2,7 +2,7 @@
 
 
 /*********** User Interface *************/
-void displayTitleScreen(int* pPrompt) {
+void displayTitleScreen(int pPrompt) {
 	
 	printf("ELDEN ROGUE\n\n",
 			"[1] START\n",
@@ -10,21 +10,22 @@ void displayTitleScreen(int* pPrompt) {
 			"[0] EXIT\n\n",
 			"SYSTEM MESSAGE: ");
 	
-	switch(*pPrompt) {
-		case PROMPT_START:
+	switch(pPrompt) {
+		case START:
 			printf("Starting game...");
 			break;
-		case PROMPT_CONTINUE:
+		case CONTINUE:
 			printf("Continuing previously saved progress...");
 			break;
-		case PROMPT_EXIT:
+		case EXIT:
 			printf("Exiting game...");
+			break;
 	}
 
 	sleep(DELAY);
 }
 
-void openTitleScreen() {
+void openTitleScreen(struct sPlayer sPlayer) {
 	displayTitleScreen(0);
 
 	int nInput;
@@ -33,10 +34,10 @@ void openTitleScreen() {
 	
 	switch(nInput) {
 		case START:
-			openCharacterCreationScreen();
+			openCharacterCreationScreen(sPlayer);
 			break;
 		case CONTINUE:
-			openRoundtableHoldScreen();
+			openRoundtableHoldScreen(sPlayer);
 			break;
 		case EXIT:
 			break;
