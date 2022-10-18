@@ -1,27 +1,29 @@
 #include "chara_creation_screen.h"
+#include "title_screen.h"
+#include "..\driver.h"
 
-void displayCharacterCreationScreen(int pPrompt, struct sPlayer sPlayer) {
+void displayCharacterCreationScreen(int pPrompt, sPlayer sNewPlayer) {
 	
 	printf("CHARACTER CREATION\n\n",
 			
-			"[1] NAME: %s\n", sPlayer.cName,
-			"[2] JOB CLASS: %s\n", sPlayer.cJobClass,
+			"[1] NAME: %s\n", sNewPlayer.cName,
+			"[2] JOB CLASS: %s\n", sNewPlayer.cJobClass,
 			"[3] CONFIRM\n",
 			"[0] BACK\n\n",
 			
 			"SYSTEM MESSAGE: \n");
 	
 	switch(pPrompt) {
-		case PROMPT_NAME:
+		case NAME:
 			printf("Input your name.");
 			break;
-		case PROMPT_JOB:
+		case JOB:
 			printf("Choose your job.");
 			break;
-		case PROMPT_CC_CONFIRM:
+		case CC_CONFIRM:
 			printf("Saving character...");
 			break;
-		case PROMPT_CC_BACK:
+		case CC_BACK:
 			printf("Going back to title screen...");
 			break;
 	}
@@ -29,9 +31,9 @@ void displayCharacterCreationScreen(int pPrompt, struct sPlayer sPlayer) {
 	sleep(DELAY);
 }
 
-void displayJobScreen(int pPrompt, struct sPlayer sPlayer) {
+void displayJobScreen(int pPrompt, sPlayer sNewPlayer) {
 
-	printf("JOB CLASS: %s\n\n", sPlayer.cJobClass,
+	printf("JOB CLASS: %s\n\n", sNewPlayer.cJobClass,
 			"OPTIONS\n",
 			"[1] VAGABOND     [4] HERO\n",
 			"[2] SAMURAI	  [5] PROPHET\n",
@@ -39,22 +41,22 @@ void displayJobScreen(int pPrompt, struct sPlayer sPlayer) {
 			"SYSTEM MESSAGE: \n");
 	
 	switch(pPrompt) {
-		case PROMPT_VAGABOND:
+		case VAGABOND:
 			printf("Showing Vagabond stats...");
 			break;
-		case PROMPT_SAMURAI:
+		case SAMURAI:
 			printf("Showing Samurai stats...");
 			break;
-		case PROMPT_WARRIOR:
+		case WARRIOR:
 			printf("Showing Warrior stats...");
 			break;
-		case PROMPT_HERO:
+		case HERO:
 			printf("Showing Hero stats...");
 			break;
-		case PROMPT_PROPHET:
+		case PROPHET:
 			printf("Showing Prophet stats...");
 			break;
-		case PROMPT_ASTROLOGER:
+		case ASTROLOGER:
 			printf("Showing Astrologer stats...");
 			break;
 	}
@@ -121,7 +123,7 @@ void displayJobClassScreen(int nJobClass) {
 }
 
 
-void openCharacterCreationScreen(struct sPlayer sPlayer) {
+void openCharacterCreationScreen(sPlayer sNewPlayer) {
 
 	displayCharacterCreationScreen(0);
 	
@@ -136,7 +138,7 @@ void openCharacterCreationScreen(struct sPlayer sPlayer) {
 
 }
 
-void openJobScreen(struct sPlayer sPlayer) {
+void openJobScreen(sPlayer sNewPlayer) {
 	displayJobScreen(0);
 
 	int nInput;
@@ -153,20 +155,18 @@ void openJobScreen(struct sPlayer sPlayer) {
 	//if back, go back to job screen to choose another job class
 	//if confirm, player goes back to chara creation. set and show stats.
 	//SET PLAYER STATS BASED ON JOB CLASS
-	sPlayer.cJobClass = "VAGABOND";
-	sPlayer.nLevel = 9;
-	sPlayer.nHealth = 15;
-	sPlayer.nEndurance = 11;
-	sPlayer.nDexterity = 13;
-	sPlayer.nStrength = 14;
-	sPlayer.nIntelligence = 9;
-	sPlayer.nFaith = 9;
+	sNewPlayer.cJobClass = "VAGABOND";
+	sNewPlayer.nLevel = 9;
+	sNewPlayer.nHealth = 15;
+	sNewPlayer.nEndurance = 11;
+	sNewPlayer.nDexterity = 13;
+	sNewPlayer.nStrength = 14;
+	sNewPlayer.nIntelligence = 9;
+	sNewPlayer.nFaith = 9;
 
 		//if confirm again, player continues to roundtable hold
-		openRoundtableHoldScreen(sPlayer);
+		openRoundtableHoldScreen(sNewPlayer);
 		//if back, player goes back to title screen (reset stats)
 
-
-	//sPlayer = {};
 
 }
