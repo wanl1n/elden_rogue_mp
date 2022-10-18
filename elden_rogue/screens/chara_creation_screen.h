@@ -1,0 +1,6 @@
+#ifndef CHARACTER_CREATION_SCREEN
+#define CHARACTER_CREATION_SCREEN
+
+
+
+#endif
