@@ -8,15 +8,14 @@
 #include "utility/printer.c"
 #include "utility/scanner.c"
 #include "utility/colors.c"
+#include "driver.h"
 
 #include "screens/title_screen.c"
 #include "screens/chara_creation_screen.c"
-// #include "screens/"
-
 
 int main() {
 
-	sPlayer sNewPlayer;
+	sPlayer* sNewPlayer;
 
 	resetColors();
 	openTitleScreen(sNewPlayer);

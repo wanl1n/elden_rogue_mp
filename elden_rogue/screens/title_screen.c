@@ -1,6 +1,9 @@
-#include "..\utility/prompts.h"
 #include "chara_creation_screen.h"
-#include "..\driver.h"
+#include "title_screen.h"
+
+#include "../config/settings.h"
+
+#include "../driver.h"
 
 /*********** User Interface *************/
 void displayTitleScreen(int pPrompt) {
@@ -26,7 +29,7 @@ void displayTitleScreen(int pPrompt) {
 	sleep(DELAY);
 }
 
-void openTitleScreen(sPlayer sNewPlayer) {
+void openTitleScreen(sPlayer* sNewPlayer) {
 	displayTitleScreen(0);
 
 	int nInput;
@@ -38,7 +41,7 @@ void openTitleScreen(sPlayer sNewPlayer) {
 			openCharacterCreationScreen(sNewPlayer);
 			break;
 		case CONTINUE:
-			openRoundtableHoldScreen(sNewPlayer);
+			//openRoundtableHoldScreen(sNewPlayer);
 			break;
 		case EXIT:
 			break;
