@@ -3,8 +3,8 @@
 
 typedef struct sPlayer {
 
-	char cName[25];
-	char cJobClass[10];
+	char cName[26];
+	char cJobClass[11];
 	int nLevel;
 	int nRunes;
 
