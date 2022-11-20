@@ -6,58 +6,65 @@
 
 #include "../config/settings.h"
 
-void displayCharacterCreationScreen(int pPrompt, Player* pPlayer) {
+void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 	
-	//system("cls");
+	system("cls");
 
-	printf("-------CHARACTER CREATION-------\n\n"
-			"[1] NAME: %s\n"
-			"[2] JOB CLASS: %s\n"
-			"[3] CONFIRM\n"
-			"[0] BACK\n\n"
-			"SYSTEM MESSAGE: ",
-			pPlayer->cName, pPlayer->cJobClass);
+	printHeader("CHARACTER CREATION", 18);
 	
-	switch(pPrompt) {
+	printf("\t\tNAME: %s\n"
+		   "\t\tJOB CLASS: %s\n",
+		   pPlayer->cName, pPlayer->cJobClass);
+
+	printOption(1, "NAME");
+	printOption(2, "JOB CLASS");
+	printOption(3, "CONFIRM");
+	printOption(0, "BACK");\
+	printf("\n\n");
+	
+	switch(nPrompt) {
 		case NAME:
-			printf("Input your name.");
+			printSystemMessage("Input your name.");
 			break;
 		case JOB:
-			printf("Choose your job.");
+			printSystemMessage("Choose your job.");
 			break;
 		case CC_CONFIRM:
-			printf("Saving character...");
+			printSystemMessage("Saving character...");
 			break;
 		case CC_BACK:
-			printf("Going back to title screen...");
+			printSystemMessage("Going back to title screen...");
 			break;
 		case SET_NAME:
-			printf("You set your name to %s.", pPlayer->cName);
+			printMultiple(" ", SCREEN_PADDING);
+			printf("[SYSTEM MESSAGE]: You set your name to %s.", pPlayer->cName);
 			break;
 		case SET_JOB:
-			printf("You set your job to %s.", pPlayer->cJobClass);
+			printMultiple(" ", SCREEN_PADDING);
+			printf("[SYSTEM MESSAGE]: You set your job to %s.", pPlayer->cJobClass);
 			break;
 		case 6:
 			break;
 	}
 
-	printf("\n\nINPUT: ");
+	printInputTag();
 
 	Sleep(DELAY);
 }
 
-void displayJobScreen(int pPrompt, Player* pPlayer) {
+void displayJobScreen(int nPrompt, Player* pPlayer) {
 
-	//system("cls");
+	system("cls");
 
-	printf("-------JOB CLASS: %s-------\n\n"
+	printHeader("JOB CLASS", 9);
+	printf("Current Job: %s\n\n"
 			"OPTIONS:\n"
 			"[1] VAGABOND      [4] HERO\n"
 			"[2] SAMURAI	  [5] PROPHET\n"
 			"[3] WARRIOR	  [6] ASTROLOGER\n\n"
 			"SYSTEM MESSAGE: ", pPlayer->cJobClass);
 	
-	switch(pPrompt) {
+	switch(nPrompt) {
 		case VAGABOND:
 			printf("Showing Vagabond stats...");
 			break;
@@ -80,14 +87,14 @@ void displayJobScreen(int pPrompt, Player* pPlayer) {
 			break;
 	}
 
-	printf("\n\nINPUT: ");
+	printInputTag();
 
 	Sleep(DELAY);
 }
 
 void displayJobClassScreen(int nJobClass) {
-
-	printf("-------JOB CLASS: -------\n\n");
+	
+	printHeader("JOB CLASS", 9);
 
 	switch(nJobClass) {
 		case VAGABOND:
@@ -210,27 +217,27 @@ void setJobClass(int nInput, Player* pPlayer) {
 
 void openCharacterCreationScreen(Player* pPlayer) {
 	
+	displayCharacterCreationScreen(6, pPlayer);
+	
 	int nInput;
-	char aInputName[25];
-	char aInputJob[10];
+	char aInputName[26] = "";
+	char aInputJob[11];
 
 	int nComplete = 0;
 
 	while(!nComplete) {
-		//printf("chara"); // for debugging purposes
-		displayCharacterCreationScreen(6, pPlayer);
 		nInput = scanIntInput(0, 3);
 
 		switch(nInput) {
 			case NAME:
-				printf("NAME: ");
-				scanf("%s", aInputName);
+				printMultiple(" ", SCREEN_PADDING);
+				printf("[INPUT NAME]: ");
+				scanf(" %[^\n]s", aInputName);
 				strcpy(pPlayer->cName, aInputName);
 				displayCharacterCreationScreen(SET_NAME, pPlayer);
 				break;
 
 			case JOB:
-				//printf("job option lmao"); //for debugging only
 				openJobScreen(pPlayer);
 				displayCharacterCreationScreen(SET_JOB, pPlayer);
 				break;
@@ -279,7 +286,6 @@ void openJobScreen(Player* pPlayer) {
 			nSetJob = 1;
 
 		} else {
-			printf("ok u changed ur mind."); //for debugging only
 			displayJobScreen(7, pPlayer);
 		}
 	}

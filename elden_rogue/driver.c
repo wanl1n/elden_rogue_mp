@@ -18,12 +18,13 @@ int main() {
 	system("chcp 65001");
 	system("cls");
 
+	//Player Initialization
 	Player sPlayer;
 
 	//Initial Player Statistics
 	strcpy(sPlayer.cName, "");
 	strcpy(sPlayer.cJobClass, "");
-	sPlayer.nRunes = 0;
+	sPlayer.nRunes = 700;
 	
 	int i; for(i = 0; i < 6; i++) {
 		sPlayer.nShards[i] = 0;
@@ -31,6 +32,13 @@ int main() {
 
 	Player* pPlayer;
 	pPlayer = &sPlayer;
+
+	//Inventory Initialization
+	pPlayer->pInventory = NULL;
+	Slot sWeapon = {0, "NONE", 0, NULL, NULL};
+	pPlayer->pInventory = &sWeapon;
+
+	pPlayer->pEquippedWeapon = &sWeapon;
 
 	resetColors();
 	openTitleScreen(pPlayer);

@@ -7,29 +7,31 @@
 #include "../driver.h"
 
 /*********** User Interface *************/
-void displayTitleScreen(int pPrompt) {
+void displayTitleScreen(int nPrompt) {
 	
-	printf("-------ELDEN ROGUE-------\n\n"
-			"[1] START\n"
-			"[2] CONTINUE\n"
-			"[0] EXIT\n\n"
-			"SYSTEM MESSAGE: ");
-	
-	switch(pPrompt) {
+	system("cls");
+
+	printHeader("ELDEN ROGUE", 11);
+	printOption(1, "START");
+	printOption(2, "CONTINUE");
+	printOption(0, "EXIT");
+	printf("\n\n");
+
+	switch(nPrompt) {
 		case START:
-			printf("Starting game...");
+			printSystemMessage("Starting game...");
 			break;
 		case CONTINUE:
-			printf("Continuing previously saved progress...");
+			printSystemMessage("Continuing previously saved progress...");
 			break;
 		case EXIT:
-			printf("Exiting game...");
+			printSystemMessage("Exiting game...");
 			break;
 		case 3:
 			break;
 	}
 
-	printf("\n\nINPUT: ");
+	printInputTag();
 
 	Sleep(DELAY);
 }
@@ -40,13 +42,22 @@ void openTitleScreen(Player* pPlayer) {
 	int nInput;
 
 	nInput = scanIntInput(0, 2);
-	
+
+	displayTitleScreen(nInput);
+
 	switch(nInput) {
 		case START:
-			openCharacterCreationScreen(pPlayer);
+			if (!strcmp(pPlayer->cName, "") || !strcmp(pPlayer->cJobClass, ""))
+				openCharacterCreationScreen(pPlayer);
+			else
+				openRoundTableHoldScreen(pPlayer);
 			break;
 		case CONTINUE:
-			openRoundTableHoldScreen(pPlayer);
+			if (!strcmp(pPlayer->cName, "") || !strcmp(pPlayer->cJobClass, "")) {
+				printf("You do not have saved data. Redirecting you to character creation.\n");
+				openCharacterCreationScreen(pPlayer);
+			} else
+				openRoundTableHoldScreen(pPlayer);			
 			break;
 		case EXIT:
 			break;
