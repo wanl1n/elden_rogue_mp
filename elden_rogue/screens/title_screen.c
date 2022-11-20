@@ -1,3 +1,4 @@
+#include "roundtable_screen.h"
 #include "chara_creation_screen.h"
 #include "title_screen.h"
 
@@ -8,10 +9,10 @@
 /*********** User Interface *************/
 void displayTitleScreen(int pPrompt) {
 	
-	printf("ELDEN ROGUE\n\n",
-			"[1] START\n",
-			"[2] CONTINUE\n",
-			"[0] EXIT\n\n",
+	printf("-------ELDEN ROGUE-------\n\n"
+			"[1] START\n"
+			"[2] CONTINUE\n"
+			"[0] EXIT\n\n"
 			"SYSTEM MESSAGE: ");
 	
 	switch(pPrompt) {
@@ -24,13 +25,17 @@ void displayTitleScreen(int pPrompt) {
 		case EXIT:
 			printf("Exiting game...");
 			break;
+		case 3:
+			break;
 	}
 
-	sleep(DELAY);
+	printf("\n\nINPUT: ");
+
+	Sleep(DELAY);
 }
 
-void openTitleScreen(sPlayer* sNewPlayer) {
-	displayTitleScreen(0);
+void openTitleScreen(Player* pPlayer) {
+	displayTitleScreen(3);
 
 	int nInput;
 
@@ -38,10 +43,10 @@ void openTitleScreen(sPlayer* sNewPlayer) {
 	
 	switch(nInput) {
 		case START:
-			openCharacterCreationScreen(sNewPlayer);
+			openCharacterCreationScreen(pPlayer);
 			break;
 		case CONTINUE:
-			//openRoundtableHoldScreen(sNewPlayer);
+			openRoundTableHoldScreen(pPlayer);
 			break;
 		case EXIT:
 			break;

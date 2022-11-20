@@ -8,6 +8,6 @@
 #define DELAY		100
 
 void displayTitleScreen(int pPrompt);
-void openTitleScreen(sPlayer *sNewPlayer);
+void openTitleScreen(Player *pPlayer);
 
 #endif 

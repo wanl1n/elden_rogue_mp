@@ -3,7 +3,6 @@
 #include "math.h"
 #include "string.h"
 #include "windows.h"
-#include "unistd.h"
 
 #include "utility/printer.c"
 #include "utility/scanner.c"
@@ -12,13 +11,29 @@
 
 #include "screens/title_screen.c"
 #include "screens/chara_creation_screen.c"
+#include "screens/roundtable_screen.c"
 
 int main() {
 
-	sPlayer* sNewPlayer;
+	system("chcp 65001");
+	system("cls");
+
+	Player sPlayer;
+
+	//Initial Player Statistics
+	strcpy(sPlayer.cName, "");
+	strcpy(sPlayer.cJobClass, "");
+	sPlayer.nRunes = 0;
+	
+	int i; for(i = 0; i < 6; i++) {
+		sPlayer.nShards[i] = 0;
+	}
+
+	Player* pPlayer;
+	pPlayer = &sPlayer;
 
 	resetColors();
-	openTitleScreen(sNewPlayer);
+	openTitleScreen(pPlayer);
 
 	return 0;
 }

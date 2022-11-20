@@ -1,7 +1,7 @@
 #ifndef ORIGIN
 #define ORIGIN 
 
-typedef struct sPlayer {
+typedef struct Player {
 
 	char cName[26];
 	char cJobClass[11];
@@ -32,6 +32,6 @@ typedef struct sPlayer {
 	int nPlayerHP;
 	int nPlayerMaxHP;
 
-} sPlayer;
+} Player;
 
 #endif

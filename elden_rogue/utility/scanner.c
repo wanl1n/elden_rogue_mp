@@ -10,7 +10,7 @@ int scanIntInput(int nMin, int nMax) {
 	int nInput;
 
 	do {
-		printInputTag();
+		//printInputTag();
 		scanf("%d", &nInput);
 		printf("\n");
 

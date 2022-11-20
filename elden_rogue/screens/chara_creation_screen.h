@@ -19,10 +19,11 @@
 #define PROPHET 			5
 #define ASTROLOGER 			6
 
-void displayCharacterCreationScreen(int pPrompt, sPlayer* sNewPlayer);
-void displayJobScreen(int pPrompt, sPlayer* sNewPlayer);
+void displayCharacterCreationScreen(int pPrompt, Player* pPlayer);
+void displayJobScreen(int pPrompt, Player* pPlayer);
 void displayJobClassScreen(int nJobClass);
-void openCharacterCreationScreen(sPlayer* sNewPlayer);
-void openJobScreen(sPlayer* sNewPlayer);
+void setJobClass(int nInput, Player* pPlayer);
+void openCharacterCreationScreen(Player* pPlayer);
+void openJobScreen(Player* pPlayer);
 
 #endif 
