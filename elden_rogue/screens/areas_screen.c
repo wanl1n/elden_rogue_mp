@@ -11,7 +11,7 @@
 
 int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 
-	int* pFloor = malloc(sizeof(int) * 13 * 15);
+	int* pFloor = malloc(sizeof(int) * MAX_FLOOR_LENGTH * MAX_FLOOR_WIDTH);
 	int nRow, nCol;
 
 	//CODE: 11
@@ -889,6 +889,9 @@ void printBorder(int nType, int nPosition) {
 void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 	int i;
 
+	nPlayerHealth /= 10;
+	nPlayerMaxHP /= 10;
+
 	printf("\n");
 	printMultiple(" ", SCREEN_PADDING);
 	printf("[HEALTH]: ");
@@ -908,9 +911,83 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 	resetColors();
 }
 
+void printItems(int nPotions, int nRunes) {
+	
+	printf("\n");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("[RUNES]: %d", nRunes);
+	printMultiple(" ", SCREEN_PADDING);
+	printf("[POTIONS]: %d", nPotions);
+}
+
+void printPlayerMoves() {
+	int nPadding;
+	nPadding = SCREEN_PADDING + ((SCREEN_WIDTH - 40) / 2);
+
+	printf("\n\n");
+
+	printMultiple(" ", nPadding);
+	colorText(COLOR_CONTROL_ARROW);
+	printf("       ┌ A ┐  ┌ W ┐  ┌ S ┐  ┌ D ┐\n");
+	resetColors();
+
+	printMultiple(" ", nPadding);
+	printf("       ╔───╗  ╔───╗  ╔───╗  ╔───╗\n");
+
+	printMultiple(" ", nPadding);
+	printf("       │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("◄");
+	resetColors();
+	printf(" │  │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("▲");
+	resetColors();
+	printf(" │  │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("▼");
+	resetColors();
+	printf(" │  │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("►");
+	resetColors();
+	printf(" │\n");
+
+	printMultiple(" ", nPadding);
+	colorText(COLOR_CONTROL_BACK);
+	printf("┌ X ┐");
+	resetColors();
+	printf("  ╚───╝  ╚───╝  ╚───╝  ╚───╝  ");
+	colorText(COLOR_CONTROL_INTERACT);
+	printf("┌ E ┐");
+	resetColors();
+	printf("\n");
+
+	printMultiple(" ", nPadding);
+	printf("╔───╗                              ╔───╗\n");
+	
+	printMultiple(" ", nPadding);
+	printf("│ ");
+	colorText(COLOR_CONTROL_BACK);
+	printf("¤");
+	resetColors();
+	printf(" │                              │ ");
+	colorText(COLOR_CONTROL_INTERACT);
+	printf("O");
+	resetColors();
+	printf(" │\n");
+
+	printMultiple(" ", nPadding);
+	printf("╚───╝                              ╚───╝\n");
+
+	resetColors();
+}
+
 void printUserInterface(int nArea, int nPlayerMaxHP, Player* pPlayer) {
 	
 	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
+	printItems(pPlayer->nPotions, pPlayer->nRunes);
+	printPlayerMoves();
 
 	switch(nArea) {
 		case STORMVEIL:
@@ -1161,23 +1238,25 @@ void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 			break;
 
 		case TILE_DOOR_NEXT:
+			printSystemMessage("You went next.");
 			//goNextDoor();
 			break;
 
 		case TILE_DOOR_BACK:
+			printSystemMessage("You went back");
 			//goBackDoor();
 			break;
 
 		case TILE_FAST_TRAVEL:
-			
+			openFastTravelScreen(pPlayer);
 			break;
 
 		case TILE_BOSS:
-			
+			printSystemMessage("das a boss");
 			break;
 
 		case TILE_CREDITS:
-			
+			printSystemMessage("credits now!!!");
 			break;
 	}
 

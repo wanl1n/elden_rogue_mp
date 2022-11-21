@@ -351,39 +351,61 @@ void openRoundTableHoldScreen(Player* pPlayer) {
 
 }
 
-int getPlayerShards() {
+int getPlayerShards(Player* pPlayer) {
 	
+	int nShards = 0;
+	int i;
+
+	for(i = 0; i < 6; i++) {
+		if(pPlayer->aShards[i])
+			nShards++;
+	}
+
+	return nShards;
 }
 
 void openFastTravelScreen(Player* pPlayer) {
 	displayFastTravelScreen(7);
 
 	int nInputFastTravel;
+	int nSuccessfulTravel = 0;
 
-	printInputTag();
-	nInputFastTravel = scanIntInput(0, 6);
-
-	displayFastTravelScreen(nInputFastTravel);
-
-	switch(nInputFastTravel) {
-		case STORMVEIL:
-		case RAYA_LUCARIA:
-		case REDMANE_CASTLE:
-		case VOLCANO_MANOR:
-			openAreaScreen(nInputFastTravel, pPlayer);
-			break;
-		case LEYNDELL_CAPITAL:
-			if (pPlayer->aShards)
-			break;
-
-		case THE_ELDEN_THRONE:
-
-			break;
-
-		case FT_BACK:
-			openRoundTableHoldScreen(pPlayer);
-			break;
-
+	while (!nSuccessfulTravel) {
+		printInputTag();
+		nInputFastTravel = scanIntInput(0, 6);
+	
+		displayFastTravelScreen(nInputFastTravel);
+	
+		switch(nInputFastTravel) {
+			case STORMVEIL:
+			case RAYA_LUCARIA:
+			case REDMANE_CASTLE:
+			case VOLCANO_MANOR:
+				nSuccessfulTravel = 1;
+				openAreaScreen(nInputFastTravel, pPlayer);
+				break;
+			case LEYNDELL_CAPITAL:
+				if (getPlayerShards(pPlayer) >= 2) {
+					openAreaScreen(nInputFastTravel, pPlayer);
+				} else {
+					printSystemMessage("You have to clear 2 stages to unlock.");
+				}
+				break;
+	
+			case THE_ELDEN_THRONE:
+				if (pPlayer->aShards[LEYNDELL_CAPITAL]) {
+					openAreaScreen(nInputFastTravel, pPlayer);
+				} else {
+					printSystemMessage("You have to clear Leyndell Capital to unlock.");
+				}
+				break;
+	
+			case FT_BACK:
+				nSuccessfulTravel = 1;
+				openRoundTableHoldScreen(pPlayer);
+				break;
+	
+		}
 	}
 }
 

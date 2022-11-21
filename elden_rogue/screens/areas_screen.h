@@ -11,7 +11,6 @@
 #define FT_BACK				0	
 
 //MAP AREAS
-#define FLOOR_WIDTH			7
 #define MAX_FLOOR_WIDTH		15
 #define MAX_FLOOR_LENGTH	13
 
@@ -71,6 +70,10 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth);
 void printFloorHeader(int nArea);
 void printFloorMap(int nArea, int nFloorLength, int* pPlayerLoc);
 void printBorder(int nType, int nPosition);
+
+void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP);
+void printItems(int nPotions, int nRunes);
+void printPlayerMoves();
 void printUserInterface(int nArea, int nPlayerMaxHP, Player* pPlayer);
 
 int* findFastTravelTile(int nArea, int nFloor);
