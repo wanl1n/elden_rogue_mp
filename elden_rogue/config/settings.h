@@ -9,4 +9,5 @@
 #define MAX_PLAYER_NAME 25
 #define MAX_PLAYER_JOB  10
 
+
 #endif

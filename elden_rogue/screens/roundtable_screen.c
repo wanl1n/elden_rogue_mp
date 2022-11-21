@@ -101,8 +101,6 @@ void displayFastTravelScreen(int nPrompt) {
 			printSystemMessage("Going back to Roundtable Hold.");
 			break;
 	}
-	
-	printInputTag();
 
 	Sleep(DELAY);
 }
@@ -362,6 +360,7 @@ void openFastTravelScreen(Player* pPlayer) {
 
 	int nInputFastTravel;
 
+	printInputTag();
 	nInputFastTravel = scanIntInput(0, 6);
 
 	displayFastTravelScreen(nInputFastTravel);

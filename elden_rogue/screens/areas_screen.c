@@ -6,348 +6,368 @@
 #include "../driver.h"
 
 #include "../config/settings.h"
+#include "../utility/colors.h"
 
-int* getFloorMap(int nArea, int nFloor) {
-	
+int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
+
 	int* pFloor = malloc(sizeof(int) * 13 * 15);
 	int nRow, nCol;
 
 	//CODE: 11
-	int aStormveilFloor1[][FLOOR_WIDTH] = {{0, 0, 1, 3, 1, 0, 0}, 
-										   {0, 0, 5, 1, 5, 0, 0},
-										   {0, 0, 1, 1, 1, 0, 0},
-										   {0, 0, 1, 1, 1, 0, 0},
-										   {0, 0, 1, 1, 1, 0, 0},
-										   {0, 0, 1, 1, 1, 0, 0},
-										   {0, 0, 1, 2, 1, 0, 0}};
+	int aStormveilFloor1[][3] = {{1, 3, 1}, 
+							   {5, 1, 5},
+							   {1, 1, 1},
+							   {1, 1, 1},
+							   {1, 1, 1},
+							   {1, 1, 1},
+							   {1, 2, 1}};
 	//CODE: 12
-	int aStormveilFloor2[][FLOOR_WIDTH] = {{1, 1, 1, 3, 1, 1, 1}, 
-										   {1, 1, 1, 5, 1, 1, 1},
-										   {1, 1, 1, 1, 1, 1, 1},
-										   {5, 1, 5, 5, 5, 1, 5},
-										   {1, 1, 1, 1, 1, 1, 1},
-										   {1, 1, 5, 1, 5, 1, 1},
-										   {1, 1, 1, 4, 1, 1, 1}};
+	int aStormveilFloor2[][7] = {{1, 1, 1, 3, 1, 1, 1}, 
+							   {1, 1, 1, 5, 1, 1, 1},
+							   {1, 1, 1, 1, 1, 1, 1},
+							   {5, 1, 5, 5, 5, 1, 5},
+							   {1, 1, 1, 1, 1, 1, 1},
+							   {1, 1, 5, 1, 5, 1, 1},
+							   {1, 1, 1, 4, 1, 1, 1}};
 	//CODE: 13
-	int aStormveilFloor3[][FLOOR_WIDTH] = {{0, 1, 1, 2, 1, 1, 0}, 
-										   {0, 1, 1, 1, 1, 1, 0},
-										   {0, 1, 1, 1, 1, 1, 0},
-										   {0, 1, 1, 6, 1, 1, 0},
-										   {0, 1, 1, 1, 1, 1, 0},
-										   {0, 1, 1, 1, 1, 1, 0},
-										   {0, 1, 1, 4, 1, 1, 0}};
+	int aStormveilFloor3[][5] = {{1, 1, 2, 1, 1}, 
+							   {1, 1, 1, 1, 1},
+							   {1, 1, 1, 1, 1},
+							   {1, 1, 6, 1, 1},
+							   {1, 1, 1, 1, 1},
+							   {1, 1, 1, 1, 1},
+							   {1, 1, 4, 1, 1}};
 
 	//CODE: 21
-	int aRayaLucariaFloor1[][FLOOR_WIDTH] = {{0, 1, 1, 2, 1, 1, 0},
-									  		 {0, 1, 1, 1, 1, 1, 0},
-									  		 {0, 1, 1, 1, 1, 1, 0},
-									  		 {0, 1, 5, 1, 5, 1, 0},
-									  		 {0, 1, 1, 3, 1, 1, 0}};
+	int aRayaLucariaFloor1[][5] = {{1, 1, 2, 1, 1},
+						  		 {1, 1, 1, 1, 1},
+						  		 {1, 1, 1, 1, 1},
+						  		 {1, 5, 1, 5, 1},
+						  		 {1, 1, 3, 1, 1}};
 	//CODE: 22
-	int aRayaLucariaFloor2[][FLOOR_WIDTH] = {{0, 0, 1, 4, 1, 0, 0}, 
-									  		 {0, 0, 5, 1, 1, 0, 0},
-									  		 {0, 0, 1, 1, 1, 0, 0},
-									  		 {0, 0, 5, 1, 3, 0, 0},
-									  		 {0, 0, 1, 1, 1, 0, 0},
-									  		 {0, 0, 5, 1, 1, 0, 0},
-									 		 {0, 0, 1, 1, 1, 0, 0}};
+	int aRayaLucariaFloor2[][3] = {{1, 4, 1}, 
+						  		 {5, 1, 1},
+						  		 {1, 1, 1},
+						  		 {5, 1, 3},
+						  		 {1, 1, 1},
+						  		 {5, 1, 1},
+						 		 {1, 1, 1}};
 	//CODE: 23
-	int aRayaLucariaFloor3[][FLOOR_WIDTH] = {{0, 0, 1, 3, 1, 0, 0}, 
-									  		 {0, 0, 1, 5, 1, 0, 0},
-									  		 {0, 1, 1, 1, 1, 1, 0},
-									  		 {0, 4, 1, 1, 1, 3, 0},
-									  		 {0, 1, 1, 1, 1, 1, 0},
-									  		 {0, 0, 1, 5, 1, 0, 0},
-									 		 {0, 0, 1, 1, 1, 0, 0}};
+	int aRayaLucariaFloor3[][5] = {{0, 1, 3, 1, 0}, 
+						  		 {0, 1, 5, 1, 0},
+						  		 {1, 1, 1, 1, 1},
+						  		 {4, 1, 1, 1, 3},
+						  		 {1, 1, 1, 1, 1},
+						  		 {0, 1, 5, 1, 0},
+						 		 {0, 1, 1, 1, 0}};
 	//CODE: 24
-	int aRayaLucariaFloor4[][FLOOR_WIDTH] = {{0, 1, 1, 1, 1, 1, 0}, 
-								  		 	 {1, 1, 5, 1, 5, 1, 0},
-								  		 	 {4, 1, 1, 1, 1, 1, 0},
-								  		 	 {1, 1, 5, 1, 5, 1, 0},
-								  		 	 {0, 1, 1, 1, 1, 1, 0}};
+	int aRayaLucariaFloor4[][6] = {{0, 1, 1, 1, 1, 1}, 
+					  		 	 {1, 1, 5, 1, 5, 1},
+					  		 	 {4, 1, 1, 1, 1, 1},
+					  		 	 {1, 1, 5, 1, 5, 1},
+					  		 	 {0, 1, 1, 1, 1, 1}};
 	//CODE: 25
-	int aRayaLucariaFloorB[][FLOOR_WIDTH] = {{0, 0, 1, 2, 1, 0, 0}, 
-									  		 {1, 1, 1, 1, 1, 1, 1},
-									  		 {1, 5, 1, 5, 1, 5, 1},
-									  		 {1, 1, 1, 1, 1, 1, 1},
-									  		 {1, 5, 1, 6, 1, 5, 1},
-									  		 {1, 1, 1, 1, 1, 1, 1},
-									  		 {1, 5, 1, 1, 1, 5, 1},
-									  		 {1, 1, 1, 4, 1, 1, 1}};
+	int aRayaLucariaFloorB[][7] = {{0, 0, 1, 2, 1, 0, 0}, 
+						  		 {1, 1, 1, 1, 1, 1, 1},
+						  		 {1, 5, 1, 5, 1, 5, 1},
+						  		 {1, 1, 1, 1, 1, 1, 1},
+						  		 {1, 5, 1, 6, 1, 5, 1},
+						  		 {1, 1, 1, 1, 1, 1, 1},
+						  		 {1, 5, 1, 1, 1, 5, 1},
+						  		 {1, 1, 1, 4, 1, 1, 1}};
 
 	//CODE: 31
-	int aRedmaneCastleFloor1[][FLOOR_WIDTH] = {{0, 1, 1, 1, 1, 1, 0},
-										 	   {0, 2, 1, 5, 1, 3, 0},
-											   {0, 1, 1, 1, 1, 1, 0}};
+	int aRedmaneCastleFloor1[][5] = {{1, 1, 1, 1, 1},
+							 	   {2, 1, 5, 1, 3},
+								   {1, 1, 1, 1, 1}};
 	//CODE: 32
-	int aRedmaneCastleFloor2[][FLOOR_WIDTH] = {{1, 5, 1, 5, 1, 5, 1},
-											   {4, 1, 1, 1, 1, 1, 3},
-											   {1, 5, 1, 5, 1, 5, 1}};
+	int aRedmaneCastleFloor2[][7] = {{1, 5, 1, 5, 1, 5, 1},
+								   {4, 1, 1, 1, 1, 1, 3},
+								   {1, 5, 1, 5, 1, 5, 1}};
 	//CODE: 33
-	int aRedmaneCastleFloor3[][FLOOR_WIDTH] = {{0, 1, 1, 3, 1, 1, 0},
-										 	   {0, 1, 1, 1, 1, 5, 0},
-										 	   {0, 4, 1, 1, 1, 1, 0},
-										 	   {0, 1, 1, 1, 1, 5, 0},
-											   {0, 1, 5, 1, 5, 1, 0}};
+	int aRedmaneCastleFloor3[][5] = {{1, 1, 3, 1, 1},
+							 	   {1, 1, 1, 1, 5},
+							 	   {4, 1, 1, 1, 1},
+							 	   {1, 1, 1, 1, 5},
+								   {1, 5, 1, 5, 1}};
 	//CODE: 34
-	int aRedmaneCastleFloor4[][FLOOR_WIDTH] = {{1, 1, 1, 5, 1, 1, 1},
-											   {1, 5, 1, 1, 1, 5, 1},
-											   {3, 5, 1, 5, 1, 5, 1},
-											   {1, 5, 1, 1, 1, 5, 1},
-											   {1, 1, 1, 4, 1, 1, 1}};	
+	int aRedmaneCastleFloor4[][7] = {{1, 1, 1, 5, 1, 1, 1},
+								   {1, 5, 1, 1, 1, 5, 1},
+								   {3, 5, 1, 5, 1, 5, 1},
+								   {1, 5, 1, 1, 1, 5, 1},
+								   {1, 1, 1, 4, 1, 1, 1}};	
 	//CODE: 35
-	int aRedmaneCastleFloor5[][FLOOR_WIDTH] = {{0, 1, 1, 1, 1, 1, 0},
-										 	   {0, 3, 1, 5, 1, 4, 0},
-											   {0, 1, 1, 1, 1, 1, 0}};
+	int aRedmaneCastleFloor5[][5] = {{1, 1, 1, 1, 1},
+							 	   {3, 1, 5, 1, 4},
+								   {1, 1, 1, 1, 1}};
 	//CODE: 36
-	int aRedmaneCastleFloor6[][FLOOR_WIDTH] = {{0, 1, 1, 1, 1, 0, 0},
-										 	   {0, 1, 5, 1, 3, 0, 0},
-										 	   {0, 1, 1, 1, 1, 0, 0},
-										 	   {0, 5, 1, 5, 0, 0, 0},
-										 	   {0, 1, 1, 1, 0, 0, 0},
-										 	   {0, 5, 1, 5, 0, 0, 0},
-										 	   {0, 1, 1, 1, 1, 0, 0},
-										 	   {0, 1, 5, 1, 4, 0, 0},
-											   {0, 1, 1, 1, 1, 0, 0}};
+	int aRedmaneCastleFloor6[][4] = {{1, 1, 1, 1},
+							 	   {1, 5, 1, 3},
+							 	   {1, 1, 1, 1},
+							 	   {5, 1, 5, 0},
+							 	   {1, 1, 1, 0},
+							 	   {5, 1, 5, 0},
+							 	   {1, 1, 1, 1},
+							 	   {1, 5, 1, 4},
+								   {1, 1, 1, 1}};
 	//CODE: 37
-	int aRedmaneCastleFloor7[][FLOOR_WIDTH] = {{1, 1, 1, 1, 1, 1, 1},
-											   {1, 5, 1, 1, 1, 5, 1},
-											   {4, 1, 1, 6, 1, 1, 2},
-											   {1, 5, 1, 1, 1, 5, 1},
-											   {1, 1, 1, 1, 1, 1, 1}};							   
+	int aRedmaneCastleFloor7[][7] = {{1, 1, 1, 1, 1, 1, 1},
+								   {1, 5, 1, 1, 1, 5, 1},
+								   {4, 1, 1, 6, 1, 1, 2},
+								   {1, 5, 1, 1, 1, 5, 1},
+								   {1, 1, 1, 1, 1, 1, 1}};							   
 
 	//CODE: 41
-	int aVolcanoManorFloor1[][FLOOR_WIDTH] = {{0, 1, 1, 3, 1, 1, 0},
-										 	  {0, 1, 1, 1, 1, 1, 0},
-										 	  {0, 1, 5, 5, 5, 1, 0},
-										 	  {0, 1, 1, 1, 1, 1, 0},
-											  {0, 1, 1, 2, 1, 1, 0}};
+	int aVolcanoManorFloor1[][5] = {{1, 1, 3, 1, 1},
+							 	  {1, 1, 1, 1, 1},
+							 	  {1, 5, 5, 5, 1},
+							 	  {1, 1, 1, 1, 1},
+								  {1, 1, 2, 1, 1}};
   	//CODE: 42
-  	int aVolcanoManorFloor2[][FLOOR_WIDTH] = {{1, 1, 1, 3, 1, 1, 1},
-										 	  {1, 1, 1, 5, 1, 1, 1},
-										 	  {1, 1, 1, 1, 1, 1, 1},
-										 	  {3, 5, 1, 5, 1, 5, 3},
-										 	  {1, 1, 1, 1, 1, 1, 1},
-										 	  {1, 1, 1, 1, 1, 1, 1},
-											  {1, 1, 1, 4, 1, 1, 1}};
+  	int aVolcanoManorFloor2[][7] = {{1, 1, 1, 3, 1, 1, 1},
+							 	  {1, 1, 1, 5, 1, 1, 1},
+							 	  {1, 1, 1, 1, 1, 1, 1},
+							 	  {3, 5, 1, 5, 1, 5, 3},
+							 	  {1, 1, 1, 1, 1, 1, 1},
+							 	  {1, 1, 1, 1, 1, 1, 1},
+								  {1, 1, 1, 4, 1, 1, 1}};
 	//CODE: 421
-	int aVolcanoManorFloor2W[][FLOOR_WIDTH] = {{0, 1, 1, 5, 1, 1, 0},
-										 	   {0, 1, 1, 1, 1, 1, 0},
-										 	   {0, 5, 1, 5, 1, 4, 0},
-										 	   {0, 1, 1, 1, 1, 1, 0},
-											   {0, 1, 1, 5, 1, 1, 0}};
+	int aVolcanoManorFloor2W[][5] = {{1, 1, 5, 1, 1},
+							 	   {1, 1, 1, 1, 1},
+							 	   {5, 1, 5, 1, 4},
+							 	   {1, 1, 1, 1, 1},
+								   {1, 1, 5, 1, 1}};
     //CODE: 422
-    int aVolcanoManorFloor2E[][FLOOR_WIDTH] = {{0, 1, 1, 3, 1, 1, 0},
-										 	   {1, 1, 5, 1, 5, 1, 1},
-										 	   {4, 1, 1, 1, 1, 1, 5},
-										 	   {1, 1, 5, 1, 5, 1, 1},
-											   {0, 1, 1, 1, 1, 1, 0}};
+    int aVolcanoManorFloor2E[][7] = {{0, 1, 1, 3, 1, 1, 0},
+							 	   {1, 1, 5, 1, 5, 1, 1},
+							 	   {4, 1, 1, 1, 1, 1, 5},
+							 	   {1, 1, 5, 1, 5, 1, 1},
+								   {0, 1, 1, 1, 1, 1, 0}};
 	//CODE: 4221
-	int aVolcanoManorFloor2EN[][FLOOR_WIDTH] = {{0, 0, 1, 1, 1, 0, 0},
-										 	    {0, 0, 1, 5, 1, 0, 0},
-										 	    {0, 0, 1, 1, 1, 0, 0},
-											    {0, 0, 0, 4, 0, 0, 0}};
+	int aVolcanoManorFloor2EN[][3] = {{1, 1, 1},
+							 	    {1, 5, 1},
+							 	    {1, 1, 1},
+								    {0, 4, 0}};
     //CODE: 43
-    int aVolcanoManorFloor3[][FLOOR_WIDTH] = {{0, 0, 1, 3, 1, 0, 0},
-										 	  {0, 0, 1, 5, 1, 0, 0},
-										 	  {0, 0, 5, 1, 5, 0, 0},
-										 	  {0, 0, 1, 1, 1, 0, 0},
-										 	  {0, 0, 1, 1, 1, 0, 0},
-										 	  {0, 0, 5, 1, 5, 0, 0},
-										 	  {0, 0, 1, 1, 1, 0, 0},
-										 	  {0, 0, 1, 4, 1, 0, 0}};	
+    int aVolcanoManorFloor3[][3] = {{1, 3, 1},
+							 	  {1, 5, 1},
+							 	  {5, 1, 5},
+							 	  {1, 1, 1},
+							 	  {1, 1, 1},
+							 	  {5, 1, 5},
+							 	  {1, 1, 1},
+							 	  {1, 4, 1}};	
     //CODE: 44
-    int aVolcanoManorFloorB[][FLOOR_WIDTH] = {{0, 1, 1, 2, 1, 1, 0},
-										 	  {0, 1, 1, 1, 1, 1, 0},
-										 	  {0, 5, 1, 1, 1, 5, 0},
-										 	  {0, 5, 1, 6, 1, 5, 0},
-										 	  {0, 5, 1, 1, 1, 5, 0},
-										 	  {0, 1, 1, 1, 1, 1, 0},
-											  {0, 1, 1, 4, 1, 1, 0}};										   
+    int aVolcanoManorFloorB[][5] = {{1, 1, 2, 1, 1},
+							 	  {1, 1, 1, 1, 1},
+							 	  {5, 1, 1, 1, 5},
+							 	  {5, 1, 6, 1, 5},
+							 	  {5, 1, 1, 1, 5},
+							 	  {1, 1, 1, 1, 1},
+								  {1, 1, 4, 1, 1}};										   
 
 	//CODE: 51
-	int aLeyndellCapitalFloor1[][FLOOR_WIDTH] = {{0, 0, 1, 3, 1, 0, 0},
-												 {0, 0, 1, 1, 1, 0, 0},
-												 {0, 0, 1, 1, 1, 0, 0},
-												 {0, 0, 1, 2, 1, 0, 0}};
+	int aLeyndellCapitalFloor1[][3] = {{1, 3, 1},
+									 {1, 1, 1},
+									 {1, 1, 1},
+									 {1, 2, 1}};
 	//CODE: 52
-	int aLeyndellCapitalFloor2[][FLOOR_WIDTH] = {{0, 0, 1, 3, 1, 0, 0},
-												 {0, 0, 5, 1, 5, 0, 0},
-												 {0, 0, 1, 1, 1, 0, 0},
-												 {0, 0, 5, 1, 5, 0, 0},
-												 {0, 0, 1, 1, 1, 0, 0},
-												 {0, 0, 5, 1, 5, 0, 0},
-												 {0, 0, 1, 4, 1, 0, 0}};
+	int aLeyndellCapitalFloor2[][3] = {{1, 3, 1},
+									 {5, 1, 5},
+									 {1, 1, 1},
+									 {5, 1, 5},
+									 {1, 1, 1},
+									 {5, 1, 5},
+									 {1, 4, 1}};
 	//CODE: 53
-	int aLeyndellCapitalFloor3[][FLOOR_WIDTH] = {{0, 1, 1, 5, 1, 1, 0},
-												 {0, 1, 0, 0, 0, 1, 0},
-												 {0, 5, 0, 0, 0, 3, 0},
-												 {0, 1, 0, 0, 0, 1, 0},
-												 {0, 1, 1, 4, 1, 1, 0}}; 
+	int aLeyndellCapitalFloor3[][5] = {{1, 1, 5, 1, 1},
+									 {1, 0, 0, 0, 1},
+									 {5, 0, 0, 0, 3},
+									 {1, 0, 0, 0, 1},
+									 {1, 1, 4, 1, 1}}; 
 	//CODE: 54
-	int aLeyndellCapitalFloor4[][FLOOR_WIDTH] = {{0, 1, 1, 3, 1, 1, 0},
-												 {0, 4, 1, 1, 1, 1, 0},
-												 {0, 1, 5, 1, 5, 1, 0}};
+	int aLeyndellCapitalFloor4[][5] = {{1, 1, 3, 1, 1},
+									 {4, 1, 1, 1, 1},
+									 {1, 5, 1, 5, 1}};
 	//CODE: 55
 	int aLeyndellCapitalFloor5[][15] = {{5, 3, 5, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1},
 										{1, 5, 1, 1, 5, 1, 5, 1, 5, 1, 5, 1, 1, 1, 1},
 										{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},  											 
 										{1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 1}}; 
 	//CODE: 551
-	int aLeyndellCapitalFloor5S[][FLOOR_WIDTH] = {{0, 0, 1, 4, 1, 0, 0},
-												  {0, 0, 1, 1, 1, 0, 0},
-												  {0, 0, 5, 5, 5, 0, 0}}; 
+	int aLeyndellCapitalFloor5S[][3] = {{1, 4, 1},
+									  {1, 1, 1},
+									  {5, 5, 5}}; 
 	//CODE: 552
-	int aLeyndellCapitalFloor5L[][FLOOR_WIDTH] = {{0, 0, 0, 3, 0, 0, 0},
-												  {0, 0, 5, 5, 5, 0, 0},
-												  {0, 0, 1, 1, 1, 0, 0},
-												  {0, 0, 1, 1, 3, 0, 0},
-												  {0, 0, 1, 1, 1, 0, 0},
-												  {0, 0, 5, 5, 5, 0, 0},
-												  {0, 0, 0, 4, 0, 0, 0}};											 
+	int aLeyndellCapitalFloor5L[][3] = {{0, 3, 0},
+									  {5, 5, 5},
+									  {1, 1, 1},
+									  {1, 1, 3},
+									  {1, 1, 1},
+									  {5, 5, 5},
+									  {0, 4, 0}};											 
 	//CODE: 553
-	int aLeyndellCapitalFloor5C[][FLOOR_WIDTH] = {{0, 0, 0, 3, 0, 0, 0},
-												  {0, 0, 5, 1, 5, 0, 0},
-												  {0, 0, 5, 1, 5, 0, 0},
-												  {0, 0, 4, 1, 4, 0, 0},
-												  {0, 0, 5, 1, 5, 0, 0},
-												  {0, 0, 5, 1, 5, 0, 0},
-												  {0, 0, 0, 4, 0, 0, 0}};
+	int aLeyndellCapitalFloor5C[][3] = {{0, 3, 0},
+									  {5, 1, 5},
+									  {5, 1, 5},
+									  {4, 1, 4},
+									  {5, 1, 5},
+									  {5, 1, 5},
+									  {0, 4, 0}};
 	//CODE: 554
-	int aLeyndellCapitalFloor5R[][FLOOR_WIDTH] = {{0, 0, 0, 3, 0, 0, 0},
-												  {0, 0, 5, 5, 5, 0, 0},
-												  {0, 0, 1, 1, 1, 0, 0},
-												  {0, 0, 3, 1, 1, 0, 0},
-												  {0, 0, 1, 1, 1, 0, 0},
-												  {0, 0, 5, 5, 5, 0, 0},
-												  {0, 0, 0, 4, 0, 0, 0}};
+	int aLeyndellCapitalFloor5R[][3] = {{0, 3, 0},
+									  {5, 5, 5},
+									  {1, 1, 1},
+									  {3, 1, 1},
+									  {1, 1, 1},
+									  {5, 5, 5},
+									  {0, 4, 0}};
 	//CODE: 56
 	int aLeyndellCapitalFloor6[][15] = {{1, 1, 1, 5, 1, 1, 1, 3, 1, 1, 1, 5, 1, 3, 1},
 										{1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1},
 										{1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1},  											 
 										{1, 4, 1, 5, 1, 1, 1, 4, 1, 1, 1, 5, 1, 4, 1}}; 
 	//CODE: 57
-	int aLeyndellCapitalFloor7[][15] = {{0, 5, 1, 1, 5, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-										{0, 1, 1, 1, 5, 1, 1, 3, 1, 0, 0, 0, 0, 0, 0},
-										{0, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
-										{0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
-										{0, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
-										{0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
-										{0, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
-										{0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
-										{0, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 0},  											 
-										{0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0},  											 
-										{0, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 0},
-										{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, 
-										{0, 5, 1, 1, 1, 1, 5, 4, 5, 1, 1, 1, 1, 5, 0}}; 
+	int aLeyndellCapitalFloor7[][13] = {{5, 1, 1, 5, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+										{1, 1, 1, 5, 1, 1, 3, 1, 0, 0, 0, 0, 0},
+										{5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
+										{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
+										{5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
+										{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
+										{5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
+										{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  											 
+										{5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5},  											 
+										{3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3},  											 
+										{5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5},
+										{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+										{5, 1, 1, 1, 1, 5, 4, 5, 1, 1, 1, 1, 5}}; 
 	//CODE: 571
-	int aLeyndellCapitalFloor7C[][FLOOR_WIDTH] = {{0, 0, 1, 4, 1, 0, 0},
-												  {0, 5, 1, 1, 1, 5, 0},
-												  {0, 1, 1, 1, 1, 1, 0},
-												  {0, 5, 1, 6, 1, 5, 0},
-												  {0, 1, 1, 1, 1, 1, 0},
-												  {0, 5, 1, 1, 1, 5, 0},
-												  {0, 0, 1, 2, 1, 0, 0}};
+	int aLeyndellCapitalFloor7C[][5] = {{0, 1, 4, 1, 0},
+									  {5, 1, 1, 1, 5},
+									  {1, 1, 1, 1, 1},
+									  {5, 1, 6, 1, 5},
+									  {1, 1, 1, 1, 1},
+									  {5, 1, 1, 1, 5},
+									  {0, 1, 2, 1, 0}};
 	//CODE: 572
-	int aLeyndellCapitalFloor7L[][FLOOR_WIDTH] = {{0, 0, 1, 1, 1, 0, 0},
-												  {0, 0, 5, 1, 4, 0, 0},
-												  {0, 0, 1, 1, 1, 0, 0}};
+	int aLeyndellCapitalFloor7L[][3] = {{1, 1, 1},
+									  {5, 1, 4},
+									  {1, 1, 1}};
 	//CODE: 573
-	int aLeyndellCapitalFloor7R[][FLOOR_WIDTH] = {{0, 0, 1, 1, 1, 0, 0},
-												  {0, 0, 4, 1, 5, 0, 0},
-												  {0, 0, 1, 1, 1, 0, 0}};
+	int aLeyndellCapitalFloor7R[][3] = {{1, 1, 1},
+									  {4, 1, 5},
+									  {1, 1, 1}};
 
 	//CODE: 61
-	int aTheEldenThroneFloor1[][FLOOR_WIDTH] = {{0, 0, 1, 3, 1, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 1, 5, 1, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 1, 2, 1, 0, 0}};
+	int aTheEldenThroneFloor1[][3] = {{1, 3, 1},
+									{1, 1, 1},
+									{1, 1, 1},
+									{1, 1, 1},
+									{1, 5, 1},
+									{1, 1, 1},
+									{1, 1, 1},
+									{1, 1, 1},
+									{1, 2, 1}};
 	//CODE: 62
-	int aTheEldenThroneFloor2[][FLOOR_WIDTH] = {{0, 1, 1, 3, 1, 1, 0},
-												{1, 1, 1, 1, 1, 1, 1},
-												{1, 1, 1, 1, 1, 1, 1},
-												{1, 1, 1, 6, 1, 1, 1},
-												{1, 1, 1, 1, 1, 1, 1},
-												{1, 1, 1, 1, 1, 1, 1},
-												{0, 1, 1, 4, 1, 1, 0}};
+	int aTheEldenThroneFloor2[][7] = {{0, 1, 1, 3, 1, 1, 0},
+									{1, 1, 1, 1, 1, 1, 1},
+									{1, 1, 1, 1, 1, 1, 1},
+									{1, 1, 1, 6, 1, 1, 1},
+									{1, 1, 1, 1, 1, 1, 1},
+									{1, 1, 1, 1, 1, 1, 1},
+									{0, 1, 1, 4, 1, 1, 0}};
 	//CODE: 63
-	int aTheEldenThroneFloor3[][FLOOR_WIDTH] = {{0, 0, 1, 7, 1, 0, 0},
-												{0, 0, 5, 1, 5, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 5, 1, 5, 0, 0},
-												{0, 0, 1, 5, 1, 0, 0},
-												{0, 0, 5, 1, 5, 0, 0},
-												{0, 0, 1, 1, 1, 0, 0},
-												{0, 0, 5, 1, 5, 0, 0},
-												{0, 0, 1, 4, 1, 0, 0}};											
+	int aTheEldenThroneFloor3[][3] = {{1, 7, 1},
+									{5, 1, 5},
+									{1, 1, 1},
+									{5, 1, 5},
+									{1, 5, 1},
+									{5, 1, 5},
+									{1, 1, 1},
+									{5, 1, 5},
+									{1, 4, 1}};											
 	
 	switch(nArea) {
+		
 		case STORMVEIL:
+			
 			switch(nFloor) {
 				case 1:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aStormveilFloor1[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aStormveilFloor1[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
 					break;
 				case 2:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aStormveilFloor2[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aStormveilFloor2[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
 					break;
 				case 3:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aStormveilFloor3[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aStormveilFloor3[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
 					break;
 			}
+
+			*nFloorLength = 7;
+			
 			break;
+
 		case RAYA_LUCARIA:
 			switch(nFloor) {
 				case 1:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRayaLucariaFloor1[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aRayaLucariaFloor1[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 5;
 					break;
 				case 2:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRayaLucariaFloor2[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aRayaLucariaFloor2[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 7;
 					break;
 				case 3:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRayaLucariaFloor3[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aRayaLucariaFloor3[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 7;
 					break;
 				case 4:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRayaLucariaFloor4[nRow][nCol];
+						for (nCol = 0; nCol < 6; nCol++) {
+							*(pFloor + (nRow * 6) + nCol) = aRayaLucariaFloor4[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 6;
+					*nFloorLength = 5;
 					break;
 				case 5:
 					for(nRow = 0; nRow < 8; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRayaLucariaFloorB[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aRayaLucariaFloorB[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
+					*nFloorLength = 8;
 					break;
 			}
 			break;
@@ -355,52 +375,66 @@ int* getFloorMap(int nArea, int nFloor) {
 			switch(nFloor) {
 				case 1:
 					for(nRow = 0; nRow < 3; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRedmaneCastleFloor1[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aRedmaneCastleFloor1[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 3;
 					break;
 				case 2:
 					for(nRow = 0; nRow < 3; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRedmaneCastleFloor2[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aRedmaneCastleFloor2[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
+					*nFloorLength = 3;					
 					break;
 				case 3:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRedmaneCastleFloor3[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aRedmaneCastleFloor3[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 5;
 					break;
 				case 4:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRedmaneCastleFloor4[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aRedmaneCastleFloor4[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
+					*nFloorLength = 5;
 					break;
 				case 5:
 					for(nRow = 0; nRow < 3; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRedmaneCastleFloor5[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aRedmaneCastleFloor5[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 3;
 					break;
 				case 6:
 					for(nRow = 0; nRow < 9; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRedmaneCastleFloor6[nRow][nCol];
+						for (nCol = 0; nCol < 4; nCol++) {
+							*(pFloor + (nRow * 4) + nCol) = aRedmaneCastleFloor6[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 4;
+					*nFloorLength = 9;
 					break;
 				case 7:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aRedmaneCastleFloor7[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aRedmaneCastleFloor7[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
+					*nFloorLength = 5;
 					break;
 			}
 			break;
@@ -408,52 +442,66 @@ int* getFloorMap(int nArea, int nFloor) {
 			switch(nFloor) {
 				case 1:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aVolcanoManorFloor1[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aVolcanoManorFloor1[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 5;
 					break;
 				case 2:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aVolcanoManorFloor2[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aVolcanoManorFloor2[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
+					*nFloorLength = 7;
 					break;
 				case 21:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aVolcanoManorFloor2W[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aVolcanoManorFloor2W[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 5;
 					break;
 				case 22:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aVolcanoManorFloor2E[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aVolcanoManorFloor2E[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
+					*nFloorLength = 5;
 					break;
 				case 221:
 					for(nRow = 0; nRow < 4; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aVolcanoManorFloor2EN[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aVolcanoManorFloor2EN[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 4;
 					break;
 				case 3:
 					for(nRow = 0; nRow < 8; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aVolcanoManorFloor3[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aVolcanoManorFloor3[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 8;
 					break;
 				case 4:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aVolcanoManorFloorB[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aVolcanoManorFloorB[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 7;
 					break;
 			}
 			break;
@@ -461,31 +509,39 @@ int* getFloorMap(int nArea, int nFloor) {
 			switch(nFloor) {
 				case 1:
 					for(nRow = 0; nRow < 4; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor1[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor1[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 4;
 					break;
 				case 2:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor2[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor2[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 7;
 					break;
 				case 3:
 					for(nRow = 0; nRow < 5; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor3[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aLeyndellCapitalFloor3[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 5;
 					break;
 				case 4:
 					for(nRow = 0; nRow < 3; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor4[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aLeyndellCapitalFloor4[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 3;
 					break;
 				case 5:
 					for(nRow = 0; nRow < 4; nRow++) {
@@ -493,34 +549,44 @@ int* getFloorMap(int nArea, int nFloor) {
 							*(pFloor + (nRow * 15) + nCol) = aLeyndellCapitalFloor5[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 15;
+					*nFloorLength = 4;
 					break;
 				case 51:
 					for(nRow = 0; nRow < 3; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor5S[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor5S[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 3;
 					break;
 				case 52:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor5L[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor5L[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 7;
 					break;
 				case 53:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor5C[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor5C[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 7;
 					break;
 				case 54:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor5R[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor5R[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 7;
 					break;
 				case 6:
 					for(nRow = 0; nRow < 4; nRow++) {
@@ -528,34 +594,44 @@ int* getFloorMap(int nArea, int nFloor) {
 							*(pFloor + (nRow * 15) + nCol) = aLeyndellCapitalFloor6[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 15;
+					*nFloorLength = 4;
 					break;
 				case 7:
 					for(nRow = 0; nRow < 13; nRow++) {
-						for (nCol = 0; nCol < 15; nCol++) {
-							*(pFloor + (nRow * 15) + nCol) = aLeyndellCapitalFloor7[nRow][nCol];
+						for (nCol = 0; nCol < 13; nCol++) {
+							*(pFloor + (nRow * 13) + nCol) = aLeyndellCapitalFloor7[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 13;
+					*nFloorLength = 13;
 					break;
 				case 71:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor7C[nRow][nCol];
+						for (nCol = 0; nCol < 5; nCol++) {
+							*(pFloor + (nRow * 5) + nCol) = aLeyndellCapitalFloor7C[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 5;
+					*nFloorLength = 7;
 					break;
 				case 72:
 					for(nRow = 0; nRow < 3; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor7L[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor7L[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 3;
 					break;
 				case 73:
 					for(nRow = 0; nRow < 3; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aLeyndellCapitalFloor7R[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aLeyndellCapitalFloor7R[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 3;
 					break;
 			}
 			break;
@@ -563,24 +639,30 @@ int* getFloorMap(int nArea, int nFloor) {
 			switch(nFloor) {
 				case 1:
 					for(nRow = 0; nRow < 9; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aTheEldenThroneFloor1[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aTheEldenThroneFloor1[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 9;
 					break;
 				case 2:
 					for(nRow = 0; nRow < 7; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aTheEldenThroneFloor2[nRow][nCol];
+						for (nCol = 0; nCol < 7; nCol++) {
+							*(pFloor + (nRow * 7) + nCol) = aTheEldenThroneFloor2[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 7;
+					*nFloorLength = 7;
 					break;
 				case 3:
 					for(nRow = 0; nRow < 9; nRow++) {
-						for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-							*(pFloor + (nRow * FLOOR_WIDTH) + nCol) = aTheEldenThroneFloor3[nRow][nCol];
+						for (nCol = 0; nCol < 3; nCol++) {
+							*(pFloor + (nRow * 3) + nCol) = aTheEldenThroneFloor3[nRow][nCol];
 						}
 					}
+					*nFloorWidth = 3;
+					*nFloorLength = 9;
 					break;
 			}
 			break;
@@ -589,8 +671,217 @@ int* getFloorMap(int nArea, int nFloor) {
 	return pFloor;
 }
 
-void printFloorMap(int* pFloorMap) {
+void printFloorHeader(int nArea) {
+	
+	system("cls");
 
+	//Print Area Name
+	switch(nArea) {
+		case STORMVEIL:
+			printHeader("STORMVEIL CASTLE", 16);
+			break;
+		case RAYA_LUCARIA:
+			printHeader("RAYA LUCARIA", 12);
+			break;
+		case REDMANE_CASTLE:
+			printHeader("REDMANE CASTLE", 14);
+			break;
+		case VOLCANO_MANOR:
+			printHeader("VOLCANO MANOR", 13);
+			break;
+		case LEYNDELL_CAPITAL:
+			printHeader("LEYNDELL CAPITAL", 16);
+			break;
+		case THE_ELDEN_THRONE:
+			printHeader("THE ELDEN THRONE", 16);
+			break;
+	}
+}
+
+void printFloorMap(int nArea, int nFloor, int* pPlayerLoc) {
+
+	int nRow, nCol;
+	int nPadding = 3 + (SCREEN_WIDTH - (HEADER_WIDTH + 2)) / 2;
+
+	int nLength, nWidth;
+	int *pBaseFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
+
+	*(pBaseFloor + (pPlayerLoc[0] * nWidth) + pPlayerLoc[1]) = TILE_PLAYER;
+	
+	//Print Board.
+	for(nRow = 0; nRow < nLength; nRow++) {
+
+		printMultiple(" ", nPadding);
+		for(nCol = 0; nCol < nWidth; nCol++) {
+			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), TOP);
+		}
+		printf("\n");
+
+		printMultiple(" ", nPadding);
+		for(nCol = 0; nCol < nWidth; nCol++) {
+			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), MIDDLE);
+		}
+		printf("\n");
+
+		printMultiple(" ", nPadding);
+		for(nCol = 0; nCol < nWidth; nCol++) {
+			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), BOTTOM);
+		}
+		printf("\n");
+	}
+}
+
+void printBorder(int nType, int nPosition) {
+	switch(nPosition) {
+		case TOP:
+			switch(nType) {
+				case TILE_EMPTY:
+					colorText(COLOR_TILE_EMPTY);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_BOSS:
+					colorText(COLOR_TILE_BOSS);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_FAST_TRAVEL:
+					colorText(COLOR_TILE_FAST_TRAVEL);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_DOOR_NEXT:
+					colorText(COLOR_TILE_DOOR_NEXT);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_DOOR_BACK:
+					colorText(COLOR_TILE_DOOR_BACK);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_SPECIAL:
+					colorText(COLOR_TILE_SPECIAL);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_OUT:
+					colorText(COLOR_TILE_OUT);
+					printf("┌┬┬┬┐ ");
+					break;
+
+				case TILE_PLAYER:
+					colorText(COLOR_TILE_PLAYER);
+					printf("╔═══╗ ");
+					break;
+
+				case TILE_CREDITS:
+					colorText(COLOR_TILE_CREDITS);
+					printf("┌───┐ ");
+					break;
+			}
+			break;
+
+		case MIDDLE:
+			switch(nType) {
+				case TILE_EMPTY:
+					colorText(COLOR_TILE_EMPTY);
+					printf("│   │ ");
+					break;
+
+				case TILE_BOSS:
+					colorText(COLOR_TILE_BOSS);
+					printf("│ ! │ ");
+					break;
+
+				case TILE_FAST_TRAVEL:
+					colorText(COLOR_TILE_FAST_TRAVEL);
+					printf("│ F │ ");
+					break;
+
+				case TILE_DOOR_NEXT:
+					colorText(COLOR_TILE_DOOR_NEXT);
+					printf("│ ▲ │ ");
+					break;
+
+				case TILE_DOOR_BACK:
+					colorText(COLOR_TILE_DOOR_BACK);
+					printf("│ ▼ │ ");
+					break;
+
+				case TILE_SPECIAL:
+					colorText(COLOR_TILE_SPECIAL);
+					printf("│ ? │ ");
+					break;
+
+				case TILE_OUT:
+					colorText(COLOR_TILE_OUT);
+					printf("│││││ ");
+					break;
+
+				case TILE_PLAYER:
+					colorText(COLOR_TILE_PLAYER);
+					printf("║ ■ ║ ");
+					break;
+
+				case TILE_CREDITS:
+					colorText(COLOR_TILE_CREDITS);
+					printf("│ C │ ");
+					break;
+			}
+			break;
+
+		case BOTTOM:
+			switch(nType) {
+				case TILE_EMPTY:
+					colorText(COLOR_TILE_EMPTY);
+					printf("└───┘ ");
+					break;
+
+				case TILE_BOSS:
+					colorText(COLOR_TILE_BOSS);
+					printf("└───┘ ");
+					break;
+
+				case TILE_FAST_TRAVEL:
+					colorText(COLOR_TILE_FAST_TRAVEL);
+					printf("└───┘ ");
+					break;
+
+				case TILE_DOOR_NEXT:
+					colorText(COLOR_TILE_DOOR_NEXT);
+					printf("└───┘ ");
+					break;
+
+				case TILE_DOOR_BACK:
+					colorText(COLOR_TILE_DOOR_BACK);
+					printf("└───┘ ");
+					break;
+
+				case TILE_SPECIAL:
+					colorText(COLOR_TILE_SPECIAL);
+					printf("└───┘ ");
+					break;
+
+				case TILE_OUT:
+					colorText(COLOR_TILE_OUT);
+					printf("└┴┴┴┘ ");
+					break;
+
+				case TILE_PLAYER:
+					colorText(COLOR_TILE_PLAYER);
+					printf("╚═══╝ ");
+					break;
+
+				case TILE_CREDITS:
+					colorText(COLOR_TILE_CREDITS);
+					printf("└───┘ ");
+					break;
+			}
+			break;
+	}
+
+	resetColors();
 }
 
 void printUserInterface(int nArea, Player* pPlayer) {
@@ -602,20 +893,28 @@ void printUserInterface(int nArea, Player* pPlayer) {
 		case LEYNDELL_CAPITAL:
 		case THE_ELDEN_THRONE:
 			break;
-	}
-		
+	}	
 }
 
-int* findFastTravelTile(int* nArea, int nLength) {
+int* findFastTravelTile(int nArea, int nFloor) {
+
+	printf("\neyo??");
+
+	int nLength, nWidth;
+	int* pFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
 
 	int nRow, nCol;
 	int* aSpawnLoc = malloc(sizeof(int) * 2);
 
 	for(nRow = 0; nRow < nLength; nRow++) {
-		for (nCol = 0; nCol < FLOOR_WIDTH; nCol++) {
-			if (*(nArea + (nRow * FLOOR_WIDTH) + nCol) == TILE_FAST_TRAVEL)
+		
+		for (nCol = 0; nCol < nWidth; nCol++) {
+			
+			if (*(pFloor + (nRow * nWidth) + nCol) == TILE_FAST_TRAVEL) {
 				aSpawnLoc[0] = nRow;
 				aSpawnLoc[1] = nCol;
+			}
+				
 		}
 	}
 
@@ -629,21 +928,23 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	char aMoves[] = {'W', 'w', 'A', 'a', 'S', 's', 'D', 'd', 'E', 'e'};
 
 	//Initializing player's starter HP.
-	int nFloor = 1;
+	int nFloor = 1; 
+	int *pFloor = &nFloor;
 	int nPlayerHP = pPlayer->nPlayerHP;
 	int nWeaponHP = pPlayer->pEquippedWeapon->nHP;
 	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
 	
 	//Initializing player location.
-	int* pFloor = getFloorMap(nAreaNumber, nFloor);
-	int nLength = sizeof(pFloor)/sizeof(pFloor[0]);
-	int* aPlayerLoc = findFastTravelTile(pFloor, nLength);
+	int* pPlayerLoc = findFastTravelTile(nAreaNumber, nFloor);
 
 	do {
-		printFloorMap(pFloor);
+		printFloorHeader(nAreaNumber);
+		printFloorMap(nAreaNumber, nFloor, pPlayerLoc);
 		printUserInterface(nAreaNumber, pPlayer);
 
 		cPlayerInput = scanCharInput(aMoves, 10);
+
+		processInput(cPlayerInput, nAreaNumber, nFloor, pPlayerLoc);
 	} while (pPlayer->nPlayerHP != 0);
 
 	if (pPlayer->nPlayerHP <= 0) 
@@ -652,6 +953,125 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 		printf("win");
 }	
 
+void processInput(char cInput, int nArea, int nFloor, int* pPlayerLoc) {
+
+	switch(cInput) {
+		case 'W':
+		case 'w':
+			movePlayerTile(UP, nArea, nFloor, pPlayerLoc);
+			break;
+
+		case 'S':
+		case 's':
+			movePlayerTile(DOWN, nArea, nFloor, pPlayerLoc);
+			break;
+
+		case 'A':
+		case 'a':
+			movePlayerTile(LEFT, nArea, nFloor, pPlayerLoc);
+			break;
+
+		case 'D':
+		case 'd':
+			movePlayerTile(RIGHT, nArea, nFloor, pPlayerLoc);
+			break;
+
+		case 'E':
+		case 'e':
+			//usePlayer(pFloorNumber, pPlayerHealth, aPlayerLocation, pOnClock, pPromptType);
+			break;
+	}
+}
+
+void movePlayerTile(int nDirection, int nArea, int nFloor, int* pPlayerLoc) {
+
+	int nLength, nWidth;
+	int* pCurrentFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
+
+	int nRow = pPlayerLoc[0];
+	int nCol = pPlayerLoc[1];
+
+	switch(nDirection) {
+		case UP:
+			if (pCurrentFloor[((nRow-1) * nWidth) + nCol] != TILE_OUT &&
+				nRow - 1 >= 0) {
+				nRow--;
+			}
+			break;
+		case DOWN:
+			if (pCurrentFloor[((nRow+1) * nWidth) + nCol] != TILE_OUT &&
+				nRow + 1 <= nLength-1) {
+				nRow++;
+			}
+			break;
+		case RIGHT:
+			if (pCurrentFloor[(nRow * nWidth) + nCol+1] != TILE_OUT &&
+				nCol + 1 <= nWidth-1) {
+				nCol++;
+			}
+			break;
+		case LEFT:
+			if (pCurrentFloor[(nRow * nWidth) + nCol-1] != TILE_OUT &&
+				nCol - 1 >= 0) {
+				nCol--;
+			}
+			break;
+	}
+
+	pPlayerLoc[0] = nRow;
+	pPlayerLoc[1] = nCol;
+
+	free(pCurrentFloor);
+}
+
 void goNextDoor(int nFloor){
 
-}		
+}	
+
+void goBackDoor(int nFloor) {
+
+}	
+
+void getRandomSpawn() {
+	//75% enemy
+	//25% treasure
+}
+
+void usePlayer(int nArea, int nFloor, int* pPlayerLoc) {
+
+	int nLength, nWidth;
+	int* pFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
+
+	int nTileType = *(pFloor + (*(pPlayerLoc + 0) * nWidth) + *(pPlayerLoc + 1));
+
+	switch(nTileType) {
+		case TILE_EMPTY:
+			break;
+
+		case TILE_SPECIAL:
+			getRandomSpawn();
+			break;
+
+		case TILE_DOOR_NEXT:
+			goNextDoor();
+			break;
+
+		case TILE_DOOR_BACK:
+			goBackDoor();
+			break;
+
+		case TILE_FAST_TRAVEL:
+			
+			break;
+
+		case TILE_BOSS:
+			
+			break;
+
+		case TILE_CREDITS:
+			
+			break;
+	}
+
+	free(pFloor);
+}
