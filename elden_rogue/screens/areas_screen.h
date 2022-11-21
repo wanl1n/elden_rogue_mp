@@ -1,5 +1,5 @@
-#ifndef AREAS
-#define AREAS
+#ifndef AREA_SCREEN
+#define AREA_SCREEN
 
 //AREAS
 #define STORMVEIL			1
@@ -23,12 +23,18 @@
 #define TILE_BOSS			6
 #define TILE_CREDITS		7
 
+
 typedef struct Door {
 	
-	int nPosX, nPosY;
+	int nFloorNumber;
 
 	struct Area* pDoorBack;
 	struct Area* pDoorForward;
 } Door;
+
+int* getFloorMap(int nArea, int nFloor);
+int* findFastTravelTile(int* nArea, int nLength);
+void openAreaScreen(int nAreaNumber, Player* pPlayer);
+
 
 #endif 

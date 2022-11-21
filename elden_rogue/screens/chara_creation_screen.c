@@ -14,7 +14,7 @@ void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 	
 	printf("\t\tNAME: %s\n"
 		   "\t\tJOB CLASS: %s\n",
-		   pPlayer->cName, pPlayer->cJobClass);
+		   pPlayer->strName, pPlayer->strJobClass);
 
 	printOption(1, "NAME");
 	printOption(2, "JOB CLASS");
@@ -37,11 +37,11 @@ void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 			break;
 		case SET_NAME:
 			printMultiple(" ", SCREEN_PADDING);
-			printf("[SYSTEM MESSAGE]: You set your name to %s.", pPlayer->cName);
+			printf("[SYSTEM MESSAGE]: You set your name to %s.", pPlayer->strName);
 			break;
 		case SET_JOB:
 			printMultiple(" ", SCREEN_PADDING);
-			printf("[SYSTEM MESSAGE]: You set your job to %s.", pPlayer->cJobClass);
+			printf("[SYSTEM MESSAGE]: You set your job to %s.", pPlayer->strJobClass);
 			break;
 		case 6:
 			break;
@@ -62,7 +62,7 @@ void displayJobScreen(int nPrompt, Player* pPlayer) {
 			"[1] VAGABOND      [4] HERO\n"
 			"[2] SAMURAI	  [5] PROPHET\n"
 			"[3] WARRIOR	  [6] ASTROLOGER\n\n"
-			"SYSTEM MESSAGE: ", pPlayer->cJobClass);
+			"SYSTEM MESSAGE: ", pPlayer->strJobClass);
 	
 	switch(nPrompt) {
 		case VAGABOND:
@@ -146,13 +146,13 @@ void displayJobClassScreen(int nJobClass) {
 }
 
 void setJobClass(int nInput, Player* pPlayer) {
-	char *cJobClass;
+	// char *strJobClass;
 
-	cJobClass = malloc(sizeof(int) * 10);
+	// strJobClass = malloc(sizeof(int) * 10);
 
 	switch(nInput) {
 		case VAGABOND:		
-			strcpy(pPlayer->cJobClass, "VAGABOND");
+			strcpy(pPlayer->strJobClass, "VAGABOND");
 			pPlayer->nLevel = 9;
 			pPlayer->nHealth = 15;
 			pPlayer->nEndurance = 11;
@@ -162,7 +162,7 @@ void setJobClass(int nInput, Player* pPlayer) {
 			pPlayer->nFaith = 9;
 			break;
 		case SAMURAI:
-			strcpy(pPlayer->cJobClass, "SAMURAI");
+			strcpy(pPlayer->strJobClass, "SAMURAI");
 			pPlayer->nLevel = 9;
 			pPlayer->nHealth = 12;
 			pPlayer->nEndurance = 13;
@@ -172,7 +172,7 @@ void setJobClass(int nInput, Player* pPlayer) {
 			pPlayer->nFaith = 8;
 			break;
 		case WARRIOR:
-			strcpy(pPlayer->cJobClass, "WARRIOR");
+			strcpy(pPlayer->strJobClass, "WARRIOR");
 			pPlayer->nLevel = 8;
 			pPlayer->nHealth = 11;
 			pPlayer->nEndurance = 11;
@@ -182,7 +182,7 @@ void setJobClass(int nInput, Player* pPlayer) {
 			pPlayer->nFaith = 8;
 			break;
 		case HERO:
-			strcpy(pPlayer->cJobClass, "HERO");
+			strcpy(pPlayer->strJobClass, "HERO");
 			pPlayer->nLevel = 7;
 			pPlayer->nHealth = 14;
 			pPlayer->nEndurance = 12;
@@ -192,7 +192,7 @@ void setJobClass(int nInput, Player* pPlayer) {
 			pPlayer->nFaith = 8;
 			break;
 		case PROPHET:
-			strcpy(pPlayer->cJobClass, "PROPHET");
+			strcpy(pPlayer->strJobClass, "PROPHET");
 			pPlayer->nLevel = 7;
 			pPlayer->nHealth = 10;
 			pPlayer->nEndurance = 8;
@@ -202,7 +202,7 @@ void setJobClass(int nInput, Player* pPlayer) {
 			pPlayer->nFaith = 16;
 			break;
 		case ASTROLOGER:
-			strcpy(pPlayer->cJobClass, "ASTROLOGER");
+			strcpy(pPlayer->strJobClass, "ASTROLOGER");
 			pPlayer->nLevel = 6;
 			pPlayer->nHealth = 9;
 			pPlayer->nEndurance = 9;
@@ -233,7 +233,7 @@ void openCharacterCreationScreen(Player* pPlayer) {
 				printMultiple(" ", SCREEN_PADDING);
 				printf("[INPUT NAME]: ");
 				scanf(" %[^\n]s", aInputName);
-				strcpy(pPlayer->cName, aInputName);
+				strcpy(pPlayer->strName, aInputName);
 				displayCharacterCreationScreen(SET_NAME, pPlayer);
 				break;
 
@@ -243,16 +243,16 @@ void openCharacterCreationScreen(Player* pPlayer) {
 				break;
 
 			case CC_CONFIRM:
-				if (!strcmp(pPlayer->cName, "")) {
+				if (!strcmp(pPlayer->strName, "")) {
 
 					printf("Please set your name");
 
-					if (!strcmp(pPlayer->cJobClass, ""))
+					if (!strcmp(pPlayer->strJobClass, ""))
 						printf(" and job");
 					
 					printf(" first.\n");
 
-				} else if (!strcmp(pPlayer->cJobClass, "")) {
+				} else if (!strcmp(pPlayer->strJobClass, "")) {
 					printf("Please set your job first.\n");
 				} else {
 					nComplete = 1;

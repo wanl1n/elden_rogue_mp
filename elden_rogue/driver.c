@@ -12,6 +12,7 @@
 #include "screens/title_screen.c"
 #include "screens/chara_creation_screen.c"
 #include "screens/roundtable_screen.c"
+#include "screens/areas_screen.c"
 
 int main() {
 
@@ -22,12 +23,12 @@ int main() {
 	Player sPlayer;
 
 	//Initial Player Statistics
-	strcpy(sPlayer.cName, "");
-	strcpy(sPlayer.cJobClass, "");
+	strcpy(sPlayer.strName, "");
+	strcpy(sPlayer.strJobClass, "");
 	sPlayer.nRunes = 700;
 	
 	int i; for(i = 0; i < 6; i++) {
-		sPlayer.nShards[i] = 0;
+		sPlayer.aShards[i] = 0;
 	}
 
 	Player* pPlayer;
@@ -35,7 +36,7 @@ int main() {
 
 	//Inventory Initialization
 	pPlayer->pInventory = NULL;
-	Slot sWeapon = {0, "NONE", 0, NULL, NULL};
+	Slot sWeapon = {0, "NONE", 0, 0, 0, 0, 0, 0, NULL, NULL};
 	pPlayer->pInventory = &sWeapon;
 
 	pPlayer->pEquippedWeapon = &sWeapon;

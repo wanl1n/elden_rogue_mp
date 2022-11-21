@@ -47,13 +47,13 @@ void openTitleScreen(Player* pPlayer) {
 
 	switch(nInput) {
 		case START:
-			if (!strcmp(pPlayer->cName, "") || !strcmp(pPlayer->cJobClass, ""))
+			if (!strcmp(pPlayer->strName, "") || !strcmp(pPlayer->strJobClass, ""))
 				openCharacterCreationScreen(pPlayer);
 			else
 				openRoundTableHoldScreen(pPlayer);
 			break;
 		case CONTINUE:
-			if (!strcmp(pPlayer->cName, "") || !strcmp(pPlayer->cJobClass, "")) {
+			if (!strcmp(pPlayer->strName, "") || !strcmp(pPlayer->strJobClass, "")) {
 				printf("You do not have saved data. Redirecting you to character creation.\n");
 				openCharacterCreationScreen(pPlayer);
 			} else

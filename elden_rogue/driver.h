@@ -7,6 +7,11 @@ struct InventorySlot {
 	char strWeaponName[24];
 
 	int nDexReq;
+	int nHP;
+	int nInt;
+	int nEnd;
+	int nStr;
+	int nFth;
 
 	struct InventorySlot* pNext;
 	struct InventorySlot* pPrev;
@@ -15,8 +20,8 @@ typedef struct InventorySlot Slot;
 
 typedef struct Player {
 
-	char cName[26];
-	char cJobClass[11];
+	char strName[26];
+	char strJobClass[11];
 	int nLevel;
 	int nRunes;
 
@@ -35,11 +40,10 @@ typedef struct Player {
 	Slot* pEquippedWeapon;
 	int nPotions;
 
-	int nShards[6];
+	int aShards[6];
 
 	//Area Details
-	int nPlayerRow;
-	int nPlayerCol;
+	int aPlayerLoc[2];
 	int nPlayerHP;
 	int nPlayerMaxHP;
 

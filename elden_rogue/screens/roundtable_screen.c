@@ -1,7 +1,7 @@
 #include "chara_creation_screen.h"
 #include "title_screen.h"
 #include "roundtable_screen.h"
-#include "areas.h"
+#include "areas_screen.h"
 
 #include "../driver.h"
 
@@ -18,11 +18,11 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 		   " LEVEL: %d\n"
 		   " RUNES: %d\n"
 		   " SHARDS: ",
-		   pPlayer->cName, pPlayer->cJobClass, pPlayer->nLevel,
+		   pPlayer->strName, pPlayer->strJobClass, pPlayer->nLevel,
 		   pPlayer->nRunes);
 
 	int i; for(i = 0; i < 6; i++) {
-		printf("[%d]", pPlayer->nShards[i]);
+		printf("[%d]", pPlayer->aShards[i]);
 	}		
 
 	printf("\n\n");
@@ -122,7 +122,7 @@ void displayLevelUpScreen(int nPrompt, Player* pPlayer, int nRuneCost) {
 		"					[5] INTELLIGENCE		%d\n"
 		"					[6] FAITH			%d\n\n"
 		"					[0] BACK\n\n", 
-		pPlayer->nRunes, pPlayer->cJobClass,
+		pPlayer->nRunes, pPlayer->strJobClass,
 		pPlayer->nHealth,
 		pPlayer->nLevel, pPlayer->nEndurance,
 		nRuneCost, pPlayer->nDexterity,
@@ -353,6 +353,10 @@ void openRoundTableHoldScreen(Player* pPlayer) {
 
 }
 
+int getPlayerShards() {
+	
+}
+
 void openFastTravelScreen(Player* pPlayer) {
 	displayFastTravelScreen(7);
 
@@ -364,23 +368,13 @@ void openFastTravelScreen(Player* pPlayer) {
 
 	switch(nInputFastTravel) {
 		case STORMVEIL:
-
-			break;
-
 		case RAYA_LUCARIA:
-
-			break;
-
 		case REDMANE_CASTLE:
-
-			break;
-
 		case VOLCANO_MANOR:
-
+			openAreaScreen(nInputFastTravel, pPlayer);
 			break;
-
 		case LEYNDELL_CAPITAL:
-
+			if (pPlayer->aShards)
 			break;
 
 		case THE_ELDEN_THRONE:
