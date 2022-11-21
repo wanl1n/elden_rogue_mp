@@ -2,6 +2,7 @@
 #include "title_screen.h"
 #include "roundtable_screen.h"
 #include "areas_screen.h"
+#include "battle_screen.h"
 
 #include "../driver.h"
 
@@ -701,10 +702,11 @@ void printFloorHeader(int nArea) {
 void printFloorMap(int nArea, int nFloor, int* pPlayerLoc) {
 
 	int nRow, nCol;
-	int nPadding = 3 + (SCREEN_WIDTH - (HEADER_WIDTH + 2)) / 2;
+	int nPadding;
 
 	int nLength, nWidth;
 	int *pBaseFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
+	nPadding = (SCREEN_WIDTH - nWidth) / 2;
 
 	*(pBaseFloor + (pPlayerLoc[0] * nWidth) + pPlayerLoc[1]) = TILE_PLAYER;
 	
@@ -884,7 +886,32 @@ void printBorder(int nType, int nPosition) {
 	resetColors();
 }
 
-void printUserInterface(int nArea, Player* pPlayer) {
+void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
+	int i;
+
+	printf("\n");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("[HEALTH]: ");
+	
+	for(i = 0; i < nPlayerHealth; i++) {
+		colorText(COLOR_TILE_PLAYER);
+		// printf("█ ");
+		printf("█");
+	}
+
+	for(i = 0; i < (nPlayerMaxHP - nPlayerHealth); i++) {
+		colorText(COLOR_TILE_OUT);
+		// printf("█ ");
+		printf("█");
+	}
+	
+	resetColors();
+}
+
+void printUserInterface(int nArea, int nPlayerMaxHP, Player* pPlayer) {
+	
+	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
+
 	switch(nArea) {
 		case STORMVEIL:
 		case RAYA_LUCARIA:
@@ -930,7 +957,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	//Initializing player's starter HP.
 	int nFloor = 1; 
 	int *pFloor = &nFloor;
-	int nPlayerHP = pPlayer->nPlayerHP;
+	int nPlayerHP = pPlayer->nHealth;
 	int nWeaponHP = pPlayer->pEquippedWeapon->nHP;
 	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
 	
@@ -940,20 +967,20 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	do {
 		printFloorHeader(nAreaNumber);
 		printFloorMap(nAreaNumber, nFloor, pPlayerLoc);
-		printUserInterface(nAreaNumber, pPlayer);
+		printUserInterface(nAreaNumber, nPlayerMaxHP, pPlayer);
 
 		cPlayerInput = scanCharInput(aMoves, 10);
 
-		processInput(cPlayerInput, nAreaNumber, nFloor, pPlayerLoc);
-	} while (pPlayer->nPlayerHP != 0);
+		processInput(cPlayerInput, nAreaNumber, nFloor, pPlayerLoc, pPlayer);
+	} while (pPlayer->nHealth != 0);
 
-	if (pPlayer->nPlayerHP <= 0) 
+	if (pPlayer->nHealth <= 0) 
 		printf("DEAD");
 	else
 		printf("win");
 }	
 
-void processInput(char cInput, int nArea, int nFloor, int* pPlayerLoc) {
+void processInput(char cInput, int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 
 	switch(cInput) {
 		case 'W':
@@ -978,7 +1005,7 @@ void processInput(char cInput, int nArea, int nFloor, int* pPlayerLoc) {
 
 		case 'E':
 		case 'e':
-			//usePlayer(pFloorNumber, pPlayerHealth, aPlayerLocation, pOnClock, pPromptType);
+			usePlayer(nArea, nFloor, pPlayerLoc, pPlayer);
 			break;
 	}
 }
@@ -1024,40 +1051,121 @@ void movePlayerTile(int nDirection, int nArea, int nFloor, int* pPlayerLoc) {
 	free(pCurrentFloor);
 }
 
-void goNextDoor(int nFloor){
+void goNextDoor(Door* sDoor){
 
 }	
 
-void goBackDoor(int nFloor) {
+void goBackDoor(Door* sDoor) {
 
 }	
 
-void getRandomSpawn() {
-	//75% enemy
-	//25% treasure
+int getRandomBetween(int nLower, int nUpper) {
+	srand(time(0));
+
+	return (rand() % (nUpper - nLower + 1)) + nLower;
 }
 
-void usePlayer(int nArea, int nFloor, int* pPlayerLoc) {
+int getRandomSpawn() {
+
+	int nSpawnRandom = getRandomBetween(1, 100);
+
+	if(nSpawnRandom <= 25) {
+		return TREASURE;
+	} else {
+		return ENEMY;
+	}
+}
+
+Enemy spawnEnemy(int nArea) {
+	
+	//Making a new Enemy instance.
+	Enemy sEnemy;
+
+	//Setting Enemy type.
+	int nEnemyType = getRandomBetween(1, 3);
+	sEnemy.nType = nEnemyType;
+
+	//Setting Enemy name.
+	char strEnemyNames[][35] = {"Godrick Soldier", "Godrick Archer", "Godrick Knight", 
+								"Living Jar", "Glintstone Sorcerer", "Battlemage", 
+								"Radahn Soldier", "Radahn Archer", "Radahn Knight", 
+								"Man-Serpent", "Mage-Serpent", "Abductor Virgin", 
+								"Leyndell Soldier", "Leyndell Archer", "Leyndell Knight"};
+	//Calculating which name the Enemy will get depending on Type and Area.
+	int nNameIndex = (3 * (nArea - 1)) + (nEnemyType - 1);
+	strcpy(sEnemy.strName, strEnemyNames[nNameIndex]);
+
+	//Setting Enemy Stats based on Enemy Type and Area.
+	switch(nEnemyType) {
+		case 1:
+			sEnemy.nHP = getRandomBetween(20, 30);
+			sEnemy.nAtk = getRandomBetween(70, 80);
+			sEnemy.fPhysDef = 0.20;
+			sEnemy.fSorcDef = 0.15;
+			sEnemy.fIncanDef = 0.10;
+			break;
+		case 2:
+			sEnemy.nHP = getRandomBetween(25, 35);
+			sEnemy.nAtk = getRandomBetween(110, 120);
+			sEnemy.fPhysDef = 0.50;
+			sEnemy.fSorcDef = 0.15;
+			sEnemy.fIncanDef = 0.20;
+			break;
+		case 3:
+			sEnemy.nHP = getRandomBetween(70, 80);
+			sEnemy.nAtk = getRandomBetween(120, 130);
+			sEnemy.fPhysDef = 0.25;
+			sEnemy.fSorcDef = 0.25;
+			sEnemy.fIncanDef = 0.20;
+			break;
+	}
+
+	return sEnemy;
+}
+
+int spawnTreasure(int nArea) {
+	int nRewards = getRandomBetween(50, 150) * nArea;
+
+	return nRewards;
+}
+
+void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 
 	int nLength, nWidth;
+	int nSpawnTile;
 	int* pFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
 
 	int nTileType = *(pFloor + (*(pPlayerLoc + 0) * nWidth) + *(pPlayerLoc + 1));
 
+	Enemy sEnemy;
+
 	switch(nTileType) {
 		case TILE_EMPTY:
+			printSystemMessage("There's nothing there.");
 			break;
 
 		case TILE_SPECIAL:
-			getRandomSpawn();
+			
+			nSpawnTile = getRandomSpawn();
+
+			if (nSpawnTile == TREASURE) {
+				pPlayer->nRunes += spawnTreasure(nArea);
+				printSystemMessage("You got some runes!");
+			}
+			else if (nSpawnTile == ENEMY) {
+				sEnemy = spawnEnemy(nArea);
+				printSystemMessage("You encountered an enemy.");
+				openBattleScreen(sEnemy, pPlayer);
+			}
+
 			break;
 
 		case TILE_DOOR_NEXT:
-			goNextDoor();
+			//goNextDoor();
 			break;
 
 		case TILE_DOOR_BACK:
-			goBackDoor();
+			//goBackDoor();
 			break;
 
 		case TILE_FAST_TRAVEL:

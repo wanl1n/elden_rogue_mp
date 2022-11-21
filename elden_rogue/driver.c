@@ -3,6 +3,7 @@
 #include "math.h"
 #include "string.h"
 #include "windows.h"
+#include "time.h"
 
 #include "utility/printer.c"
 #include "utility/scanner.c"
@@ -13,6 +14,7 @@
 #include "screens/chara_creation_screen.c"
 #include "screens/roundtable_screen.c"
 #include "screens/areas_screen.c"
+#include "screens/battle_screen.c"
 
 int main() {
 

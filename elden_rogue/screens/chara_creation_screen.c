@@ -146,9 +146,6 @@ void displayJobClassScreen(int nJobClass) {
 }
 
 void setJobClass(int nInput, Player* pPlayer) {
-	// char *strJobClass;
-
-	// strJobClass = malloc(sizeof(int) * 10);
 
 	switch(nInput) {
 		case VAGABOND:		

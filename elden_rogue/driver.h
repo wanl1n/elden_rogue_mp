@@ -44,7 +44,6 @@ typedef struct Player {
 
 	//Area Details
 	int aPlayerLoc[2];
-	int nPlayerHP;
 	int nPlayerMaxHP;
 
 } Player;
