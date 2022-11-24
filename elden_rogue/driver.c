@@ -41,7 +41,7 @@ int main() {
 
 	//Inventory Initialization
 	pPlayer->pInventory = NULL;
-	Slot sWeapon = {0, "NONE", 0, 0, 0, 0, 0, 0, NULL, NULL};
+	Weapon sWeapon = {0, "NONE", 0, 0, 0, 0, 0, 0, NULL, NULL};
 	pPlayer->pInventory = &sWeapon;
 
 	pPlayer->pEquippedWeapon = &sWeapon;

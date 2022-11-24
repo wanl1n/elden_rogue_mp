@@ -1,7 +1,8 @@
-#ifndef ORIGIN
-#define ORIGIN 
+#ifndef STRUCTURES
+#define STRUCTURES 
 
-struct InventorySlot {
+//Weapon Structure
+struct WeaponItem {
 
 	int nWeaponIndex;
 	char strWeaponName[24];
@@ -13,10 +14,11 @@ struct InventorySlot {
 	int nStr;
 	int nFth;
 
-	struct InventorySlot* pNext;
-	struct InventorySlot* pPrev;
+	struct WeaponItem* pNext;
+	struct WeaponItem* pPrev;
 };
-typedef struct InventorySlot Slot;
+typedef struct WeaponItem Weapon;
+
 
 typedef struct Player {
 
@@ -34,10 +36,10 @@ typedef struct Player {
 	int nFaith; 
 
 	//Inventory
-	Slot* pInventory;
+	Weapon* pInventory;
 
 	//Equipment (Currently equipped)
-	Slot* pEquippedWeapon;
+	Weapon* pEquippedWeapon;
 	int nPotions;
 
 	int aShards[6];

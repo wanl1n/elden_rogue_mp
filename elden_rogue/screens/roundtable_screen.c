@@ -215,7 +215,7 @@ void printInventorySlot(int nIndex, char strName[], int nDexReq) {
 
 void printInventoryGrid(Player* pPlayer) {
 
-	Slot* pTemp = pPlayer->pInventory;
+	Weapon* pTemp = pPlayer->pInventory;
 
 	printf("\n");
 
@@ -486,9 +486,9 @@ void openLevelUpScreen(Player* pPlayer) {
 	}
 }
 
-Slot* findWeapon(int nInputIndex, Player* pPlayer) {
+Weapon* findWeapon(int nInputIndex, Player* pPlayer) {
 
-	Slot* pWeapon = pPlayer->pInventory;
+	Weapon* pWeapon = pPlayer->pInventory;
 	
 	while(pWeapon->nWeaponIndex != nInputIndex || pWeapon != NULL) {
 		pWeapon = pWeapon->pNext;
@@ -503,7 +503,7 @@ void openInventory(Player* pPlayer) {
 	int nInputInventory = 100; //random value basta wala sa choices
 	int nInputWeapon;
 
-	Slot* pSelectedWeapon;
+	Weapon* pSelectedWeapon;
 
 	while(nInputInventory != 0) {
 
