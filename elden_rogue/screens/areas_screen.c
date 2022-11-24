@@ -3,6 +3,7 @@
 #include "roundtable_screen.h"
 #include "areas_screen.h"
 #include "battle_screen.h"
+#include "credits_screen.h"
 
 #include "../driver.h"
 
@@ -1227,10 +1228,12 @@ void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 
 		case TILE_BOSS:
 			printSystemMessage("das a boss");
+			openBattleScreen(sEnemy, pPlayer);
 			break;
 
 		case TILE_CREDITS:
 			printSystemMessage("credits now!!!");
+			displayCredits();
 			break;
 	}
 
