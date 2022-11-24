@@ -18,8 +18,7 @@
 #define TILE_EMPTY			1
 #define TILE_OUT			0
 #define TILE_FAST_TRAVEL	2
-#define TILE_DOOR_NEXT		3
-#define TILE_DOOR_BACK		4
+#define TILE_DOOR			3
 #define TILE_SPECIAL		5
 #define TILE_BOSS			6
 #define TILE_CREDITS		7
@@ -42,28 +41,16 @@
 
 struct DoorTag {
 	
+	int nArea;
 	int nFloorNumber;
+
+	int* nLoc;
 
 	struct DoorTag* pDoorBack;
 	struct DoorTag* pDoorForward;
 
 };
 typedef struct DoorTag Door;
-
-struct EnemyTag {
-	
-	char strName[35];
-	int nType;
-
-	//Enemy Stats
-	int nHP;
-	int nAtk;
-	float fPhysDef;
-	float fSorcDef;
-	float fIncanDef;
-
-};
-typedef struct EnemyTag Enemy;
 
 
 int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth);
@@ -74,7 +61,7 @@ void printBorder(int nType, int nPosition);
 void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP);
 void printItems(int nPotions, int nRunes);
 void printPlayerMoves();
-void printUserInterface(int nArea, int nPlayerMaxHP, Player* pPlayer);
+void printUserInterface(int nPlayerMaxHP, Player* pPlayer);
 
 int* findFastTravelTile(int nArea, int nFloor);
 

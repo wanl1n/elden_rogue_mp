@@ -48,6 +48,32 @@ typedef struct Player {
 
 } Player;
 
+struct EnemyTag {
+	
+	char strName[35];
+	int nType;
 
+	//Enemy Stats
+	int nHP;
+	int nAtk;
+	float fPhysDef;
+	float fSorcDef;
+	float fIncanDef;
+
+};
+typedef struct EnemyTag Enemy;
+
+struct DoorTag {
+	
+	int nArea;
+	int nFloorNumber;
+
+	int* nLoc;
+
+	struct DoorTag* pDoorBack;
+	struct DoorTag* pDoorForward;
+
+};
+typedef struct DoorTag Door;
 
 #endif

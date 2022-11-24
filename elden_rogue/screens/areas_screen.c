@@ -29,7 +29,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 							   {5, 1, 5, 5, 5, 1, 5},
 							   {1, 1, 1, 1, 1, 1, 1},
 							   {1, 1, 5, 1, 5, 1, 1},
-							   {1, 1, 1, 4, 1, 1, 1}};
+							   {1, 1, 1, 3, 1, 1, 1}};
 	//CODE: 13
 	int aStormveilFloor3[][5] = {{1, 1, 2, 1, 1}, 
 							   {1, 1, 1, 1, 1},
@@ -37,7 +37,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 							   {1, 1, 6, 1, 1},
 							   {1, 1, 1, 1, 1},
 							   {1, 1, 1, 1, 1},
-							   {1, 1, 4, 1, 1}};
+							   {1, 1, 3, 1, 1}};
 
 	//CODE: 21
 	int aRayaLucariaFloor1[][5] = {{1, 1, 2, 1, 1},
@@ -46,7 +46,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 						  		 {1, 5, 1, 5, 1},
 						  		 {1, 1, 3, 1, 1}};
 	//CODE: 22
-	int aRayaLucariaFloor2[][3] = {{1, 4, 1}, 
+	int aRayaLucariaFloor2[][3] = {{1, 3, 1}, 
 						  		 {5, 1, 1},
 						  		 {1, 1, 1},
 						  		 {5, 1, 3},
@@ -57,14 +57,14 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 	int aRayaLucariaFloor3[][5] = {{0, 1, 3, 1, 0}, 
 						  		 {0, 1, 5, 1, 0},
 						  		 {1, 1, 1, 1, 1},
-						  		 {4, 1, 1, 1, 3},
+						  		 {3, 1, 1, 1, 3},
 						  		 {1, 1, 1, 1, 1},
 						  		 {0, 1, 5, 1, 0},
 						 		 {0, 1, 1, 1, 0}};
 	//CODE: 24
 	int aRayaLucariaFloor4[][6] = {{0, 1, 1, 1, 1, 1}, 
 					  		 	 {1, 1, 5, 1, 5, 1},
-					  		 	 {4, 1, 1, 1, 1, 1},
+					  		 	 {3, 1, 1, 1, 1, 1},
 					  		 	 {1, 1, 5, 1, 5, 1},
 					  		 	 {0, 1, 1, 1, 1, 1}};
 	//CODE: 25
@@ -75,7 +75,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 						  		 {1, 5, 1, 6, 1, 5, 1},
 						  		 {1, 1, 1, 1, 1, 1, 1},
 						  		 {1, 5, 1, 1, 1, 5, 1},
-						  		 {1, 1, 1, 4, 1, 1, 1}};
+						  		 {1, 1, 1, 3, 1, 1, 1}};
 
 	//CODE: 31
 	int aRedmaneCastleFloor1[][5] = {{1, 1, 1, 1, 1},
@@ -83,12 +83,12 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 								   {1, 1, 1, 1, 1}};
 	//CODE: 32
 	int aRedmaneCastleFloor2[][7] = {{1, 5, 1, 5, 1, 5, 1},
-								   {4, 1, 1, 1, 1, 1, 3},
+								   {3, 1, 1, 1, 1, 1, 3},
 								   {1, 5, 1, 5, 1, 5, 1}};
 	//CODE: 33
 	int aRedmaneCastleFloor3[][5] = {{1, 1, 3, 1, 1},
 							 	   {1, 1, 1, 1, 5},
-							 	   {4, 1, 1, 1, 1},
+							 	   {3, 1, 1, 1, 1},
 							 	   {1, 1, 1, 1, 5},
 								   {1, 5, 1, 5, 1}};
 	//CODE: 34
@@ -96,10 +96,10 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 								   {1, 5, 1, 1, 1, 5, 1},
 								   {3, 5, 1, 5, 1, 5, 1},
 								   {1, 5, 1, 1, 1, 5, 1},
-								   {1, 1, 1, 4, 1, 1, 1}};	
+								   {1, 1, 1, 3, 1, 1, 1}};	
 	//CODE: 35
 	int aRedmaneCastleFloor5[][5] = {{1, 1, 1, 1, 1},
-							 	   {3, 1, 5, 1, 4},
+							 	   {3, 1, 5, 1, 3},
 								   {1, 1, 1, 1, 1}};
 	//CODE: 36
 	int aRedmaneCastleFloor6[][4] = {{1, 1, 1, 1},
@@ -109,12 +109,12 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 							 	   {1, 1, 1, 0},
 							 	   {5, 1, 5, 0},
 							 	   {1, 1, 1, 1},
-							 	   {1, 5, 1, 4},
+							 	   {1, 5, 1, 3},
 								   {1, 1, 1, 1}};
 	//CODE: 37
 	int aRedmaneCastleFloor7[][7] = {{1, 1, 1, 1, 1, 1, 1},
 								   {1, 5, 1, 1, 1, 5, 1},
-								   {4, 1, 1, 6, 1, 1, 2},
+								   {3, 1, 1, 6, 1, 1, 2},
 								   {1, 5, 1, 1, 1, 5, 1},
 								   {1, 1, 1, 1, 1, 1, 1}};							   
 
@@ -131,24 +131,24 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 							 	  {3, 5, 1, 5, 1, 5, 3},
 							 	  {1, 1, 1, 1, 1, 1, 1},
 							 	  {1, 1, 1, 1, 1, 1, 1},
-								  {1, 1, 1, 4, 1, 1, 1}};
+								  {1, 1, 1, 3, 1, 1, 1}};
 	//CODE: 421
 	int aVolcanoManorFloor2W[][5] = {{1, 1, 5, 1, 1},
 							 	   {1, 1, 1, 1, 1},
-							 	   {5, 1, 5, 1, 4},
+							 	   {5, 1, 5, 1, 3},
 							 	   {1, 1, 1, 1, 1},
 								   {1, 1, 5, 1, 1}};
     //CODE: 422
     int aVolcanoManorFloor2E[][7] = {{0, 1, 1, 3, 1, 1, 0},
 							 	   {1, 1, 5, 1, 5, 1, 1},
-							 	   {4, 1, 1, 1, 1, 1, 5},
+							 	   {3, 1, 1, 1, 1, 1, 5},
 							 	   {1, 1, 5, 1, 5, 1, 1},
 								   {0, 1, 1, 1, 1, 1, 0}};
 	//CODE: 4221
 	int aVolcanoManorFloor2EN[][3] = {{1, 1, 1},
 							 	    {1, 5, 1},
 							 	    {1, 1, 1},
-								    {0, 4, 0}};
+								    {0, 3, 0}};
     //CODE: 43
     int aVolcanoManorFloor3[][3] = {{1, 3, 1},
 							 	  {1, 5, 1},
@@ -157,7 +157,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 							 	  {1, 1, 1},
 							 	  {5, 1, 5},
 							 	  {1, 1, 1},
-							 	  {1, 4, 1}};	
+							 	  {1, 3, 1}};	
     //CODE: 44
     int aVolcanoManorFloorB[][5] = {{1, 1, 2, 1, 1},
 							 	  {1, 1, 1, 1, 1},
@@ -165,7 +165,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 							 	  {5, 1, 6, 1, 5},
 							 	  {5, 1, 1, 1, 5},
 							 	  {1, 1, 1, 1, 1},
-								  {1, 1, 4, 1, 1}};										   
+								  {1, 1, 3, 1, 1}};										   
 
 	//CODE: 51
 	int aLeyndellCapitalFloor1[][3] = {{1, 3, 1},
@@ -179,16 +179,16 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 									 {5, 1, 5},
 									 {1, 1, 1},
 									 {5, 1, 5},
-									 {1, 4, 1}};
+									 {1, 3, 1}};
 	//CODE: 53
 	int aLeyndellCapitalFloor3[][5] = {{1, 1, 5, 1, 1},
 									 {1, 0, 0, 0, 1},
 									 {5, 0, 0, 0, 3},
 									 {1, 0, 0, 0, 1},
-									 {1, 1, 4, 1, 1}}; 
+									 {1, 1, 3, 1, 1}}; 
 	//CODE: 54
 	int aLeyndellCapitalFloor4[][5] = {{1, 1, 3, 1, 1},
-									 {4, 1, 1, 1, 1},
+									 {3, 1, 1, 1, 1},
 									 {1, 5, 1, 5, 1}};
 	//CODE: 55
 	int aLeyndellCapitalFloor5[][15] = {{5, 3, 5, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1},
@@ -196,7 +196,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 										{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},  											 
 										{1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 1}}; 
 	//CODE: 551
-	int aLeyndellCapitalFloor5S[][3] = {{1, 4, 1},
+	int aLeyndellCapitalFloor5S[][3] = {{1, 3, 1},
 									  {1, 1, 1},
 									  {5, 5, 5}}; 
 	//CODE: 552
@@ -206,15 +206,15 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 									  {1, 1, 3},
 									  {1, 1, 1},
 									  {5, 5, 5},
-									  {0, 4, 0}};											 
+									  {0, 3, 0}};											 
 	//CODE: 553
 	int aLeyndellCapitalFloor5C[][3] = {{0, 3, 0},
 									  {5, 1, 5},
 									  {5, 1, 5},
-									  {4, 1, 4},
+									  {3, 1, 3},
 									  {5, 1, 5},
 									  {5, 1, 5},
-									  {0, 4, 0}};
+									  {0, 3, 0}};
 	//CODE: 554
 	int aLeyndellCapitalFloor5R[][3] = {{0, 3, 0},
 									  {5, 5, 5},
@@ -222,12 +222,12 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 									  {3, 1, 1},
 									  {1, 1, 1},
 									  {5, 5, 5},
-									  {0, 4, 0}};
+									  {0, 3, 0}};
 	//CODE: 56
 	int aLeyndellCapitalFloor6[][15] = {{1, 1, 1, 5, 1, 1, 1, 3, 1, 1, 1, 5, 1, 3, 1},
 										{1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1},
 										{1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1},  											 
-										{1, 4, 1, 5, 1, 1, 1, 4, 1, 1, 1, 5, 1, 4, 1}}; 
+										{1, 3, 1, 5, 1, 1, 1, 3, 1, 1, 1, 5, 1, 3, 1}}; 
 	//CODE: 57
 	int aLeyndellCapitalFloor7[][13] = {{5, 1, 1, 5, 1, 1, 1, 1, 0, 0, 0, 0, 0},
 										{1, 1, 1, 5, 1, 1, 3, 1, 0, 0, 0, 0, 0},
@@ -241,9 +241,9 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 										{3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3},  											 
 										{5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5},
 										{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-										{5, 1, 1, 1, 1, 5, 4, 5, 1, 1, 1, 1, 5}}; 
+										{5, 1, 1, 1, 1, 5, 3, 5, 1, 1, 1, 1, 5}}; 
 	//CODE: 571
-	int aLeyndellCapitalFloor7C[][5] = {{0, 1, 4, 1, 0},
+	int aLeyndellCapitalFloor7C[][5] = {{0, 1, 3, 1, 0},
 									  {5, 1, 1, 1, 5},
 									  {1, 1, 1, 1, 1},
 									  {5, 1, 6, 1, 5},
@@ -252,11 +252,11 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 									  {0, 1, 2, 1, 0}};
 	//CODE: 572
 	int aLeyndellCapitalFloor7L[][3] = {{1, 1, 1},
-									  {5, 1, 4},
+									  {5, 1, 3},
 									  {1, 1, 1}};
 	//CODE: 573
 	int aLeyndellCapitalFloor7R[][3] = {{1, 1, 1},
-									  {4, 1, 5},
+									  {3, 1, 5},
 									  {1, 1, 1}};
 
 	//CODE: 61
@@ -276,7 +276,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 									{1, 1, 1, 6, 1, 1, 1},
 									{1, 1, 1, 1, 1, 1, 1},
 									{1, 1, 1, 1, 1, 1, 1},
-									{0, 1, 1, 4, 1, 1, 0}};
+									{0, 1, 1, 3, 1, 1, 0}};
 	//CODE: 63
 	int aTheEldenThroneFloor3[][3] = {{1, 7, 1},
 									{5, 1, 5},
@@ -286,7 +286,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 									{5, 1, 5},
 									{1, 1, 1},
 									{5, 1, 5},
-									{1, 4, 1}};											
+									{1, 3, 1}};											
 	
 	switch(nArea) {
 		
@@ -752,13 +752,8 @@ void printBorder(int nType, int nPosition) {
 					printf("┌───┐ ");
 					break;
 
-				case TILE_DOOR_NEXT:
-					colorText(COLOR_TILE_DOOR_NEXT);
-					printf("┌───┐ ");
-					break;
-
-				case TILE_DOOR_BACK:
-					colorText(COLOR_TILE_DOOR_BACK);
+				case TILE_DOOR:
+					colorText(COLOR_TILE_DOOR);
 					printf("┌───┐ ");
 					break;
 
@@ -801,13 +796,8 @@ void printBorder(int nType, int nPosition) {
 					printf("│ F │ ");
 					break;
 
-				case TILE_DOOR_NEXT:
-					colorText(COLOR_TILE_DOOR_NEXT);
-					printf("│ ▲ │ ");
-					break;
-
-				case TILE_DOOR_BACK:
-					colorText(COLOR_TILE_DOOR_BACK);
+				case TILE_DOOR:
+					colorText(COLOR_TILE_DOOR);
 					printf("│ ▼ │ ");
 					break;
 
@@ -850,13 +840,8 @@ void printBorder(int nType, int nPosition) {
 					printf("└───┘ ");
 					break;
 
-				case TILE_DOOR_NEXT:
-					colorText(COLOR_TILE_DOOR_NEXT);
-					printf("└───┘ ");
-					break;
-
-				case TILE_DOOR_BACK:
-					colorText(COLOR_TILE_DOOR_BACK);
+				case TILE_DOOR:
+					colorText(COLOR_TILE_DOOR);
 					printf("└───┘ ");
 					break;
 
@@ -983,21 +968,11 @@ void printPlayerMoves() {
 	resetColors();
 }
 
-void printUserInterface(int nArea, int nPlayerMaxHP, Player* pPlayer) {
+void printUserInterface(int nPlayerMaxHP, Player* pPlayer) {
 	
 	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
 	printItems(pPlayer->nPotions, pPlayer->nRunes);
 	printPlayerMoves();
-
-	switch(nArea) {
-		case STORMVEIL:
-		case RAYA_LUCARIA:
-		case REDMANE_CASTLE:
-		case VOLCANO_MANOR:
-		case LEYNDELL_CAPITAL:
-		case THE_ELDEN_THRONE:
-			break;
-	}	
 }
 
 int* findFastTravelTile(int nArea, int nFloor) {
@@ -1034,9 +1009,10 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	//Initializing player's starter HP.
 	int nFloor = 1; 
 	int *pFloor = &nFloor;
-	int nPlayerHP = pPlayer->nHealth;
+	// int nPlayerHP = pPlayer->nHealth;
 	int nWeaponHP = pPlayer->pEquippedWeapon->nHP;
 	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
+	pPlayer->nPlayerMaxHP = nPlayerMaxHP;
 	
 	//Initializing player location.
 	int* pPlayerLoc = findFastTravelTile(nAreaNumber, nFloor);
@@ -1044,7 +1020,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	do {
 		printFloorHeader(nAreaNumber);
 		printFloorMap(nAreaNumber, nFloor, pPlayerLoc);
-		printUserInterface(nAreaNumber, nPlayerMaxHP, pPlayer);
+		printUserInterface(nPlayerMaxHP, pPlayer);
 
 		cPlayerInput = scanCharInput(aMoves, 10);
 
@@ -1226,10 +1202,13 @@ void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 			nSpawnTile = getRandomSpawn();
 
 			if (nSpawnTile == TREASURE) {
-				pPlayer->nRunes += spawnTreasure(nArea);
+
+				int nTreasure = spawnTreasure(nArea);
+				pPlayer->nRunes += nTreasure;
 				printSystemMessage("You got some runes!");
-			}
-			else if (nSpawnTile == ENEMY) {
+
+			} else if (nSpawnTile == ENEMY) {
+
 				sEnemy = spawnEnemy(nArea);
 				printSystemMessage("You encountered an enemy.");
 				openBattleScreen(sEnemy, pPlayer);
@@ -1237,14 +1216,9 @@ void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 
 			break;
 
-		case TILE_DOOR_NEXT:
-			printSystemMessage("You went next.");
+		case TILE_DOOR:
+			printSystemMessage("You entered a room.");
 			//goNextDoor();
-			break;
-
-		case TILE_DOOR_BACK:
-			printSystemMessage("You went back");
-			//goBackDoor();
 			break;
 
 		case TILE_FAST_TRAVEL:
