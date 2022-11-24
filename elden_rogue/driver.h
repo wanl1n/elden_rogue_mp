@@ -62,6 +62,8 @@ struct EnemyTag {
 	float fSorcDef;
 	float fIncanDef;
 
+	int nMaxHP;
+
 };
 typedef struct EnemyTag Enemy;
 

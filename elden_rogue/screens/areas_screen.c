@@ -1266,12 +1266,30 @@ int spawnTreasure(int nArea) {
 	return nRewards;
 }
 
+void printResultScreen(int nType, int nBattleResult, int nRewards) {
+	
+	if (nBattleResult) {
+
+		if (nType == 1) {
+			printHeader("ENEMY FELLED", 12);
+		} else if (nType == 2) {
+			printHeader("GREAT ENEMY FELLED", 18);
+		}
+
+		printf("\t\tYou gained %d runes.", nRewards);
+	} else {
+
+		printHeader("YOU DIED", 8);
+	}
+}
+
 void usePlayer(int nArea, int nFloor, Player* pPlayer) {
 
 	//Make a reference map for the current floor.
 	int nLength, nWidth;
 	int nSpawnTile;
-	int nBattleResult;
+	int nBattleResult, nBossResult;
+	int nBattleRewards;
 	int* pFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
 
 	//Get the tile the player is standing on right now.
@@ -1300,6 +1318,12 @@ void usePlayer(int nArea, int nFloor, Player* pPlayer) {
 				printSystemMessage("You encountered an enemy.");
 				nBattleResult = openBattleScreen(sEnemy, pPlayer);
 
+				if (nBattleResult){
+					nBattleRewards = sEnemy.nMaxHP * 2;
+					pPlayer->nRunes += nBattleRewards;
+				}
+
+				printResultScreen(1, nBattleResult, nBattleRewards);
 			}
 
 			break;
@@ -1310,24 +1334,49 @@ void usePlayer(int nArea, int nFloor, Player* pPlayer) {
 			break;
 
 		case TILE_FAST_TRAVEL:
-			openFastTravelScreen(pPlayer);
+
+			if(nFloor == 1) {
+				openFastTravelScreen(pPlayer);
+			} else if (nBossResult){
+				openFastTravelScreen(pPlayer);
+			} else {
+				printSystemMessage("You haven't cleared the boss.");
+			}
+
 			break;
 
 		case TILE_BOSS:
-			printSystemMessage("das a boss");
-
-			if (nArea != THE_ELDEN_THRONE) {
+			
+			//If the area is not The Elden Throne, spawn normally.
+			if (nArea != THE_ELDEN_THRONE)
 				sEnemy = spawnBoss(nArea, 0);
-			} else {
+			// If the area is the Elden Throne, check first if first stage or not.
+			else { 
 				sEnemy = spawnBoss(nArea, 1);
 			}
 			
-			nBattleResult = openBattleScreen(sEnemy, pPlayer);
+			//Return 1 if the player won.
+			nBossResult = openBattleScreen(sEnemy, pPlayer);
+
+			//If the player won against the boss.
+			if (nBossResult) {
+				nBattleRewards = sEnemy.nMaxHP * 5;
+				pPlayer->nRunes += nBattleRewards;
+			}
+
+			printResultScreen(2, nBattleResult, nBattleRewards);
+
 			break;
 
 		case TILE_CREDITS:
 			printSystemMessage("credits now!!!");
-			displayCredits();
+
+			if (nBossResult){
+				displayCredits();
+			} else {
+				printSystemMessage("You haven't cleared the boss.");
+			}
+			
 			break;
 	}
 
