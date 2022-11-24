@@ -39,24 +39,86 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 	int nPlayerTurn = 1;
 	int nPlayerMove;
 
+	//var for move attack sub-options
+	int nPhysicalDamage;
+	int nSorceryDamage;
+	int nIncantationDamage;
+
+	int nDodgeRate;
+
 	while (pPlayer->nHealth > 0 || sEnemy.nHP > 0) {
 		nPlayerMove = scanIntInput(1, 4);
 
 		switch(nPlayerMove) {
 			case MOVE_ATTACK:
-
+				nPlayerMove = scanIntInput(1, 4);
+				switch(nPlayerMove){
+					case ATTACK_PHYSICAL:
+						nPhysicalDamage = attackPhy(sEnemy, pPlayer);
+						sEnemy.nHP -= nPhysicalDamage;
+						break;
+					case ATTACK_SORCERY:
+						nSorceryDamage = attackSor(sEnemy, pPlayer);
+						sEnemy.nHP -= nSorceryDamage;
+						break;
+					case ATTACK_INCANTATION:
+						nIncantationDamage = attackInc(sEnemy, pPlayer);
+						sEnemy.nHP -= nIncantationDamage;
+						break;
+				}
 				break;
+
 			case MOVE_DODGE:
+				int nDodgeRandom = getRandomBetween(1, 100);
 
+				if(nDodgeRandom >= 20){
+					nDodgeRate = getDodgeRate();
+					//to be fixed pa
+					//nEnemyTurnAtk == 0; 
+					//nDodgeRate;
+				}
 				break;
+
 			case MOVE_POTION:
+				int nHealRandom = getRandomBetween(1, 100);
+
+				if(nHealRandom <= 25){
+					pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.25);
+					*nPotions -= 1;
+				} else{
+					pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.50);
+					*nPotions -= 1;
+				}
 				
+				if(nPotions <= 0){
+					printSystemMessage("You Do Not Have Any Potions Left. Input a different number.");
+					//loop later on kay player turn
+				}
 				break;
 			case MOVE_SKIP:
 				break;
 		}
 	}
+}
 
-	
+//result make 1 win 0 lose
 
+int attackPhy(Enemy sEnemy, Player* pPlayer){
+	int nPhysicalDamage = (pPlayer->nStrength + pPlayer->pEquippedWeapon->nStr) * (1 - sEnemy.fPhysDef);
+	return nPhysicalDamage;
+}
+
+int attackSor(Enemy sEnemy, Player* pPlayer){
+	int nSorceryDamage = (pPlayer->nIntelligence + pPlayer->pEquippedWeapon->nInt) * (1 - sEnemy.fSorcDef);
+	return nSorceryDamage;
+}
+
+int attackInc(Enemy sEnemy, Player* pPlayer){
+	int nIncantationDamage = (pPlayer->nFaith + pPlayer->pEquippedWeapon->nFth) * (1 - sEnemy.fIncanDef);
+	return nIncantationDamage;
+}
+
+int getDodgeRate(Enemy sEnemy, Player* pPlayer){
+	int nDodgeRate = [20 +((pPlayer->nEndurance + pPlayer->pEquippedWeapon->nEnd) / 2)] / 100;
+	return nDodgeRate;
 }
