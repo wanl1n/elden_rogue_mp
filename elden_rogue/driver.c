@@ -4,17 +4,20 @@
 #include "string.h"
 #include "windows.h"
 #include "time.h"
+#include "driver.h"
 
 #include "utility/printer.c"
 #include "utility/scanner.c"
 #include "utility/colors.c"
-#include "driver.h"
+#include "utility/doors.c"
 
 #include "screens/title_screen.c"
 #include "screens/chara_creation_screen.c"
 #include "screens/roundtable_screen.c"
 #include "screens/areas_screen.c"
 #include "screens/battle_screen.c"
+#include "screens/credits_screen.c"
+
 
 int main() {
 
@@ -38,7 +41,7 @@ int main() {
 
 	//Inventory Initialization
 	pPlayer->pInventory = NULL;
-	Slot sWeapon = {0, "NONE", 0, 0, 0, 0, 0, 0, NULL, NULL};
+	Weapon sWeapon = {0, "NONE", 0, 0, 0, 0, 0, 0, NULL, NULL};
 	pPlayer->pInventory = &sWeapon;
 
 	pPlayer->pEquippedWeapon = &sWeapon;

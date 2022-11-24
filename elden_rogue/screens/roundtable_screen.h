@@ -58,7 +58,7 @@ void openRoundTableHoldScreen(Player* pPlayer);
 void openFastTravelScreen(Player* pPlayer);
 void levelUp(int nStat, Player* pPlayer, int nRuneCost);
 void openLevelUpScreen(Player* pPlayer);
-Slot* findWeapon(int nInputIndex, Player* pPlayer);
+Weapon* findWeapon(int nInputIndex, Player* pPlayer);
 void openInventory(Player* pPlayer);
 void openBuyScreen(Player* pPlayer);
 void openSellScreen(Player* pPlayer);

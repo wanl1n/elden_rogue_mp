@@ -218,7 +218,6 @@ void openCharacterCreationScreen(Player* pPlayer) {
 	
 	int nInput;
 	char aInputName[26] = "";
-	char aInputJob[11];
 
 	int nComplete = 0;
 

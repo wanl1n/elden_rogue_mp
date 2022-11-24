@@ -3,11 +3,13 @@
 #include "roundtable_screen.h"
 #include "areas_screen.h"
 #include "battle_screen.h"
+#include "credits_screen.h"
 
 #include "../driver.h"
 
 #include "../config/settings.h"
 #include "../utility/colors.h"
+#include "../utility/printer.h"
 
 int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 
@@ -699,15 +701,20 @@ void printFloorHeader(int nArea) {
 	}
 }
 
-void printFloorMap(int nArea, int nFloor, int* pPlayerLoc) {
+void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
 
 	int nRow, nCol;
 	int nPadding;
 
+	//Get a reference map of the current floor.
 	int nLength, nWidth;
 	int *pBaseFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
 	nPadding = (SCREEN_WIDTH - nWidth) / 2;
 
+	//Put the player in the reference map for printing.
+	int pPlayerLoc[2];
+	pPlayerLoc[0] = pPlayer->aPlayerLoc[0];
+	pPlayerLoc[1] = pPlayer->aPlayerLoc[1];
 	*(pBaseFloor + (pPlayerLoc[0] * nWidth) + pPlayerLoc[1]) = TILE_PLAYER;
 	
 	//Print Board.
@@ -1006,70 +1013,78 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	char cPlayerInput;
 	char aMoves[] = {'W', 'w', 'A', 'a', 'S', 's', 'D', 'd', 'E', 'e'};
 
-	//Initializing player's starter HP.
+	//Initializing variables.
 	int nFloor = 1; 
 	int *pFloor = &nFloor;
-	// int nPlayerHP = pPlayer->nHealth;
-	int nWeaponHP = pPlayer->pEquippedWeapon->nHP;
+
+	//Initializing Initial Player Stats. 
+	//NOTE: Don't use nPlayerHP and nWeaponHP for anything other than calculating the formula.
+	int nPlayerHP = pPlayer->nHealth; //for calculating Max HP.
+	int nWeaponHP = pPlayer->pEquippedWeapon->nHP; //for calculating Max HP.
 	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
-	pPlayer->nPlayerMaxHP = nPlayerMaxHP;
+	pPlayer->nPlayerMaxHP = nPlayerMaxHP; //Saving Player's Max HP.
 	
-	//Initializing player location.
+	//Saving player location.
 	int* pPlayerLoc = findFastTravelTile(nAreaNumber, nFloor);
+	pPlayer->aPlayerLoc[0] = *(pPlayerLoc + 0);
+	pPlayer->aPlayerLoc[1] = *(pPlayerLoc + 1);
 
 	do {
+		
 		printFloorHeader(nAreaNumber);
-		printFloorMap(nAreaNumber, nFloor, pPlayerLoc);
+		printFloorMap(nAreaNumber, nFloor, pPlayer);
 		printUserInterface(nPlayerMaxHP, pPlayer);
 
 		cPlayerInput = scanCharInput(aMoves, 10);
 
-		processInput(cPlayerInput, nAreaNumber, nFloor, pPlayerLoc, pPlayer);
-	} while (pPlayer->nHealth != 0);
+		processInput(cPlayerInput, nAreaNumber, nFloor, pPlayer);
 
+	} while (pPlayer->nHealth > 0);
+
+	//When the Player dies.
 	if (pPlayer->nHealth <= 0) 
 		printf("DEAD");
 	else
 		printf("win");
 }	
 
-void processInput(char cInput, int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
+void processInput(char cInput, int nArea, int nFloor, Player* pPlayer) {
 
 	switch(cInput) {
 		case 'W':
 		case 'w':
-			movePlayerTile(UP, nArea, nFloor, pPlayerLoc);
+			movePlayerTile(UP, nArea, nFloor, pPlayer);
 			break;
 
 		case 'S':
 		case 's':
-			movePlayerTile(DOWN, nArea, nFloor, pPlayerLoc);
+			movePlayerTile(DOWN, nArea, nFloor, pPlayer);
 			break;
 
 		case 'A':
 		case 'a':
-			movePlayerTile(LEFT, nArea, nFloor, pPlayerLoc);
+			movePlayerTile(LEFT, nArea, nFloor, pPlayer);
 			break;
 
 		case 'D':
 		case 'd':
-			movePlayerTile(RIGHT, nArea, nFloor, pPlayerLoc);
+			movePlayerTile(RIGHT, nArea, nFloor, pPlayer);
 			break;
 
 		case 'E':
 		case 'e':
-			usePlayer(nArea, nFloor, pPlayerLoc, pPlayer);
+			usePlayer(nArea, nFloor, pPlayer);
 			break;
 	}
 }
 
-void movePlayerTile(int nDirection, int nArea, int nFloor, int* pPlayerLoc) {
+void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer) {
 
 	int nLength, nWidth;
 	int* pCurrentFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
 
-	int nRow = pPlayerLoc[0];
-	int nCol = pPlayerLoc[1];
+	int nRow = pPlayer->aPlayerLoc[0];
+	int nCol = pPlayer->aPlayerLoc[1];
 
 	switch(nDirection) {
 		case UP:
@@ -1098,8 +1113,8 @@ void movePlayerTile(int nDirection, int nArea, int nFloor, int* pPlayerLoc) {
 			break;
 	}
 
-	pPlayerLoc[0] = nRow;
-	pPlayerLoc[1] = nCol;
+	pPlayer->aPlayerLoc[0] = nRow;
+	pPlayer->aPlayerLoc[1] = nCol;
 
 	free(pCurrentFloor);
 }
@@ -1176,19 +1191,109 @@ Enemy spawnEnemy(int nArea) {
 	return sEnemy;
 }
 
+Enemy spawnBoss(int nArea, int nEldenThroneStage) {
+
+	Enemy sEnemy;
+
+	sEnemy.nType = 4; //BOSS TYPE IS 4.
+
+	switch(nArea) {
+		case STORMVEIL:
+			strcpy(sEnemy.strName, "GODRICK THE GRAFTED");
+			sEnemy.nHP = 200;
+			sEnemy.nAtk = getRandomBetween(150, 300);
+			sEnemy.fPhysDef = 0.35;
+			sEnemy.fSorcDef = 0.20;
+			sEnemy.fIncanDef = 0.15;
+			break;
+		case RAYA_LUCARIA:
+			strcpy(sEnemy.strName, "RENNALA, QUEEN  OF THE FULL MOON");
+			sEnemy.nHP = 400;
+			sEnemy.nAtk = getRandomBetween(200, 300);
+			sEnemy.fPhysDef = 0.15;
+			sEnemy.fSorcDef = 0.35;
+			sEnemy.fIncanDef = 0.25;
+			break;
+		case REDMANE_CASTLE:
+			strcpy(sEnemy.strName, "STARSCOURGE RADAHN");
+			sEnemy.nHP = 600;
+			sEnemy.nAtk = getRandomBetween(200, 400);
+			sEnemy.fPhysDef = 0.30;
+			sEnemy.fSorcDef = 0.20;
+			sEnemy.fIncanDef = 0.20;
+			break;
+		case VOLCANO_MANOR:
+			strcpy(sEnemy.strName, "PRAETOR RYKARD");
+			sEnemy.nHP = 600;
+			sEnemy.nAtk = getRandomBetween(250, 350);
+			sEnemy.fPhysDef = 0.15;
+			sEnemy.fSorcDef = 0.25;
+			sEnemy.fIncanDef = 0.30;
+			break;
+		case LEYNDELL_CAPITAL:
+			strcpy(sEnemy.strName, "MORGOTT THE OMEN KING");
+			sEnemy.nHP = 800;
+			sEnemy.nAtk = getRandomBetween(250, 500);
+			sEnemy.fPhysDef = 0.35;
+			sEnemy.fSorcDef = 0.30;
+			sEnemy.fIncanDef = 0.20;
+			break;
+		case THE_ELDEN_THRONE:
+			if (nEldenThroneStage == 1) {
+				strcpy(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER");
+				sEnemy.nHP = 1000;
+				sEnemy.nAtk = getRandomBetween(300, 600);
+				sEnemy.fPhysDef = 0.35;
+				sEnemy.fSorcDef = 0.25;
+				sEnemy.fIncanDef = 0.40;
+			} else {
+				strcpy(sEnemy.strName, "THE ELDEN BEAST");
+				sEnemy.nHP = 1250;
+				sEnemy.nAtk = getRandomBetween(450, 900);
+				sEnemy.fPhysDef = 0.25;
+				sEnemy.fSorcDef = 0.50;
+				sEnemy.fIncanDef = 0.40;
+			}
+			break;
+	}
+
+	return sEnemy;
+}
+
 int spawnTreasure(int nArea) {
 	int nRewards = getRandomBetween(50, 150) * nArea;
 
 	return nRewards;
 }
 
-void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
+void printResultScreen(int nType, int nBattleResult, int nRewards) {
+	
+	if (nBattleResult) {
 
+		if (nType == 1) {
+			printHeader("ENEMY FELLED", 12);
+		} else if (nType == 2) {
+			printHeader("GREAT ENEMY FELLED", 18);
+		}
+
+		printf("\t\tYou gained %d runes.", nRewards);
+	} else {
+
+		printHeader("YOU DIED", 8);
+	}
+}
+
+void usePlayer(int nArea, int nFloor, Player* pPlayer) {
+
+	//Make a reference map for the current floor.
 	int nLength, nWidth;
 	int nSpawnTile;
+	int nBattleResult, nBossResult;
+	int nBattleRewards;
 	int* pFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
 
-	int nTileType = *(pFloor + (*(pPlayerLoc + 0) * nWidth) + *(pPlayerLoc + 1));
+	//Get the tile the player is standing on right now.
+	int nTileType = *(pFloor + (pPlayer->aPlayerLoc[0] * nWidth) + pPlayer->aPlayerLoc[1]);
 
 	Enemy sEnemy;
 
@@ -1211,7 +1316,14 @@ void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 
 				sEnemy = spawnEnemy(nArea);
 				printSystemMessage("You encountered an enemy.");
-				openBattleScreen(sEnemy, pPlayer);
+				nBattleResult = openBattleScreen(sEnemy, pPlayer);
+
+				if (nBattleResult){
+					nBattleRewards = sEnemy.nMaxHP * 2;
+					pPlayer->nRunes += nBattleRewards;
+				}
+
+				printResultScreen(1, nBattleResult, nBattleRewards);
 			}
 
 			break;
@@ -1222,15 +1334,49 @@ void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer) {
 			break;
 
 		case TILE_FAST_TRAVEL:
-			openFastTravelScreen(pPlayer);
+
+			if(nFloor == 1) {
+				openFastTravelScreen(pPlayer);
+			} else if (nBossResult){
+				openFastTravelScreen(pPlayer);
+			} else {
+				printSystemMessage("You haven't cleared the boss.");
+			}
+
 			break;
 
 		case TILE_BOSS:
-			printSystemMessage("das a boss");
+			
+			//If the area is not The Elden Throne, spawn normally.
+			if (nArea != THE_ELDEN_THRONE)
+				sEnemy = spawnBoss(nArea, 0);
+			// If the area is the Elden Throne, check first if first stage or not.
+			else { 
+				sEnemy = spawnBoss(nArea, 1);
+			}
+			
+			//Return 1 if the player won.
+			nBossResult = openBattleScreen(sEnemy, pPlayer);
+
+			//If the player won against the boss.
+			if (nBossResult) {
+				nBattleRewards = sEnemy.nMaxHP * 5;
+				pPlayer->nRunes += nBattleRewards;
+			}
+
+			printResultScreen(2, nBattleResult, nBattleRewards);
+
 			break;
 
 		case TILE_CREDITS:
 			printSystemMessage("credits now!!!");
+
+			if (nBossResult){
+				displayCredits();
+			} else {
+				printSystemMessage("You haven't cleared the boss.");
+			}
+			
 			break;
 	}
 

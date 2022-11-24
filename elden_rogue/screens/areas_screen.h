@@ -39,23 +39,10 @@
 #define TREASURE			1
 #define ENEMY				0
 
-struct DoorTag {
-	
-	int nArea;
-	int nFloorNumber;
-
-	int* nLoc;
-
-	struct DoorTag* pDoorBack;
-	struct DoorTag* pDoorForward;
-
-};
-typedef struct DoorTag Door;
-
 
 int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth);
 void printFloorHeader(int nArea);
-void printFloorMap(int nArea, int nFloorLength, int* pPlayerLoc);
+void printFloorMap(int nArea, int nFloorLength, Player* pPlayer);
 void printBorder(int nType, int nPosition);
 
 void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP);
@@ -66,9 +53,9 @@ void printUserInterface(int nPlayerMaxHP, Player* pPlayer);
 int* findFastTravelTile(int nArea, int nFloor);
 
 void openAreaScreen(int nAreaNumber, Player* pPlayer);
-void processInput(char cInput, int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer);
+void processInput(char cInput, int nArea, int nFloor, Player* pPlayer);
 
-void movePlayerTile(int nDirection, int nArea, int nFloor, int* pPlayerLoc);
+void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer);
 void goNextDoor(Door* sDoor);
 void goBackDoor(Door* sDoor);
 
@@ -76,6 +63,6 @@ int getRandomBetween(int nLower, int nUpper);
 int getRandomSpawn();
 Enemy spawnEnemy(int nArea);
 int spawnTreasure(int nArea);
-void usePlayer(int nArea, int nFloor, int* pPlayerLoc, Player* pPlayer);
+void usePlayer(int nArea, int nFloor, Player* pPlayer);
 
 #endif 
