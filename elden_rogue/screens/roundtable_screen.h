@@ -45,12 +45,10 @@
 
 void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer);
 void displayShop();
-void displayBuyShop(Player* pPlayer);
 void displaySellShop(Player* pPlayer);
 void displaySaveScreen(Player* pPlayer);
 
 void openRoundTableHoldScreen(Player* pPlayer);
-void openBuyScreen(Player* pPlayer);
 void openSellScreen(Player* pPlayer);
 void openShop(Player* pPlayer);
 void openSaveScreen(Player* pPlayer);

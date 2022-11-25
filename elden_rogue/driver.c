@@ -43,11 +43,12 @@ int main() {
 	pPlayer = &sPlayer;
 
 	//Inventory Initialization
-	pPlayer->pInventory = NULL;
-	Weapon sWeapon = {0, "NONE", 0, 0, 0, 0, 0, 0, NULL, NULL};
-	pPlayer->pInventory = &sWeapon;
+	Weapon sWeaponBase = {0, "NONE", 0, 0, 0, 0, 0, 0};
+	Weapon* sEmptyWeapon = &sWeaponBase;
+	pPlayer->pInventory->sWeapon = sEmptyWeapon;
+	pPlayer->pInventory->pNext = NULL;
 
-	pPlayer->pEquippedWeapon = &sWeapon;
+	pPlayer->pEquippedWeapon = sEmptyWeapon;
 
 	resetColors();
 	openTitleScreen(pPlayer);

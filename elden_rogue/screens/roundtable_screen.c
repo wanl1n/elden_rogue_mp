@@ -81,21 +81,6 @@ void displayShop() {
 	printInputTag();
 }
 
-void displayBuyShop(Player* pPlayer) {
-	
-	system("cls");
-
-	printHeader("ROUNDTABLE HOLD", 15);
-	
-	printf("		____SHOP____	RUNES: %d\n"
-		"[1] SHORT SWORD		$1000 	DEX: 13\n"
-		"[2] ROGIER'S RAPIER	$2000 	DEX: 18\n"
-		"[3] CODED SWORD		$4000 	DEX: 21\n"
-		"[4] NIGHT & FLAME		$8000 	DEX: 25\n"
-		"[0] BACK\n\n"
-		"INPUT: ", pPlayer->nRunes);
-}
-
 void displaySellShop(Player* pPlayer) {
 	system("cls");
 
@@ -152,11 +137,6 @@ void openRoundTableHoldScreen(Player* pPlayer) {
 			openTitleScreen(pPlayer);
 			break;
 	}
-}
-
-
-void openBuyScreen(Player* pPlayer) {
-	displayBuyShop(pPlayer);
 }
 
 void openSellScreen(Player* pPlayer) {

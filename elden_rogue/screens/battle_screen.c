@@ -50,25 +50,33 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 		nPlayerMove = scanIntInput(1, 4);
 
 		switch(nPlayerMove) {
+
 			case MOVE_ATTACK:
+
 				nPlayerMove = scanIntInput(1, 4);
+
 				switch(nPlayerMove){
+
 					case ATTACK_PHYSICAL:
 						nPhysicalDamage = attackPhy(sEnemy, pPlayer);
 						sEnemy.nHP -= nPhysicalDamage;
 						break;
+
 					case ATTACK_SORCERY:
 						nSorceryDamage = attackSor(sEnemy, pPlayer);
 						sEnemy.nHP -= nSorceryDamage;
 						break;
+
 					case ATTACK_INCANTATION:
 						nIncantationDamage = attackInc(sEnemy, pPlayer);
 						sEnemy.nHP -= nIncantationDamage;
 						break;
 				}
+
 				break;
 
 			case MOVE_DODGE:
+
 				int nDodgeRandom = getRandomBetween(1, 100);
 
 				if(nDodgeRandom >= 20){
@@ -77,9 +85,11 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 					//nEnemyTurnAtk == 0; 
 					//nDodgeRate;
 				}
+				
 				break;
 
 			case MOVE_POTION:
+
 				int nHealRandom = getRandomBetween(1, 100);
 
 				if(nHealRandom <= 25){
@@ -94,7 +104,9 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 					printSystemMessage("You Do Not Have Any Potions Left. Input a different number.");
 					//loop later on kay player turn
 				}
+
 				break;
+
 			case MOVE_SKIP:
 				break;
 		}
