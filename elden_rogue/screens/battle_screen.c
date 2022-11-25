@@ -10,7 +10,7 @@
 #include "../utility/colors.h"
 
 
-void displayBattleScreen(Player* pPlayer, Enemy* pEnemy) {
+void displayBattleScreen(Player* pPlayer, Enemy sEnemy) {
 	printHeader("BATTLE TIME", 11);
 	printf("\t\t[NAME]: %s\n", pPlayer->strName);
 	printPlayerHealth(pPlayer->nHealth, pPlayer->nPlayerMaxHP);
@@ -18,9 +18,9 @@ void displayBattleScreen(Player* pPlayer, Enemy* pEnemy) {
 	printf("\t\t[POTIONS]: %d\n", pPlayer->nPotions);
 	//player sprite
 
-	printf("\t\t[ENEMY NAME]: %s\n", pEnemy->strName);
-	printPlayerHealth(pEnemy->nHP, pEnemy->nHP);
-	printf("%d", pEnemy->nHP);
+	printf("\t\t[ENEMY NAME]: %s\n", sEnemy.strName);
+	printPlayerHealth(sEnemy.nHP, sEnemy.nMaxHP);
+	printf("%d", sEnemy.nHP);
 	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", 1);
 	//ENEMY sprite
 
@@ -72,7 +72,7 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 				int nDodgeRandom = getRandomBetween(1, 100);
 
 				if(nDodgeRandom >= 20){
-					nDodgeRate = getDodgeRate();
+					nDodgeRate = getDodgeRate(sEnemy, pPlayer);
 					//to be fixed pa
 					//nEnemyTurnAtk == 0; 
 					//nDodgeRate;
@@ -84,13 +84,13 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 
 				if(nHealRandom <= 25){
 					pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.25);
-					*nPotions -= 1;
+					pPlayer->nPotions -= 1;
 				} else{
 					pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.50);
-					*nPotions -= 1;
+					pPlayer->nPotions -= 1;
 				}
 				
-				if(nPotions <= 0){
+				if(pPlayer->nPotions <= 0){
 					printSystemMessage("You Do Not Have Any Potions Left. Input a different number.");
 					//loop later on kay player turn
 				}
@@ -119,6 +119,6 @@ int attackInc(Enemy sEnemy, Player* pPlayer){
 }
 
 int getDodgeRate(Enemy sEnemy, Player* pPlayer){
-	int nDodgeRate = [20 +((pPlayer->nEndurance + pPlayer->pEquippedWeapon->nEnd) / 2)] / 100;
+	int nDodgeRate = (20 +((pPlayer->nEndurance + pPlayer->pEquippedWeapon->nEnd) / 2)) / 100;
 	return nDodgeRate;
 }

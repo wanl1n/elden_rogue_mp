@@ -12,4 +12,9 @@
 
 void openBattleScreen(Enemy sEnemy, Player* pPlayer);
 
+int attackPhy(Enemy sEnemy, Player* pPlayer);
+int attackSor(Enemy sEnemy, Player* pPlayer);
+int attackInc(Enemy sEnemy, Player* pPlayer);
+int getDodgeRate(Enemy sEnemy, Player* pPlayer);
+
 #endif 
