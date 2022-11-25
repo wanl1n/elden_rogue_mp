@@ -44,22 +44,12 @@
 #define S_BACK				0
 
 void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer);
-void displayFastTravelScreen(int nPrompt);
-void displayLevelUpScreen(int nPrompt, Player* pPlayer, int nRuneCost);
-void printInventorySlot(int nIndex, char strName[], int nDexReq);
-void printInventoryGrid(Player* pPlayer);
-void displayInventory(int nPrompt, Player* pPlayer);
 void displayShop();
 void displayBuyShop(Player* pPlayer);
 void displaySellShop(Player* pPlayer);
 void displaySaveScreen(Player* pPlayer);
 
 void openRoundTableHoldScreen(Player* pPlayer);
-void openFastTravelScreen(Player* pPlayer);
-void levelUp(int nStat, Player* pPlayer, int nRuneCost);
-void openLevelUpScreen(Player* pPlayer);
-Weapon* findWeapon(int nInputIndex, Player* pPlayer);
-void openInventory(Player* pPlayer);
 void openBuyScreen(Player* pPlayer);
 void openSellScreen(Player* pPlayer);
 void openShop(Player* pPlayer);

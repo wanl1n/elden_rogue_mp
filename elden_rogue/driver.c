@@ -17,6 +17,9 @@
 #include "screens/areas_screen.c"
 #include "screens/battle_screen.c"
 #include "screens/credits_screen.c"
+#include "screens/roundtable_screens/fasttravel_screen.c"
+#include "screens/roundtable_screens/levelup_screen.c"
+#include "screens/roundtable_screens/inventory_screen.c"
 
 
 int main() {
