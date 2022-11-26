@@ -6,6 +6,7 @@
 #include "roundtable_screens/fasttravel_screen.h"
 #include "roundtable_screens/levelup_screen.h"
 #include "roundtable_screens/inventory_screen.h"
+#include "roundtable_screens/buy_screen.h"
 
 #include "../driver.h"
 

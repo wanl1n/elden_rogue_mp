@@ -19,11 +19,19 @@ typedef struct WeaponItem Weapon;
 
 struct InventorySlot {
 
-	Weapon* sWeapon;
+	Weapon* pWeapon;
 
 	struct InventorySlot* pNext;
 };
 typedef struct InventorySlot Slot;
+
+struct ShopStock {
+
+	Weapon sWeapon;
+	
+	int nCost;
+};
+typedef struct ShopStock Stock;
 
 typedef struct Player {
 

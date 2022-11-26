@@ -66,8 +66,8 @@ void printInventorySlot(Weapon sWeapon) {
 void printInventoryGrid(Player* pPlayer) {
 
 	Slot* pTempSlot = pPlayer->pInventory;
-	Weapon* sWeapon = pTempSlot->sWeapon;
-	Weapon* sEmpty = createEmptyWeapon();
+	Weapon* pWeapon = pTempSlot->pWeapon;
+	Weapon* pEmpty = createEmptyWeapon();
 
 	int nRowCounter = 0;
 	int nColCounter = 0;
@@ -80,13 +80,13 @@ void printInventoryGrid(Player* pPlayer) {
 
 		while(nColCounter <= INVENTORY_MAX_COLS) {
 
-			if (!strcmp(pTempSlot->sWeapon->strWeaponName, "NONE") || pTempSlot == NULL) { //only true if walang laman
-				printInventorySlot(*sEmpty);
+			if (!strcmp(pTempSlot->pWeapon->strWeaponName, "NONE") || pTempSlot == NULL) { //only true if walang laman
+				printInventorySlot(*pEmpty);
 			} else {
-				printInventorySlot(*sWeapon);
+				printInventorySlot(*pWeapon);
 
 				pTempSlot = pTempSlot->pNext;
-				sWeapon = pTempSlot->sWeapon;
+				pWeapon = pTempSlot->pWeapon;
 			}
 			nColCounter++;
 		}
@@ -128,44 +128,44 @@ void displayInventory(int nPrompt, Player* pPlayer) {
 Weapon* findWeapon(int nInputIndex, Player* pPlayer) {
 
 	Slot* pWeaponSlot = pPlayer->pInventory;
-	Weapon* sWeapon = pWeaponSlot->sWeapon;
+	Weapon* pWeapon = pWeaponSlot->pWeapon;
 	
-	while(sWeapon->nWeaponIndex != nInputIndex || pWeaponSlot != NULL) {
+	while(pWeapon->nWeaponIndex != nInputIndex || pWeaponSlot != NULL) {
 		pWeaponSlot = pWeaponSlot->pNext;
-		sWeapon = pWeaponSlot->sWeapon;
+		pWeapon = pWeaponSlot->pWeapon;
 	}
 
-	return sWeapon;
+	return pWeapon;
 }
 
 Weapon* createEmptyWeapon() {
 	
-	Weapon* sWeapon;
+	Weapon* pWeapon;
 
-	sWeapon->nWeaponIndex = 0;
-	strcpy(sWeapon->strWeaponName, "NONE");
+	pWeapon->nWeaponIndex = 0;
+	strcpy(pWeapon->strWeaponName, "NONE");
 
-	sWeapon->nDexReq = 0;
-	sWeapon->nHP = 0;
-	sWeapon->nInt = 0;
-	sWeapon->nEnd = 0;
-	sWeapon->nStr = 0;
-	sWeapon->nFth = 0;
+	pWeapon->nDexReq = 0;
+	pWeapon->nHP = 0;
+	pWeapon->nInt = 0;
+	pWeapon->nEnd = 0;
+	pWeapon->nStr = 0;
+	pWeapon->nFth = 0;
 
-	return sWeapon;
+	return pWeapon;
 }
 
 void sortInventory(Player* pPlayer) {
 	
 	Slot* sInventorySlot = pPlayer->pInventory;
 
-	if (!strcmp(sInventorySlot->pNext->sWeapon->strWeaponName, "NONE")) {
+	if (!strcmp(sInventorySlot->pNext->pWeapon->strWeaponName, "NONE")) {
 		
-		if (strcmp(sInventorySlot->pNext->pNext->sWeapon->strWeaponName, "NONE")) {
+		if (strcmp(sInventorySlot->pNext->pNext->pWeapon->strWeaponName, "NONE")) {
 			
 			while (sInventorySlot->pNext != NULL) {
 				if (sInventorySlot->pNext->pNext != NULL)
-					sInventorySlot->pNext->pNext->sWeapon->nWeaponIndex--;
+					sInventorySlot->pNext->pNext->pWeapon->nWeaponIndex--;
 				sInventorySlot->pNext = sInventorySlot->pNext->pNext;
 				sInventorySlot = sInventorySlot->pNext;
 			}
@@ -180,20 +180,20 @@ void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer) {
 	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
 
 	//Find the weapon and set it to slot.
-	while (!strcmp(sInventorySlot->sWeapon->strWeaponName, sWeapon.strWeaponName) && 
-			sInventorySlot->sWeapon->nWeaponIndex == sWeapon.nWeaponIndex) {
+	while (!strcmp(sInventorySlot->pWeapon->strWeaponName, sWeapon.strWeaponName) && 
+			sInventorySlot->pWeapon->nWeaponIndex == sWeapon.nWeaponIndex) {
 		sInventorySlot = sInventorySlot->pNext;
 	}
 
 	//Set the slot to empty.
-	sInventorySlot->sWeapon = createEmptyWeapon();
+	sInventorySlot->pWeapon = createEmptyWeapon();
 	pPlayer->pInventory = sInventorySlot;
 
 	//Remove empty spaces between items.
 	sortInventory(pPlayer);
 }
 
-void addWeaponToInventory(Weapon* sWeapon, Player* pPlayer) {
+void addWeaponToInventory(Weapon* pWeapon, Player* pPlayer) {
 	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
 
 	//Get the last inventory slot.
@@ -202,10 +202,12 @@ void addWeaponToInventory(Weapon* sWeapon, Player* pPlayer) {
 	}
 
 	//Set the next of the Last item to the removed equipped item.
-	sInventorySlot->pNext->sWeapon = sWeapon;
+	sInventorySlot->pNext->pWeapon = pWeapon;
+	//Set the index of the new item.
+	sInventorySlot->pNext->pWeapon->nWeaponIndex = sInventorySlot->pWeapon->nWeaponIndex + 1;
 
+	//Update the player's inventory.
 	pPlayer->pInventory = sInventorySlot;
-
 }
 
 //Central Inventory Function
