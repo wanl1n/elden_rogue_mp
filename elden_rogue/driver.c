@@ -20,6 +20,7 @@
 #include "screens/roundtable_screens/fasttravel_screen.c"
 #include "screens/roundtable_screens/levelup_screen.c"
 #include "screens/roundtable_screens/inventory_screen.c"
+#include "screens/roundtable_screens/buy_screen.c"
 
 
 int main() {

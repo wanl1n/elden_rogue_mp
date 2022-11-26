@@ -115,7 +115,7 @@ void printShopSlot(Stock sShopStock) {
 	printMultiple(" ", nSpaces);
 	printf("│");
 	printMultiple(" ", nSpaces);
-	printf("%*d", 2, sWeapon.sFth);
+	printf("%*d", 2, sWeapon.nFth);
 	printMultiple(" ", nSpaces);
 	printf("│\n");
 	
@@ -158,19 +158,19 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* sStockList) {
 	switch(nPrompt) {
 		case ITEM_ONE:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_ONE - 1)->sWeapon->strWeaponName);
+				*(sStockList + ITEM_ONE - 1)->sWeapon.strWeaponName);
 			break;
 		case ITEM_TWO:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_TWO - 1)->sWeapon->strWeaponName);
+				*(sStockList + ITEM_TWO - 1)->sWeapon.strWeaponName);
 			break;
 		case ITEM_THREE:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_THREE - 1)->sWeapon->strWeaponName);
+				*(sStockList + ITEM_THREE - 1)->sWeapon.strWeaponName);
 			break;
 		case ITEM_FOUR:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_FOUR - 1)->sWeapon->strWeaponName);
+				*(sStockList + ITEM_FOUR - 1)->sWeapon.strWeaponName);
 			break;
 		case UNSUCCESSFUL:
 			printf("[SYSTEM MESSAGE]: You don't have enough runes to buy that.\n"); 
@@ -311,7 +311,7 @@ Stock getStockFromShop(Stock* sChosenType, int nIndex) {
 	int i;
 
 	for(i = 1; i <= 4; i++) {
-		if (sChosenType.sWeapon.nWeaponIndex == nIndex)
+		if (sChosenType->sWeapon.nWeaponIndex == nIndex)
 			return *(sChosenType + (nIndex-1));
 	}
 }
@@ -320,12 +320,14 @@ Weapon* getWeaponfromStock(Stock sStock) {
 }
 
 void openBuyScreen(Player* pPlayer) {
-	displayBuyTypes(pPlayer);
 
-	int nInputBuy = nInputWeaponType = 100;
+	int nInputBuy = 100;
+	int nInputWeaponType = 100;
 	Stock* pStockOfType;
 	Stock sStockToBeBought;
 	Weapon* pWeaponChosen;
+
+	displayBuyTypes(-1, pPlayer);
 
 	while (nInputWeaponType != 0) {
 
@@ -333,13 +335,13 @@ void openBuyScreen(Player* pPlayer) {
 
 		pStockOfType = getStocksFromType(nInputWeaponType);
 
-		displayBuyStocks(pPlayer, pStockOfType);
+		displayBuyStocks(-1, pPlayer, pStockOfType);
 
 		while (nInputBuy != 0) {
 
 			nInputBuy = scanIntInput(0, 4); //Input which weapon.
 
-			sStockToBeBought = getStockFromShop(nInputWeaponType);
+			sStockToBeBought = getStockFromShop(pStockOfType, nInputWeaponType);
 
 			if (sStockToBeBought.nCost <= pPlayer->nRunes) {
 
