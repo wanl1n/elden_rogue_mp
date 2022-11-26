@@ -7,6 +7,8 @@ struct WeaponItem {
 	int nWeaponIndex;
 	char strWeaponName[24];
 
+	int nWeaponType;
+
 	int nDexReq;
 	int nHP;
 	int nInt;

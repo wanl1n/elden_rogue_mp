@@ -2,6 +2,7 @@
 #include "../title_screen.h"
 #include "../roundtable_screen.h"
 #include "../areas_screen.h"
+#include "inventory_screen.h"
 
 #include "../../driver.h"
 
@@ -230,35 +231,35 @@ void displayBuyTypes(int nPrompt, Player* pPlayer) {
 Stock* getStocksFromType(int nWeaponType) {
 	Stock* pWeaponsOfType = malloc(sizeof(Stock) * 4);
 
-	Stock aSwords[4] = {{{ITEM_ONE, "SHORT SWORD", 13, 0, 15, 15, 15, 15}, 1000},
-						{{ITEM_TWO, "ROGIER'S RAPIER", 18, 10, 35, 25, 35, 35}, 2000},
-						{{ITEM_THREE, "CODED SWORD", 21, 20, 40, 35, 40, 40}, 4000},
-						{{ITEM_FOUR, "SWORD OF NIGHT AND FLAME", 25, 30, 55, 45, 55, 55}, 8000}};
+	Stock aSwords[4] = {{{ITEM_ONE, "SHORT SWORD", WEAPON_SWORD, 13, 0, 15, 15, 15, 15}, 1000},
+						{{ITEM_TWO, "ROGIER'S RAPIER", WEAPON_SWORD, 18, 10, 35, 25, 35, 35}, 2000},
+						{{ITEM_THREE, "CODED SWORD", WEAPON_SWORD, 21, 20, 40, 35, 40, 40}, 4000},
+						{{ITEM_FOUR, "SWORD OF NIGHT AND FLAME", WEAPON_SWORD, 25, 30, 55, 45, 55, 55}, 8000}};
 	
-	Stock aKatanas[4] = {{{ITEM_ONE, "UCHIGATANA", 15, 20, 0, 35, 30, 0}, 1875},
-						 {{ITEM_TWO, "MOONVEIL", 20, 30, 0, 40, 45, 0}, 3750},
-						 {{ITEM_THREE, "RIVERS OF BLOOD", 25, 40, 0, 45, 60, 0}, 7500},
-						 {{ITEM_FOUR, "HAND OF MALENIA", 30, 50, 0, 50, 75, 0}, 15000}};
+	Stock aKatanas[4] = {{{ITEM_ONE, "UCHIGATANA", WEAPON_KATANA, 15, 20, 0, 35, 30, 0}, 1875},
+						 {{ITEM_TWO, "MOONVEIL", WEAPON_KATANA, 20, 30, 0, 40, 45, 0}, 3750},
+						 {{ITEM_THREE, "RIVERS OF BLOOD", WEAPON_KATANA, 25, 40, 0, 45, 60, 0}, 7500},
+						 {{ITEM_FOUR, "HAND OF MALENIA", WEAPON_KATANA, 30, 50, 0, 50, 75, 0}, 15000}};
 	
-	Stock aWhips[4] = {{{ITEM_ONE, "WHIP", 20, 15, 0, 60, 20, 0}, 1500},
-					   {{ITEM_TWO, "URUMI", 25, 20, 10, 70, 40, 0}, 3000},
-					   {{ITEM_THREE, "THORNED WHIP", 30, 30, 0, 80, 50, 40}, 5000},
-					   {{ITEM_FOUR, "HOSLOW’S PETAL WHIP", 35, 35, 20, 90, 55, 20}, 10000}};
+	Stock aWhips[4] = {{{ITEM_ONE, "WHIP", WEAPON_WHIP, 20, 15, 0, 60, 20, 0}, 1500},
+					   {{ITEM_TWO, "URUMI", WEAPON_WHIP, 25, 20, 10, 70, 40, 0}, 3000},
+					   {{ITEM_THREE, "THORNED WHIP", WEAPON_WHIP, 30, 30, 0, 80, 50, 40}, 5000},
+					   {{ITEM_FOUR, "HOSLOW’S PETAL WHIP", WEAPON_WHIP, 35, 35, 20, 90, 55, 20}, 10000}};
 	
-	Stock aGreatswords[4] = {{{ITEM_ONE, "CLAYMORE", 9, 15, 0, 10, 20, 0}, 3000},
-						     {{ITEM_TWO, "STARSCOURGE GREATSWORD", 14, 20, 0, 15, 40, 20}, 6000},
-						     {{ITEM_THREE, "INSEPARABLE SWORD", 19, 25, 60, 20, 70, 60}, 12000},
-						     {{ITEM_FOUR, "MALIKETH’S BLACK BLADE", 24, 30, 40, 25, 80, 60}, 24000}};
+	Stock aGreatswords[4] = {{{ITEM_ONE, "CLAYMORE", WEAPON_GREATSWORD, 9, 15, 0, 10, 20, 0}, 3000},
+						     {{ITEM_TWO, "STARSCOURGE GREATSWORD", WEAPON_GREATSWORD, 14, 20, 0, 15, 40, 20}, 6000},
+						     {{ITEM_THREE, "INSEPARABLE SWORD", WEAPON_GREATSWORD, 19, 25, 60, 20, 70, 60}, 12000},
+						     {{ITEM_FOUR, "MALIKETH’S BLACK BLADE", WEAPON_GREATSWORD, 24, 30, 40, 25, 80, 60}, 24000}};
 	
-	Stock aStaves[4] = {{{ITEM_ONE, "ASTROLOGER’S STAFF", 12, 5, 25, 20, 5, 15}, 2000},
-						 {{ITEM_TWO, "ALBINAURIC STAFF", 14, 10, 45, 30, 10, 35}, 4000},
-						 {{ITEM_THREE, "STAFF OF THE GUILTY", 16, 15, 65, 40, 15, 60}, 8000},
-						 {{ITEM_FOUR, "CARIAN REGAL SCEPTER", 18, 25, 85, 50, 20, 75}, 16000}};
+	Stock aStaves[4] = {{{ITEM_ONE, "ASTROLOGER’S STAFF", WEAPON_STAVE, 12, 5, 25, 20, 5, 15}, 2000},
+						 {{ITEM_TWO, "ALBINAURIC STAFF", WEAPON_STAVE, 14, 10, 45, 30, 10, 35}, 4000},
+						 {{ITEM_THREE, "STAFF OF THE GUILTY", WEAPON_STAVE, 16, 15, 65, 40, 15, 60}, 8000},
+						 {{ITEM_FOUR, "CARIAN REGAL SCEPTER", WEAPON_STAVE, 18, 25, 85, 50, 20, 75}, 16000}};
 	
-	Stock aSeals[4] = {{{ITEM_ONE, "FINGER SEAL", 10, 10, 16, 45, 0, 20}, 2500},
-					   {{ITEM_TWO, "GODSLAYER’S SEAL", 12, 15, 35, 50, 0, 40}, 5000},
-					   {{ITEM_THREE, "GOLDEN ORDER SEAL", 14, 20, 65, 55, 0, 65}, 10000},
-					   {{ITEM_FOUR, "DRAGON COMMUNION SEAL", 18, 25, 75, 60, 0, 80}, 15000}};
+	Stock aSeals[4] = {{{ITEM_ONE, "FINGER SEAL", WEAPON_SEAL, 10, 10, 16, 45, 0, 20}, 2500},
+					   {{ITEM_TWO, "GODSLAYER’S SEAL", WEAPON_SEAL, 12, 15, 35, 50, 0, 40}, 5000},
+					   {{ITEM_THREE, "GOLDEN ORDER SEAL", WEAPON_SEAL, 14, 20, 65, 55, 0, 65}, 10000},
+					   {{ITEM_FOUR, "DRAGON COMMUNION SEAL", WEAPON_SEAL, 18, 25, 75, 60, 0, 80}, 15000}};
 
 	int i;
 
@@ -314,9 +315,6 @@ Stock getStockFromShop(Stock* sChosenType, int nIndex) {
 		if (sChosenType->sWeapon.nWeaponIndex == nIndex)
 			return *(sChosenType + (nIndex-1));
 	}
-}
-
-Weapon* getWeaponfromStock(Stock sStock) {	
 }
 
 void openBuyScreen(Player* pPlayer) {

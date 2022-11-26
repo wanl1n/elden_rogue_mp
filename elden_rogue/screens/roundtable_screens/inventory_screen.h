@@ -5,8 +5,8 @@
 #define INVENTORY_MAX_COLS	4
 
 void printInventorySlot(Weapon sWeapon);
-void printInventoryGrid(Player* pPlayer);
-void displayInventory(int nPrompt, Player* pPlayer);
+void printInventoryGrid(Player* pPlayer, int nPage);
+void displayInventory(int nPrompt, Player* pPlayer, int nPage);
 
 Weapon* findWeapon(int nInputIndex, Player* pPlayer);
 Weapon* createEmptyWeapon();

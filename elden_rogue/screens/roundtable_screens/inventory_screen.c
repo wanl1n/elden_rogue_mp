@@ -63,7 +63,7 @@ void printInventorySlot(Weapon sWeapon) {
 	printf("\n");
 }
 
-void printInventoryGrid(Player* pPlayer) {
+void printInventoryGrid(Player* pPlayer, int nPage) {
 
 	Slot* pTempSlot = pPlayer->pInventory;
 	Weapon* pWeapon = pTempSlot->pWeapon;
@@ -76,9 +76,9 @@ void printInventoryGrid(Player* pPlayer) {
 
 	//Print existing weapons in a 4x3 grid.
 	//Traversing Linked List
-	while (nRowCounter <= INVENTORY_MAX_ROWS) {
+	while (nRowCounter*nPage <= INVENTORY_MAX_ROWS*nPage) {
 
-		while(nColCounter <= INVENTORY_MAX_COLS) {
+		while(nColCounter*nPage <= INVENTORY_MAX_COLS*nPage) {
 
 			if (!strcmp(pTempSlot->pWeapon->strWeaponName, "NONE") || pTempSlot == NULL) { //only true if walang laman
 				printInventorySlot(*pEmpty);
@@ -94,7 +94,7 @@ void printInventoryGrid(Player* pPlayer) {
 	}
 }
 
-void displayInventory(int nPrompt, Player* pPlayer) {
+void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 	
 	system("cls");
 
@@ -103,7 +103,7 @@ void displayInventory(int nPrompt, Player* pPlayer) {
 	printf("INVENTORY\n"
 		"OPTIONS:\n");
 
-	printInventoryGrid(pPlayer);
+	printInventoryGrid(pPlayer, nPage);
 
 	printf("\n\n");
 	printOption(1, "SELECT WEAPON");
@@ -144,6 +144,7 @@ Weapon* createEmptyWeapon() {
 
 	pWeapon->nWeaponIndex = 0;
 	strcpy(pWeapon->strWeaponName, "NONE");
+	pWeapon->nWeaponType = 0;
 
 	pWeapon->nDexReq = 0;
 	pWeapon->nHP = 0;
@@ -210,21 +211,40 @@ void addWeaponToInventory(Weapon* pWeapon, Player* pPlayer) {
 	pPlayer->pInventory = sInventorySlot;
 }
 
+int getPlayerWeapons(Player* pPlayer) {
+	int nPlayerWeapons = 0;
+
+	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
+
+	//Get the last inventory slot.
+	while (sInventorySlot != NULL) {
+		sInventorySlot = sInventorySlot->pNext;
+		nPlayerWeapons++;
+	}
+
+	return nPlayerWeapons;
+}
+
 //Central Inventory Function
 void openInventory(Player* pPlayer) {
-	displayInventory(5, pPlayer);
 
 	int nInputInventory = 100; //random value basta wala sa choices
 	int nInputWeapon;
+	int nPlayerWeapons = getPlayerWeapons(pPlayer);
+	int nTemp;
+	int nPage = 1;
 
 	Weapon* pSelectedWeapon;
+
+	displayInventory(5, pPlayer, nPage);
 
 	while(nInputInventory != 0) {
 
 		nInputInventory = scanIntInput(0, 3); //Inventory Screen
+		nPlayerWeapons = getPlayerWeapons(pPlayer);
 
 		switch (nInputInventory) {
-
+			
 			case SELECT:
 				scanf("%d", &nInputWeapon); //Input Weapon Index
 				
@@ -237,24 +257,34 @@ void openInventory(Player* pPlayer) {
 					pPlayer->pEquippedWeapon = pSelectedWeapon;
 					//remove weapon from inventory
 					//add previous equipped weapon to the end of inventory
-					displayInventory(SELECT, pPlayer);
+					displayInventory(SELECT, pPlayer, nPage);
 
 				} else {
-					displayInventory(NO_EXIST, pPlayer);
+					displayInventory(NO_EXIST, pPlayer, nPage);
 				}
 
 				break;
 
 			case PREVIOUS:
-
+				if (nPage > 1) 
+					nPage--;
 				break;
 
 			case NEXT:
+
+				nTemp = nPlayerWeapons / 12;
+
+				if (nPlayerWeapons % 12 != 0)
+					nTemp++;
+
+				if (nPage < nTemp)
+					nPage++;
 
 				break;
 
 			case I_BACK:
 
+				openRoundTableHoldScreen(pPlayer);
 				break;
 
 

@@ -44,7 +44,7 @@ int main() {
 	pPlayer = &sPlayer;
 
 	//Inventory Initialization
-	Weapon sWeaponBase = {0, "NONE", 0, 0, 0, 0, 0, 0};
+	Weapon sWeaponBase = {0, "NONE", 0, 0, 0, 0, 0, 0, 0};
 	Weapon* sEmptyWeapon = &sWeaponBase;
 	pPlayer->pInventory->pWeapon = sEmptyWeapon;
 	pPlayer->pInventory->pNext = NULL;
