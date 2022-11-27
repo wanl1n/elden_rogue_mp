@@ -12,6 +12,8 @@
 #include "../utility/printer.h"
 #include "../utility/doors.h"
 
+//User Interface / Printing Functions
+
 int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 
 	int* pFloor = malloc(sizeof(int) * MAX_FLOOR_LENGTH * MAX_FLOOR_WIDTH);
@@ -976,6 +978,23 @@ void printPlayerMoves() {
 	resetColors();
 }
 
+void printResultScreen(int nType, int nBattleResult, int nRewards) {
+	
+	if (nBattleResult) {
+
+		if (nType == 1) {
+			printHeader("ENEMY FELLED", 12);
+		} else if (nType == 2) {
+			printHeader("GREAT ENEMY FELLED", 18);
+		}
+
+		printf("\t\tYou gained %d runes.", nRewards);
+	} else {
+
+		printHeader("YOU DIED", 8);
+	}
+}
+
 void printUserInterface(int nPlayerMaxHP, Player* pPlayer) {
 	
 	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
@@ -1008,6 +1027,7 @@ int* findFastTravelTile(int nArea, int nFloor) {
 	return aSpawnLoc;
 }
 
+//Central Areas Function
 void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	
 	//Player Inputs.
@@ -1016,7 +1036,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 
 	//Initializing variables.
 	int nFloor = 1; 
-	int *pFloor = &nFloor;
+	// int *pFloor = &nFloor;
 
 	//Initializing Initial Player Stats. 
 	//NOTE: Don't use nPlayerHP and nWeaponHP for anything other than calculating the formula.
@@ -1038,7 +1058,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 
 		cPlayerInput = scanCharInput(aMoves, 10);
 
-		processInput(cPlayerInput, nAreaNumber, nFloor, pPlayer);
+		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer);
 
 	} while (pPlayer->nHealth > 0);
 
@@ -1049,36 +1069,37 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 		printf("win");
 }	
 
-void processInput(char cInput, int nArea, int nFloor, Player* pPlayer) {
+void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer) {
 
 	switch(cInput) {
 		case 'W':
 		case 'w':
-			movePlayerTile(UP, nArea, nFloor, pPlayer);
+			movePlayerTile(UP, nArea, *pFloor, pPlayer);
 			break;
 
 		case 'S':
 		case 's':
-			movePlayerTile(DOWN, nArea, nFloor, pPlayer);
+			movePlayerTile(DOWN, nArea, *pFloor, pPlayer);
 			break;
 
 		case 'A':
 		case 'a':
-			movePlayerTile(LEFT, nArea, nFloor, pPlayer);
+			movePlayerTile(LEFT, nArea, *pFloor, pPlayer);
 			break;
 
 		case 'D':
 		case 'd':
-			movePlayerTile(RIGHT, nArea, nFloor, pPlayer);
+			movePlayerTile(RIGHT, nArea, *pFloor, pPlayer);
 			break;
 
 		case 'E':
 		case 'e':
-			usePlayer(nArea, nFloor, pPlayer);
+			usePlayer(nArea, pFloor, pPlayer);
 			break;
 	}
 }
 
+//Utility Functions: Movement
 void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer) {
 
 	int nLength, nWidth;
@@ -1118,14 +1139,9 @@ void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer) {
 	pPlayer->aPlayerLoc[1] = nCol;
 
 	free(pCurrentFloor);
-}
-
-void goNextDoor(Door* sDoor){
 }	
 
-void goBackDoor(Door* sDoor) {
-}	
-
+//Utility Functions: TILE_SPAWN
 int getRandomBetween(int nLower, int nUpper) {
 	srand(time(0));
 
@@ -1265,40 +1281,27 @@ int spawnTreasure(int nArea) {
 	return nRewards;
 }
 
-void printResultScreen(int nType, int nBattleResult, int nRewards) {
-	
-	if (nBattleResult) {
-
-		if (nType == 1) {
-			printHeader("ENEMY FELLED", 12);
-		} else if (nType == 2) {
-			printHeader("GREAT ENEMY FELLED", 18);
-		}
-
-		printf("\t\tYou gained %d runes.", nRewards);
-	} else {
-
-		printHeader("YOU DIED", 8);
-	}
-}
-
-void usePlayer(int nArea, int nFloor, Player* pPlayer) {
+//Utility Functions: Interact
+void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 
 	//Make a reference map for the current floor.
 	int nLength, nWidth;
 	int nSpawnTile;
 	int nBattleResult, nBossResult;
 	int nBattleRewards;
-	int* pFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
+	int* pFloor = getFloorMap(nArea, *pFloor, &nLength, &nWidth);
 
 	//Get the tile the player is standing on right now.
 	int nTileType = *(pFloor + (pPlayer->aPlayerLoc[0] * nWidth) + pPlayer->aPlayerLoc[1]);
 
 	Enemy sEnemy;
 	Door* pDoorList;
+	Door* pCurrentDoor;
 
 	switch(nTileType) {
+
 		case TILE_EMPTY:
+
 			printSystemMessage("There's nothing there.");
 			break;
 
@@ -1329,13 +1332,27 @@ void usePlayer(int nArea, int nFloor, Player* pPlayer) {
 			break;
 
 		case TILE_DOOR:
+
 			printSystemMessage("You entered a room.");
 			pDoorList = createConnectedDoorList(nArea);
+
+			pCurrentDoor = findDoor(pDoorList, nArea, *pFloor, pPlayer->aPlayerLoc[0], pPlayer->aPlayerLoc[1]);
+
+			if (pCurrentDoor->pDoorForward != NULL)
+				pCurrentDoor = pCurrentDoor->pDoorForward;
+			else
+				pCurrentDoor = pCurrentDoor->pDoorBack;
+
+			*pFloor = pCurrentDoor->nFloorNumber;
+
+			pPlayer->pPlayerLoc[0] = pCurrentDoor->nRow;
+			pPlayer->pPlayerLoc[1] = pCurrentDoor->nCol;
+
 			break;
 
 		case TILE_FAST_TRAVEL:
 
-			if(nFloor == 1) {
+			if(*pFloor == 1) {
 				openFastTravelScreen(pPlayer);
 			} else if (nBossResult){
 				openFastTravelScreen(pPlayer);
@@ -1369,6 +1386,7 @@ void usePlayer(int nArea, int nFloor, Player* pPlayer) {
 			break;
 
 		case TILE_CREDITS:
+
 			printSystemMessage("credits now!!!");
 
 			if (nBossResult){

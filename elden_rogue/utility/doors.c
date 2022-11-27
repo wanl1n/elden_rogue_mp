@@ -147,21 +147,54 @@ Door* createDoorArray(int nArea) {
 	return pDoorList;
 }
 
+Door* findDoor(Door* pDoorList, int nArea, int nFloor, int nRow, int nCol) {
 
-// Door* findDoor(Door* pHead, int nFloor, int nRow, int nCol) {
+	int nDoors;
 
-// 	Door* pTemp = pHead;
+	switch(nArea) {
+		
+		case STORMVEIL:
 
-// 	while (pTemp != NULL) {
-// 		if (pTemp->nFloorNumber == nFloor &&
-// 			pTemp->nRow == nRow && pTemp->nCol == nCol) 
-// 			return pTemp;
-// 		else 
-// 			pTemp = pTemp->pDoorForward;
-// 	}
+			nDoors = 4;
+			break;
 
-// 	return NULL;
-// }
+		case RAYA_LUCARIA:
+			
+			nDoors = 8;
+			break;
+
+		case REDMANE_CASTLE:
+			
+			nDoors = 12;
+			break;
+
+		case VOLCANO_MANOR:
+			
+			nDoors = 12;
+			break;
+
+		case LEYNDELL_CAPITAL:
+			
+			nDoors = 34;
+			break;
+
+		case THE_ELDEN_THRONE:
+			
+			nDoors = 4;
+			break;
+	}
+
+	for (i = 0; i < nDoors; i++) {
+		if (*(pDoorList + i)->nFloorNumber == nFloor) {
+			if (*(pDoorList + i)->nRow == nRow &&
+				*(pDoorList + i)->nCol == nCol) {
+				return *(pDoorList + i);
+			}
+		}
+	}
+
+	return NULL;
+}
 
 Door* createNodeFromDoor (Door sDoor) {
 
