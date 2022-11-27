@@ -8,7 +8,7 @@ Door* createDoorArray(int nArea) {
 
 	int i;
 
-	Door aStormveilDoors[4] = {{STORMVEIL, 1, 1, 0, NULL, NULL},
+	Door aStormveilDoors[4] = {{STORMVEIL, 1, 0, 1, NULL, NULL},
 							   {STORMVEIL, 2, 6, 3, NULL, NULL},
 							   {STORMVEIL, 2, 0, 3, NULL, NULL},
 							   {STORMVEIL, 3, 6, 2, NULL, NULL}};
@@ -22,7 +22,7 @@ Door* createDoorArray(int nArea) {
 					   	  {RAYA_LUCARIA, 3, 0, 2, NULL, NULL},
 					  	  {RAYA_LUCARIA, 5, 7, 3, NULL, NULL}};
 
-	Door aRedmaneDoors[12] = {{REDMANE_CASTLE, 1, 4, 1, NULL, NULL},
+	Door aRedmaneDoors[12] = {{REDMANE_CASTLE, 1, 1, 4, NULL, NULL},
 					   		  {REDMANE_CASTLE, 2, 1, 0, NULL, NULL},
 					   		  {REDMANE_CASTLE, 2, 1, 6, NULL, NULL},
 					   		  {REDMANE_CASTLE, 3, 2, 0, NULL, NULL},
@@ -35,17 +35,17 @@ Door* createDoorArray(int nArea) {
 					  		  {REDMANE_CASTLE, 6, 1, 3, NULL, NULL},
 					  		  {REDMANE_CASTLE, 7, 2, 0, NULL, NULL}};
 
-	Door aVolcanoDoors[12] = {{VOLCANO_MANOR, 1, 2, 0, NULL, NULL},
+	Door aVolcanoDoors[12] = {{VOLCANO_MANOR, 1, 0, 2, NULL, NULL},
 					   		  {VOLCANO_MANOR, 2, 6, 3, NULL, NULL},
 					   		  {VOLCANO_MANOR, 2, 3, 0, NULL, NULL},
 					   		  {VOLCANO_MANOR,21, 2, 4, NULL, NULL},
 					   		  {VOLCANO_MANOR, 2, 0, 3, NULL, NULL},
-					   		  {VOLCANO_MANOR, 3, 0, 1, NULL, NULL},
+					   		  {VOLCANO_MANOR, 3, 7, 1, NULL, NULL},
 					   		  {VOLCANO_MANOR, 2, 3, 6, NULL, NULL},
 					  		  {VOLCANO_MANOR,22, 2, 0, NULL, NULL},
 					  		  {VOLCANO_MANOR,22, 0, 3, NULL, NULL},
 					  		  {VOLCANO_MANOR,221,3, 1, NULL, NULL},
-					  		  {VOLCANO_MANOR, 3, 7, 1, NULL, NULL},
+					  		  {VOLCANO_MANOR, 3, 0, 1, NULL, NULL},
 					  		  {VOLCANO_MANOR, 4, 6, 2, NULL, NULL}};
 
 	Door aLeyndellDoors[34] = {{LEYNDELL_CAPITAL, 1, 0, 1, NULL, NULL},
@@ -83,10 +83,10 @@ Door* createDoorArray(int nArea) {
 							   {LEYNDELL_CAPITAL, 7, 9,12, NULL, NULL},
 							   {LEYNDELL_CAPITAL,73, 1, 0, NULL, NULL}};
 
-	Door aThroneDoors[4] = {{STORMVEIL, 1, 0, 1, NULL, NULL},
-						    {STORMVEIL, 2, 6, 3, NULL, NULL},
-						    {STORMVEIL, 2, 0, 3, NULL, NULL},
-						    {STORMVEIL, 3, 8, 1, NULL, NULL}};
+	Door aThroneDoors[4] = {{THE_ELDEN_THRONE, 1, 0, 1, NULL, NULL},
+						    {THE_ELDEN_THRONE, 2, 6, 3, NULL, NULL},
+						    {THE_ELDEN_THRONE, 2, 0, 3, NULL, NULL},
+						    {THE_ELDEN_THRONE, 3, 8, 1, NULL, NULL}};
 
 	//Create a Door Array depending on area.
 	switch(nArea) {
@@ -186,12 +186,13 @@ Door* findDoor(Door* pDoorList, int nArea, int nFloor, int nRow, int nCol) {
 	}
 
 	for (i = 0; i < nDoors; i++) {
-		if ((pDoorList + i)->nFloorNumber == nFloor) {
-			if ((pDoorList + i)->nRow == nRow &&
-				(pDoorList + i)->nCol == nCol) {
+		if (pDoorList[i].nFloorNumber == nFloor) {
+			if (pDoorList[i].nRow == nRow &&
+				pDoorList[i].nCol == nCol) {
 				return (pDoorList + i);
 			}
 		}
+		
 	}
 
 	return NULL;
@@ -217,8 +218,8 @@ void connectDoors(Door* pDoorList, Door* pDoorArray, int nIndex) {
 	Door* pDoorOne;
 	Door* pDoorTwo;
 
-	pDoorOne = createNodeFromDoor(*(pDoorArray + nIndex));
-	pDoorTwo = createNodeFromDoor(*(pDoorArray + (nIndex + 1)));
+	pDoorOne = createNodeFromDoor(pDoorArray[nIndex]);
+	pDoorTwo = createNodeFromDoor(pDoorArray[nIndex+1]);
 
 	pDoorOne->pDoorForward = pDoorTwo;
 	pDoorOne->pDoorBack = NULL;
@@ -246,7 +247,7 @@ Door* createConnectedDoorList (int nArea) {
 
 			pDoorArray = createDoorArray(STORMVEIL);
 			pDoorList = malloc(sizeof(Door) * 4);
-			nDoorConnections = 2;
+			nDoorConnections = 2*2-1;
 
 			for (i = 0; i <= nDoorConnections; i+=2) {
 				connectDoors(pDoorList, pDoorArray, i);
@@ -258,7 +259,7 @@ Door* createConnectedDoorList (int nArea) {
 			
 			pDoorArray = createDoorArray(RAYA_LUCARIA);
 			pDoorList = malloc(sizeof(Door) * 8);
-			nDoorConnections = 4;
+			nDoorConnections = 4*2-1;
 
 			for (i = 0; i <= nDoorConnections; i+=2) {
 				connectDoors(pDoorList, pDoorArray, i);
@@ -270,7 +271,7 @@ Door* createConnectedDoorList (int nArea) {
 			
 			pDoorArray = createDoorArray(REDMANE_CASTLE);
 			pDoorList = malloc(sizeof(Door) * 12);
-			nDoorConnections = 6;
+			nDoorConnections = 6*2-1;
 
 			for (i = 0; i <= nDoorConnections; i+=2) {
 				connectDoors(pDoorList, pDoorArray, i);
@@ -282,7 +283,7 @@ Door* createConnectedDoorList (int nArea) {
 			
 			pDoorArray = createDoorArray(VOLCANO_MANOR);
 			pDoorList = malloc(sizeof(Door) * 12);
-			nDoorConnections = 6;
+			nDoorConnections = 6*2-1;
 
 			for (i = 0; i <= nDoorConnections; i+=2) {
 				connectDoors(pDoorList, pDoorArray, i);
@@ -294,7 +295,7 @@ Door* createConnectedDoorList (int nArea) {
 			
 			pDoorArray = createDoorArray(LEYNDELL_CAPITAL);
 			pDoorList = malloc(sizeof(Door) * 34);
-			nDoorConnections = 17;
+			nDoorConnections = 17*2-1;
 
 			for (i = 0; i <= nDoorConnections; i+=2) {
 				connectDoors(pDoorList, pDoorArray, i);
@@ -306,7 +307,7 @@ Door* createConnectedDoorList (int nArea) {
 			
 			pDoorArray = createDoorArray(THE_ELDEN_THRONE);
 			pDoorList = malloc(sizeof(Door) * 4);
-			nDoorConnections = 2;
+			nDoorConnections = 2*2-1;
 
 			for (i = 0; i <= nDoorConnections; i+=2) {
 				connectDoors(pDoorList, pDoorArray, i);

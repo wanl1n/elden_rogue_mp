@@ -43,7 +43,7 @@ void printShopSlot(Stock sShopStock) {
 	printf("│");
 	printMultiple(" ", nSpaces);
 	//add weapon image
-	printf("  <weapon>  ");
+	printf("%-*.*s", SHOP_SLOT_WIDTH-4, nLength/2, "weapon");
 	printMultiple(" ", nSpaces);
 	printf("│\n");
 
@@ -59,7 +59,7 @@ void printShopSlot(Stock sShopStock) {
 	printMultiple(" ", SHOP_SCREEN_PADDING);
 	printf("│");
 	printMultiple(" ", nSpaces);
-	printf("DEXTERITY  |  %*d", SHOP_SLOT_WIDTH-18, sShopStock.nCost);
+	printf("DEXTERITY  |  %*d", SHOP_SLOT_WIDTH-18, sWeapon.nDexReq);
 	printMultiple(" ", nSpaces);
 	printf("│\n");
 
@@ -133,8 +133,6 @@ void printShopSlot(Stock sShopStock) {
 	printf("╚");
 	printMultiple("═", SHOP_SLOT_WIDTH);
 	printf("╝\n");
-
-	printf("\n");
 }
 
 void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* sStockList) {
@@ -155,6 +153,8 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* sStockList) {
 	printf("\n\t\tINPUT THE WEAPON NUMBER (middle right).\n");
 
 	printOption(B_BACK, "BACK");
+
+	printInputTag();
 
 	switch(nPrompt) {
 		case ITEM_ONE:
@@ -354,4 +354,6 @@ void openBuyScreen(Player* pPlayer) {
 			}
 		}
 	}
+
+	openRoundTableHoldScreen(pPlayer);
 }

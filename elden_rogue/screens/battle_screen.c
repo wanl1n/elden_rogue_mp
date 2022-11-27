@@ -32,7 +32,8 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy) {
 	//system messages
 }
 
-void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
+//Made this integer type.
+int openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 	
 	displayBattleScreen(pPlayer, sEnemy);
 
@@ -45,6 +46,9 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 	int nIncantationDamage;
 
 	int nDodgeRate;
+	//Initialized these variables (previously initialized inside the switch case)
+	int nDodgeRandom;
+	int nHealRandom;
 
 	while (pPlayer->nHealth > 0 || sEnemy.nHP > 0) {
 		nPlayerMove = scanIntInput(1, 4);
@@ -77,7 +81,8 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 
 			case MOVE_DODGE:
 
-				int nDodgeRandom = getRandomBetween(1, 100);
+				//Initialized this outside the switch
+				nDodgeRandom = getRandomBetween(1, 100);
 
 				if(nDodgeRandom >= 20){
 					nDodgeRate = getDodgeRate(sEnemy, pPlayer);
@@ -90,7 +95,8 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 
 			case MOVE_POTION:
 
-				int nHealRandom = getRandomBetween(1, 100);
+				//Initialized this outside the switch
+				nHealRandom = getRandomBetween(1, 100);
 
 				if(nHealRandom <= 25){
 					pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.25);
@@ -111,6 +117,8 @@ void openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 				break;
 		}
 	}
+
+	return 0;//placeholder return (delete later)
 }
 
 //result make 1 win 0 lose

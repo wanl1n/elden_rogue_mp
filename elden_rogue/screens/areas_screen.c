@@ -60,12 +60,12 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 						 		 {1, 1, 1}};
 	//CODE: 23
 	int aRayaLucariaFloor3[][5] = {{0, 1, 3, 1, 0}, 
-						  		 {0, 1, 5, 1, 0},
-						  		 {1, 1, 1, 1, 1},
-						  		 {3, 1, 1, 1, 3},
-						  		 {1, 1, 1, 1, 1},
-						  		 {0, 1, 5, 1, 0},
-						 		 {0, 1, 1, 1, 0}};
+						  		   {0, 1, 5, 1, 0},
+						  		   {1, 1, 1, 1, 1},
+						  		   {3, 1, 1, 1, 3},
+						  		   {1, 1, 1, 1, 1},
+						  		   {0, 1, 5, 1, 0},
+						 		   {0, 1, 1, 1, 0}};
 	//CODE: 24
 	int aRayaLucariaFloor4[][6] = {{0, 1, 1, 1, 1, 1}, 
 					  		 	 {1, 1, 5, 1, 5, 1},
@@ -74,13 +74,13 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 					  		 	 {0, 1, 1, 1, 1, 1}};
 	//CODE: 25
 	int aRayaLucariaFloorB[][7] = {{0, 0, 1, 2, 1, 0, 0}, 
-						  		 {1, 1, 1, 1, 1, 1, 1},
-						  		 {1, 5, 1, 5, 1, 5, 1},
-						  		 {1, 1, 1, 1, 1, 1, 1},
-						  		 {1, 5, 1, 6, 1, 5, 1},
-						  		 {1, 1, 1, 1, 1, 1, 1},
-						  		 {1, 5, 1, 1, 1, 5, 1},
-						  		 {1, 1, 1, 3, 1, 1, 1}};
+						  		   {1, 1, 1, 1, 1, 1, 1},
+						  		   {1, 5, 1, 5, 1, 5, 1},
+						  		   {1, 1, 1, 1, 1, 1, 1},
+						  		   {1, 5, 1, 6, 1, 5, 1},
+						  		   {1, 1, 1, 1, 1, 1, 1},
+						  		   {1, 5, 1, 1, 1, 5, 1},
+						  		   {1, 1, 1, 3, 1, 1, 1}};
 
 	//CODE: 31
 	int aRedmaneCastleFloor1[][5] = {{1, 1, 1, 1, 1},
@@ -678,8 +678,6 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 }
 
 void printFloorHeader(int nArea) {
-	
-	system("cls");
 
 	//Print Area Name
 	switch(nArea) {
@@ -978,7 +976,7 @@ void printPlayerMoves() {
 	resetColors();
 }
 
-void printResultScreen(int nType, int nBattleResult, int nRewards) {
+void displayResultScreen(int nType, int nBattleResult, int nRewards) {
 	
 	if (nBattleResult) {
 
@@ -995,16 +993,17 @@ void printResultScreen(int nType, int nBattleResult, int nRewards) {
 	}
 }
 
-void printUserInterface(int nPlayerMaxHP, Player* pPlayer) {
+void displayUserInterface(int nPlayerMaxHP, Player* pPlayer) {
+	
+	system("cls");
 	
 	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
 	printItems(pPlayer->nPotions, pPlayer->nRunes);
 	printPlayerMoves();
+
 }
 
 int* findFastTravelTile(int nArea, int nFloor) {
-
-	printf("\neyo??");
 
 	int nLength, nWidth;
 	int* pFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
@@ -1036,6 +1035,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 
 	//Initializing variables.
 	int nFloor = 1; 
+	int nCleared = 0;
 	// int *pFloor = &nFloor;
 
 	//Initializing Initial Player Stats. 
@@ -1054,13 +1054,14 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 		
 		printFloorHeader(nAreaNumber);
 		printFloorMap(nAreaNumber, nFloor, pPlayer);
-		printUserInterface(nPlayerMaxHP, pPlayer);
+		displayUserInterface(nPlayerMaxHP, pPlayer);
+
 
 		cPlayerInput = scanCharInput(aMoves, 10);
 
-		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer);
+		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer, &nCleared);
 
-	} while (pPlayer->nHealth > 0);
+	} while (pPlayer->nHealth > 0 || !nCleared);
 
 	//When the Player dies.
 	if (pPlayer->nHealth <= 0) 
@@ -1069,7 +1070,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 		printf("win");
 }	
 
-void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer) {
+void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 
 	switch(cInput) {
 		case 'W':
@@ -1094,7 +1095,7 @@ void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer) {
 
 		case 'E':
 		case 'e':
-			usePlayer(nArea, pFloor, pPlayer);
+			usePlayer(nArea, pFloor, pPlayer, pCleared);
 			break;
 	}
 }
@@ -1282,7 +1283,7 @@ int spawnTreasure(int nArea) {
 }
 
 //Utility Functions: Interact
-void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
+void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 
 	//Make a reference map for the current floor.
 	int nLength, nWidth;
@@ -1293,7 +1294,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 
 	//Get the tile the player is standing on right now.
 	int nTileType = *(pFloorMap + (pPlayer->aPlayerLoc[0] * nWidth) + pPlayer->aPlayerLoc[1]);
-
+	int i;
 	Enemy sEnemy;
 	Door* pDoorList;
 	Door* pCurrentDoor;
@@ -1326,18 +1327,18 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 					pPlayer->nRunes += nBattleRewards;
 				}
 
-				printResultScreen(1, nBattleResult, nBattleRewards);
+				displayResultScreen(1, nBattleResult, nBattleRewards);
 			}
 
 			break;
 
 		case TILE_DOOR:
 
-			printSystemMessage("You entered a room.");
+			printSystemMessage("You entered a room.\n");
+
 			pDoorList = createConnectedDoorList(nArea);
-
 			pCurrentDoor = findDoor(pDoorList, nArea, *pFloor, pPlayer->aPlayerLoc[0], pPlayer->aPlayerLoc[1]);
-
+			
 			if (pCurrentDoor->pDoorForward != NULL)
 				pCurrentDoor = pCurrentDoor->pDoorForward;
 			else
@@ -1381,7 +1382,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 				pPlayer->nRunes += nBattleRewards;
 			}
 
-			printResultScreen(2, nBattleResult, nBattleRewards);
+			displayResultScreen(2, nBattleResult, nBattleRewards);
 
 			break;
 
@@ -1391,6 +1392,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 
 			if (nBossResult){
 				displayCredits();
+				*pCleared = 1;
 			} else {
 				printSystemMessage("You haven't cleared the boss.");
 			}
@@ -1399,4 +1401,5 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 	}
 
 	free(pFloorMap);
+	free(pDoorList);
 }

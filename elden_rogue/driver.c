@@ -34,7 +34,7 @@ int main() {
 	//Initial Player Statistics
 	strcpy(sPlayer.strName, "");
 	strcpy(sPlayer.strJobClass, "");
-	sPlayer.nRunes = 700;
+	sPlayer.nRunes = 50000;
 	
 	int i; for(i = 0; i < 6; i++) {
 		sPlayer.aShards[i] = 0;

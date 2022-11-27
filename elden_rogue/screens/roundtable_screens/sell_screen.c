@@ -75,4 +75,6 @@ void openSellScreen(Player* pPlayer) {
 		}
 	}
 
+	openRoundTableHoldScreen(pPlayer);
+
 }

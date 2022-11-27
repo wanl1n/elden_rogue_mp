@@ -100,7 +100,7 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 
 	printHeader("ROUNDTABLE HOLD", 15);
 	
-	printf("INVENTORY\n"
+	printf("\t\tINVENTORY\n\n"
 		"OPTIONS:\n");
 
 	printInventoryGrid(pPlayer, nPage);
@@ -118,6 +118,8 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 			break;
 		case NO_EXIST:
 			printSystemMessage("There's no weapon at that index.");
+			break;
+		default:
 			break;
 	}
 
@@ -140,7 +142,7 @@ Weapon* findWeapon(int nInputIndex, Player* pPlayer) {
 
 Weapon* createEmptyWeapon() {
 	
-	Weapon* pWeapon;
+	Weapon* pWeapon = malloc(sizeof(Weapon));
 
 	pWeapon->nWeaponIndex = 0;
 	strcpy(pWeapon->strWeaponName, "NONE");

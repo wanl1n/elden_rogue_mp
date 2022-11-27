@@ -48,21 +48,22 @@ void printBorder(int nType, int nPosition);
 void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP);
 void printItems(int nPotions, int nRunes);
 void printPlayerMoves();
-void printUserInterface(int nPlayerMaxHP, Player* pPlayer);
+void displayResultScreen(int nType, int nBattleResult, int nRewards);
+
+void displayUserInterface(int nPlayerMaxHP, Player* pPlayer);
 
 int* findFastTravelTile(int nArea, int nFloor);
 
 void openAreaScreen(int nAreaNumber, Player* pPlayer);
-void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer);
+void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared);
 
 void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer);
-void goNextDoor(Door* sDoor);
-void goBackDoor(Door* sDoor);
 
 int getRandomBetween(int nLower, int nUpper);
 int getRandomSpawn();
 Enemy spawnEnemy(int nArea);
+Enemy spawnBoss(int nArea, int nEldenThroneStage);
 int spawnTreasure(int nArea);
-void usePlayer(int nArea, int* pFloor, Player* pPlayer);
+void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared);
 
 #endif 

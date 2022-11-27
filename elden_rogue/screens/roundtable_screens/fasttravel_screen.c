@@ -88,7 +88,9 @@ void openFastTravelScreen(Player* pPlayer) {
 				nSuccessfulTravel = 1;
 				openAreaScreen(nInputFastTravel, pPlayer);
 				break;
+
 			case LEYNDELL_CAPITAL:
+
 				if (getPlayerShards(pPlayer) >= 2) {
 					openAreaScreen(nInputFastTravel, pPlayer);
 				} else {
@@ -97,6 +99,7 @@ void openFastTravelScreen(Player* pPlayer) {
 				break;
 	
 			case THE_ELDEN_THRONE:
+
 				if (pPlayer->aShards[LEYNDELL_CAPITAL]) {
 					openAreaScreen(nInputFastTravel, pPlayer);
 				} else {
@@ -105,6 +108,7 @@ void openFastTravelScreen(Player* pPlayer) {
 				break;
 	
 			case FT_BACK:
+				
 				nSuccessfulTravel = 1;
 				openRoundTableHoldScreen(pPlayer);
 				break;
