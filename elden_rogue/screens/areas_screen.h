@@ -53,7 +53,7 @@ void printUserInterface(int nPlayerMaxHP, Player* pPlayer);
 int* findFastTravelTile(int nArea, int nFloor);
 
 void openAreaScreen(int nAreaNumber, Player* pPlayer);
-void processInput(char cInput, int nArea, int nFloor, Player* pPlayer);
+void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer);
 
 void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer);
 void goNextDoor(Door* sDoor);
@@ -63,6 +63,6 @@ int getRandomBetween(int nLower, int nUpper);
 int getRandomSpawn();
 Enemy spawnEnemy(int nArea);
 int spawnTreasure(int nArea);
-void usePlayer(int nArea, int nFloor, Player* pPlayer);
+void usePlayer(int nArea, int* pFloor, Player* pPlayer);
 
 #endif 

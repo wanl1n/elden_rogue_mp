@@ -1,4 +1,5 @@
 #include "doors.h"
+#include "../screens/areas_screen.h"
 
 Door* createDoorArray(int nArea) {
 	
@@ -149,7 +150,7 @@ Door* createDoorArray(int nArea) {
 
 Door* findDoor(Door* pDoorList, int nArea, int nFloor, int nRow, int nCol) {
 
-	int nDoors;
+	int nDoors, i;
 
 	switch(nArea) {
 		
@@ -185,10 +186,10 @@ Door* findDoor(Door* pDoorList, int nArea, int nFloor, int nRow, int nCol) {
 	}
 
 	for (i = 0; i < nDoors; i++) {
-		if (*(pDoorList + i)->nFloorNumber == nFloor) {
-			if (*(pDoorList + i)->nRow == nRow &&
-				*(pDoorList + i)->nCol == nCol) {
-				return *(pDoorList + i);
+		if ((pDoorList + i)->nFloorNumber == nFloor) {
+			if ((pDoorList + i)->nRow == nRow &&
+				(pDoorList + i)->nCol == nCol) {
+				return (pDoorList + i);
 			}
 		}
 	}
@@ -202,8 +203,8 @@ Door* createNodeFromDoor (Door sDoor) {
 
 	pDoorNode->nArea = sDoor.nArea;
 	pDoorNode->nFloorNumber = sDoor.nFloorNumber;
-	pDoorNode->nRow = sDoorNode->nRow;
-	pDoorNode->nCol = sDoorNode->nCol;
+	pDoorNode->nRow = sDoor.nRow;
+	pDoorNode->nCol = sDoor.nCol;
 
 	pDoorNode->pDoorForward = sDoor.pDoorForward;
 	pDoorNode->pDoorBack = sDoor.pDoorBack;
@@ -225,8 +226,8 @@ void connectDoors(Door* pDoorList, Door* pDoorArray, int nIndex) {
 	pDoorTwo->pDoorBack = pDoorOne;
 	pDoorTwo->pDoorForward = NULL;
 
-	*(pDoorList + nIndex) = pDoorOne;
-	*(pDoorList + (nIndex + 1)) = pDoorTwo;
+	*(pDoorList + nIndex) = *pDoorOne;
+	*(pDoorList + (nIndex + 1)) = *pDoorTwo;
 
 }
 

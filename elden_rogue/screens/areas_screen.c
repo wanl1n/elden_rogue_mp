@@ -1289,10 +1289,10 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 	int nSpawnTile;
 	int nBattleResult, nBossResult;
 	int nBattleRewards;
-	int* pFloor = getFloorMap(nArea, *pFloor, &nLength, &nWidth);
+	int* pFloorMap = getFloorMap(nArea, *pFloor, &nLength, &nWidth);
 
 	//Get the tile the player is standing on right now.
-	int nTileType = *(pFloor + (pPlayer->aPlayerLoc[0] * nWidth) + pPlayer->aPlayerLoc[1]);
+	int nTileType = *(pFloorMap + (pPlayer->aPlayerLoc[0] * nWidth) + pPlayer->aPlayerLoc[1]);
 
 	Enemy sEnemy;
 	Door* pDoorList;
@@ -1345,8 +1345,8 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 
 			*pFloor = pCurrentDoor->nFloorNumber;
 
-			pPlayer->pPlayerLoc[0] = pCurrentDoor->nRow;
-			pPlayer->pPlayerLoc[1] = pCurrentDoor->nCol;
+			pPlayer->aPlayerLoc[0] = pCurrentDoor->nRow;
+			pPlayer->aPlayerLoc[1] = pCurrentDoor->nCol;
 
 			break;
 
@@ -1398,5 +1398,5 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer) {
 			break;
 	}
 
-	free(pFloor);
+	free(pFloorMap);
 }
