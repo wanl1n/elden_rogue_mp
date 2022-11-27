@@ -10,6 +10,7 @@
 #include "../config/settings.h"
 #include "../utility/colors.h"
 #include "../utility/printer.h"
+#include "../utility/doors.h"
 
 int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 
@@ -1120,11 +1121,9 @@ void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer) {
 }
 
 void goNextDoor(Door* sDoor){
-
 }	
 
 void goBackDoor(Door* sDoor) {
-
 }	
 
 int getRandomBetween(int nLower, int nUpper) {
@@ -1296,6 +1295,7 @@ void usePlayer(int nArea, int nFloor, Player* pPlayer) {
 	int nTileType = *(pFloor + (pPlayer->aPlayerLoc[0] * nWidth) + pPlayer->aPlayerLoc[1]);
 
 	Enemy sEnemy;
+	Door* pDoorList;
 
 	switch(nTileType) {
 		case TILE_EMPTY:
@@ -1330,7 +1330,7 @@ void usePlayer(int nArea, int nFloor, Player* pPlayer) {
 
 		case TILE_DOOR:
 			printSystemMessage("You entered a room.");
-			//goNextDoor();
+			pDoorList = createConnectedDoorList(nArea);
 			break;
 
 		case TILE_FAST_TRAVEL:

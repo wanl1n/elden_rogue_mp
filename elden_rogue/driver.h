@@ -87,7 +87,8 @@ struct DoorTag {
 	int nArea;
 	int nFloorNumber;
 
-	int* nLoc;
+	int nRow;
+	int nCol;
 
 	struct DoorTag* pDoorBack;
 	struct DoorTag* pDoorForward;

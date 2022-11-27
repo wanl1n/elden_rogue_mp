@@ -1,218 +1,285 @@
-// #include "../screens/areas_screen.h"
+#include "doors.h"
 
-
-// int* findDoorTile(int nArea, int nFloor) {
+Door* createDoorArray(int nArea) {
 	
-// 	int nLength, nWidth;
-// 	int* pReferenceMap = getFloorMap(nArea, nFloor, &nLength, &nWidth);
+	Door sDoor;
+	Door* pDoorList;
 
-// 	//Check how many doors are present on the floor.
-// 	int nDoorsAmount = 0;
+	int i;
 
-// 	for(i = 0; i < nLength; i++) {
-// 		for (j = 0; j < nWidth; j++) {
-// 			if (pReferenceMap[(i * nWidth) + j] == TILE_DOOR) {
-// 				nDoorsAmount++;
-// 			}
-// 		}
-// 	}
+	Door aStormveilDoors[4] = {{STORMVEIL, 1, 1, 0, NULL, NULL},
+							   {STORMVEIL, 2, 6, 3, NULL, NULL},
+							   {STORMVEIL, 2, 0, 3, NULL, NULL},
+							   {STORMVEIL, 3, 6, 2, NULL, NULL}};
 
-// 	//Allocate enough memory for all the doors.
-// 	int* pDoor = malloc(sizeof(int) * 2 * nDoorsAmount);
+	Door aRayaDoors[8] = {{RAYA_LUCARIA, 1, 4, 2, NULL, NULL},
+					   	  {RAYA_LUCARIA, 2, 0, 1, NULL, NULL},
+					   	  {RAYA_LUCARIA, 2, 3, 2, NULL, NULL},
+					   	  {RAYA_LUCARIA, 3, 3, 0, NULL, NULL},
+					   	  {RAYA_LUCARIA, 3, 3, 4, NULL, NULL},
+					  	  {RAYA_LUCARIA, 4, 2, 0, NULL, NULL},
+					   	  {RAYA_LUCARIA, 3, 0, 2, NULL, NULL},
+					  	  {RAYA_LUCARIA, 5, 7, 3, NULL, NULL}};
 
-// 	int i, j, nCounter;
+	Door aRedmaneDoors[12] = {{REDMANE_CASTLE, 1, 4, 1, NULL, NULL},
+					   		  {REDMANE_CASTLE, 2, 1, 0, NULL, NULL},
+					   		  {REDMANE_CASTLE, 2, 1, 6, NULL, NULL},
+					   		  {REDMANE_CASTLE, 3, 2, 0, NULL, NULL},
+					   		  {REDMANE_CASTLE, 3, 0, 2, NULL, NULL},
+					   		  {REDMANE_CASTLE, 4, 4, 3, NULL, NULL},
+					  		  {REDMANE_CASTLE, 4, 2, 0, NULL, NULL},
+					  		  {REDMANE_CASTLE, 5, 1, 4, NULL, NULL},
+					  		  {REDMANE_CASTLE, 5, 1, 0, NULL, NULL},
+					  		  {REDMANE_CASTLE, 6, 7, 3, NULL, NULL},
+					  		  {REDMANE_CASTLE, 6, 1, 3, NULL, NULL},
+					  		  {REDMANE_CASTLE, 7, 2, 0, NULL, NULL}};
 
-// 	nCounter = 0;
+	Door aVolcanoDoors[12] = {{VOLCANO_MANOR, 1, 2, 0, NULL, NULL},
+					   		  {VOLCANO_MANOR, 2, 6, 3, NULL, NULL},
+					   		  {VOLCANO_MANOR, 2, 3, 0, NULL, NULL},
+					   		  {VOLCANO_MANOR,21, 2, 4, NULL, NULL},
+					   		  {VOLCANO_MANOR, 2, 0, 3, NULL, NULL},
+					   		  {VOLCANO_MANOR, 3, 0, 1, NULL, NULL},
+					   		  {VOLCANO_MANOR, 2, 3, 6, NULL, NULL},
+					  		  {VOLCANO_MANOR,22, 2, 0, NULL, NULL},
+					  		  {VOLCANO_MANOR,22, 0, 3, NULL, NULL},
+					  		  {VOLCANO_MANOR,221,3, 1, NULL, NULL},
+					  		  {VOLCANO_MANOR, 3, 7, 1, NULL, NULL},
+					  		  {VOLCANO_MANOR, 4, 6, 2, NULL, NULL}};
 
-// 	for(i = 0; i < nLength; i++) {
-// 		for (j = 0; j < nWidth; j++) {
-// 			if (pReferenceMap[(i * nWidth) + j] == TILE_DOOR) {
-// 				*(pDoor + (0 + nCounter)) = i;
-// 				*(pDoor + (1 + nCounter)) = j;
-// 				nCounter++;
-// 			}
-// 		}
-// 	}
+	Door aLeyndellDoors[34] = {{LEYNDELL_CAPITAL, 1, 0, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 2, 6, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 2, 0, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 3, 4, 2, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 3, 2, 4, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 4, 1, 0, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 4, 0, 2, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 5, 3,13, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 5, 3, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL,51, 0, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 5, 0, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL,52, 6, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 5, 0, 7, NULL, NULL},
+							   {LEYNDELL_CAPITAL,53, 6, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 5, 0,13, NULL, NULL},
+							   {LEYNDELL_CAPITAL,54, 6, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL,52, 3, 2, NULL, NULL},
+							   {LEYNDELL_CAPITAL,53, 3, 0, NULL, NULL},
+							   {LEYNDELL_CAPITAL,53, 3, 2, NULL, NULL},
+							   {LEYNDELL_CAPITAL,54, 3, 0, NULL, NULL},
+							   {LEYNDELL_CAPITAL,52, 0, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 6, 3, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL,53, 0, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 6, 3, 7, NULL, NULL},
+							   {LEYNDELL_CAPITAL,54, 0, 1, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 6, 3,13, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 6, 0, 7, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 7, 6,11, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 7, 1, 6, NULL, NULL},
+							   {LEYNDELL_CAPITAL,71, 0, 2, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 7, 9, 0, NULL, NULL},
+							   {LEYNDELL_CAPITAL,72, 1, 2, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 7, 9,12, NULL, NULL},
+							   {LEYNDELL_CAPITAL,73, 1, 0, NULL, NULL}};
 
-// 	return pDoor;
-// }
+	Door aThroneDoors[4] = {{STORMVEIL, 1, 0, 1, NULL, NULL},
+						    {STORMVEIL, 2, 6, 3, NULL, NULL},
+						    {STORMVEIL, 2, 0, 3, NULL, NULL},
+						    {STORMVEIL, 3, 8, 1, NULL, NULL}};
 
-// Door* createDoor(int nArea, int nFloor) {
-// 	Door sNewDoor = {0, 0, NULL, NULL};
-
-// 	//Create a Door depending on area and floor number.
-// 	switch(nArea) {
+	//Create a Door Array depending on area.
+	switch(nArea) {
 		
-// 		case STORMVEIL:
+		case STORMVEIL:
 			
-// 			switch(nFloor) {
-// 				case 1:
-// 					sNewDoor = {STORMVEIL, 1, NULL, NULL};
-// 					break;
-// 				case 2:
-// 					sNewDoor = {STORMVEIL, 2, NULL, NULL};
-// 					break;
-// 				case 3:
-// 					sNewDoor = {STORMVEIL, 3, NULL, NULL};
-// 					break;
-// 			}			
-// 			break;
+			pDoorList = malloc(sizeof(aStormveilDoors));
+			for(i = 0; i < (sizeof(aStormveilDoors) / sizeof(Door)); i++) {
+				*(pDoorList + i) = aStormveilDoors[i];
+			}
 
-// 		case RAYA_LUCARIA:
-// 			switch(nFloor) {
-// 				case 1:
-// 					sNewDoor = {RAYA_LUCARIA, 1,  NULL, NULL};
-// 					break;
-// 				case 2:
-// 					sNewDoor = {RAYA_LUCARIA, 2, NULL, NULL};
-// 					break;
-// 				case 3:
-// 					sNewDoor = {RAYA_LUCARIA, 3, NULL, NULL};
-// 					break;
-// 				case 4:
-// 					sNewDoor = {RAYA_LUCARIA, 4, NULL, NULL};
-// 					break;
-// 				case 5:
-// 					sNewDoor = {RAYA_LUCARIA, 5, NULL, NULL};
-// 					break;
-// 			}
-// 			break;
-// 		case REDMANE_CASTLE:
-// 			switch(nFloor) {
-// 				case 1:
-// 					sNewDoor = {REDMANE_CASTLE, 1, NULL, NULL};
-// 					break;
-// 				case 2:
-// 					sNewDoor = {REDMANE_CASTLE, 2, NULL, NULL};				
-// 					break;
-// 				case 3:
-// 					sNewDoor = {REDMANE_CASTLE, 3, NULL, NULL};
-// 					break;
-// 				case 4:
-// 					sNewDoor = {REDMANE_CASTLE, 4, NULL, NULL};
-// 					break;
-// 				case 5:
-// 					sNewDoor = {REDMANE_CASTLE, 5, NULL, NULL};
-// 					break;
-// 				case 6:
-// 					sNewDoor = {REDMANE_CASTLE, 6, NULL, NULL};
-// 					break;
-// 				case 7:
-// 					sNewDoor = {REDMANE_CASTLE, 7, NULL, NULL};
-// 					break;
-// 			}
-// 			break;
-// 		case VOLCANO_MANOR:
-// 			switch(nFloor) {
-// 				case 1:
-// 					sNewDoor = {VOLCANO_MANOR, 1, NULL, NULL};
-// 					break;
-// 				case 2:
-// 					sNewDoor = {VOLCANO_MANOR, 2, NULL, NULL};
-// 					break;
-// 				case 21:
-// 					sNewDoor = {VOLCANO_MANOR, 21, NULL, NULL};
-// 					break;
-// 				case 22:
-// 					sNewDoor = {VOLCANO_MANOR, 22, NULL, NULL};
-// 					break;
-// 				case 221:
-// 					sNewDoor = {VOLCANO_MANOR, 221, NULL, NULL};
-// 					break;
-// 				case 3:
-// 					sNewDoor = {VOLCANO_MANOR, 3, NULL, NULL};
-// 					break;
-// 				case 4:
-// 					sNewDoor = {VOLCANO_MANOR, 4, NULL, NULL};
-// 					break;
-// 			}
-// 			break;
-// 		case LEYNDELL_CAPITAL:
-// 			switch(nFloor) {
-// 				case 1:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 1, NULL, NULL};
-// 					break;
-// 				case 2:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 2, NULL, NULL};
-// 					break;
-// 				case 3:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 3, NULL, NULL};
-// 					break;
-// 				case 4:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 4, NULL, NULL};
-// 					break;
-// 				case 5:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 5, NULL, NULL};
-// 					break;
-// 				case 51:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 51, NULL, NULL};
-// 					break;
-// 				case 52:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 52, NULL, NULL};
-// 					break;
-// 				case 53:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 53, NULL, NULL};
-// 					break;
-// 				case 54:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 54, NULL, NULL};
-// 					break;
-// 				case 6:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 6, NULL, NULL};
-// 					break;
-// 				case 7:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 7, NULL, NULL};
-// 					break;
-// 				case 71:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 71, NULL, NULL};
-// 					break;
-// 				case 72:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 72, NULL, NULL};
-// 					break;
-// 				case 73:
-// 					sNewDoor = {LEYNDELL_CAPITAL, 73, NULL, NULL};
-// 					break;
-// 			}
-// 			break;
-// 		case THE_ELDEN_THRONE:
-// 			switch(nFloor) {
-// 				case 1:
-// 					sNewDoor = {THE_ELDEN_THRONE, 1, NULL, NULL};
-// 					break;
-// 				case 2:
-// 					sNewDoor = {THE_ELDEN_THRONE, 2, NULL, NULL};
-// 					break;
-// 				case 3:
-// 					sNewDoor = {THE_ELDEN_THRONE, 3, NULL, NULL};
-// 					break;
-// 			}
-// 			break;
+			break;
+
+		case RAYA_LUCARIA:
+			
+			pDoorList = malloc(sizeof(aRayaDoors));
+			for(i = 0; i < (sizeof(aRayaDoors) / sizeof(Door)); i++) {
+				*(pDoorList + i) = aRayaDoors[i];
+			}
+
+			break;
+
+		case REDMANE_CASTLE:
+			
+			pDoorList = malloc(sizeof(aRedmaneDoors));
+			for(i = 0; i < (sizeof(aRedmaneDoors) / sizeof(Door)); i++) {
+				*(pDoorList + i) = aRedmaneDoors[i];
+			}
+
+			break;
+
+		case VOLCANO_MANOR:
+			
+			pDoorList = malloc(sizeof(aVolcanoDoors));
+			for(i = 0; i < (sizeof(aVolcanoDoors) / sizeof(Door)); i++) {
+				*(pDoorList + i) = aVolcanoDoors[i];
+			}
+
+			break;
+
+		case LEYNDELL_CAPITAL:
+			
+			pDoorList = malloc(sizeof(aLeyndellDoors));
+			for(i = 0; i < (sizeof(aLeyndellDoors) / sizeof(Door)); i++) {
+				*(pDoorList + i) = aLeyndellDoors[i];
+			}
+
+			break;
+
+		case THE_ELDEN_THRONE:
+			
+			pDoorList = malloc(sizeof(aThroneDoors));
+			for(i = 0; i < (sizeof(aThroneDoors) / sizeof(Door)); i++) {
+				*(pDoorList + i) = aThroneDoors[i];
+			}
+
+			break;
+	}
+	return pDoorList;
+}
+
+
+// Door* findDoor(Door* pHead, int nFloor, int nRow, int nCol) {
+
+// 	Door* pTemp = pHead;
+
+// 	while (pTemp != NULL) {
+// 		if (pTemp->nFloorNumber == nFloor &&
+// 			pTemp->nRow == nRow && pTemp->nCol == nCol) 
+// 			return pTemp;
+// 		else 
+// 			pTemp = pTemp->pDoorForward;
 // 	}
 
+// 	return NULL;
 // }
 
-// void addDoor(Door* sHead, int nArea, int nFloor) {
-// 	Door* sTemp = sHead;
-// 	Door* sNew = {nArea, nFloor, }
+Door* createNodeFromDoor (Door sDoor) {
 
-// 	while (sTemp->pDoorForward != NULL) {
-// 		sTemp = sTemp->pDoorForward;
-// 	}
+	Door* pDoorNode = malloc(sizeof(Door));
 
-// 	sNew 
-// 	sTemp->pDoorForward = 
-// }
+	pDoorNode->nArea = sDoor.nArea;
+	pDoorNode->nFloorNumber = sDoor.nFloorNumber;
+	pDoorNode->nRow = sDoorNode->nRow;
+	pDoorNode->nCol = sDoorNode->nCol;
 
-// void createDoorList(int nArea, int nFloor) {
+	pDoorNode->pDoorForward = sDoor.pDoorForward;
+	pDoorNode->pDoorBack = sDoor.pDoorBack;
 
-// 	Door* sDoorHead;
-// 	Door* sNewDoor;
+	return pDoorNode;
+}
 
-// 	sDoorHead = createDoor(nArea, 1);
-// 	sNewDoor = createDoor(nArea, 2);
+void connectDoors(Door* pDoorList, Door* pDoorArray, int nIndex) {
+	
+	Door* pDoorOne;
+	Door* pDoorTwo;
 
-// 	switch(nArea) {
-// 		case STORMVEIL:
-// 			sDoorHead->pDoorForward = sNewDoor;
-// 	}
+	pDoorOne = createNodeFromDoor(*(pDoorArray + nIndex));
+	pDoorTwo = createNodeFromDoor(*(pDoorArray + (nIndex + 1)));
 
-// }
+	pDoorOne->pDoorForward = pDoorTwo;
+	pDoorOne->pDoorBack = NULL;
+
+	pDoorTwo->pDoorBack = pDoorOne;
+	pDoorTwo->pDoorForward = NULL;
+
+	*(pDoorList + nIndex) = pDoorOne;
+	*(pDoorList + (nIndex + 1)) = pDoorTwo;
+
+}
+
+Door* createConnectedDoorList (int nArea) {
+	
+	Door* pDoorList;
+	Door* pDoorArray;
+
+	//Reusable Variables
+	int i;
+	int nDoorConnections;
+
+	switch(nArea) {
+		
+		case STORMVEIL:
+
+			pDoorArray = createDoorArray(STORMVEIL);
+			pDoorList = malloc(sizeof(Door) * 4);
+			nDoorConnections = 2;
+
+			for (i = 0; i <= nDoorConnections; i+=2) {
+				connectDoors(pDoorList, pDoorArray, i);
+			}
+				
+			break;
+
+		case RAYA_LUCARIA:
+			
+			pDoorArray = createDoorArray(RAYA_LUCARIA);
+			pDoorList = malloc(sizeof(Door) * 8);
+			nDoorConnections = 4;
+
+			for (i = 0; i <= nDoorConnections; i+=2) {
+				connectDoors(pDoorList, pDoorArray, i);
+			}
+
+			break;
+
+		case REDMANE_CASTLE:
+			
+			pDoorArray = createDoorArray(REDMANE_CASTLE);
+			pDoorList = malloc(sizeof(Door) * 12);
+			nDoorConnections = 6;
+
+			for (i = 0; i <= nDoorConnections; i+=2) {
+				connectDoors(pDoorList, pDoorArray, i);
+			}
+
+			break;
+
+		case VOLCANO_MANOR:
+			
+			pDoorArray = createDoorArray(VOLCANO_MANOR);
+			pDoorList = malloc(sizeof(Door) * 12);
+			nDoorConnections = 6;
+
+			for (i = 0; i <= nDoorConnections; i+=2) {
+				connectDoors(pDoorList, pDoorArray, i);
+			}
+
+			break;
+
+		case LEYNDELL_CAPITAL:
+			
+			pDoorArray = createDoorArray(LEYNDELL_CAPITAL);
+			pDoorList = malloc(sizeof(Door) * 34);
+			nDoorConnections = 17;
+
+			for (i = 0; i <= nDoorConnections; i+=2) {
+				connectDoors(pDoorList, pDoorArray, i);
+			}
+
+			break;
+
+		case THE_ELDEN_THRONE:
+			
+			pDoorArray = createDoorArray(THE_ELDEN_THRONE);
+			pDoorList = malloc(sizeof(Door) * 4);
+			nDoorConnections = 2;
+
+			for (i = 0; i <= nDoorConnections; i+=2) {
+				connectDoors(pDoorList, pDoorArray, i);
+			}
+
+			break;
+	}
+
+	return pDoorList;
+}
