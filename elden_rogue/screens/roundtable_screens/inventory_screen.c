@@ -7,7 +7,219 @@
 
 #include "../../config/settings.h"
 
-//User Interface / Printing Functions 
+
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/* 	openInventory		Opens the Inventory of the Player.
+	
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
+void openInventory(Player* pPlayer) {
+
+	int nInputInventory = 100; //random value basta wala sa choices
+	int nInputWeapon;
+	int nPlayerWeapons = getPlayerWeapons(pPlayer);
+	int nTemp;
+	int nPage = 1;
+
+	Weapon* pSelectedWeapon;
+
+	displayInventory(5, pPlayer, nPage);
+
+	while(nInputInventory != 0) {
+
+		nInputInventory = scanIntInput(0, 3); //Inventory Screen
+		nPlayerWeapons = getPlayerWeapons(pPlayer);
+
+		switch (nInputInventory) {
+			
+			case SELECT:
+				scanf("%d", &nInputWeapon); //Input Weapon Index
+				
+				if (nInputWeapon != 0) 
+					pSelectedWeapon = findWeapon(nInputWeapon, pPlayer); //Weapon to be equipped
+
+				if (pSelectedWeapon != NULL) { //if the index the player inputted has a weapon
+
+					addWeaponToInventory(pPlayer->pEquippedWeapon, pPlayer);
+					pPlayer->pEquippedWeapon = pSelectedWeapon;
+					//remove weapon from inventory
+					//add previous equipped weapon to the end of inventory
+					displayInventory(SELECT, pPlayer, nPage);
+
+				} else {
+					displayInventory(NO_EXIST, pPlayer, nPage);
+				}
+
+				break;
+
+			case PREVIOUS:
+				if (nPage > 1) 
+					nPage--;
+				break;
+
+			case NEXT:
+
+				nTemp = nPlayerWeapons / 12;
+
+				if (nPlayerWeapons % 12 != 0)
+					nTemp++;
+
+				if (nPage < nTemp)
+					nPage++;
+
+				break;
+
+			case I_BACK:
+
+				openRoundTableHoldScreen(pPlayer);
+				break;
+
+
+		}
+	}
+}
+
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/* 	findWeapon			Finds the weapon using a given index inside the 
+						Player's Inventory.
+
+	@param	nInputIndex	An integer variable containing the Index of the 
+						Weapon the Player chose from the Inventory.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	@return				A pointer of type Weapon.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
+Weapon* findWeapon(int nInputIndex, Player* pPlayer) {
+
+	Slot* pWeaponSlot = pPlayer->pInventory;
+	Weapon* pWeapon = pWeaponSlot->pWeapon;
+	
+	while(pWeapon->nWeaponIndex != nInputIndex || pWeaponSlot != NULL) {
+		pWeaponSlot = pWeaponSlot->pNext;
+		pWeapon = pWeaponSlot->pWeapon;
+	}
+
+	return pWeapon;
+}
+
+/* 	createEmptyWeapon	Creates an instance of an empty Weapon.
+
+	@return				A pointer of type Weapon.					   */
+Weapon* createEmptyWeapon() {
+	
+	Weapon* pWeapon = malloc(sizeof(Weapon));
+
+	pWeapon->nWeaponIndex = 0;
+	strcpy(pWeapon->strWeaponName, "NONE");
+	pWeapon->nWeaponType = 0;
+
+	pWeapon->nDexReq = 0;
+	pWeapon->nHP = 0;
+	pWeapon->nInt = 0;
+	pWeapon->nEnd = 0;
+	pWeapon->nStr = 0;
+	pWeapon->nFth = 0;
+
+	return pWeapon;
+}
+
+/* 	sortInventory		Fills in empty spaces in between items in the
+						Player's Inventory by moving items back to fill 
+						the gap.
+
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
+void sortInventory(Player* pPlayer) {
+	
+	Slot* sInventorySlot = pPlayer->pInventory;
+
+	if (!strcmp(sInventorySlot->pNext->pWeapon->strWeaponName, "NONE")) {
+		
+		if (strcmp(sInventorySlot->pNext->pNext->pWeapon->strWeaponName, "NONE")) {
+			
+			while (sInventorySlot->pNext != NULL) {
+				if (sInventorySlot->pNext->pNext != NULL)
+					sInventorySlot->pNext->pNext->pWeapon->nWeaponIndex--;
+				sInventorySlot->pNext = sInventorySlot->pNext->pNext;
+				sInventorySlot = sInventorySlot->pNext;
+			}
+		}
+	}
+
+	//Store the sorted inventory in the Player Struct.
+	pPlayer->pInventory = sInventorySlot;
+}
+
+/* 	removeWeaponFromInventory	asdsadasdasd
+
+	@param	pPlayer				The Player Structure containing all of 
+								the Player's statistics and items.
+
+	Pre-condition				pPlayer should be initiated and all 
+								members should have a value.		   */
+void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer) {
+	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
+
+	//Find the weapon and set it to slot.
+	while (!strcmp(sInventorySlot->pWeapon->strWeaponName, sWeapon.strWeaponName) && 
+			sInventorySlot->pWeapon->nWeaponIndex == sWeapon.nWeaponIndex) {
+		sInventorySlot = sInventorySlot->pNext;
+	}
+
+	//Set the slot to empty.
+	sInventorySlot->pWeapon = createEmptyWeapon();
+	pPlayer->pInventory = sInventorySlot;
+
+	//Remove empty spaces between items.
+	sortInventory(pPlayer);
+}
+
+void addWeaponToInventory(Weapon* pWeapon, Player* pPlayer) {
+	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
+
+	//Get the last inventory slot.
+	while (sInventorySlot->pNext != NULL) {
+		sInventorySlot = sInventorySlot->pNext;
+	}
+
+	//Set the next of the Last item to the removed equipped item.
+	sInventorySlot->pNext->pWeapon = pWeapon;
+	//Set the index of the new item.
+	sInventorySlot->pNext->pWeapon->nWeaponIndex = sInventorySlot->pWeapon->nWeaponIndex + 1;
+
+	//Update the player's inventory.
+	pPlayer->pInventory = sInventorySlot;
+}
+
+int getPlayerWeapons(Player* pPlayer) {
+	int nPlayerWeapons = 0;
+
+	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
+
+	//Get the last inventory slot.
+	while (sInventorySlot != NULL) {
+		sInventorySlot = sInventorySlot->pNext;
+		nPlayerWeapons++;
+	}
+
+	return nPlayerWeapons;
+}
+
+
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
 void printInventorySlot(Weapon sWeapon) {
 
 	int nSpaces = 2;
@@ -124,172 +336,4 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 	}
 
 	printInputTag();
-}
-
-//Utility Functions
-Weapon* findWeapon(int nInputIndex, Player* pPlayer) {
-
-	Slot* pWeaponSlot = pPlayer->pInventory;
-	Weapon* pWeapon = pWeaponSlot->pWeapon;
-	
-	while(pWeapon->nWeaponIndex != nInputIndex || pWeaponSlot != NULL) {
-		pWeaponSlot = pWeaponSlot->pNext;
-		pWeapon = pWeaponSlot->pWeapon;
-	}
-
-	return pWeapon;
-}
-
-Weapon* createEmptyWeapon() {
-	
-	Weapon* pWeapon = malloc(sizeof(Weapon));
-
-	pWeapon->nWeaponIndex = 0;
-	strcpy(pWeapon->strWeaponName, "NONE");
-	pWeapon->nWeaponType = 0;
-
-	pWeapon->nDexReq = 0;
-	pWeapon->nHP = 0;
-	pWeapon->nInt = 0;
-	pWeapon->nEnd = 0;
-	pWeapon->nStr = 0;
-	pWeapon->nFth = 0;
-
-	return pWeapon;
-}
-
-void sortInventory(Player* pPlayer) {
-	
-	Slot* sInventorySlot = pPlayer->pInventory;
-
-	if (!strcmp(sInventorySlot->pNext->pWeapon->strWeaponName, "NONE")) {
-		
-		if (strcmp(sInventorySlot->pNext->pNext->pWeapon->strWeaponName, "NONE")) {
-			
-			while (sInventorySlot->pNext != NULL) {
-				if (sInventorySlot->pNext->pNext != NULL)
-					sInventorySlot->pNext->pNext->pWeapon->nWeaponIndex--;
-				sInventorySlot->pNext = sInventorySlot->pNext->pNext;
-				sInventorySlot = sInventorySlot->pNext;
-			}
-		}
-	}
-
-	//Store the sorted inventory in the Player Struct.
-	pPlayer->pInventory = sInventorySlot;
-}
-
-void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer) {
-	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
-
-	//Find the weapon and set it to slot.
-	while (!strcmp(sInventorySlot->pWeapon->strWeaponName, sWeapon.strWeaponName) && 
-			sInventorySlot->pWeapon->nWeaponIndex == sWeapon.nWeaponIndex) {
-		sInventorySlot = sInventorySlot->pNext;
-	}
-
-	//Set the slot to empty.
-	sInventorySlot->pWeapon = createEmptyWeapon();
-	pPlayer->pInventory = sInventorySlot;
-
-	//Remove empty spaces between items.
-	sortInventory(pPlayer);
-}
-
-void addWeaponToInventory(Weapon* pWeapon, Player* pPlayer) {
-	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
-
-	//Get the last inventory slot.
-	while (sInventorySlot->pNext != NULL) {
-		sInventorySlot = sInventorySlot->pNext;
-	}
-
-	//Set the next of the Last item to the removed equipped item.
-	sInventorySlot->pNext->pWeapon = pWeapon;
-	//Set the index of the new item.
-	sInventorySlot->pNext->pWeapon->nWeaponIndex = sInventorySlot->pWeapon->nWeaponIndex + 1;
-
-	//Update the player's inventory.
-	pPlayer->pInventory = sInventorySlot;
-}
-
-int getPlayerWeapons(Player* pPlayer) {
-	int nPlayerWeapons = 0;
-
-	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
-
-	//Get the last inventory slot.
-	while (sInventorySlot != NULL) {
-		sInventorySlot = sInventorySlot->pNext;
-		nPlayerWeapons++;
-	}
-
-	return nPlayerWeapons;
-}
-
-//Central Inventory Function
-void openInventory(Player* pPlayer) {
-
-	int nInputInventory = 100; //random value basta wala sa choices
-	int nInputWeapon;
-	int nPlayerWeapons = getPlayerWeapons(pPlayer);
-	int nTemp;
-	int nPage = 1;
-
-	Weapon* pSelectedWeapon;
-
-	displayInventory(5, pPlayer, nPage);
-
-	while(nInputInventory != 0) {
-
-		nInputInventory = scanIntInput(0, 3); //Inventory Screen
-		nPlayerWeapons = getPlayerWeapons(pPlayer);
-
-		switch (nInputInventory) {
-			
-			case SELECT:
-				scanf("%d", &nInputWeapon); //Input Weapon Index
-				
-				if (nInputWeapon != 0) 
-					pSelectedWeapon = findWeapon(nInputWeapon, pPlayer); //Weapon to be equipped
-
-				if (pSelectedWeapon != NULL) { //if the index the player inputted has a weapon
-
-					addWeaponToInventory(pPlayer->pEquippedWeapon, pPlayer);
-					pPlayer->pEquippedWeapon = pSelectedWeapon;
-					//remove weapon from inventory
-					//add previous equipped weapon to the end of inventory
-					displayInventory(SELECT, pPlayer, nPage);
-
-				} else {
-					displayInventory(NO_EXIST, pPlayer, nPage);
-				}
-
-				break;
-
-			case PREVIOUS:
-				if (nPage > 1) 
-					nPage--;
-				break;
-
-			case NEXT:
-
-				nTemp = nPlayerWeapons / 12;
-
-				if (nPlayerWeapons % 12 != 0)
-					nTemp++;
-
-				if (nPage < nTemp)
-					nPage++;
-
-				break;
-
-			case I_BACK:
-
-				openRoundTableHoldScreen(pPlayer);
-				break;
-
-
-		}
-	}
 }

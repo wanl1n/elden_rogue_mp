@@ -1,150 +1,115 @@
-#include "chara_creation_screen.h"
-#include "title_screen.h"
-#include "roundtable_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "title_screen.h" //Contains constants needed for Title Screen.
+#include "chara_creation_screen.h" //When Player chooses Play.
+#include "roundtable_screen.h" // When Player chooses Continue.
 
-#include "../driver.h"
+#include "../driver.h" //Contains all the structures used in the code.
 
-#include "../config/settings.h"
 
-void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/* 	openCharacterCreationScreen		Opens the Character Creation Screen.
 	
-	system("cls");
+	@param	pPlayer					The Player Structure containing all 
+									of the Player's statistics and items. 
 
-	printHeader("CHARACTER CREATION", 18);
+	Pre-condition					pPlayer should be initiated and all 
+									members should have a value.	   */
+void openCharacterCreationScreen(Player* pPlayer) {
 	
-	printf("\t\tNAME: %s\n"
-		   "\t\tJOB CLASS: %s\n",
-		   pPlayer->strName, pPlayer->strJobClass);
+	displayCharacterCreationScreen(6, pPlayer);
+	
+	int nInput;
+	char aInputName[26] = "";
 
-	printOption(1, "NAME");
-	printOption(2, "JOB CLASS");
-	printOption(3, "CONFIRM");
-	printOption(0, "BACK");\
-	printf("\n\n");
-	
-	switch(nPrompt) {
-		case NAME:
-			printSystemMessage("Input your name.");
-			break;
-		case JOB:
-			printSystemMessage("Choose your job.");
-			break;
-		case CC_CONFIRM:
-			printSystemMessage("Saving character...");
-			break;
-		case CC_BACK:
-			printSystemMessage("Going back to title screen...");
-			break;
-		case SET_NAME:
-			printMultiple(" ", SCREEN_PADDING);
-			printf("[SYSTEM MESSAGE]: You set your name to %s.", pPlayer->strName);
-			break;
-		case SET_JOB:
-			printMultiple(" ", SCREEN_PADDING);
-			printf("[SYSTEM MESSAGE]: You set your job to %s.", pPlayer->strJobClass);
-			break;
-		case 6:
-			break;
+	int nComplete = 0;
+
+	while(!nComplete) {
+		nInput = scanIntInput(0, 3);
+
+		switch(nInput) {
+			case NAME:
+				printMultiple(" ", SCREEN_PADDING);
+				printf("[INPUT NAME]: ");
+				scanf(" %[^\n]s", aInputName);
+				strcpy(pPlayer->strName, aInputName);
+				displayCharacterCreationScreen(SET_NAME, pPlayer);
+				break;
+
+			case JOB:
+				openJobScreen(pPlayer);
+				displayCharacterCreationScreen(SET_JOB, pPlayer);
+				break;
+
+			case CC_CONFIRM:
+				if (!strcmp(pPlayer->strName, "")) {
+
+					printf("Please set your name");
+
+					if (!strcmp(pPlayer->strJobClass, ""))
+						printf(" and job");
+					
+					printf(" first.\n");
+
+				} else if (!strcmp(pPlayer->strJobClass, "")) {
+					printf("Please set your job first.\n");
+				} else {
+					nComplete = 1;
+					openRoundTableHoldScreen(pPlayer);
+				}
+					
+				break;
+
+			case CC_BACK:
+				openTitleScreen(pPlayer);
+				break;
+		}	
 	}
-
-	printInputTag();
-
-	Sleep(DELAY);
 }
 
-void displayJobScreen(int nPrompt, Player* pPlayer) {
-
-	system("cls");
-
-	printHeader("JOB CLASS", 9);
-	printf("Current Job: %s\n\n"
-			"OPTIONS:\n"
-			"[1] VAGABOND      [4] HERO\n"
-			"[2] SAMURAI	  [5] PROPHET\n"
-			"[3] WARRIOR	  [6] ASTROLOGER\n\n"
-			"SYSTEM MESSAGE: ", pPlayer->strJobClass);
+/* 	openJobScreen		Opens the Job Classes Screen.
 	
-	switch(nPrompt) {
-		case VAGABOND:
-			printf("Showing Vagabond stats...");
-			break;
-		case SAMURAI:
-			printf("Showing Samurai stats...");
-			break;
-		case WARRIOR:
-			printf("Showing Warrior stats...");
-			break;
-		case HERO:
-			printf("Showing Hero stats...");
-			break;
-		case PROPHET:
-			printf("Showing Prophet stats...");
-			break;
-		case ASTROLOGER:
-			printf("Showing Astrologer stats...");
-			break;
-		case 7:
-			break;
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items. 
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
+void openJobScreen(Player* pPlayer) {
+	displayJobScreen(7, pPlayer);
+
+	int nInputJob, nChoice;
+	int nSetJob = 0;
+
+	while(!nSetJob) {
+		nInputJob = scanIntInput(1, 6); //scanner input
+		displayJobClassScreen(nInputJob); //player can see the details
+
+		nChoice = scanIntInput(0, 1); //CONFIRM CHOSEN CLASS
+		
+		if (nChoice) {//confirm
+			
+			setJobClass(nInputJob, pPlayer);
+			nSetJob = 1;
+
+		} else {
+			displayJobScreen(7, pPlayer);
+		}
 	}
-
-	printInputTag();
-
-	Sleep(DELAY);
 }
 
-void displayJobClassScreen(int nJobClass) {
-	
-	printHeader("JOB CLASS", 9);
 
-	switch(nJobClass) {
-		case VAGABOND:
-			printf("VAGABOND\n\n"
-				"LEVEL			09\n"
-				"HEALTH			15 	ENDURANCE		11\n"
-				"DEXTERITY		13	STRENGTH		14\n"
-				"INTELLIGENCE	09 	FAITH			09\n\n");
-			break;
-		case SAMURAI:
-			printf("SAMURAI\n\n"
-				"LEVEL			09\n"
-				"HEALTH			12 	ENDURANCE		13\n"
-				"DEXTERITY		15	STRENGTH		12\n"
-				"INTELLIGENCE	09	FAITH			08\n\n");
-			break;
-		case WARRIOR:
-			printf("WARRIOR\n\n"
-				"LEVEL			08\n"
-				"HEALTH			11 	ENDURANCE		11\n"
-				"DEXTERITY		16	STRENGTH		10\n"
-				"INTELLIGENCE	10	FAITH			08\n\n");
-			break;
-		case HERO:
-			printf("HERO\n\n"
-				"LEVEL			07\n"
-				"HEALTH			14 	ENDURANCE		12\n"
-				"DEXTERITY		09	STRENGTH		16\n"
-				"INTELLIGENCE	07	FAITH			08\n\n");
-			break;
-		case PROPHET:
-			printf("PROPHET\n\n"
-				"LEVEL			07\n"
-				"HEALTH			10 	ENDURANCE		08\n"
-				"DEXTERITY		10	STRENGTH		11\n"
-				"INTELLIGENCE	07	FAITH			16\n\n");
-			break;
-		case ASTROLOGER:
-			printf("ASTROLOGER\n\n"
-				"LEVEL			06\n"
-				"HEALTH			09 	ENDURANCE		09\n"
-				"DEXTERITY		12	STRENGTH		08\n"
-				"INTELLIGENCE	16	FAITH			07\n\n");
-			break;
-	}
 
-	printf("[0] BACK			[1] CONFIRM\n");
-	
-}
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/* 	setJobClass			Set's the Player's statistics to the chosen Job
+						Class statistics.
 
+	@param	nInput		An integer variable containing the integer value
+						of the chosen job class.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
 void setJobClass(int nInput, Player* pPlayer) {
 
 	switch(nInput) {
@@ -212,77 +177,171 @@ void setJobClass(int nInput, Player* pPlayer) {
 }
 
 
-void openCharacterCreationScreen(Player* pPlayer) {
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/* 	displayCharacterCreationScreen	Prints the User Interface of the 
+									Character Creation Screen.
 	
-	displayCharacterCreationScreen(6, pPlayer);
+	@param	nPrompt					An integer value containing the 
+									prompt integer code.
+	@param	pPlayer					The Player Structure containing all 
+									of the Player's statistics and items. 
+
+	Pre-condition					pPlayer should be initiated and all 
+									members should have a value.	   */
+void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 	
-	int nInput;
-	char aInputName[26] = "";
+	system("cls");
 
-	int nComplete = 0;
+	printHeader("CHARACTER CREATION", 18);
+	
+	printf("\t\tNAME: %s\n"
+		   "\t\tJOB CLASS: %s\n",
+		   pPlayer->strName, pPlayer->strJobClass);
 
-	while(!nComplete) {
-		nInput = scanIntInput(0, 3);
-
-		switch(nInput) {
-			case NAME:
-				printMultiple(" ", SCREEN_PADDING);
-				printf("[INPUT NAME]: ");
-				scanf(" %[^\n]s", aInputName);
-				strcpy(pPlayer->strName, aInputName);
-				displayCharacterCreationScreen(SET_NAME, pPlayer);
-				break;
-
-			case JOB:
-				openJobScreen(pPlayer);
-				displayCharacterCreationScreen(SET_JOB, pPlayer);
-				break;
-
-			case CC_CONFIRM:
-				if (!strcmp(pPlayer->strName, "")) {
-
-					printf("Please set your name");
-
-					if (!strcmp(pPlayer->strJobClass, ""))
-						printf(" and job");
-					
-					printf(" first.\n");
-
-				} else if (!strcmp(pPlayer->strJobClass, "")) {
-					printf("Please set your job first.\n");
-				} else {
-					nComplete = 1;
-					openRoundTableHoldScreen(pPlayer);
-				}
-					
-				break;
-
-			case CC_BACK:
-				openTitleScreen(pPlayer);
-				break;
-		}	
+	printOption(1, "NAME");
+	printOption(2, "JOB CLASS");
+	printOption(3, "CONFIRM");
+	printOption(0, "BACK");\
+	printf("\n\n");
+	
+	switch(nPrompt) {
+		case NAME:
+			printSystemMessage("Input your name.");
+			break;
+		case JOB:
+			printSystemMessage("Choose your job.");
+			break;
+		case CC_CONFIRM:
+			printSystemMessage("Saving character...");
+			break;
+		case CC_BACK:
+			printSystemMessage("Going back to title screen...");
+			break;
+		case SET_NAME:
+			printMultiple(" ", SCREEN_PADDING);
+			printf("[SYSTEM MESSAGE]: You set your name to %s.", pPlayer->strName);
+			break;
+		case SET_JOB:
+			printMultiple(" ", SCREEN_PADDING);
+			printf("[SYSTEM MESSAGE]: You set your job to %s.", pPlayer->strJobClass);
+			break;
+		case 6:
+			break;
 	}
+
+	printInputTag();
+
+	Sleep(DELAY);
 }
 
-void openJobScreen(Player* pPlayer) {
-	displayJobScreen(7, pPlayer);
+/* 	displayJobScreen	Prints the User Interface of the Job List 
+						Screen.
+	
+	@param	nPrompt		An integer value containing the prompt integer
+						code.										   
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items. 
 
-	int nInputJob, nChoice;
-	int nSetJob = 0;
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					 */
+void displayJobScreen(int nPrompt, Player* pPlayer) {
 
-	while(!nSetJob) {
-		nInputJob = scanIntInput(1, 6); //scanner input
-		displayJobClassScreen(nInputJob); //player can see the details
+	system("cls");
 
-		nChoice = scanIntInput(0, 1); //CONFIRM CHOSEN CLASS
-		
-		if (nChoice) {//confirm
-			
-			setJobClass(nInputJob, pPlayer);
-			nSetJob = 1;
-
-		} else {
-			displayJobScreen(7, pPlayer);
-		}
+	printHeader("JOB CLASS", 9);
+	printf("Current Job: %s\n\n"
+			"OPTIONS:\n"
+			"[1] VAGABOND      [4] HERO\n"
+			"[2] SAMURAI	  [5] PROPHET\n"
+			"[3] WARRIOR	  [6] ASTROLOGER\n\n"
+			"SYSTEM MESSAGE: ", pPlayer->strJobClass);
+	
+	switch(nPrompt) {
+		case VAGABOND:
+			printf("Showing Vagabond stats...");
+			break;
+		case SAMURAI:
+			printf("Showing Samurai stats...");
+			break;
+		case WARRIOR:
+			printf("Showing Warrior stats...");
+			break;
+		case HERO:
+			printf("Showing Hero stats...");
+			break;
+		case PROPHET:
+			printf("Showing Prophet stats...");
+			break;
+		case ASTROLOGER:
+			printf("Showing Astrologer stats...");
+			break;
+		case 7:
+			break;
 	}
+
+	printInputTag();
+
+	Sleep(DELAY);
 }
+
+/* 	displayJobScreen	Prints the User Interface of the Job Class 
+						Screen.
+	
+	@param	nJobClass	An integer value containing the Player's
+						chosen Job Class.							 */
+void displayJobClassScreen(int nJobClass) {
+	
+	printHeader("JOB CLASS", 9);
+
+	switch(nJobClass) {
+		case VAGABOND:
+			printf("VAGABOND\n\n"
+				"LEVEL			09\n"
+				"HEALTH			15 	ENDURANCE		11\n"
+				"DEXTERITY		13	STRENGTH		14\n"
+				"INTELLIGENCE	09 	FAITH			09\n\n");
+			break;
+		case SAMURAI:
+			printf("SAMURAI\n\n"
+				"LEVEL			09\n"
+				"HEALTH			12 	ENDURANCE		13\n"
+				"DEXTERITY		15	STRENGTH		12\n"
+				"INTELLIGENCE	09	FAITH			08\n\n");
+			break;
+		case WARRIOR:
+			printf("WARRIOR\n\n"
+				"LEVEL			08\n"
+				"HEALTH			11 	ENDURANCE		11\n"
+				"DEXTERITY		16	STRENGTH		10\n"
+				"INTELLIGENCE	10	FAITH			08\n\n");
+			break;
+		case HERO:
+			printf("HERO\n\n"
+				"LEVEL			07\n"
+				"HEALTH			14 	ENDURANCE		12\n"
+				"DEXTERITY		09	STRENGTH		16\n"
+				"INTELLIGENCE	07	FAITH			08\n\n");
+			break;
+		case PROPHET:
+			printf("PROPHET\n\n"
+				"LEVEL			07\n"
+				"HEALTH			10 	ENDURANCE		08\n"
+				"DEXTERITY		10	STRENGTH		11\n"
+				"INTELLIGENCE	07	FAITH			16\n\n");
+			break;
+		case ASTROLOGER:
+			printf("ASTROLOGER\n\n"
+				"LEVEL			06\n"
+				"HEALTH			09 	ENDURANCE		09\n"
+				"DEXTERITY		12	STRENGTH		08\n"
+				"INTELLIGENCE	16	FAITH			07\n\n");
+			break;
+	}
+
+	printf("[0] BACK			[1] CONFIRM\n");
+	
+}
+
+
+
