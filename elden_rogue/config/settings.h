@@ -6,8 +6,4 @@
 #define HEADER_WIDTH	30
 #define OPTION_PADDING	10
 
-#define MAX_PLAYER_NAME 25
-#define MAX_PLAYER_JOB  10
-
-
 #endif

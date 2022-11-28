@@ -1,17 +1,70 @@
-#include "chara_creation_screen.h"
-#include "title_screen.h"
-#include "roundtable_screen.h"
-#include "areas_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "title_screen.h" //When Player goes back.
+#include "roundtable_screen.h" // When Player chooses Continue.
+#include "areas_screen.h" //When the Player fast travels.
 
+//Screens accessed through the Roundtable Hold Screen.
 #include "roundtable_screens/fasttravel_screen.h"
 #include "roundtable_screens/levelup_screen.h"
 #include "roundtable_screens/inventory_screen.h"
 #include "roundtable_screens/buy_screen.h"
+#include "roundtable_screens/sell_screen.h"
 
-#include "../driver.h"
+#include "../driver.h" //Contains all the structures used in the code.
 
-#include "../config/settings.h"
 
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/* 	openRoundTableHoldScreen	Opens the Character Creation Screen.
+	
+	@param	pPlayer				The Player Structure containing all 
+								of the Player's statistics and items. 
+
+	Pre-condition				pPlayer should be initiated and all 
+								members should have a value.	   	   */
+void openRoundTableHoldScreen(Player* pPlayer) {
+	displayRoundTableHoldScreen(6, pPlayer);
+
+	int nInputRoundTable;
+
+	nInputRoundTable = scanIntInput(0, 5);
+	displayRoundTableHoldScreen(nInputRoundTable, pPlayer);
+
+	switch(nInputRoundTable) {
+		case FAST_TRAVEL:
+			openFastTravelScreen(pPlayer);
+			break;
+		case LEVEL_UP:
+			openLevelUpScreen(pPlayer);
+			break;
+		case INVENTORY:
+			openInventory(pPlayer);
+			break;
+		case SHOP:
+			openShop(pPlayer);
+			break;
+		case SAVE:
+			openSaveScreen(pPlayer);
+			break;
+		case QUIT_GAME:
+			openTitleScreen(pPlayer);
+			break;
+	}
+}
+
+
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/* 	displayRoundTableHoldScreen		Prints the User Interface of the 
+									Roundtable Hold Screen.
+	
+	@param	nPrompt					An integer value containing the 
+									prompt integer code.
+	@param	pPlayer					The Player Structure containing all 
+									of the Player's statistics and items. 
+
+	Pre-condition					pPlayer should be initiated and all 
+									members should have a value.	   */
 void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 	
 	system("cls");
@@ -65,6 +118,9 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 	Sleep(DELAY);
 }
 
+
+
+//TO BE MOVED
 void displayShop() {
 	
 	system("cls");
@@ -93,38 +149,6 @@ void displaySaveScreen(Player* pPlayer) {
 		"[0] BACK\n\n"
 		"INPUT: ");
 }
-
-void openRoundTableHoldScreen(Player* pPlayer) {
-	displayRoundTableHoldScreen(6, pPlayer);
-
-	int nInputRoundTable;
-
-	nInputRoundTable = scanIntInput(0, 5);
-	displayRoundTableHoldScreen(nInputRoundTable, pPlayer);
-
-	switch(nInputRoundTable) {
-		case FAST_TRAVEL:
-			openFastTravelScreen(pPlayer);
-			break;
-		case LEVEL_UP:
-			openLevelUpScreen(pPlayer);
-			break;
-		case INVENTORY:
-			openInventory(pPlayer);
-			break;
-		case SHOP:
-			openShop(pPlayer);
-			break;
-		case SAVE:
-			openSaveScreen(pPlayer);
-			break;
-		case QUIT_GAME:
-			openTitleScreen(pPlayer);
-			break;
-	}
-}
-
-
 
 void openShop(Player* pPlayer) {
 	displayShop();

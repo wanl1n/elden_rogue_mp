@@ -1,7 +1,7 @@
 // ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
-#include "title_screen.h" //Contains constants needed for Title Screen.
-#include "chara_creation_screen.h" //When Player chooses Play.
-#include "roundtable_screen.h" // When Player chooses Continue.
+#include "title_screen.h" //When Player Goes Back.
+#include "chara_creation_screen.h" //Contains the needed constants.
+#include "roundtable_screen.h" // When Player finishes character creation.
 
 #include "../driver.h" //Contains all the structures used in the code.
 

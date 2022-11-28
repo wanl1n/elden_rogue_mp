@@ -1,19 +1,144 @@
-#include "chara_creation_screen.h"
-#include "title_screen.h"
-#include "roundtable_screen.h"
-#include "areas_screen.h"
-#include "battle_screen.h"
-#include "credits_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "roundtable_screen.h" // When player completes the area.
+#include "areas_screen.h" // Contains constants needed for Area Screen.
+#include "battle_screen.h" // When Player triggers a battle.
+#include "credits_screen.h" // When Player reaches the Credits.
 
-#include "../driver.h"
+#include "../driver.h" //Contains all the structures used in the code.
 
-#include "../config/settings.h"
-#include "../utility/colors.h"
-#include "../utility/printer.h"
-#include "../utility/doors.h"
+#include "../utility/colors.h" // Used for printing with colors.
+#include "../utility/printer.h" // Used for printing Interface.
+#include "../utility/doors.h" // Used to initialize and link doors.
 
-//User Interface / Printing Functions
 
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/* 	openAreaScreen		Opens the Area Screen.
+	
+	@param 	nAreaNumber	An integer value contaning the Area number.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.
+						nAreaNumber must be between 1 and 6 inclusive. */
+void openAreaScreen(int nAreaNumber, Player* pPlayer) {
+	
+	//Player Inputs.
+	char cPlayerInput;
+	char aMoves[] = {'W', 'w', 'A', 'a', 'S', 's', 'D', 'd', 'E', 'e'};
+
+	//Initializing variables.
+	int nFloor = 1; 
+	int nCleared = 0;
+	// int *pFloor = &nFloor;
+
+	//Initializing Initial Player Stats. 
+	//NOTE: Don't use nPlayerHP and nWeaponHP for anything other than calculating the formula.
+	int nPlayerHP = pPlayer->nHealth; //for calculating Max HP.
+	int nWeaponHP = pPlayer->pEquippedWeapon->nHP; //for calculating Max HP.
+	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
+	pPlayer->nPlayerMaxHP = nPlayerMaxHP; //Saving Player's Max HP.
+	
+	//Saving player location.
+	int* pPlayerLoc = findFastTravelTile(nAreaNumber, nFloor);
+	pPlayer->aPlayerLoc[0] = *(pPlayerLoc + 0);
+	pPlayer->aPlayerLoc[1] = *(pPlayerLoc + 1);
+
+	do {
+		
+		printFloorHeader(nAreaNumber);
+		printFloorMap(nAreaNumber, nFloor, pPlayer);
+		displayUserInterface(nPlayerMaxHP, pPlayer);
+
+
+		cPlayerInput = scanCharInput(aMoves, 10);
+
+		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer, &nCleared);
+
+	} while (pPlayer->nHealth > 0 || !nCleared);
+
+	//When the Player dies.
+	if (pPlayer->nHealth <= 0) 
+		printf("DEAD");
+	else
+		printf("win");
+}
+
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/* 	processInput		Finds the Fast Travel Tile from a given 
+
+	@param	cInput		A character variable containing the Player's
+						input.
+	@param	nArea		An integer variable containing the Area number.
+	@param	pFloor		An integer pointer variable containing the 
+						address of the Floor variable.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param	pCleared	An integer pointer variable containing the 
+						address of the Boolean flag in integer form.
+	
+	Pre-condition		nArea value is within 1 to 6.
+						nFloor should have a corresponding map 
+						(depending on the area number, the integer 
+						value is limited.)
+						pPlayer should be initiated and all members 
+						should have a value.
+						pCleared should be 0 initially.				   */
+void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
+
+	switch(cInput) {
+		case 'W':
+		case 'w':
+			movePlayerTile(UP, nArea, *pFloor, pPlayer);
+			break;
+
+		case 'S':
+		case 's':
+			movePlayerTile(DOWN, nArea, *pFloor, pPlayer);
+			break;
+
+		case 'A':
+		case 'a':
+			movePlayerTile(LEFT, nArea, *pFloor, pPlayer);
+			break;
+
+		case 'D':
+		case 'd':
+			movePlayerTile(RIGHT, nArea, *pFloor, pPlayer);
+			break;
+
+		case 'E':
+		case 'e':
+			usePlayer(nArea, pFloor, pPlayer, pCleared);
+			break;
+	}
+}
+
+/* 	getFloorMap				Gets the Floor Map given the floor number 
+							and area, as well as the length and width 
+							of each	floor.
+
+	@param	nArea			An integer variable containing the integer 
+							value of the current Area.
+	@param	nFloor			An integer variable containing the integer 
+							value of the current Floor.
+	@param	nFloorLength	An integer pointer variable containing the
+							address of the Floor Length.
+	@param	nFloorWidth		An integer pointer variable containing the
+							address of the Floor Length.
+
+	@return					An integer pointer array containing the
+							Tile Map of the given Floor and Area.
+	
+	Pre-condition			nArea value is within 1 to 6.
+							nFloor should have a corresponding map 
+							(depending on the area number, the integer 
+							value is limited.).
+							nFloorLength should point to a variable.
+							nFloorWidth should point to a variable.	   */
 int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 
 	int* pFloor = malloc(sizeof(int) * MAX_FLOOR_LENGTH * MAX_FLOOR_WIDTH);
@@ -677,332 +802,21 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 	return pFloor;
 }
 
-void printFloorHeader(int nArea) {
+/* 	findFastTravelTile		Finds the Fast Travel Tile from a given 
+							Floor Map.
 
-	//Print Area Name
-	switch(nArea) {
-		case STORMVEIL:
-			printHeader("STORMVEIL CASTLE", 16);
-			break;
-		case RAYA_LUCARIA:
-			printHeader("RAYA LUCARIA", 12);
-			break;
-		case REDMANE_CASTLE:
-			printHeader("REDMANE CASTLE", 14);
-			break;
-		case VOLCANO_MANOR:
-			printHeader("VOLCANO MANOR", 13);
-			break;
-		case LEYNDELL_CAPITAL:
-			printHeader("LEYNDELL CAPITAL", 16);
-			break;
-		case THE_ELDEN_THRONE:
-			printHeader("THE ELDEN THRONE", 16);
-			break;
-	}
-}
+	@param	nArea			An integer variable containing the integer 
+							value of the current Area.
+	@param	nFloor			An integer variable containing the integer 
+							value of the current Floor.
 
-void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
-
-	int nRow, nCol;
-	int nPadding;
-
-	//Get a reference map of the current floor.
-	int nLength, nWidth;
-	int *pBaseFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
-	nPadding = (SCREEN_WIDTH - nWidth) / 2;
-
-	//Put the player in the reference map for printing.
-	int pPlayerLoc[2];
-	pPlayerLoc[0] = pPlayer->aPlayerLoc[0];
-	pPlayerLoc[1] = pPlayer->aPlayerLoc[1];
-	*(pBaseFloor + (pPlayerLoc[0] * nWidth) + pPlayerLoc[1]) = TILE_PLAYER;
+	@return					An integer pointer array containing the row 
+							and column of the Fast Travel Tile.
 	
-	//Print Board.
-	for(nRow = 0; nRow < nLength; nRow++) {
-
-		printMultiple(" ", nPadding);
-		for(nCol = 0; nCol < nWidth; nCol++) {
-			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), TOP);
-		}
-		printf("\n");
-
-		printMultiple(" ", nPadding);
-		for(nCol = 0; nCol < nWidth; nCol++) {
-			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), MIDDLE);
-		}
-		printf("\n");
-
-		printMultiple(" ", nPadding);
-		for(nCol = 0; nCol < nWidth; nCol++) {
-			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), BOTTOM);
-		}
-		printf("\n");
-	}
-}
-
-void printBorder(int nType, int nPosition) {
-	switch(nPosition) {
-		case TOP:
-			switch(nType) {
-				case TILE_EMPTY:
-					colorText(COLOR_TILE_EMPTY);
-					printf("┌───┐ ");
-					break;
-
-				case TILE_BOSS:
-					colorText(COLOR_TILE_BOSS);
-					printf("┌───┐ ");
-					break;
-
-				case TILE_FAST_TRAVEL:
-					colorText(COLOR_TILE_FAST_TRAVEL);
-					printf("┌───┐ ");
-					break;
-
-				case TILE_DOOR:
-					colorText(COLOR_TILE_DOOR);
-					printf("┌───┐ ");
-					break;
-
-				case TILE_SPECIAL:
-					colorText(COLOR_TILE_SPECIAL);
-					printf("┌───┐ ");
-					break;
-
-				case TILE_OUT:
-					colorText(COLOR_TILE_OUT);
-					printf("┌┬┬┬┐ ");
-					break;
-
-				case TILE_PLAYER:
-					colorText(COLOR_TILE_PLAYER);
-					printf("╔═══╗ ");
-					break;
-
-				case TILE_CREDITS:
-					colorText(COLOR_TILE_CREDITS);
-					printf("┌───┐ ");
-					break;
-			}
-			break;
-
-		case MIDDLE:
-			switch(nType) {
-				case TILE_EMPTY:
-					colorText(COLOR_TILE_EMPTY);
-					printf("│   │ ");
-					break;
-
-				case TILE_BOSS:
-					colorText(COLOR_TILE_BOSS);
-					printf("│ ! │ ");
-					break;
-
-				case TILE_FAST_TRAVEL:
-					colorText(COLOR_TILE_FAST_TRAVEL);
-					printf("│ F │ ");
-					break;
-
-				case TILE_DOOR:
-					colorText(COLOR_TILE_DOOR);
-					printf("│ ▼ │ ");
-					break;
-
-				case TILE_SPECIAL:
-					colorText(COLOR_TILE_SPECIAL);
-					printf("│ ? │ ");
-					break;
-
-				case TILE_OUT:
-					colorText(COLOR_TILE_OUT);
-					printf("│││││ ");
-					break;
-
-				case TILE_PLAYER:
-					colorText(COLOR_TILE_PLAYER);
-					printf("║ ■ ║ ");
-					break;
-
-				case TILE_CREDITS:
-					colorText(COLOR_TILE_CREDITS);
-					printf("│ C │ ");
-					break;
-			}
-			break;
-
-		case BOTTOM:
-			switch(nType) {
-				case TILE_EMPTY:
-					colorText(COLOR_TILE_EMPTY);
-					printf("└───┘ ");
-					break;
-
-				case TILE_BOSS:
-					colorText(COLOR_TILE_BOSS);
-					printf("└───┘ ");
-					break;
-
-				case TILE_FAST_TRAVEL:
-					colorText(COLOR_TILE_FAST_TRAVEL);
-					printf("└───┘ ");
-					break;
-
-				case TILE_DOOR:
-					colorText(COLOR_TILE_DOOR);
-					printf("└───┘ ");
-					break;
-
-				case TILE_SPECIAL:
-					colorText(COLOR_TILE_SPECIAL);
-					printf("└───┘ ");
-					break;
-
-				case TILE_OUT:
-					colorText(COLOR_TILE_OUT);
-					printf("└┴┴┴┘ ");
-					break;
-
-				case TILE_PLAYER:
-					colorText(COLOR_TILE_PLAYER);
-					printf("╚═══╝ ");
-					break;
-
-				case TILE_CREDITS:
-					colorText(COLOR_TILE_CREDITS);
-					printf("└───┘ ");
-					break;
-			}
-			break;
-	}
-
-	resetColors();
-}
-
-void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
-	int i;
-
-	nPlayerHealth /= 10;
-	nPlayerMaxHP /= 10;
-
-	printf("\n");
-	printMultiple(" ", SCREEN_PADDING);
-	printf("[HEALTH]: ");
-	
-	for(i = 0; i < nPlayerHealth; i++) {
-		colorText(COLOR_TILE_PLAYER);
-		// printf("█ ");
-		printf("█");
-	}
-
-	for(i = 0; i < (nPlayerMaxHP - nPlayerHealth); i++) {
-		colorText(COLOR_TILE_OUT);
-		// printf("█ ");
-		printf("█");
-	}
-	
-	resetColors();
-}
-
-void printItems(int nPotions, int nRunes) {
-	
-	printf("\n");
-	printMultiple(" ", SCREEN_PADDING);
-	printf("[RUNES]: %d", nRunes);
-	printMultiple(" ", SCREEN_PADDING);
-	printf("[POTIONS]: %d", nPotions);
-}
-
-void printPlayerMoves() {
-	int nPadding;
-	nPadding = SCREEN_PADDING + ((SCREEN_WIDTH - 40) / 2);
-
-	printf("\n\n");
-
-	printMultiple(" ", nPadding);
-	colorText(COLOR_CONTROL_ARROW);
-	printf("       ┌ A ┐  ┌ W ┐  ┌ S ┐  ┌ D ┐\n");
-	resetColors();
-
-	printMultiple(" ", nPadding);
-	printf("       ╔───╗  ╔───╗  ╔───╗  ╔───╗\n");
-
-	printMultiple(" ", nPadding);
-	printf("       │ ");
-	colorText(COLOR_CONTROL_ARROW);
-	printf("◄");
-	resetColors();
-	printf(" │  │ ");
-	colorText(COLOR_CONTROL_ARROW);
-	printf("▲");
-	resetColors();
-	printf(" │  │ ");
-	colorText(COLOR_CONTROL_ARROW);
-	printf("▼");
-	resetColors();
-	printf(" │  │ ");
-	colorText(COLOR_CONTROL_ARROW);
-	printf("►");
-	resetColors();
-	printf(" │\n");
-
-	printMultiple(" ", nPadding);
-	colorText(COLOR_CONTROL_BACK);
-	printf("┌ X ┐");
-	resetColors();
-	printf("  ╚───╝  ╚───╝  ╚───╝  ╚───╝  ");
-	colorText(COLOR_CONTROL_INTERACT);
-	printf("┌ E ┐");
-	resetColors();
-	printf("\n");
-
-	printMultiple(" ", nPadding);
-	printf("╔───╗                              ╔───╗\n");
-	
-	printMultiple(" ", nPadding);
-	printf("│ ");
-	colorText(COLOR_CONTROL_BACK);
-	printf("¤");
-	resetColors();
-	printf(" │                              │ ");
-	colorText(COLOR_CONTROL_INTERACT);
-	printf("O");
-	resetColors();
-	printf(" │\n");
-
-	printMultiple(" ", nPadding);
-	printf("╚───╝                              ╚───╝\n");
-
-	resetColors();
-}
-
-void displayResultScreen(int nType, int nBattleResult, int nRewards) {
-	
-	if (nBattleResult) {
-
-		if (nType == 1) {
-			printHeader("ENEMY FELLED", 12);
-		} else if (nType == 2) {
-			printHeader("GREAT ENEMY FELLED", 18);
-		}
-
-		printf("\t\tYou gained %d runes.", nRewards);
-	} else {
-
-		printHeader("YOU DIED", 8);
-	}
-}
-
-void displayUserInterface(int nPlayerMaxHP, Player* pPlayer) {
-	
-	system("cls");
-	
-	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
-	printItems(pPlayer->nPotions, pPlayer->nRunes);
-	printPlayerMoves();
-
-}
-
+	Pre-condition			nArea value is within 1 to 6.
+							nFloor should have a corresponding map 
+							(depending on the area number, the integer 
+							value is limited.)						   */
 int* findFastTravelTile(int nArea, int nFloor) {
 
 	int nLength, nWidth;
@@ -1024,80 +838,6 @@ int* findFastTravelTile(int nArea, int nFloor) {
 	}
 
 	return aSpawnLoc;
-}
-
-//Central Areas Function
-void openAreaScreen(int nAreaNumber, Player* pPlayer) {
-	
-	//Player Inputs.
-	char cPlayerInput;
-	char aMoves[] = {'W', 'w', 'A', 'a', 'S', 's', 'D', 'd', 'E', 'e'};
-
-	//Initializing variables.
-	int nFloor = 1; 
-	int nCleared = 0;
-	// int *pFloor = &nFloor;
-
-	//Initializing Initial Player Stats. 
-	//NOTE: Don't use nPlayerHP and nWeaponHP for anything other than calculating the formula.
-	int nPlayerHP = pPlayer->nHealth; //for calculating Max HP.
-	int nWeaponHP = pPlayer->pEquippedWeapon->nHP; //for calculating Max HP.
-	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
-	pPlayer->nPlayerMaxHP = nPlayerMaxHP; //Saving Player's Max HP.
-	
-	//Saving player location.
-	int* pPlayerLoc = findFastTravelTile(nAreaNumber, nFloor);
-	pPlayer->aPlayerLoc[0] = *(pPlayerLoc + 0);
-	pPlayer->aPlayerLoc[1] = *(pPlayerLoc + 1);
-
-	do {
-		
-		printFloorHeader(nAreaNumber);
-		printFloorMap(nAreaNumber, nFloor, pPlayer);
-		displayUserInterface(nPlayerMaxHP, pPlayer);
-
-
-		cPlayerInput = scanCharInput(aMoves, 10);
-
-		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer, &nCleared);
-
-	} while (pPlayer->nHealth > 0 || !nCleared);
-
-	//When the Player dies.
-	if (pPlayer->nHealth <= 0) 
-		printf("DEAD");
-	else
-		printf("win");
-}	
-
-void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
-
-	switch(cInput) {
-		case 'W':
-		case 'w':
-			movePlayerTile(UP, nArea, *pFloor, pPlayer);
-			break;
-
-		case 'S':
-		case 's':
-			movePlayerTile(DOWN, nArea, *pFloor, pPlayer);
-			break;
-
-		case 'A':
-		case 'a':
-			movePlayerTile(LEFT, nArea, *pFloor, pPlayer);
-			break;
-
-		case 'D':
-		case 'd':
-			movePlayerTile(RIGHT, nArea, *pFloor, pPlayer);
-			break;
-
-		case 'E':
-		case 'e':
-			usePlayer(nArea, pFloor, pPlayer, pCleared);
-			break;
-	}
 }
 
 //Utility Functions: Movement
@@ -1402,4 +1142,359 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 
 	free(pFloorMap);
 	free(pDoorList);
+}
+
+
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/* 	displayUserInterface	Prints the User Interface of the Character 
+							Creation Screen.
+	
+	@param	nPlayerMaxHP	An integer value containing the Player's 
+							Max HP.
+	@param	pPlayer			The Player Structure containing all 
+							of the Player's statistics and items. 
+
+	Pre-condition			pPlayer should be initiated and all 
+							members should have a value.			   */
+void displayUserInterface(int nPlayerMaxHP, Player* pPlayer) {
+	
+	system("cls");
+	
+	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
+	printItems(pPlayer->nPotions, pPlayer->nRunes);
+	printPlayerMoves();
+}
+
+/* 	displayResultScreen		Prints the User Interface of the Result
+							Screen.
+	
+	@param	nType			An integer variable containing the Enemy Type.
+	@param	nBattleResult	An integer variable containing the result of
+							the battle. 
+	@param	nRewards		An integer varaible containing the amount of
+							runes the Player received.
+
+	Pre-condition			nType should be either 1 or 2.
+							nBattleResult should be either 1 or 0.
+							nRewards should not exceed maximum Rune 
+							amount.   								   */
+void displayResultScreen(int nType, int nBattleResult, int nRewards) {
+	
+	if (nBattleResult) {
+
+		if (nType == 1) {
+			printHeader("ENEMY FELLED", 12);
+		} else if (nType == 2) {
+			printHeader("GREAT ENEMY FELLED", 18);
+		}
+
+		printf("\t\tYou gained %d runes.", nRewards);
+
+	} else {
+
+		printHeader("YOU DIED", 8);
+	}
+}
+
+
+
+// ───────────────────── 〔 PRINTING FUNCTIONS 〕 ────────────────────── //
+void printFloorHeader(int nArea) {
+
+	//Print Area Name
+	switch(nArea) {
+		case STORMVEIL:
+			printHeader("STORMVEIL CASTLE", 16);
+			break;
+		case RAYA_LUCARIA:
+			printHeader("RAYA LUCARIA", 12);
+			break;
+		case REDMANE_CASTLE:
+			printHeader("REDMANE CASTLE", 14);
+			break;
+		case VOLCANO_MANOR:
+			printHeader("VOLCANO MANOR", 13);
+			break;
+		case LEYNDELL_CAPITAL:
+			printHeader("LEYNDELL CAPITAL", 16);
+			break;
+		case THE_ELDEN_THRONE:
+			printHeader("THE ELDEN THRONE", 16);
+			break;
+	}
+}
+
+void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
+
+	int nRow, nCol;
+	int nPadding;
+
+	//Get a reference map of the current floor.
+	int nLength, nWidth;
+	int *pBaseFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
+	nPadding = (SCREEN_WIDTH - nWidth) / 2;
+
+	//Put the player in the reference map for printing.
+	int pPlayerLoc[2];
+	pPlayerLoc[0] = pPlayer->aPlayerLoc[0];
+	pPlayerLoc[1] = pPlayer->aPlayerLoc[1];
+	*(pBaseFloor + (pPlayerLoc[0] * nWidth) + pPlayerLoc[1]) = TILE_PLAYER;
+	
+	//Print Board.
+	for(nRow = 0; nRow < nLength; nRow++) {
+
+		printMultiple(" ", nPadding);
+		for(nCol = 0; nCol < nWidth; nCol++) {
+			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), TOP);
+		}
+		printf("\n");
+
+		printMultiple(" ", nPadding);
+		for(nCol = 0; nCol < nWidth; nCol++) {
+			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), MIDDLE);
+		}
+		printf("\n");
+
+		printMultiple(" ", nPadding);
+		for(nCol = 0; nCol < nWidth; nCol++) {
+			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), BOTTOM);
+		}
+		printf("\n");
+	}
+}
+
+void printBorder(int nType, int nPosition) {
+	switch(nPosition) {
+		case TOP:
+			switch(nType) {
+				case TILE_EMPTY:
+					colorText(COLOR_TILE_EMPTY);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_BOSS:
+					colorText(COLOR_TILE_BOSS);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_FAST_TRAVEL:
+					colorText(COLOR_TILE_FAST_TRAVEL);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_DOOR:
+					colorText(COLOR_TILE_DOOR);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_SPECIAL:
+					colorText(COLOR_TILE_SPECIAL);
+					printf("┌───┐ ");
+					break;
+
+				case TILE_OUT:
+					colorText(COLOR_TILE_OUT);
+					printf("┌┬┬┬┐ ");
+					break;
+
+				case TILE_PLAYER:
+					colorText(COLOR_TILE_PLAYER);
+					printf("╔═══╗ ");
+					break;
+
+				case TILE_CREDITS:
+					colorText(COLOR_TILE_CREDITS);
+					printf("┌───┐ ");
+					break;
+			}
+			break;
+
+		case MIDDLE:
+			switch(nType) {
+				case TILE_EMPTY:
+					colorText(COLOR_TILE_EMPTY);
+					printf("│   │ ");
+					break;
+
+				case TILE_BOSS:
+					colorText(COLOR_TILE_BOSS);
+					printf("│ ! │ ");
+					break;
+
+				case TILE_FAST_TRAVEL:
+					colorText(COLOR_TILE_FAST_TRAVEL);
+					printf("│ F │ ");
+					break;
+
+				case TILE_DOOR:
+					colorText(COLOR_TILE_DOOR);
+					printf("│ ▼ │ ");
+					break;
+
+				case TILE_SPECIAL:
+					colorText(COLOR_TILE_SPECIAL);
+					printf("│ ? │ ");
+					break;
+
+				case TILE_OUT:
+					colorText(COLOR_TILE_OUT);
+					printf("│││││ ");
+					break;
+
+				case TILE_PLAYER:
+					colorText(COLOR_TILE_PLAYER);
+					printf("║ ■ ║ ");
+					break;
+
+				case TILE_CREDITS:
+					colorText(COLOR_TILE_CREDITS);
+					printf("│ C │ ");
+					break;
+			}
+			break;
+
+		case BOTTOM:
+			switch(nType) {
+				case TILE_EMPTY:
+					colorText(COLOR_TILE_EMPTY);
+					printf("└───┘ ");
+					break;
+
+				case TILE_BOSS:
+					colorText(COLOR_TILE_BOSS);
+					printf("└───┘ ");
+					break;
+
+				case TILE_FAST_TRAVEL:
+					colorText(COLOR_TILE_FAST_TRAVEL);
+					printf("└───┘ ");
+					break;
+
+				case TILE_DOOR:
+					colorText(COLOR_TILE_DOOR);
+					printf("└───┘ ");
+					break;
+
+				case TILE_SPECIAL:
+					colorText(COLOR_TILE_SPECIAL);
+					printf("└───┘ ");
+					break;
+
+				case TILE_OUT:
+					colorText(COLOR_TILE_OUT);
+					printf("└┴┴┴┘ ");
+					break;
+
+				case TILE_PLAYER:
+					colorText(COLOR_TILE_PLAYER);
+					printf("╚═══╝ ");
+					break;
+
+				case TILE_CREDITS:
+					colorText(COLOR_TILE_CREDITS);
+					printf("└───┘ ");
+					break;
+			}
+			break;
+	}
+
+	resetColors();
+}
+
+void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
+	int i;
+
+	nPlayerHealth /= 10;
+	nPlayerMaxHP /= 10;
+
+	printf("\n");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("[HEALTH]: ");
+	
+	for(i = 0; i < nPlayerHealth; i++) {
+		colorText(COLOR_TILE_PLAYER);
+		// printf("█ ");
+		printf("█");
+	}
+
+	for(i = 0; i < (nPlayerMaxHP - nPlayerHealth); i++) {
+		colorText(COLOR_TILE_OUT);
+		// printf("█ ");
+		printf("█");
+	}
+	
+	resetColors();
+}
+
+void printItems(int nPotions, int nRunes) {
+	
+	printf("\n");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("[RUNES]: %d", nRunes);
+	printMultiple(" ", SCREEN_PADDING);
+	printf("[POTIONS]: %d", nPotions);
+}
+
+void printPlayerMoves() {
+	int nPadding;
+	nPadding = SCREEN_PADDING + ((SCREEN_WIDTH - 40) / 2);
+
+	printf("\n\n");
+
+	printMultiple(" ", nPadding);
+	colorText(COLOR_CONTROL_ARROW);
+	printf("       ┌ A ┐  ┌ W ┐  ┌ S ┐  ┌ D ┐\n");
+	resetColors();
+
+	printMultiple(" ", nPadding);
+	printf("       ╔───╗  ╔───╗  ╔───╗  ╔───╗\n");
+
+	printMultiple(" ", nPadding);
+	printf("       │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("◄");
+	resetColors();
+	printf(" │  │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("▲");
+	resetColors();
+	printf(" │  │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("▼");
+	resetColors();
+	printf(" │  │ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("►");
+	resetColors();
+	printf(" │\n");
+
+	printMultiple(" ", nPadding);
+	colorText(COLOR_CONTROL_BACK);
+	printf("┌ X ┐");
+	resetColors();
+	printf("  ╚───╝  ╚───╝  ╚───╝  ╚───╝  ");
+	colorText(COLOR_CONTROL_INTERACT);
+	printf("┌ E ┐");
+	resetColors();
+	printf("\n");
+
+	printMultiple(" ", nPadding);
+	printf("╔───╗                              ╔───╗\n");
+	
+	printMultiple(" ", nPadding);
+	printf("│ ");
+	colorText(COLOR_CONTROL_BACK);
+	printf("¤");
+	resetColors();
+	printf(" │                              │ ");
+	colorText(COLOR_CONTROL_INTERACT);
+	printf("O");
+	resetColors();
+	printf(" │\n");
+
+	printMultiple(" ", nPadding);
+	printf("╚───╝                              ╚───╝\n");
+
+	resetColors();
 }
