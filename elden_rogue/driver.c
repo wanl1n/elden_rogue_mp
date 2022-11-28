@@ -21,6 +21,7 @@
 #include "screens/roundtable_screens/levelup_screen.c"
 #include "screens/roundtable_screens/inventory_screen.c"
 #include "screens/roundtable_screens/buy_screen.c"
+#include "screens/roundtable_screens/sell_screen.c"
 
 
 int main() {

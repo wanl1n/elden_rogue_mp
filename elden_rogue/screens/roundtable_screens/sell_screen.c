@@ -1,5 +1,3 @@
-#include "../chara_creation_screen.h"
-#include "../title_screen.h"
 #include "../roundtable_screen.h"
 #include "../areas_screen.h"
 #include "inventory_screen.h"
@@ -16,7 +14,7 @@ void displaySellShop(int nPrompt, Player* pPlayer, Weapon sWeapon, int nProfit) 
 	
 	printf("\n\t\tInput the index of the weapon you want to sell.");
 
-	printInventoryGrid(pPlayer);
+	printInventoryGrid(pPlayer, 1);
 
 	printOption(0, "BACK");
 
@@ -60,8 +58,8 @@ void openSellScreen(Player* pPlayer) {
 			pStockWeaponFromType = getStocksFromType(nInputIndex); //Array of 4 weapons + their cost.
 			//get the weapon from that specific type.
 			for(nTemp = 0; nTemp < 4; nTemp++) {
-				if (*(pStockWeaponFromType + nTemp)->sWeapon.nWeaponType == pSelectedWeapon->nWeaponType) {
-					nWeaponSRP = *(pStockWeaponFromType + nTemp).nCost;
+				if (pStockWeaponFromType[nTemp].sWeapon.nWeaponType == pSelectedWeapon->nWeaponType) {
+					nWeaponSRP = pStockWeaponFromType[nTemp].nCost;
 				}
 			}
 
