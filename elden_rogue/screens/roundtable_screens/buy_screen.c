@@ -5,170 +5,183 @@
 
 #include "../../config/settings.h"
 
-void printShopSlot(Stock sShopStock) {
-	
-	Weapon sWeapon = sShopStock.sWeapon;
-	int nSpaces = 2;
 
-	int nLength = strlen(sWeapon.strWeaponName);
-
-	printf("\n");
-
-	// Print top border.
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("╔");
-	printMultiple("═", SHOP_SLOT_WIDTH);
-	printf("╗\n");
-
-	// Print Weapon Name.
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%-*.*s", SHOP_SLOT_WIDTH-4, nLength/2, sWeapon.strWeaponName);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%-*.*s", SHOP_SLOT_WIDTH-4, SHOP_SLOT_WIDTH-4, sWeapon.strWeaponName + nLength/2);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-
-	//Print Weapon Image.
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	//add weapon image
-	printf("%-*.*s", SHOP_SLOT_WIDTH-4, 3, "weapon");
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-
-	//Print Weapon Cost.
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", SHOP_SLOT_WIDTH-4, sShopStock.nCost);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-	
-	//Print Weapon Stats.
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("DEXTERITY  |  %*d", SHOP_SLOT_WIDTH-18, sWeapon.nDexReq);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("HP ");
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", 2, sWeapon.nHP);
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("END");
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", 2, sWeapon.nEnd);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("DEX");
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", 2, 0);
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("STR");
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", 2, sWeapon.nStr);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("INT");
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", 2, sWeapon.nInt);
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("FTH");
-	printMultiple(" ", nSpaces);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", 2, sWeapon.nFth);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-	
-	//Print Weapon Index.
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("│");
-	printMultiple(" ", nSpaces);
-	printf("%*d", SHOP_SLOT_WIDTH-4, sWeapon.nWeaponIndex);
-	printMultiple(" ", nSpaces);
-	printf("│\n");
-
-	// Print bottom border.
-	printMultiple(" ", SHOP_SCREEN_PADDING);
-	printf("╚");
-	printMultiple("═", SHOP_SLOT_WIDTH);
-	printf("╝\n");
-}
-
-void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* sStockList) {
-	
-	system("cls");
+void printTopShopBorders(int nCols) {
 
 	int i;
 
-	printHeader("BUY A WEAPON", 12);
-	
-	printf("\n[RUNES]: %d\n", pPlayer->nRunes);
-	printf("\n\t\tCHOOSE A WEAPON\n");
-
-	for (i = 0; i < 4; i++) {
-		printShopSlot(*(sStockList + i));
+	for (i = 0; i < nCols; i++) {
+		printf("╔");
+		printMultiple("═", SHOP_SLOT_WIDTH);
+		printf("╗");
 	}
 
-	printf("\n\t\tINPUT THE WEAPON NUMBER (middle right).\n");
+	printf("\n");
+}
 
+void printBottomShopBorder(int nCols) {
+
+	int i;
+
+	for (i = 0; i < nCols; i++) {
+		printf("╚");
+		printMultiple("═", SHOP_SLOT_WIDTH);
+		printf("╝");
+	}
+
+	printf("\n");
+}
+
+void printShopContent(Stock sShopStock, int nLine) {
+
+	Weapon sWeapon = sShopStock.sWeapon;
+	int nSpaces = 2;
+	int nStatSpaces = 6;
+	
+
+	switch (nLine) {
+		case 1:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("%-*.*s", SHOP_SLOT_WIDTH-4, SHOP_SLOT_WIDTH-4, sWeapon.strWeaponName);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 2:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			if (strlen(sShopStock.sWeapon.strWeaponName) > SHOP_SLOT_WIDTH-4)								
+				printf("%-*.*s", SHOP_SLOT_WIDTH-4, SHOP_SLOT_WIDTH-4, sWeapon.strWeaponName + SHOP_SLOT_WIDTH-4);
+			else
+				printMultiple(" ", SHOP_SLOT_WIDTH-4);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 3:
+			printf("│");
+			printMultiple(" ", (SHOP_SLOT_WIDTH-8)/2);
+			//add weapon image
+			printf("<weapon>");
+			printMultiple(" ", (SHOP_SLOT_WIDTH-8)/2);
+			printf("│");
+			break;
+		case 4:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("COST: %*d", SHOP_SLOT_WIDTH-10, sShopStock.nCost);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 5:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("DEXTERITY     │  %*d", SHOP_SLOT_WIDTH-21, sWeapon.nDexReq);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 6:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("HP ");
+			printMultiple(" ", nStatSpaces);
+			printf("%*d", 2, sWeapon.nHP);
+			printMultiple(" ", nSpaces);
+			printf("││");
+			printMultiple(" ", nSpaces);
+			printf("END");
+			printMultiple(" ", nStatSpaces);
+			printf("%*d", 2, sWeapon.nEnd);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 7:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("DEX");
+			printMultiple(" ", nStatSpaces);
+			printf("%*d", 2, 0);
+			printMultiple(" ", nSpaces);
+			printf("││");
+			printMultiple(" ", nSpaces);
+			printf("STR");
+			printMultiple(" ", nStatSpaces);
+			printf("%*d", 2, sWeapon.nStr);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 8:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("INT");
+			printMultiple(" ", nStatSpaces);
+			printf("%*d", 2, sWeapon.nInt);
+			printMultiple(" ", nSpaces);
+			printf("│|");
+			printMultiple(" ", nSpaces);
+			printf("FTH");
+			printMultiple(" ", nStatSpaces);
+			printf("%*d", 2, sWeapon.nFth);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 9:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("%*d", SHOP_SLOT_WIDTH-4, sWeapon.nWeaponIndex);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+	}
+}
+
+void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
+	
+	//system("cls");
+
+	int i, j;
+
+	printHeader("BUY A WEAPON", 12);
+	
+	printMultiple(" ", SCREEN_PADDING*4);
+	printf("[RUNES]: %d\n", pPlayer->nRunes);
+	printMultiple(" ", SCREEN_PADDING*4);
+	printf("CHOOSE A WEAPON\n");
+
+	printTopShopBorders(4);
+
+	for (j = 1; j <= 9; j++) {
+		for (i = 0; i < 4; i++) {
+			printShopContent(pStockList[i], j);
+		}
+		printf("\n");
+	}
+	
+	printBottomShopBorder(4);
+	
 	printOption(B_BACK, "BACK");
+	
+	printf("\n");
+	printMultiple(" ", SCREEN_PADDING*4);
+	printf("Note: INPUT THE WEAPON NUMBER (lower right).\n");
 
-	printInputTag();
+	printf("\n");
 
 	switch(nPrompt) {
 		case ITEM_ONE:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_ONE - 1)->sWeapon.strWeaponName);
+				*(pStockList + ITEM_ONE - 1)->sWeapon.strWeaponName);
 			break;
 		case ITEM_TWO:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_TWO - 1)->sWeapon.strWeaponName);
+				*(pStockList + ITEM_TWO - 1)->sWeapon.strWeaponName);
 			break;
 		case ITEM_THREE:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_THREE - 1)->sWeapon.strWeaponName);
+				*(pStockList + ITEM_THREE - 1)->sWeapon.strWeaponName);
 			break;
 		case ITEM_FOUR:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(sStockList + ITEM_FOUR - 1)->sWeapon.strWeaponName);
+				*(pStockList + ITEM_FOUR - 1)->sWeapon.strWeaponName);
 			break;
 		case UNSUCCESSFUL:
 			printf("[SYSTEM MESSAGE]: You don't have enough runes to buy that.\n"); 
@@ -179,6 +192,8 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* sStockList) {
 		default:
 			break;
 	}
+
+	printInputTag();
 }
 
 void displayBuyTypes(int nPrompt, Player* pPlayer) {
@@ -197,6 +212,8 @@ void displayBuyTypes(int nPrompt, Player* pPlayer) {
 	printOption(WEAPON_STAVE, "STAVE");
 	printOption(WEAPON_SEAL, "SEAL");
 	printOption(B_BACK, "BACK");
+
+	printInputTag();
 
 	switch(nPrompt) {
 		case WEAPON_SWORD:
@@ -304,13 +321,13 @@ Stock* getStocksFromType(int nWeaponType) {
 	return pWeaponsOfType;
 }
 
-Stock getStockFromShop(Stock* sChosenType, int nIndex) {
+Stock getStockFromShop(Stock* pChosenType, int nIndex) {
 
 	int i;
 
 	for(i = 1; i <= 4; i++) {
-		if (sChosenType->sWeapon.nWeaponIndex == nIndex)
-			return *(sChosenType + (nIndex-1));
+		if (pChosenType->sWeapon.nWeaponIndex == nIndex)
+			return pChosenType[nIndex];
 	}
 }
 
@@ -318,9 +335,10 @@ void openBuyScreen(Player* pPlayer) {
 
 	int nInputBuy = 100;
 	int nInputWeaponType = 100;
+
 	Stock* pStockOfType;
 	Stock sStockToBeBought;
-	Weapon* pWeaponChosen;
+	Weapon sWeaponChosen;
 
 	displayBuyTypes(-1, pPlayer);
 
@@ -336,11 +354,12 @@ void openBuyScreen(Player* pPlayer) {
 
 			nInputBuy = scanIntInput(0, 4); //Input which weapon.
 
-			sStockToBeBought = getStockFromShop(pStockOfType, nInputWeaponType);
+			sStockToBeBought = pStockOfType[nInputBuy-1];
+			sWeaponChosen = sStockToBeBought.sWeapon;
 
 			if (sStockToBeBought.nCost <= pPlayer->nRunes) {
 
-				addWeaponToInventory(&sStockToBeBought.sWeapon, pPlayer);
+				addWeaponToInventory(&sWeaponChosen, pPlayer); //fix this
 				pPlayer->nRunes -= sStockToBeBought.nCost;
 				displayBuyStocks(nInputBuy, pPlayer, pStockOfType);
 
