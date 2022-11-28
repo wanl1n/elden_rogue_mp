@@ -1,7 +1,4 @@
-#include "../chara_creation_screen.h"
-#include "../title_screen.h"
 #include "../roundtable_screen.h"
-#include "../areas_screen.h"
 #include "inventory_screen.h"
 
 #include "../../driver.h"
@@ -43,7 +40,7 @@ void printShopSlot(Stock sShopStock) {
 	printf("│");
 	printMultiple(" ", nSpaces);
 	//add weapon image
-	printf("%-*.*s", SHOP_SLOT_WIDTH-4, nLength/2, "weapon");
+	printf("%-*.*s", SHOP_SLOT_WIDTH-4, 3, "weapon");
 	printMultiple(" ", nSpaces);
 	printf("│\n");
 

@@ -46,6 +46,7 @@ int main() {
 
 	//Inventory Initialization
 	Weapon sWeaponBase = {0, "NONE", 0, 0, 0, 0, 0, 0, 0};
+	// Weapon sWeaponBase = {1, "SHORT SWORD", 1, 13, 0, 15, 15, 15, 15};
 	Weapon* sEmptyWeapon = &sWeaponBase;
 	pPlayer->pInventory = malloc(sizeof(Slot));
 	pPlayer->pInventory->pWeapon = sEmptyWeapon;

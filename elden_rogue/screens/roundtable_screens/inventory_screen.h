@@ -14,13 +14,12 @@ void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer);
 void addWeaponToInventory(Weapon* sWeapon, Player* pPlayer);
 int getPlayerWeapons(Player* pPlayer);
 
-void printInventorySlot(Weapon sWeapon);
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
 void printTopBorderSlots(int nCols);
 void printBottomBorderSlots(int nCols);
+void printContentSlot(Weapon sWeapon, int nLine);
+void printEmptySlot();
 void printInventoryGrid(Player* pPlayer, int nPage);
 void displayInventory(int nPrompt, Player* pPlayer, int nPage);
-
-
-
 
 #endif

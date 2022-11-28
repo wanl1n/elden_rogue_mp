@@ -30,29 +30,38 @@ void openInventory(Player* pPlayer) {
 	int nTemp;
 	int nPage = 1;
 
-	Weapon* pSelectedWeapon;
+	Weapon* pSelectedWeapon = NULL;
 
 	displayInventory(5, pPlayer, nPage);
 
 	while(nInputInventory != 0) {
 
-		nInputInventory = scanIntInput(0, 3); //Inventory Screen
+		nInputInventory = scanIntInput(0, 3); // Contains the Player's choice.
 		nPlayerWeapons = getPlayerWeapons(pPlayer);
 
 		switch (nInputInventory) {
 			
 			case SELECT:
+
+				// Ask Player which weapon they want by inputting index.
+				printInputTag();
 				scanf("%d", &nInputWeapon); //Input Weapon Index
 				
+				// check if the index has a corresponding weapon in inventory.
 				if (nInputWeapon != 0) 
 					pSelectedWeapon = findWeapon(nInputWeapon, pPlayer); //Weapon to be equipped
 
-				if (pSelectedWeapon != NULL) { //if the index the player inputted has a weapon
+				// if the index the player inputted has a weapon
+				if (pSelectedWeapon != NULL) { 
 
-					addWeaponToInventory(pPlayer->pEquippedWeapon, pPlayer);
+					// if the currently equipped weapon is not empty,
+					if (strcmp(pPlayer->pEquippedWeapon->strWeaponName, "NONE")) {
+						addWeaponToInventory(pPlayer->pEquippedWeapon, pPlayer);
+						// add it to inventory
+					}
+	
 					pPlayer->pEquippedWeapon = pSelectedWeapon;
-					//remove weapon from inventory
-					//add previous equipped weapon to the end of inventory
+					removeWeaponFromInventory(*pSelectedWeapon, pPlayer);
 					displayInventory(SELECT, pPlayer, nPage);
 
 				} else {
@@ -232,7 +241,6 @@ void printTopBorderSlots(int nCols) {
 	int i;
 
 	for (i = 0; i < nCols; i++) {
-		printMultiple(" ", SCREEN_PADDING);
 		printf("╔");
 		printMultiple("═", SLOT_WIDTH);
 		printf("╗");
@@ -246,7 +254,6 @@ void printBottomBorderSlots(int nCols) {
 	int i;
 
 	for (i = 0; i < nCols; i++) {
-		printMultiple(" ", SCREEN_PADDING);
 		printf("╚");
 		printMultiple("═", SLOT_WIDTH);
 		printf("╝");
@@ -255,118 +262,85 @@ void printBottomBorderSlots(int nCols) {
 	printf("\n");
 }
 
-void printContentSlots(int nCols, Slot* pInventoryHead) {
+void printContentSlot(Weapon sWeapon, int nLine) {
 
-	int i;
 	int nSpaces = 2;
-	Slot* pTempHead = pInventoryHead; // Stores the Head so as not to alter it.
-	Weapon sWeapon = *(pTempHead->pWeapon); // Gets the weapon from the head.
 
-	// FIRST LINE -------------------------------------------------------
-	// Print the Weapon Name first line.
-	for (i = 0; i < nCols; i++) {
-
-		sWeapon = *(pTempHead->pWeapon); // Resets the Weapon after every run.
-
-		printMultiple(" ", SCREEN_PADDING);
-		printf("│");
-		printMultiple(" ", nSpaces);
-		printf("%-*.*s", SLOT_WIDTH-4, SLOT_WIDTH-4, sWeapon.strWeaponName);
-		printMultiple(" ", nSpaces);
-		printf("│");
-
-		pTempHead = pTempHead->pNext; // Move to the next item.
+	switch (nLine) {
+		case 1:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("%-*.*s", SLOT_WIDTH-4, SLOT_WIDTH-4, sWeapon.strWeaponName);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 2:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("%-*.*s", SLOT_WIDTH-4, SLOT_WIDTH-4, sWeapon.strWeaponName + SLOT_WIDTH-4);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 3:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			//add weapon image
+			printf("  <weapon>  ");
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
+		case 4:
+			printf("│");
+			printf("HP ");
+			printMultiple(" ", nSpaces);
+			printf("%*d ", 2, sWeapon.nHP);
+			printf("END");
+			printMultiple(" ", nSpaces);
+			printf("%*d ", 2, sWeapon.nEnd);
+			printf("│");
+			break;
+		case 5:
+			printf("│");
+			printf("DEX");
+			printMultiple(" ", nSpaces);
+			printf("%*d ", 2, sWeapon.nDexReq);
+			printf("STR");
+			printMultiple(" ", nSpaces);
+			printf("%*d ", 2, sWeapon.nStr);
+			printf("│");
+			break;
+		case 6:
+			printf("│");
+			printf("INT");
+			printMultiple(" ", nSpaces);
+			printf("%*d ", 2, sWeapon.nInt);
+			printf("FTH");
+			printMultiple(" ", nSpaces);
+			printf("%*d ", 2, sWeapon.nFth);
+			printf("│");
+			break;
+		case 7:
+			printf("│");
+			printMultiple(" ", nSpaces);
+			printf("%*d", SLOT_WIDTH-4, sWeapon.nWeaponIndex);
+			printMultiple(" ", nSpaces);
+			printf("│");
+			break;
 	}
-
-	printf("\n");
-
-
-	// SECOND LINE ------------------------------------------------------
-	pTempHead = pInventoryHead; //reset the head.
-
-	// Print the Weapon Name first line.
-	for (i = 0; i < nCols; i++) {
-
-		sWeapon = *(pTempHead->pWeapon); // Resets the Weapon after every run.
-
-		printMultiple(" ", SCREEN_PADDING);
-		printf("│");
-		printMultiple(" ", nSpaces);
-		printf("%-*.*s", SLOT_WIDTH-4, SLOT_WIDTH-4, sWeapon.strWeaponName + SLOT_WIDTH-4);
-		printMultiple(" ", nSpaces);
-		printf("│");
-
-		pTempHead = pTempHead->pNext; // Move to the next item.
-	}
-
-	printf("\n");
-
-
-	// THIRD LINE ------------------------------------------------------
-	pTempHead = pInventoryHead; //reset the head.
-
-	// Print the Weapon Name first line.
-	for (i = 0; i < nCols; i++) {
-
-		sWeapon = *(pTempHead->pWeapon); // Resets the Weapon after every run.
-
-		printMultiple(" ", SCREEN_PADDING);
-		printf("│");
-		printMultiple(" ", nSpaces);
-		//add weapon image
-		printf("  <weapon>  ");
-		printMultiple(" ", nSpaces);
-		printf("│");
-
-		pTempHead = pTempHead->pNext; // Move to the next item.
-	}
-
-	printf("\n");
-
-
-	// FOURTH LINE ------------------------------------------------------
-	pTempHead = pInventoryHead; //reset the head.
-
-	// Print the Weapon Name first line.
-	for (i = 0; i < nCols; i++) {
-
-		sWeapon = *(pTempHead->pWeapon); // Resets the Weapon after every run.
-
-		printMultiple(" ", SCREEN_PADDING);
-		printf("│");
-		printMultiple(" ", nSpaces);
-		printf("%*d", SLOT_WIDTH-4, sWeapon.nWeaponIndex);
-		printMultiple(" ", nSpaces);
-		printf("│");
-
-		pTempHead = pTempHead->pNext; // Move to the next item.
-	}
-
-	printf("\n");
 }
 
-void printEmptySlots(int nCols) {
+void printEmptySlot() {
 	
-	int i, j;
-
-	for (j = 0; j < 4; j++) {
-		for (i = 0; i < nCols; i++) {
-
-			printMultiple(" ", SCREEN_PADDING);
-			printf("│");
-			printMultiple(" ", SLOT_WIDTH);
-			printf("│");
-
-		}
-
-		printf("\n");
-	}
+	printf("│");
+	printMultiple(" ", SLOT_WIDTH);
+	printf("│");
 }
 
 void printInventoryGrid(Player* pPlayer, int nPage) {
 
 	// Contains the values need to be printed.
 	Slot* pInventoryHead = pPlayer->pInventory; // Head of the inventory.
+	Slot* pTempHead;
 	Weapon* pEmpty = createEmptyWeapon(); // Empty instance to fill.
 
 	int i, j, k; // Counts the rows, columns, and offsets the head.
@@ -385,23 +359,35 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 
 		printTopBorderSlots(INVENTORY_MAX_COLS);
 
-		for (j = 0; j < INVENTORY_MAX_COLS; j++) {
+		for (k = 1; k <= 7; k++) {
 
-			// First check if the inventory is NOT empty.
-			if (strcmp(pInventoryHead->pWeapon->strWeaponName, "NONE") && 
-				pInventoryHead != NULL) {
+			pTempHead = pInventoryHead; //reset every line
 
-				printf("(debugging)");
-				// If inventory is NOT empty, print the weapon info.				
-				printContentSlots(INVENTORY_MAX_COLS, pInventoryHead);
-				pInventoryHead = pInventoryHead->pNext;
-			} 
-			// If there's no weapon in the slot, print empty.
-			else {
-				printEmptySlots(INVENTORY_MAX_COLS);
+			for (j = 0; j < INVENTORY_MAX_COLS; j++) {
+				
+				if (pTempHead != NULL) {
+					if (strcmp(pTempHead->pWeapon->strWeaponName, "NONE")) {
+						
+						printContentSlot(*(pTempHead->pWeapon), k);
+						pTempHead = pTempHead->pNext;
+					} else {
+						printEmptySlot(INVENTORY_MAX_COLS, INVENTORY_MAX_ROWS);
+					}
+				} else {
+					printEmptySlot(INVENTORY_MAX_COLS, INVENTORY_MAX_ROWS);
+				}
 			}
+
+			printf("\n");
 		}
 
+		//Update the outer one too.
+		for (k = 0; k < INVENTORY_MAX_COLS; k++) {
+			
+			if (pInventoryHead != NULL)
+				pInventoryHead = pInventoryHead->pNext;
+		}				
+			
 		printBottomBorderSlots(INVENTORY_MAX_COLS);
 	}
 }
@@ -411,13 +397,14 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 	system("cls");
 
 	printHeader("ROUNDTABLE HOLD", 15);
-	
-	printf("\t\tINVENTORY\n\n"
-		"OPTIONS:\n");
+	printMultiple(" ", 25);
+	printf("--- INVENTORY ---\n\n");
 
 	printInventoryGrid(pPlayer, nPage);
 
 	printf("\n\n");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("OPTIONS:\n");
 	printOption(1, "SELECT WEAPON");
 	printOption(2, "PREVIOUS PAGE");
 	printOption(3, "NEXT PAGE");
