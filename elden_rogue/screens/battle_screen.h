@@ -10,7 +10,7 @@
 #define ATTACK_SORCERY 		2
 #define ATTACK_INCANTATION 	3
 
-int openBattleScreen(Enemy sEnemy, Player* pPlayer);
+int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo);
 
 int attackPhy(Enemy sEnemy, Player* pPlayer);
 int attackSor(Enemy sEnemy, Player* pPlayer);

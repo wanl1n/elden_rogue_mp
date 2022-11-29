@@ -1060,7 +1060,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 
 				sEnemy = spawnEnemy(nArea);
 				printSystemMessage("You encountered an enemy.");
-				nBattleResult = openBattleScreen(sEnemy, pPlayer);
+				nBattleResult = openBattleScreen(sEnemy, pPlayer, nArea);
 
 				if (nBattleResult){
 					nBattleRewards = sEnemy.nMaxHP * 2;
@@ -1114,7 +1114,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 			}
 			
 			//Return 1 if the player won.
-			nBossResult = openBattleScreen(sEnemy, pPlayer);
+			nBossResult = openBattleScreen(sEnemy, pPlayer, nArea);
 
 			//If the player won against the boss.
 			if (nBossResult) {

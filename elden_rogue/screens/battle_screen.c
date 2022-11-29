@@ -33,12 +33,14 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy) {
 }
 
 //Made this integer type.
-int openBattleScreen(Enemy sEnemy, Player* pPlayer) {
+int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	
 	displayBattleScreen(pPlayer, sEnemy);
 
 	int nPlayerTurn = 1;
 	int nPlayerMove;
+	//int nEnemyTurn = 0;
+	//int nEnemyMove;
 
 	//var for move attack sub-options
 	int nPhysicalDamage;
@@ -49,8 +51,9 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 	//Initialized these variables (previously initialized inside the switch case)
 	int nDodgeRandom;
 	int nHealRandom;
+	int nEnemyType;
 
-	while (pPlayer->nHealth > 0 || sEnemy.nHP > 0) {
+	while (nPlayerTurn == 1 && pPlayer->nHealth > 0 || sEnemy.nHP > 0) {
 		nPlayerMove = scanIntInput(1, 4);
 
 		switch(nPlayerMove) {
@@ -116,6 +119,19 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer) {
 			case MOVE_SKIP:
 				break;
 		}
+	} //end ni player turn
+	while(nPlayerTurn == 0 && pPlayer->nHealth > 0 || sEnemy.nHP > 0){
+		switch(nEnemyType){
+		case 1:
+			sEnemy.nAtk = getRandomBetween(70, 80) * nAreaNo;
+			pPlayer->nHealth -= sEnemy.nAtk;
+			printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
+		case 2:
+			sEnemy.nAtk = getRandomBetween(110, 120)* nAreaNo;
+			pPlayer->nHealth -= sEnemy.nAtk;
+			printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
+		}
+
 	}
 
 	return 0;//placeholder return (delete later)
