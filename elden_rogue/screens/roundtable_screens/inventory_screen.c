@@ -56,8 +56,7 @@ void openInventory(Player* pPlayer) {
 
 					// if the currently equipped weapon is not empty,
 					if (strcmp(pPlayer->pEquippedWeapon->strWeaponName, "NONE")) {
-						addWeaponToInventory(pPlayer->pEquippedWeapon, pPlayer);
-						// add it to inventory
+						addWeaponToInventory(*(pPlayer->pEquippedWeapon), pPlayer);
 					}
 	
 					pPlayer->pEquippedWeapon = pSelectedWeapon;
@@ -200,21 +199,23 @@ void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer) {
 	sortInventory(pPlayer);
 }
 
-void addWeaponToInventory(Weapon* pWeapon, Player* pPlayer) {
-	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
+void addWeaponToInventory(Weapon sNewWeapon, Player* pPlayer) {
+
+	Slot* pInventorySlot = pPlayer->pInventory; //get the first weapon in slot.
+	Slot* pNewSlot = malloc(sizeof(Slot));
+	pNewSlot->pWeapon = &sNewWeapon;
 
 	//Get the last inventory slot.
-	while (sInventorySlot->pNext != NULL) {
-		sInventorySlot = sInventorySlot->pNext;
+	while (pInventorySlot->pNext != NULL) {
+		pInventorySlot = pInventorySlot->pNext;
 	}
 
-	//Set the next of the Last item to the removed equipped item.
-	sInventorySlot->pNext->pWeapon = pWeapon;
-	//Set the index of the new item.
-	sInventorySlot->pNext->pWeapon->nWeaponIndex = sInventorySlot->pWeapon->nWeaponIndex + 1;
+	pInventorySlot->pNext = pNewSlot;
+	pNewSlot->pNext = NULL;
 
-	//Update the player's inventory.
-	pPlayer->pInventory = sInventorySlot;
+	while (pPlayer->pInventory != NULL) {
+		printf("\n%s\n", pPlayer->pInventory->pWeapon->strWeaponName);
+	}
 }
 
 int getPlayerWeapons(Player* pPlayer) {

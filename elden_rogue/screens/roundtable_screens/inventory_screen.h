@@ -11,7 +11,7 @@ Weapon* findWeapon(int nInputIndex, Player* pPlayer);
 Weapon* createEmptyWeapon();
 void sortInventory(Player* pPlayer);
 void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer);
-void addWeaponToInventory(Weapon* sWeapon, Player* pPlayer);
+void addWeaponToInventory(Weapon sNewWeapon, Player* pPlayer);
 int getPlayerWeapons(Player* pPlayer);
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //

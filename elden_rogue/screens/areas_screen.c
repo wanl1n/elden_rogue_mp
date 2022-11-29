@@ -1159,8 +1159,6 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 							members should have a value.			   */
 void displayUserInterface(int nPlayerMaxHP, Player* pPlayer) {
 	
-	system("cls");
-	
 	printPlayerHealth(pPlayer->nHealth, nPlayerMaxHP);
 	printItems(pPlayer->nPotions, pPlayer->nRunes);
 	printPlayerMoves();
@@ -1202,6 +1200,9 @@ void displayResultScreen(int nType, int nBattleResult, int nRewards) {
 // ───────────────────── 〔 PRINTING FUNCTIONS 〕 ────────────────────── //
 void printFloorHeader(int nArea) {
 
+
+	system("cls");
+	
 	//Print Area Name
 	switch(nArea) {
 		case STORMVEIL:

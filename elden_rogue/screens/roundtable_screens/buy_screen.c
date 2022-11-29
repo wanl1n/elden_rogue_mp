@@ -136,7 +136,7 @@ void printShopContent(Stock sShopStock, int nLine) {
 
 void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 	
-	//system("cls");
+	system("cls");
 
 	int i, j;
 
@@ -169,7 +169,7 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 	switch(nPrompt) {
 		case ITEM_ONE:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(pStockList + ITEM_ONE - 1)->sWeapon.strWeaponName);
+				pStockList[ITEM_ONE - 1].sWeapon.strWeaponName);
 			break;
 		case ITEM_TWO:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
@@ -359,7 +359,7 @@ void openBuyScreen(Player* pPlayer) {
 
 			if (sStockToBeBought.nCost <= pPlayer->nRunes) {
 
-				addWeaponToInventory(&sWeaponChosen, pPlayer); //fix this
+				addWeaponToInventory(sWeaponChosen, pPlayer); //fix this
 				pPlayer->nRunes -= sStockToBeBought.nCost;
 				displayBuyStocks(nInputBuy, pPlayer, pStockOfType);
 
