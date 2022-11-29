@@ -10,6 +10,7 @@
 #include "utility/scanner.c"
 #include "utility/colors.c"
 #include "utility/doors.c"
+#include "utility/inventory_manager.c"
 
 #include "screens/title_screen.c"
 #include "screens/chara_creation_screen.c"
@@ -47,12 +48,11 @@ int main() {
 	//Inventory Initialization
 	Weapon sWeaponBase = {0, "NONE", 0, 0, 0, 0, 0, 0, 0};
 	// Weapon sWeaponBase = {1, "SHORT SWORD", 1, 13, 0, 15, 15, 15, 15};
-	Weapon* sEmptyWeapon = &sWeaponBase;
-	pPlayer->pInventory = malloc(sizeof(Slot));
-	pPlayer->pInventory->pWeapon = sEmptyWeapon;
-	pPlayer->pInventory->pNext = NULL;
-
-	pPlayer->pEquippedWeapon = sEmptyWeapon;
+	//pPlayer->pInventory = malloc(sizeof(Slot));
+	//pPlayer->pInventory->pWeapon = sEmptyWeapon;
+	//pPlayer->pInventory->pNext = NULL;
+	pPlayer->pInventory = NULL;
+	pPlayer->sEquippedWeapon = sWeaponBase;
 
 	resetColors();
 	openTitleScreen(pPlayer);

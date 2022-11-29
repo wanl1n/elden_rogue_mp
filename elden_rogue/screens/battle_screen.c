@@ -140,21 +140,21 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 //result make 1 win 0 lose
 
 int attackPhy(Enemy sEnemy, Player* pPlayer){
-	int nPhysicalDamage = (pPlayer->nStrength + pPlayer->pEquippedWeapon->nStr) * (1 - sEnemy.fPhysDef);
+	int nPhysicalDamage = (pPlayer->nStrength + pPlayer->sEquippedWeapon.nStr) * (1 - sEnemy.fPhysDef);
 	return nPhysicalDamage;
 }
 
 int attackSor(Enemy sEnemy, Player* pPlayer){
-	int nSorceryDamage = (pPlayer->nIntelligence + pPlayer->pEquippedWeapon->nInt) * (1 - sEnemy.fSorcDef);
+	int nSorceryDamage = (pPlayer->nIntelligence + pPlayer->sEquippedWeapon.nInt) * (1 - sEnemy.fSorcDef);
 	return nSorceryDamage;
 }
 
 int attackInc(Enemy sEnemy, Player* pPlayer){
-	int nIncantationDamage = (pPlayer->nFaith + pPlayer->pEquippedWeapon->nFth) * (1 - sEnemy.fIncanDef);
+	int nIncantationDamage = (pPlayer->nFaith + pPlayer->sEquippedWeapon.nFth) * (1 - sEnemy.fIncanDef);
 	return nIncantationDamage;
 }
 
 int getDodgeRate(Enemy sEnemy, Player* pPlayer){
-	int nDodgeRate = (20 +((pPlayer->nEndurance + pPlayer->pEquippedWeapon->nEnd) / 2)) / 100;
+	int nDodgeRate = (20 +((pPlayer->nEndurance + pPlayer->sEquippedWeapon.nEnd) / 2)) / 100;
 	return nDodgeRate;
 }
