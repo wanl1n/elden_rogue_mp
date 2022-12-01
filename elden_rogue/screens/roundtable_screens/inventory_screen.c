@@ -108,57 +108,6 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 
 
 // ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
-/* 	createEmptyWeapon	Creates an instance of an empty Weapon.
-
-	@return				A pointer of type Weapon.					   */
-Weapon* createEmptyWeapon() {
-	
-	Weapon* pWeapon = malloc(sizeof(Weapon));
-
-	pWeapon->nWeaponIndex = 0;
-	strcpy(pWeapon->strWeaponName, "NONE");
-	pWeapon->nWeaponType = 0;
-
-	pWeapon->nDexReq = 0;
-	pWeapon->nHP = 0;
-	pWeapon->nInt = 0;
-	pWeapon->nEnd = 0;
-	pWeapon->nStr = 0;
-	pWeapon->nFth = 0;
-
-	return pWeapon;
-}
-
-/* 	sortInventory		Fills in empty spaces in between items in the
-						Player's Inventory by moving items back to fill 
-						the gap.
-
-	@param	pPlayer		The Player Structure containing all of the 
-						Player's statistics and items.
-
-	Pre-condition		pPlayer should be initiated and all members 
-						should have a value.						   */
-void sortInventory(Player* pPlayer) {
-	
-	Slot* sInventorySlot = pPlayer->pInventory;
-
-	if (!strcmp(sInventorySlot->pNext->sWeapon.strWeaponName, "NONE")) {
-		
-		if (strcmp(sInventorySlot->pNext->pNext->sWeapon.strWeaponName, "NONE")) {
-			
-			while (sInventorySlot->pNext != NULL) {
-				if (sInventorySlot->pNext->pNext != NULL)
-					sInventorySlot->pNext->pNext->sWeapon.nWeaponIndex--;
-				sInventorySlot->pNext = sInventorySlot->pNext->pNext;
-				sInventorySlot = sInventorySlot->pNext;
-			}
-		}
-	}
-
-	//Store the sorted inventory in the Player Struct.
-	pPlayer->pInventory = sInventorySlot;
-}
-
 int getPlayerWeapons(Slot** pInventoryHead) {
 	int nPlayerWeapons = 0;
 
@@ -285,7 +234,6 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 	// Contains the values need to be printed.
 	Slot* pInventoryHead = pPlayer->pInventory; // Head of the inventory.
 	Slot* pTempHead;
-	Weapon* pEmpty = createEmptyWeapon(); // Empty instance to fill.
 
 	int i, j, k; // Counts the rows, columns, and offsets the head.
 

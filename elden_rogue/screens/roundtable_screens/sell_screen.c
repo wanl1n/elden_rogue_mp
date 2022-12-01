@@ -1,6 +1,7 @@
 #include "../roundtable_screen.h"
 #include "../areas_screen.h"
 #include "inventory_screen.h"
+#include "sell_screen.h"
 
 #include "../../driver.h"
 
@@ -10,7 +11,7 @@ void displaySellShop(int nPrompt, Player* pPlayer, Weapon sWeapon, int nProfit) 
 	
 	system("cls");
 
-	printHeader("ROUNDTABLE HOLD", 15);
+	printHeader("SELL WEAPON", 11);
 	
 	printf("\n\t\tInput the index of the weapon you want to sell.");
 
@@ -42,38 +43,62 @@ void openSellScreen(Player* pPlayer) {
 	Stock* pStockOfType;
 	Stock sStockWeapon;
 
-	displaySellShop(-1, pPlayer, pSelectedWeapon->sWeapon, 0);
+	Weapon* pPlaceholder = createPlaceholderWeapon();
+
+	displaySellShop(-1, pPlayer, *pPlaceholder, 0);
 
 	while (nInputIndex != 0) {
 
-		nInputIndex = scanf("%d", &nInputIndex);
+		printInputTag();
+		scanf("%d", &nInputIndex); // Index of the weapon in inventory.
 		
 		//find the weapon from inventory at the inputted index.
-		pSelectedWeapon = findWeaponSlot(nInputIndex, pPlayer->pInventory);
-		
-		//if the weapon exists,
-		if(pSelectedWeapon != NULL) {
-
-			//get the stock list for that type.
-			pStockOfType = getStocksFromType(nInputIndex); //Array of 4 weapons + their cost.
-			//get the weapon from that specific type.
+		if (nInputIndex != 0) {
 			
-			for(i = 0; i < 4; i++) {
-				if (pStockOfType[i].sWeapon.nWeaponType == pSelectedWeapon->sWeapon.nWeaponType) {
-					nWeaponCost = pStockOfType[i].nCost;
+
+			pSelectedWeapon = findWeaponSlot(nInputIndex, pPlayer->pInventory);
+
+			//if the weapon exists,
+			if(pSelectedWeapon != NULL) {
+
+				//get the stock list for that type.
+				pStockOfType = getStocksFromType(pSelectedWeapon->sWeapon.nWeaponType); //Array of 4 weapons + their cost.
+				//get the weapon from that specific type.
+				
+				for(i = 0; i < 4; i++) {
+					if (!strcmp(pSelectedWeapon->sWeapon.strWeaponName, pStockOfType[i].sWeapon.strWeaponName)) 
+						nWeaponCost = pStockOfType[i].nCost;
 				}
-			}
 
-			removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
-			pPlayer->nRunes += nWeaponCost / 2;
+				removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
+				pPlayer->nRunes += nWeaponCost / 2;
 
-			displaySellShop(SUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, nWeaponCost / 2);
+				displaySellShop(SUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, nWeaponCost / 2);
 
-		} else {
-			displaySellShop(UNSUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, 0);
+			} else 
+				displaySellShop(UNSUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, 0);
 		}
 	}
 
+	printf("lol2");
 	openRoundTableHoldScreen(pPlayer);
+}
 
+Weapon* createPlaceholderWeapon() {
+
+	Weapon* pWeapon = malloc(sizeof(Weapon));
+
+	pWeapon->nWeaponIndex = 0;
+	strcpy(pWeapon->strWeaponName, "NONE");
+
+	pWeapon->nWeaponType = 0;
+
+	pWeapon->nDexReq = 0;
+	pWeapon->nHP = 0;
+	pWeapon->nInt = 0;
+	pWeapon->nEnd = 0;
+	pWeapon->nStr = 0;
+	pWeapon->nFth = 0;
+
+	return pWeapon;
 }

@@ -51,6 +51,7 @@ void removeWeapon(Slot* pWeaponSlot, Slot** pInventoryHead) {
 		pPrevWeaponSlot->pNext = pWeaponSlot->pNext;
 
 		pPrevWeaponSlot = pPrevWeaponSlot->pNext;
+		
 		while (pPrevWeaponSlot != NULL) {
 			pPrevWeaponSlot->sWeapon.nWeaponIndex--;
 			pPrevWeaponSlot = pPrevWeaponSlot->pNext;

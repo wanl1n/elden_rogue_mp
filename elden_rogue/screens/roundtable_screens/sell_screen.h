@@ -5,5 +5,6 @@
 
 void displaySellShop(int nPrompt, Player* pPlayer, Weapon sWeapon, int nProfit);
 void openSellScreen(Player* pPlayer);
+Weapon* createPlaceholderWeapon();
 
 #endif

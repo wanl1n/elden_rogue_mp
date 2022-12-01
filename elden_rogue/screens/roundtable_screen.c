@@ -163,8 +163,10 @@ void openShop(Player* pPlayer) {
 				openBuyScreen(pPlayer);
 				break;
 			case SELL_WEAPON:
+				openSellScreen(pPlayer);
 				break;
 			case S_BACK:
+				openRoundTableHoldScreen(pPlayer);
 				break;
 		}
 	}

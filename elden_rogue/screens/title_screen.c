@@ -70,11 +70,12 @@ void displayTitleScreen(int nPrompt) {
 		case EXIT:
 			printSystemMessage("Exiting game...");
 			break;
-		case 3:
+		default:
 			break;
 	}
 
-	printInputTag();
+	if (nPrompt != EXIT)
+		printInputTag();
 
 	Sleep(DELAY);
 }
