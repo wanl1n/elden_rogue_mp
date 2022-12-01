@@ -21,7 +21,7 @@ typedef struct WeaponItem Weapon;
 
 struct InventorySlot {
 
-	Weapon* pWeapon;
+	Weapon sWeapon;
 
 	struct InventorySlot* pNext;
 };
@@ -50,11 +50,11 @@ typedef struct Player {
 	int nIntelligence;
 	int nFaith; 
 
-	//Inventory
+	//Inventory List
 	Slot* pInventory;
 
 	//Equipment (Currently equipped)
-	Weapon* pEquippedWeapon;
+	Weapon sEquippedWeapon;
 	int nPotions;
 
 	int aShards[6];

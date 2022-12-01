@@ -30,14 +30,6 @@
 #define INSUFFICIENT_RUNES	7
 #define MAXED_OUT			8	
 
-//INVENTORY PRINTING
-#define SLOT_WIDTH			16
-#define SELECT				1
-#define PREVIOUS			2
-#define NEXT 				3
-#define I_BACK 				0
-#define NO_EXIST			4
-
 //SHOP OPTIONS
 #define BUY_WEAPON			1
 #define SELL_WEAPON			2

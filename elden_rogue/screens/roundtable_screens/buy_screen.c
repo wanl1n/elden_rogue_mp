@@ -168,20 +168,11 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 
 	switch(nPrompt) {
 		case ITEM_ONE:
-			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				pStockList[ITEM_ONE - 1].sWeapon.strWeaponName);
-			break;
 		case ITEM_TWO:
-			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(pStockList + ITEM_TWO - 1)->sWeapon.strWeaponName);
-			break;
 		case ITEM_THREE:
-			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(pStockList + ITEM_THREE - 1)->sWeapon.strWeaponName);
-			break;
 		case ITEM_FOUR:
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
-				*(pStockList + ITEM_FOUR - 1)->sWeapon.strWeaponName);
+				pStockList[nPrompt - 1].sWeapon.strWeaponName);
 			break;
 		case UNSUCCESSFUL:
 			printf("[SYSTEM MESSAGE]: You don't have enough runes to buy that.\n"); 
@@ -336,9 +327,9 @@ void openBuyScreen(Player* pPlayer) {
 	int nInputBuy = 100;
 	int nInputWeaponType = 100;
 
-	Stock* pStockOfType;
-	Stock sStockToBeBought;
-	Weapon sWeaponChosen;
+	Stock* pStockOfType; //list of weapons of the same type
+	Stock sStockToBeBought; //weapon to be bought
+	Slot* pWeaponChosen;
 
 	displayBuyTypes(-1, pPlayer);
 
@@ -355,11 +346,11 @@ void openBuyScreen(Player* pPlayer) {
 			nInputBuy = scanIntInput(0, 4); //Input which weapon.
 
 			sStockToBeBought = pStockOfType[nInputBuy-1];
-			sWeaponChosen = sStockToBeBought.sWeapon;
+			pWeaponChosen = convertStockToSlot(sStockToBeBought);
 
 			if (sStockToBeBought.nCost <= pPlayer->nRunes) {
 
-				addWeaponToInventory(sWeaponChosen, pPlayer); //fix this
+				addWeapon(pWeaponChosen, &(pPlayer->pInventory)); //fix this
 				pPlayer->nRunes -= sStockToBeBought.nCost;
 				displayBuyStocks(nInputBuy, pPlayer, pStockOfType);
 

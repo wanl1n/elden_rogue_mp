@@ -32,44 +32,45 @@ void displaySellShop(int nPrompt, Player* pPlayer, Weapon sWeapon, int nProfit) 
 
 void openSellScreen(Player* pPlayer) {
 
-	int nInputIndex = 100;
-	Weapon* pSelectedWeapon = NULL;
-	int nWeaponSRP = 0;
+	int nInputIndex = -1;
+	int nWeaponCost = 0;
+	Slot* pSelectedWeapon = NULL;
 
-	int nTemp;
+	int i;
 
 	//Getting the price of the weapon.
-	Stock* pStockWeaponFromType;
+	Stock* pStockOfType;
 	Stock sStockWeapon;
 
-	displaySellShop(-1, pPlayer, *pSelectedWeapon, 0);
+	displaySellShop(-1, pPlayer, pSelectedWeapon->sWeapon, 0);
 
 	while (nInputIndex != 0) {
 
 		nInputIndex = scanf("%d", &nInputIndex);
 		
 		//find the weapon from inventory at the inputted index.
-		pSelectedWeapon = findWeapon(nInputIndex, pPlayer);
+		pSelectedWeapon = findWeaponSlot(nInputIndex, pPlayer->pInventory);
 		
 		//if the weapon exists,
 		if(pSelectedWeapon != NULL) {
 
 			//get the stock list for that type.
-			pStockWeaponFromType = getStocksFromType(nInputIndex); //Array of 4 weapons + their cost.
+			pStockOfType = getStocksFromType(nInputIndex); //Array of 4 weapons + their cost.
 			//get the weapon from that specific type.
-			for(nTemp = 0; nTemp < 4; nTemp++) {
-				if (pStockWeaponFromType[nTemp].sWeapon.nWeaponType == pSelectedWeapon->nWeaponType) {
-					nWeaponSRP = pStockWeaponFromType[nTemp].nCost;
+			
+			for(i = 0; i < 4; i++) {
+				if (pStockOfType[i].sWeapon.nWeaponType == pSelectedWeapon->sWeapon.nWeaponType) {
+					nWeaponCost = pStockOfType[i].nCost;
 				}
 			}
 
-			removeWeaponFromInventory(*pSelectedWeapon, pPlayer);
-			pPlayer->nRunes += nWeaponSRP / 2;
+			removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
+			pPlayer->nRunes += nWeaponCost / 2;
 
-			displaySellShop(SUCCESSFUL, pPlayer, *pSelectedWeapon, nWeaponSRP / 2);
+			displaySellShop(SUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, nWeaponCost / 2);
 
 		} else {
-			displaySellShop(UNSUCCESSFUL, pPlayer, *pSelectedWeapon, 0);
+			displaySellShop(UNSUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, 0);
 		}
 	}
 

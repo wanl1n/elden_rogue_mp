@@ -36,7 +36,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	//Initializing Initial Player Stats. 
 	//NOTE: Don't use nPlayerHP and nWeaponHP for anything other than calculating the formula.
 	int nPlayerHP = pPlayer->nHealth; //for calculating Max HP.
-	int nWeaponHP = pPlayer->pEquippedWeapon->nHP; //for calculating Max HP.
+	int nWeaponHP = pPlayer->sEquippedWeapon.nHP; //for calculating Max HP.
 	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
 	pPlayer->nPlayerMaxHP = nPlayerMaxHP; //Saving Player's Max HP.
 	
