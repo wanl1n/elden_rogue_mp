@@ -40,7 +40,7 @@ void removeWeapon(Slot* pWeaponSlot, Slot** pInventoryHead) {
 		}
 
 	} else {
-		findWeaponSlot(pWeaponSlot->sWeapon.nWeaponIndex - 1, 
+		findWeaponSlot(pWeaponSlot->sWeapon.nWeaponIndex-1, 
 			*pInventoryHead)->pNext = pWeaponSlot->pNext;
 
 	}
@@ -64,15 +64,19 @@ Slot* putWeaponInSlot(Weapon sWeapon) {
 }
 
 Slot* findWeaponSlot(int nIndex, Slot* pInventoryHead) {
-	Slot* pWeaponSlot = pInventoryHead; // Provided variable, DO NOT REMOVE. But you MAY change the initialized value.
+	Slot* pWeaponSlot = pInventoryHead; 
 
-	int i;
+	while (pWeaponSlot != NULL) {
 
-	for(i = 0; i < nIndex; i++) {
+		if(pWeaponSlot->sWeapon.nWeaponIndex == nIndex) {
+			printf("%d", pWeaponSlot->sWeapon.nWeaponIndex);
+			return pWeaponSlot;
+		}
+
 		pWeaponSlot = pWeaponSlot->pNext;
 	}
 
-	return pWeaponSlot;
+	return NULL;
 }
 
 Slot* convertStockToSlot(Stock sStock) {

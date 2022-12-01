@@ -337,27 +337,34 @@ void openBuyScreen(Player* pPlayer) {
 
 		nInputWeaponType = scanIntInput(0, 6); //Input what type of weapon.
 
-		pStockOfType = getStocksFromType(nInputWeaponType);
+		if(nInputWeaponType != 0) {
+			
+			pStockOfType = getStocksFromType(nInputWeaponType);
 
-		displayBuyStocks(-1, pPlayer, pStockOfType);
+			displayBuyStocks(-1, pPlayer, pStockOfType);
 
-		while (nInputBuy != 0) {
+			while (nInputBuy != 0) {
 
-			nInputBuy = scanIntInput(0, 4); //Input which weapon.
+				nInputBuy = scanIntInput(0, 4); //Input which weapon.
 
-			sStockToBeBought = pStockOfType[nInputBuy-1];
-			pWeaponChosen = convertStockToSlot(sStockToBeBought);
+				if (nInputBuy != 0) {
 
-			if (sStockToBeBought.nCost <= pPlayer->nRunes) {
+					sStockToBeBought = pStockOfType[nInputBuy-1];
+					pWeaponChosen = convertStockToSlot(sStockToBeBought);
 
-				addWeapon(pWeaponChosen, &(pPlayer->pInventory)); //fix this
-				pPlayer->nRunes -= sStockToBeBought.nCost;
-				displayBuyStocks(nInputBuy, pPlayer, pStockOfType);
+					if (sStockToBeBought.nCost <= pPlayer->nRunes) {
 
-			} else {
+						addWeapon(pWeaponChosen, &(pPlayer->pInventory)); //fix this
+						pPlayer->nRunes -= sStockToBeBought.nCost;
+						displayBuyStocks(nInputBuy, pPlayer, pStockOfType);
 
-				displayBuyStocks(UNSUCCESSFUL, pPlayer, pStockOfType);
+					} else {
 
+						displayBuyStocks(UNSUCCESSFUL, pPlayer, pStockOfType);
+					}
+				} else {
+					nInputWeaponType = 0;
+				}
 			}
 		}
 	}

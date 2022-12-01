@@ -16,84 +16,6 @@
 
 	Pre-condition		pPlayer should be initiated and all members 
 						should have a value.						   */
-// void openInventory(Player* pPlayer) {
-
-// 	// Input Variables
-// 	int nInputInventory = 100; //random value basta wala sa choices
-// 	int nInputWeapon;
-
-// 	// Get the amount of Weapons the Player has.
-// 	int nPlayerWeapons = getPlayerWeapons(pPlayer);
-	
-// 	// Temporary Variables
-// 	int nTemp;
-// 	int nPage = 1;
-
-// 	Weapon* pSelectedWeapon = NULL;
-
-// 	displayInventory(5, pPlayer, nPage);
-
-// 	while(nInputInventory != 0) {
-
-// 		nInputInventory = scanIntInput(0, 3); // Contains the Player's choice.
-// 		nPlayerWeapons = getPlayerWeapons(pPlayer);
-
-// 		switch (nInputInventory) {
-			
-// 			case SELECT:
-
-// 				// Ask Player which weapon they want by inputting index.
-// 				printInputTag();
-// 				scanf("%d", &nInputWeapon); //Input Weapon Index
-				
-// 				// check if the index has a corresponding weapon in inventory.
-// 				if (nInputWeapon != 0) 
-// 					pSelectedWeapon = findWeapon(nInputWeapon, pPlayer); //Weapon to be equipped
-
-// 				// if the index the player inputted has a weapon
-// 				if (pSelectedWeapon != NULL) { 
-
-// 					// if the currently equipped weapon is not empty,
-// 					if (strcmp(pPlayer->pEquippedWeapon->strWeaponName, "NONE")) {
-// 						addWeaponToInventory(*(pPlayer->pEquippedWeapon), pPlayer);
-// 					}
-	
-// 					pPlayer->pEquippedWeapon = pSelectedWeapon;
-// 					removeWeaponFromInventory(*pSelectedWeapon, pPlayer);
-// 					displayInventory(SELECT, pPlayer, nPage);
-
-// 				} else {
-// 					displayInventory(NO_EXIST, pPlayer, nPage);
-// 				}
-
-// 				break;
-
-// 			case PREVIOUS:
-// 				if (nPage > 1) 
-// 					nPage--;
-// 				break;
-
-// 			case NEXT:
-
-// 				nTemp = nPlayerWeapons / 12;
-
-// 				if (nPlayerWeapons % 12 != 0)
-// 					nTemp++;
-
-// 				if (nPage < nTemp)
-// 					nPage++;
-
-// 				break;
-
-// 			case I_BACK:
-
-// 				openRoundTableHoldScreen(pPlayer);
-// 				break;
-
-
-// 		}
-// 	}
-// }
 void openInventory(Player* pPlayer) {
 
 	// Input Variables
@@ -102,22 +24,21 @@ void openInventory(Player* pPlayer) {
 	// Temporary Variables
 	int nPage = 1;
 
-	do {
+	while(nInputInventory != 0) {
 
 		displayInventory(5, pPlayer, nPage);
 
 		nInputInventory = scanIntInput(0, 3); // Contains the Player's choice.
 
 		processInventoryInput(nInputInventory, pPlayer, nPage);
-
-	} while(nInputInventory != 0);
+	}
 }
 
 void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 	
 	// Get the amount of Weapons the Player has.
 	int nPlayerWeapons;
-	nPlayerWeapons = getPlayerWeapons(pPlayer);
+	nPlayerWeapons = getPlayerWeapons(&(pPlayer->pInventory));
 
 	// Input variables.
 	int nInputWeapon = -1;
@@ -128,88 +49,63 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 
 	switch (nInput) {
 			
-			case SELECT:
+		case SELECT:
 
-				// Ask Player which weapon they want by inputting index.
-				printInputTag();
-				scanf("%d", &nInputWeapon); //Input Weapon Index
-				
-				// check if the index has a corresponding weapon in inventory.
-				if (nInputWeapon != 0) 
-					pSelectedWeapon = findWeaponSlot(nInput, pPlayer->pInventory); 
-					//returns NULL if there is not weapon at that index.
+			// Ask Player which weapon they want by inputting index.
+			printInputTag();
+			scanf("%d", &nInputWeapon); //Input Weapon Index
+			
+			// check if the index has a corresponding weapon in inventory.
+			if (nInputWeapon != 0) 
+				pSelectedWeapon = findWeaponSlot(nInputWeapon, pPlayer->pInventory); 
+				//returns NULL if there is not weapon at that index.
+			printf("%s", pSelectedWeapon->sWeapon.strWeaponName);
+			// if the index the player inputted has a weapon
+			if (pSelectedWeapon != NULL) { 
 
-				// if the index the player inputted has a weapon
-				if (pSelectedWeapon != NULL) { 
-
-					if (strcmp(pPlayer->sEquippedWeapon.strWeaponName, "NONE")){
-						addWeapon(putWeaponInSlot(pPlayer->sEquippedWeapon), &(pPlayer->pInventory));
-					}
-	
-					pPlayer->sEquippedWeapon = pSelectedWeapon->sWeapon;
-
-					removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
-					displayInventory(SELECT, pPlayer, nPage);
-
-				} else {
-					displayInventory(NO_EXIST, pPlayer, nPage);
+				if (strcmp(pPlayer->sEquippedWeapon.strWeaponName, "NONE")){
+					addWeapon(putWeaponInSlot(pPlayer->sEquippedWeapon), &(pPlayer->pInventory));
 				}
 
-				break;
+				pPlayer->sEquippedWeapon = pSelectedWeapon->sWeapon;
 
-			case PREVIOUS:
-				if (nPage > 1) 
-					nPage--;
-				break;
+				removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
+				displayInventory(SELECT, pPlayer, nPage);
 
-			case NEXT:
+			} else {
+				displayInventory(NO_EXIST, pPlayer, nPage);
+			}
 
-				nTemp = nPlayerWeapons / 12;
+			break;
 
-				if (nPlayerWeapons % 12 != 0)
-					nTemp++;
+		case PREVIOUS:
+			if (nPage > 1) 
+				nPage--;
+			break;
 
-				if (nPage < nTemp)
-					nPage++;
+		case NEXT:
 
-				break;
+			nTemp = nPlayerWeapons / 12;
 
-			case I_BACK:
+			if (nPlayerWeapons % 12 != 0)
+				nTemp++;
 
-				openRoundTableHoldScreen(pPlayer);
-				break;
+			if (nPage < nTemp)
+				nPage++;
 
+			break;
 
-		}
+		case I_BACK:
+
+			displayInventory(I_BACK, pPlayer, nPage);
+			openRoundTableHoldScreen(pPlayer);
+			break;
+
+	}
 }
 
 
 // ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
-/* 	findWeapon			Finds the weapon using a given index inside the 
-						Player's Inventory.
-
-	@param	nInputIndex	An integer variable containing the Index of the 
-						Weapon the Player chose from the Inventory.
-	@param	pPlayer		The Player Structure containing all of the 
-						Player's statistics and items.
-
-	@return				A pointer of type Weapon.
-
-	Pre-condition		pPlayer should be initiated and all members 
-						should have a value.						   */
-// Weapon* findWeapon(int nInputIndex, Player* pPlayer) {
-
-// 	Slot* pWeaponSlot = pPlayer->pInventory;
-// 	Weapon* pWeapon = pWeaponSlot->pWeapon;
-	
-// 	while(pWeapon->nWeaponIndex != nInputIndex || pWeaponSlot != NULL) {
-// 		pWeaponSlot = pWeaponSlot->pNext;
-// 		pWeapon = pWeaponSlot->pWeapon;
-// 	}
-
-// 	return pWeapon;
-// }
-
 /* 	createEmptyWeapon	Creates an instance of an empty Weapon.
 
 	@return				A pointer of type Weapon.					   */
@@ -261,55 +157,14 @@ void sortInventory(Player* pPlayer) {
 	pPlayer->pInventory = sInventorySlot;
 }
 
-/* 	removeWeaponFromInventory	asdsadasdasd
-
-	@param	pPlayer				The Player Structure containing all of 
-								the Player's statistics and items.
-
-	Pre-condition				pPlayer should be initiated and all 
-								members should have a value.		   */
-// void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer) {
-// 	Slot* sInventorySlot = pPlayer->pInventory; //get the first weapon
-
-// 	//Find the weapon and set it to slot.
-// 	while (!strcmp(sInventorySlot->pWeapon->strWeaponName, sWeapon.strWeaponName) && 
-// 			sInventorySlot->pWeapon->nWeaponIndex == sWeapon.nWeaponIndex) {
-// 		sInventorySlot = sInventorySlot->pNext;
-// 	}
-
-// 	//Set the slot to empty.
-// 	sInventorySlot->pWeapon = createEmptyWeapon();
-// 	pPlayer->pInventory = sInventorySlot;
-
-// 	//Remove empty spaces between items.
-// 	sortInventory(pPlayer);
-// }
-
-// void addWeaponToInventory(Weapon sNewWeapon, Player* pPlayer) {
-
-// 	Slot* pInventorySlot = pPlayer->pInventory; //get the first weapon in slot.
-// 	Slot* pNewSlot = malloc(sizeof(Slot));
-// 	pNewSlot->pWeapon = &sNewWeapon;
-
-// 	//Get the last inventory slot.
-// 	while (pInventorySlot->pNext != NULL) {
-// 		pInventorySlot = pInventorySlot->pNext;
-// 	}
-
-// 	pInventorySlot->pNext = pNewSlot;
-// 	pNewSlot->pNext = NULL;
-
-// 	while (pPlayer->pInventory != NULL) {
-// 		printf("\n%s\n", pPlayer->pInventory->pWeapon->strWeaponName);
-// 	}
-// }
-
-int getPlayerWeapons(Player* pPlayer) {
+int getPlayerWeapons(Slot** pInventoryHead) {
 	int nPlayerWeapons = 0;
 
-	Slot* pInventorySlot = pPlayer->pInventory; //get the first weapon
+	Slot* pInventorySlot = *pInventoryHead; //get the first weapon
 
-	if (strcmp(pInventorySlot->sWeapon.strWeaponName, "NONE")) {
+	if (pInventorySlot == NULL) {
+		return 0;
+	} else {
 		//Get the last inventory slot.
 		while (pInventorySlot != NULL) {
 			pInventorySlot = pInventorySlot->pNext;
@@ -481,7 +336,7 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 
 void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 	
-	system("cls");
+	//system("cls");
 
 	printHeader("ROUNDTABLE HOLD", 15);
 	printMultiple(" ", 25);
@@ -504,6 +359,9 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 			break;
 		case NO_EXIST:
 			printSystemMessage("There's no weapon at that index.");
+			break;
+		case I_BACK:
+			printSystemMessage("Going back to Roundtable Hold.");
 			break;
 		default:
 			break;

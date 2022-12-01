@@ -21,7 +21,7 @@ Weapon* createEmptyWeapon();
 void sortInventory(Player* pPlayer);
 // void removeWeaponFromInventory(Weapon sWeapon, Player* pPlayer);
 // void addWeaponToInventory(Weapon sNewWeapon, Player* pPlayer);
-int getPlayerWeapons(Player* pPlayer);
+int getPlayerWeapons(Slot** pInventoryHead);
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
 void printTopBorderSlots(int nCols);
