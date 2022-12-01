@@ -11,6 +11,7 @@
 
 
 void displayBattleScreen(Player* pPlayer, Enemy sEnemy) {
+	system("cls");
 	printHeader("BATTLE TIME", 11);
 	printf("\t\t[NAME]: %s\n", pPlayer->strName);
 	printPlayerHealth(pPlayer->nHealth, pPlayer->nPlayerMaxHP);
@@ -53,6 +54,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nEnemyType;
 
 	while (nPlayerTurn == 1 && pPlayer->nHealth > 0 || sEnemy.nHP > 0) {
+		displayBattleScreen(pPlayer, sEnemy);
 		nPlayerMove = scanIntInput(1, 4);
 
 		switch(nPlayerMove) {
@@ -70,6 +72,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 						nPhysicalDamage = attackPhy(sEnemy, pPlayer);
 						sEnemy.nHP -= nPhysicalDamage;
 						printf ("%s dealt %d damage !", pPlayer->strName, nPhysicalDamage);
+						displayBattleScreen(pPlayer, sEnemy);
 						printInputTag();
 						break;
 
@@ -77,6 +80,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 						nSorceryDamage = attackSor(sEnemy, pPlayer);
 						sEnemy.nHP -= nSorceryDamage;
 						printf ("%s dealt %d damage !", pPlayer->strName, nSorceryDamage);
+						displayBattleScreen(pPlayer, sEnemy);
 						printInputTag();
 						break;
 
@@ -84,6 +88,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 						nIncantationDamage = attackInc(sEnemy, pPlayer);
 						sEnemy.nHP -= nIncantationDamage;
 						printf ("%s dealt %d damage !", pPlayer->strName, nIncantationDamage);
+						displayBattleScreen(pPlayer, sEnemy);
 						printInputTag();
 						break;
 				}
