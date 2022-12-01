@@ -30,22 +30,32 @@ void addWeapon(Slot* pNewSlot, Slot** pInventoryHead) {
 
 void removeWeapon(Slot* pWeaponSlot, Slot** pInventoryHead) {
 	
+	Slot* pPrevWeaponSlot;
+
 	if (pWeaponSlot == *pInventoryHead) {
 
 		if(pWeaponSlot->pNext != NULL) {
 			*pInventoryHead = pWeaponSlot->pNext;
+
+			while (pWeaponSlot != NULL) {
+				pWeaponSlot->sWeapon.nWeaponIndex--;
+				pWeaponSlot = pWeaponSlot->pNext;
+			}
 		}
 		else {
 			*pInventoryHead = NULL;
 		}
 
 	} else {
-		findWeaponSlot(pWeaponSlot->sWeapon.nWeaponIndex-1, 
-			*pInventoryHead)->pNext = pWeaponSlot->pNext;
+		pPrevWeaponSlot = findWeaponSlot(pWeaponSlot->sWeapon.nWeaponIndex-1, *pInventoryHead);
+		pPrevWeaponSlot->pNext = pWeaponSlot->pNext;
 
+		pPrevWeaponSlot = pPrevWeaponSlot->pNext;
+		while (pPrevWeaponSlot != NULL) {
+			pPrevWeaponSlot->sWeapon.nWeaponIndex--;
+			pPrevWeaponSlot = pPrevWeaponSlot->pNext;
+		}
 	}
-	
-	free(pWeaponSlot);
 }
 
 void equipWeapon(Slot* pWeaponToEquip, Player* pPlayer) {
@@ -69,7 +79,6 @@ Slot* findWeaponSlot(int nIndex, Slot* pInventoryHead) {
 	while (pWeaponSlot != NULL) {
 
 		if(pWeaponSlot->sWeapon.nWeaponIndex == nIndex) {
-			printf("%d", pWeaponSlot->sWeapon.nWeaponIndex);
 			return pWeaponSlot;
 		}
 

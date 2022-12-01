@@ -24,9 +24,11 @@ void openInventory(Player* pPlayer) {
 	// Temporary Variables
 	int nPage = 1;
 
+	displayInventory(5, pPlayer, nPage);
+
 	while(nInputInventory != 0) {
 
-		displayInventory(5, pPlayer, nPage);
+		// displayInventory(5, pPlayer, nPage);
 
 		nInputInventory = scanIntInput(0, 3); // Contains the Player's choice.
 
@@ -59,7 +61,7 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 			if (nInputWeapon != 0) 
 				pSelectedWeapon = findWeaponSlot(nInputWeapon, pPlayer->pInventory); 
 				//returns NULL if there is not weapon at that index.
-			printf("%s", pSelectedWeapon->sWeapon.strWeaponName);
+
 			// if the index the player inputted has a weapon
 			if (pSelectedWeapon != NULL) { 
 
