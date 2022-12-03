@@ -1061,6 +1061,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 				sEnemy = spawnEnemy(nArea);
 				printSystemMessage("You encountered an enemy.");
 				nBattleResult = openBattleScreen(sEnemy, pPlayer, nArea);
+				printf("u win");
 
 				if (nBattleResult){
 					nBattleRewards = sEnemy.nMaxHP * 2;

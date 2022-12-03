@@ -11,7 +11,7 @@
 
 
 void displayBattleScreen(Player* pPlayer, Enemy sEnemy) {
-	system("cls");
+	//system("cls");
 	printHeader("BATTLE TIME", 11);
 	printf("\t\t[NAME]: %s\n", pPlayer->strName);
 	printPlayerHealth(pPlayer->nHealth, pPlayer->nPlayerMaxHP);
@@ -53,117 +53,128 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nHealRandom;
 	int nEnemyType;
 
-	while (nPlayerTurn == 1 && pPlayer->nHealth > 0 || sEnemy.nHP > 0) {
-		displayBattleScreen(pPlayer, sEnemy);
-		nPlayerMove = scanIntInput(1, 4);
+	displayBattleScreen(pPlayer, sEnemy);
 
-		switch(nPlayerMove) {
+	while(pPlayer->nHealth > 0 && sEnemy.nHP > 0){
 
-			case MOVE_ATTACK:
-				printOption(1, "PHYSICAL");
-				printOption(2, "SORCERY");
-				printOption(3, "INCANTATION");
-				printInputTag();
-				nPlayerMove = scanIntInput(1, 4);
+		if (nPlayerTurn == 1) {
+			nPlayerMove = scanIntInput(1, 4);
 
-				switch(nPlayerMove){
+			switch(nPlayerMove) {
 
-					case ATTACK_PHYSICAL:
-						nPhysicalDamage = attackPhy(sEnemy, pPlayer);
-						sEnemy.nHP -= nPhysicalDamage;
-						printf ("%s dealt %d damage !", pPlayer->strName, nPhysicalDamage);
-						displayBattleScreen(pPlayer, sEnemy);
-						printInputTag();
-						break;
+				case MOVE_ATTACK:
+					printOption(1, "PHYSICAL");
+					printOption(2, "SORCERY");
+					printOption(3, "INCANTATION");
+					printInputTag();
+					nPlayerMove = scanIntInput(1, 4);
 
-					case ATTACK_SORCERY:
-						nSorceryDamage = attackSor(sEnemy, pPlayer);
-						sEnemy.nHP -= nSorceryDamage;
-						printf ("%s dealt %d damage !", pPlayer->strName, nSorceryDamage);
-						displayBattleScreen(pPlayer, sEnemy);
-						printInputTag();
-						break;
+					switch(nPlayerMove){
 
-					case ATTACK_INCANTATION:
-						nIncantationDamage = attackInc(sEnemy, pPlayer);
-						sEnemy.nHP -= nIncantationDamage;
-						printf ("%s dealt %d damage !", pPlayer->strName, nIncantationDamage);
-						displayBattleScreen(pPlayer, sEnemy);
-						printInputTag();
-						break;
-				}
+						case ATTACK_PHYSICAL:
+							nPhysicalDamage = attackPhy(sEnemy, pPlayer);
+							sEnemy.nHP -= nPhysicalDamage;
+							printf ("%s dealt %d damage !", pPlayer->strName, nPhysicalDamage);
+							nPlayerTurn = 0;
+							displayBattleScreen(pPlayer, sEnemy);
+							printInputTag();
+							break;
 
-				break;
+						case ATTACK_SORCERY:
+							nSorceryDamage = attackSor(sEnemy, pPlayer);
+							sEnemy.nHP -= nSorceryDamage;
+							printf ("%s dealt %d damage !", pPlayer->strName, nSorceryDamage);
+							displayBattleScreen(pPlayer, sEnemy);
+							printInputTag();
+							break;
 
-			case MOVE_DODGE:
+						case ATTACK_INCANTATION:
+							nIncantationDamage = attackInc(sEnemy, pPlayer);
+							sEnemy.nHP -= nIncantationDamage;
+							printf ("%s dealt %d damage !", pPlayer->strName, nIncantationDamage);
+							displayBattleScreen(pPlayer, sEnemy);
+							printInputTag();
+							break;
+					}
 
-				//Initialized this outside the switch
-				nDodgeRandom = getRandomBetween(1, 100);
-				nDodgeRate = getDodgeRate(sEnemy, pPlayer);
+					break;
 
-				//base 20% chance dodge rate
-				if(nDodgeRandom <= nDodgeRate){
-					printSystemMessage("Failed to Dodge");
-				}
-				break;
+				case MOVE_DODGE:
 
-			case MOVE_POTION:
+					//Initialized this outside the switch
+					nDodgeRandom = getRandomBetween(1, 100);
+					nDodgeRate = getDodgeRate(sEnemy, pPlayer);
 
-				//Initialized this outside the switch
-				nHealRandom = getRandomBetween(1, 100);
+					//base 20% chance dodge rate
+					if(nDodgeRandom <= nDodgeRate){
+						printSystemMessage("Failed to Dodge");
+					}
+					break;
 
-				if(nHealRandom <= 25){
-					pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.25);
-					pPlayer->nPotions -= 1;
-				} else{
-					pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.50);
-					pPlayer->nPotions -= 1;
-				}
-				
-				if(pPlayer->nPotions <= 0){
-					printSystemMessage("You Do Not Have Any Potions Left. Input a different number.");
-					//loop later on kay player turn
-				}
+				case MOVE_POTION:
 
-				break;
+					//Initialized this outside the switch
+					nHealRandom = getRandomBetween(1, 100);
 
-			case MOVE_SKIP:
-				break;
-		}
-	} //end ni player turn
-	while(nPlayerTurn == 0 && pPlayer->nHealth > 0 || sEnemy.nHP > 0){
-		if(nPlayerMove == 3 && nDodgeRandom >= nDodgeRate){
-			printf ("%s dodged %s attack !", pPlayer->strName, sEnemy.strName);
-		}
+					if(nHealRandom <= 25){
+						pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.25);
+						pPlayer->nPotions -= 1;
+					} else{
+						pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.50);
+						pPlayer->nPotions -= 1;
+					}
+					
+					if(pPlayer->nPotions <= 0){
+						printSystemMessage("You Do Not Have Any Potions Left. Input a different number.");
+						//loop later on kay player turn
+					}
 
-		switch(nEnemyType){
-		case 1:
-			sEnemy.nAtk = getRandomBetween(70, 80) * nAreaNo;
-			pPlayer->nHealth -= sEnemy.nAtk;
-			printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
-			break;
-		case 2:
-			sEnemy.nAtk = getRandomBetween(110, 120)* nAreaNo;
-			pPlayer->nHealth -= sEnemy.nAtk;
-			printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
-			break;
-		case 3:
-			sEnemy.nAtk = getRandomBetween(120, 130)* nAreaNo;
-			pPlayer->nHealth -= sEnemy.nAtk;
-			printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
-			break;
-		}
-		if(pPlayer->nHealth <= 0){
-			return 0;
-		}
-		else if(sEnemy.nHP <= 0){
+					break;
+
+				case MOVE_SKIP:
+					break;
+			} //end ni switch
+		} //end ni player turn
+
+		if(sEnemy.nHP <= 0){
+			sEnemy.nHP = 0;
 			return 1;
 		}
 
-	}
+		if(nPlayerTurn == 0){
+			/*if(nPlayerMove == 3 && nDodgeRandom >= nDodgeRate){
+				printf ("%s dodged %s attack !", pPlayer->strName, sEnemy.strName);
+			}*/
 
-	//return 0;//placeholder return (delete later)
-}
+			switch(sEnemy.nType){
+				case 1:
+					printf("Enemy is thinking of its move.");
+					sEnemy.nAtk = getRandomBetween(70, 80) * nAreaNo;
+					pPlayer->nHealth -= sEnemy.nAtk;
+					printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
+					displayBattleScreen(pPlayer, sEnemy);
+					nPlayerTurn = 1;
+					break;
+				case 2:
+					sEnemy.nAtk = getRandomBetween(110, 120)* nAreaNo;
+					pPlayer->nHealth -= sEnemy.nAtk;
+					printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
+					nPlayerTurn = 1;
+					break;
+				case 3:
+					sEnemy.nAtk = getRandomBetween(120, 130)* nAreaNo;
+					pPlayer->nHealth -= sEnemy.nAtk;
+					printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
+					nPlayerTurn = 1;
+					break;
+			} // end ni switch
+		} //end ni if
+
+		if(pPlayer->nHealth <= 0){
+			return 0;
+		}
+	}
+} //end ng lahat
 
 //result make 1 win 0 lose
 /*int displayAtk(Enemy sEnemy, pPlayer* pPlayer){
