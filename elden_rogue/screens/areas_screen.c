@@ -1120,6 +1120,9 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 			if (nBossResult) {
 				nBattleRewards = sEnemy.nMaxHP * 5;
 				pPlayer->nRunes += nBattleRewards;
+
+				//Set shard to 1.
+				pPlayer->aShards[nArea-1] = 1;
 			}
 
 			displayResultScreen(2, nBattleResult, nBattleRewards);

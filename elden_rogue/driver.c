@@ -37,6 +37,7 @@ int main() {
 	strcpy(sPlayer.strName, "");
 	strcpy(sPlayer.strJobClass, "");
 	sPlayer.nRunes = 50000;
+	sPlayer.nPotions = 8;
 	
 	int i; for(i = 0; i < 6; i++) {
 		sPlayer.aShards[i] = 0;
@@ -47,10 +48,6 @@ int main() {
 
 	//Inventory Initialization
 	Weapon sWeaponBase = {0, "NONE", 0, 0, 0, 0, 0, 0, 0};
-	// Weapon sWeaponBase = {1, "SHORT SWORD", 1, 13, 0, 15, 15, 15, 15};
-	//pPlayer->pInventory = malloc(sizeof(Slot));
-	//pPlayer->pInventory->pWeapon = sEmptyWeapon;
-	//pPlayer->pInventory->pNext = NULL;
 	pPlayer->pInventory = NULL;
 	pPlayer->sEquippedWeapon = sWeaponBase;
 
