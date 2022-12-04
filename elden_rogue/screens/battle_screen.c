@@ -53,8 +53,6 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nHealRandom;
 	int nEnemyType;
 
-	displayBattleScreen(pPlayer, sEnemy);
-
 	while(pPlayer->nHealth > 0 && sEnemy.nHP > 0){
 
 		if (nPlayerTurn == 1) {
@@ -76,7 +74,6 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 							sEnemy.nHP -= nPhysicalDamage;
 							printf ("%s dealt %d damage !", pPlayer->strName, nPhysicalDamage);
 							nPlayerTurn = 0;
-							displayBattleScreen(pPlayer, sEnemy);
 							printInputTag();
 							break;
 
@@ -84,7 +81,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 							nSorceryDamage = attackSor(sEnemy, pPlayer);
 							sEnemy.nHP -= nSorceryDamage;
 							printf ("%s dealt %d damage !", pPlayer->strName, nSorceryDamage);
-							displayBattleScreen(pPlayer, sEnemy);
+							nPlayerTurn = 0;
 							printInputTag();
 							break;
 
@@ -92,7 +89,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 							nIncantationDamage = attackInc(sEnemy, pPlayer);
 							sEnemy.nHP -= nIncantationDamage;
 							printf ("%s dealt %d damage !", pPlayer->strName, nIncantationDamage);
-							displayBattleScreen(pPlayer, sEnemy);
+							nPlayerTurn = 0;
 							printInputTag();
 							break;
 					}
@@ -112,23 +109,39 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 					break;
 
 				case MOVE_POTION:
+					if(pPlayer->nPotions > 0 && pPlayer->nPlayerHP == pPlayer->nPlayerMaxHP){ //full health wt pots
+							pPlayer->nPlayerHP = pPlayer->nPlayerMaxHP;
+							printSystemMessage("Your Health is still at Maximum number!. Input a different number.");
+							//loop later on kay player turn
+						}
+					if(pPlayer->nPotions > 0 && pPlayer->nPlayerHP < pPlayer->nPlayerMaxHP){ //bawas health wt pots
+						//Initialized this outside the switch
+						nHealRandom = getRandomBetween(1, 100);
 
-					//Initialized this outside the switch
-					nHealRandom = getRandomBetween(1, 100);
-
-					if(nHealRandom <= 25){
-						pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.25);
-						pPlayer->nPotions -= 1;
-					} else{
-						pPlayer->nPlayerMaxHP += (pPlayer->nHealth * 0.50);
-						pPlayer->nPotions -= 1;
+						if(nHealRandom <= 25){
+							int nHealing = pPlayer->nPlayerHP + (pPlayer->nPlayerMaxHP * 0.25);
+							pPlayer->nHealth += nHealing;
+							pPlayer->nPotions -= 1;
+							printf("%s healed %d Health!", pPlayer->strName, nHealing);
+						} 
+						else{
+							int nHealingTwo = pPlayer->nPlayerHP + (pPlayer->nPlayerMaxHP * 0.50);
+							pPlayer->nHealth += nHealingTwo;
+							pPlayer->nPotions -= 1;
+							printf("%s healed %d Health!", pPlayer->strName, nHealingTwo);
+						}
 					}
-					
-					if(pPlayer->nPotions <= 0){
+					if(pPlayer->nPotions <= 0 && pPlayer->nHealth < pPlayer->nPlayerMaxHP){ //bawas health no pots
 						printSystemMessage("You Do Not Have Any Potions Left. Input a different number.");
+						pPlayer->nPotions = 0;
+						//loop later on kay player turn
+						}
+
+					if(pPlayer->nPotions <= 0 && pPlayer->nHealth == pPlayer->nPlayerMaxHP){ //full health wt no pots
+						pPlayer->nHealth = pPlayer->nPlayerMaxHP;
+						printSystemMessage("Your Health is still at Maximum number and with no Potions left!. Input a different number.");
 						//loop later on kay player turn
 					}
-
 					break;
 
 				case MOVE_SKIP:
@@ -152,7 +165,6 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 					sEnemy.nAtk = getRandomBetween(70, 80) * nAreaNo;
 					pPlayer->nHealth -= sEnemy.nAtk;
 					printf ("%s dealt %d damage !", sEnemy.strName, sEnemy.nAtk);
-					displayBattleScreen(pPlayer, sEnemy);
 					nPlayerTurn = 1;
 					break;
 				case 2:
