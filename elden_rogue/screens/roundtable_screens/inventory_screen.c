@@ -286,7 +286,7 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 
 void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 	
-	//system("cls");
+	system("cls");
 
 	printHeader("ROUNDTABLE HOLD", 15);
 	printMultiple(" ", 25);
@@ -317,5 +317,5 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 			break;
 	}
 
-	printInputTag();
+	Sleep(DELAY);
 }

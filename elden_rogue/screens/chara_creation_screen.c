@@ -28,15 +28,21 @@ void openCharacterCreationScreen(Player* pPlayer) {
 		nInput = scanIntInput(0, 3);
 
 		switch(nInput) {
+
 			case NAME:
+
 				printMultiple(" ", SCREEN_PADDING);
 				printf("[INPUT NAME]: ");
 				scanf(" %[^\n]s", aInputName);
+				printf("kk");
+
 				strcpy(pPlayer->strName, aInputName);
 				displayCharacterCreationScreen(SET_NAME, pPlayer);
+
 				break;
 
 			case JOB:
+
 				openJobScreen(pPlayer);
 				displayCharacterCreationScreen(SET_JOB, pPlayer);
 				break;
@@ -61,6 +67,7 @@ void openCharacterCreationScreen(Player* pPlayer) {
 				break;
 
 			case CC_BACK:
+				nComplete = 1;
 				openTitleScreen(pPlayer);
 				break;
 		}	
@@ -230,8 +237,6 @@ void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 			break;
 	}
 
-	printInputTag();
-
 	Sleep(DELAY);
 }
 
@@ -250,37 +255,37 @@ void displayJobScreen(int nPrompt, Player* pPlayer) {
 	system("cls");
 
 	printHeader("JOB CLASS", 9);
-	printf("Current Job: %s\n\n"
-			"OPTIONS:\n"
-			"[1] VAGABOND      [4] HERO\n"
-			"[2] SAMURAI	  [5] PROPHET\n"
-			"[3] WARRIOR	  [6] ASTROLOGER\n\n"
-			"SYSTEM MESSAGE: ", pPlayer->strJobClass);
+	printf("\tCurrent Job: %s\n\n"
+			"\tOPTIONS:\n"
+			"\t[1] VAGABOND      [4] HERO\n"
+			"\t[2] SAMURAI	  [5] PROPHET\n"
+			"\t[3] WARRIOR	  [6] ASTROLOGER\n\n", 
+			pPlayer->strJobClass);
+	
+	printMultiple(" ", SCREEN_PADDING);
 	
 	switch(nPrompt) {
 		case VAGABOND:
-			printf("Showing Vagabond stats...");
+			printf("[SYSTEM MESSAGE]: Showing Vagabond stats...\n");
 			break;
 		case SAMURAI:
-			printf("Showing Samurai stats...");
+			printf("[SYSTEM MESSAGE]: Showing Samurai stats...\n");
 			break;
 		case WARRIOR:
-			printf("Showing Warrior stats...");
+			printf("[SYSTEM MESSAGE]: Showing Warrior stats...\n");
 			break;
 		case HERO:
-			printf("Showing Hero stats...");
+			printf("[SYSTEM MESSAGE]: Showing Hero stats...\n");
 			break;
 		case PROPHET:
-			printf("Showing Prophet stats...");
+			printf("[SYSTEM MESSAGE]: Showing Prophet stats...\n");
 			break;
 		case ASTROLOGER:
-			printf("Showing Astrologer stats...");
+			printf("[SYSTEM MESSAGE]: Showing Astrologer stats...\n");
 			break;
 		case 7:
 			break;
 	}
-
-	printInputTag();
 
 	Sleep(DELAY);
 }
@@ -292,55 +297,57 @@ void displayJobScreen(int nPrompt, Player* pPlayer) {
 						chosen Job Class.							 */
 void displayJobClassScreen(int nJobClass) {
 	
+	system("cls");
+
 	printHeader("JOB CLASS", 9);
 
 	switch(nJobClass) {
 		case VAGABOND:
-			printf("VAGABOND\n\n"
-				"LEVEL			09\n"
-				"HEALTH			15 	ENDURANCE		11\n"
-				"DEXTERITY		13	STRENGTH		14\n"
-				"INTELLIGENCE	09 	FAITH			09\n\n");
+			printf("\tCLASS TITLE: VAGABOND\n\n"
+				"\tLEVEL			09\n"
+				"\tHEALTH			15 	ENDURANCE		11\n"
+				"\tDEXTERITY		13	STRENGTH		14\n"
+				"\tINTELLIGENCE		09 	FAITH			09\n\n");
 			break;
 		case SAMURAI:
-			printf("SAMURAI\n\n"
-				"LEVEL			09\n"
-				"HEALTH			12 	ENDURANCE		13\n"
-				"DEXTERITY		15	STRENGTH		12\n"
-				"INTELLIGENCE	09	FAITH			08\n\n");
+			printf("\tSAMURAI\n\n"
+				"\tLEVEL			09\n"
+				"\tHEALTH			12 	ENDURANCE		13\n"
+				"\tDEXTERITY		15	STRENGTH		12\n"
+				"\tINTELLIGENCE		09	FAITH			08\n\n");
 			break;
 		case WARRIOR:
-			printf("WARRIOR\n\n"
-				"LEVEL			08\n"
-				"HEALTH			11 	ENDURANCE		11\n"
-				"DEXTERITY		16	STRENGTH		10\n"
-				"INTELLIGENCE	10	FAITH			08\n\n");
+			printf("\tWARRIOR\n\n"
+				"\tLEVEL			08\n"
+				"\tHEALTH			11 	ENDURANCE		11\n"
+				"\tDEXTERITY		16	STRENGTH		10\n"
+				"\tINTELLIGENCE		10	FAITH			08\n\n");
 			break;
 		case HERO:
-			printf("HERO\n\n"
-				"LEVEL			07\n"
-				"HEALTH			14 	ENDURANCE		12\n"
-				"DEXTERITY		09	STRENGTH		16\n"
-				"INTELLIGENCE	07	FAITH			08\n\n");
+			printf("\tHERO\n\n"
+				"\tLEVEL			07\n"
+				"\tHEALTH			14 	ENDURANCE		12\n"
+				"\tDEXTERITY		09	STRENGTH		16\n"
+				"\tINTELLIGENCE		07	FAITH			08\n\n");
 			break;
 		case PROPHET:
-			printf("PROPHET\n\n"
-				"LEVEL			07\n"
-				"HEALTH			10 	ENDURANCE		08\n"
-				"DEXTERITY		10	STRENGTH		11\n"
-				"INTELLIGENCE	07	FAITH			16\n\n");
+			printf("\tPROPHET\n\n"
+				"\tLEVEL			07\n"
+				"\tHEALTH			10 	ENDURANCE		08\n"
+				"\tDEXTERITY		10	STRENGTH		11\n"
+				"\tINTELLIGENCE		07	FAITH			16\n\n");
 			break;
 		case ASTROLOGER:
-			printf("ASTROLOGER\n\n"
-				"LEVEL			06\n"
-				"HEALTH			09 	ENDURANCE		09\n"
-				"DEXTERITY		12	STRENGTH		08\n"
-				"INTELLIGENCE	16	FAITH			07\n\n");
+			printf("\tASTROLOGER\n\n"
+				"\tLEVEL			06\n"
+				"\tHEALTH			09 	ENDURANCE		09\n"
+				"\tDEXTERITY		12	STRENGTH		08\n"
+				"\tINTELLIGENCE		16	FAITH			07\n\n");
 			break;
 	}
 
-	printf("[0] BACK			[1] CONFIRM\n");
-	
+	printf("\t\t[0] BACK			[1] CONFIRM\n");
+
 }
 
 

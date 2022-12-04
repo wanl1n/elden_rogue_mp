@@ -71,11 +71,11 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 
 	printHeader("ROUNDTABLE HOLD", 15);
 	
-	printf(" NAME: %s\n"
-		   " JOB CLASS: %s\n"
-		   " LEVEL: %d\n"
-		   " RUNES: %d\n"
-		   " SHARDS: ",
+	printf("\tNAME: %s\n"
+		   "\tJOB CLASS: %s\n"
+		   "\tLEVEL: %d\n"
+		   "\tRUNES: %d\n"
+		   "\tSHARDS: ",
 		   pPlayer->strName, pPlayer->strJobClass, pPlayer->nLevel,
 		   pPlayer->nRunes);
 
@@ -134,8 +134,6 @@ void displayShop() {
 	printOption(2, "SELL WEAPONS");
 	printOption(0, "BACK");
 	printf("\n\n");
-
-	printInputTag();
 }
 
 void displaySaveScreen(Player* pPlayer) {

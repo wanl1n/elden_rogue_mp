@@ -74,9 +74,6 @@ void displayTitleScreen(int nPrompt) {
 			break;
 	}
 
-	if (nPrompt != EXIT)
-		printInputTag();
-
 	Sleep(DELAY);
 }
 
