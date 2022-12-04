@@ -39,6 +39,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	int nWeaponHP = pPlayer->sEquippedWeapon.nHP; //for calculating Max HP.
 	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
 	pPlayer->nPlayerMaxHP = nPlayerMaxHP; //Saving Player's Max HP.
+	pPlayer->nPlayerHP = nPlayerMaxHP;
 	
 	//Saving player location.
 	int* pPlayerLoc = findFastTravelTile(nAreaNumber, nFloor);

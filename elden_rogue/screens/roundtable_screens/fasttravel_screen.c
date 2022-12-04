@@ -12,11 +12,8 @@ void displayFastTravelScreen(int nPrompt) {
 	
 	system("cls");
 
-	printHeader("ROUNDTABLE HOLD", 15);
+	printHeader("FAST TRAVEL", 11);
 
-	printf("\t\tFAST TRAVEL:\n");
-
-	printf("\n\n");
 	printOption(1, "STORMVEIL");
 	printOption(2, "RAYA LUCARIA");
 	printOption(3, "REDMANE CASTLE");

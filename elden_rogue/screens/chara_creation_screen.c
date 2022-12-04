@@ -20,7 +20,8 @@ void openCharacterCreationScreen(Player* pPlayer) {
 	displayCharacterCreationScreen(6, pPlayer);
 	
 	int nInput;
-	char aInputName[26] = "";
+	char aInputName[26];
+	int nCatcher;
 
 	int nComplete = 0;
 
@@ -33,8 +34,10 @@ void openCharacterCreationScreen(Player* pPlayer) {
 
 				printMultiple(" ", SCREEN_PADDING);
 				printf("[INPUT NAME]: ");
-				scanf(" %[^\n]s", aInputName);
-				printf("kk");
+				scanf(" %25[^\n]s", aInputName);
+				
+				// Catches the excess characters over 25.
+				while ((nCatcher = fgetc(stdin)) != '\n' && nCatcher != EOF);
 
 				strcpy(pPlayer->strName, aInputName);
 				displayCharacterCreationScreen(SET_NAME, pPlayer);
@@ -48,6 +51,7 @@ void openCharacterCreationScreen(Player* pPlayer) {
 				break;
 
 			case CC_CONFIRM:
+
 				if (!strcmp(pPlayer->strName, "")) {
 
 					printf("Please set your name");
