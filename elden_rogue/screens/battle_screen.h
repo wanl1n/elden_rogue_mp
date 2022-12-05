@@ -10,7 +10,18 @@
 #define ATTACK_SORCERY 		2
 #define ATTACK_INCANTATION 	3
 
+#define PLAYER_DODGE		2
+#define PLAYER_POTION_FULL	31
+#define PLAYER_POTION_EMPTY	32
+#define PLAYER_SKIP			4
+#define ENEMY_ATTACK		5
+
+#define WIN 	1
+#define LOSE 	0
+
+void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt);
 int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo);
+void printSubAttacks();
 
 int attackPhy(Enemy sEnemy, Player* pPlayer);
 int attackSor(Enemy sEnemy, Player* pPlayer);

@@ -41,7 +41,6 @@ void openSellScreen(Player* pPlayer) {
 
 	//Getting the price of the weapon.
 	Stock* pStockOfType;
-	Stock sStockWeapon;
 
 	Weapon* pPlaceholder = createPlaceholderWeapon();
 

@@ -72,7 +72,6 @@ void openFastTravelScreen(Player* pPlayer) {
 	int nSuccessfulTravel = 0;
 
 	while (!nSuccessfulTravel) {
-		printInputTag();
 		nInputFastTravel = scanIntInput(0, 6);
 	
 		displayFastTravelScreen(nInputFastTravel);

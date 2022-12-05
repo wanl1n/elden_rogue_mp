@@ -8,13 +8,18 @@
 
 int scanIntInput(int nMin, int nMax) {
 	int nInput;
+	int nChecker;
+	int nCatcher;
 
 	do {
 		printInputTag();
-		scanf("%d", &nInput);
+		nChecker = scanf("%d", &nInput);
+		// Catches the excess.
+		while ((nCatcher = fgetc(stdin)) != '\n' && nCatcher != EOF);
+
 		printf("\n");
 
-		if(nInput < nMin || nInput > nMax) {
+		if(nInput < nMin || nInput > nMax || nChecker != 1) {
 			printInputError();
 		}
 

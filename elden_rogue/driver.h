@@ -35,6 +35,16 @@ struct ShopStock {
 };
 typedef struct ShopStock Stock;
 
+struct UsedTileLoc {
+	
+	int aCoords[2];
+	int nFloor;
+
+	struct UsedTileLoc* pNext;
+
+};
+typedef struct UsedTileLoc UsedTile;
+
 typedef struct Player {
 
 	char strName[26];
@@ -63,6 +73,9 @@ typedef struct Player {
 	int aPlayerLoc[2];
 	int nPlayerMaxHP;
 	int nPlayerHP;
+
+	//Store Map Progress
+	UsedTile* pUsedTiles;
 
 } Player;
 

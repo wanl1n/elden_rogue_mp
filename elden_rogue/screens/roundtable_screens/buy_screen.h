@@ -27,7 +27,6 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* sStockList);
 void displayBuyTypes(int nPrompt, Player* pPlayer);
 
 Stock* getStocksFromType(int nWeaponType);
-Stock getStockFromShop(Stock* sChosenType, int nIndex);
 
 void openBuyScreen(Player* pPlayer);
 

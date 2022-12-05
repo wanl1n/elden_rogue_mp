@@ -3,7 +3,6 @@
 
 Door* createDoorArray(int nArea) {
 	
-	Door sDoor;
 	Door* pDoorList;
 
 	int i;

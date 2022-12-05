@@ -171,10 +171,12 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 		case ITEM_TWO:
 		case ITEM_THREE:
 		case ITEM_FOUR:
+			printMultiple(" ", SCREEN_PADDING);
 			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
 				pStockList[nPrompt - 1].sWeapon.strWeaponName);
 			break;
 		case UNSUCCESSFUL:
+			printMultiple(" ", SCREEN_PADDING*4);
 			printf("[SYSTEM MESSAGE]: You don't have enough runes to buy that.\n"); 
 			break;
 		case B_BACK:
@@ -183,8 +185,6 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 		default:
 			break;
 	}
-
-	printInputTag();
 }
 
 void displayBuyTypes(int nPrompt, Player* pPlayer) {
@@ -203,8 +203,6 @@ void displayBuyTypes(int nPrompt, Player* pPlayer) {
 	printOption(WEAPON_STAVE, "STAVE");
 	printOption(WEAPON_SEAL, "SEAL");
 	printOption(B_BACK, "BACK");
-
-	printInputTag();
 
 	switch(nPrompt) {
 		case WEAPON_SWORD:
@@ -310,16 +308,6 @@ Stock* getStocksFromType(int nWeaponType) {
 	}
 
 	return pWeaponsOfType;
-}
-
-Stock getStockFromShop(Stock* pChosenType, int nIndex) {
-
-	int i;
-
-	for(i = 1; i <= 4; i++) {
-		if (pChosenType->sWeapon.nWeaponIndex == nIndex)
-			return pChosenType[nIndex];
-	}
 }
 
 void openBuyScreen(Player* pPlayer) {
