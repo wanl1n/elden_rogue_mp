@@ -1164,28 +1164,32 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 
 		case TILE_BOSS:
 			
-			//If the area is not The Elden Throne, spawn normally.
-			if (nArea != THE_ELDEN_THRONE)
-				sEnemy = spawnBoss(nArea, 0);
-			// If the area is the Elden Throne, check first if first stage or not.
-			else { 
-				sEnemy = spawnBoss(nArea, 1);
+			// If boss hasn't been cleared yet, start battle.
+			if (!nBossResult) {
+				//If the area is not The Elden Throne, spawn normally.
+				if (nArea != THE_ELDEN_THRONE)
+					sEnemy = spawnBoss(nArea, 0);
+				// If the area is the Elden Throne, check first if first stage or not.
+				else { 
+					sEnemy = spawnBoss(nArea, 1);
+				}
+				
+				//Return 1 if the player won.
+				nBossResult = openBattleScreen(sEnemy, pPlayer, nArea);
+
+				//If the player won against the boss.
+				if (nBossResult) {
+					nBattleRewards = sEnemy.nMaxHP * 5;
+					pPlayer->nRunes += nBattleRewards;
+
+					//Set shard to 1.
+					pPlayer->aShards[nArea-1] = 1;
+				}
+
+				displayResultScreen(2, nBattleResult, nBattleRewards);
+			} else {
+				printSystemMessage("You have cleared the boss.");
 			}
-			
-			//Return 1 if the player won.
-			nBossResult = openBattleScreen(sEnemy, pPlayer, nArea);
-
-			//If the player won against the boss.
-			if (nBossResult) {
-				nBattleRewards = sEnemy.nMaxHP * 5;
-				pPlayer->nRunes += nBattleRewards;
-
-				//Set shard to 1.
-				pPlayer->aShards[nArea-1] = 1;
-			}
-
-			displayResultScreen(2, nBattleResult, nBattleRewards);
-
 			break;
 
 		case TILE_CREDITS:

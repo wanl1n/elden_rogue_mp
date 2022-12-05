@@ -159,9 +159,11 @@ void openShop(Player* pPlayer) {
 		switch(nInputShop) {
 			case BUY_WEAPON:
 				openBuyScreen(pPlayer);
+				nInputShop = 0;
 				break;
 			case SELL_WEAPON:
 				openSellScreen(pPlayer);
+				nInputShop = 0;
 				break;
 			case S_BACK:
 				openRoundTableHoldScreen(pPlayer);

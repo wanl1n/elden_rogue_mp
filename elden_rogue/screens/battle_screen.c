@@ -29,7 +29,7 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt) 
 	printPlayerHealth(sEnemy.nHP, sEnemy.nMaxHP);
 	printf("%d\n", sEnemy.nHP);
 
-	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", 1);
+	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);
 	//ENEMY sprite
 
 	if (nTurn) {
@@ -93,8 +93,6 @@ void printSubAttacks() {
 
 //Made this integer type.
 int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
-	
-	//displayBattleScreen(pPlayer, sEnemy);
 
 	int nPlayerTurn = 1;
 	int nPlayerMove;
@@ -111,6 +109,23 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 	// While the battle is not yet over,
 	while(pPlayer->nPlayerHP > 0 && sEnemy.nHP > 0){
+
+		// Get the enemy's damage for that turn.
+		switch(sEnemy.nType){
+
+			case 1:
+				sEnemy.nAtk = getRandomBetween(70, 80) * nAreaNo;
+				break;
+
+			case 2:
+				sEnemy.nAtk = getRandomBetween(110, 120) * nAreaNo;
+				break;
+
+			case 3:
+				sEnemy.nAtk = getRandomBetween(120, 130) * nAreaNo;						
+				break;
+
+		}	
 
 		displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0);
 
@@ -250,12 +265,8 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 		} //end ni player turn
 
 		// If Player has killed enemy. 
-		if(sEnemy.nHP <= 0){
-
-			sEnemy.nHP = 0;
-
+		if(sEnemy.nHP <= 0)
 			return WIN; 
-		}
 
 		if (!nPlayerTurn) {
 
@@ -270,26 +281,8 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 				
 				displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, ENEMY_ATTACK);
 
-				switch(sEnemy.nType){
-
-					case 1:
-
-						sEnemy.nAtk = getRandomBetween(70, 80) * nAreaNo;
-						break;
-
-					case 2:
-
-						sEnemy.nAtk = getRandomBetween(110, 120)* nAreaNo;
-						break;
-
-					case 3:
-
-						sEnemy.nAtk = getRandomBetween(120, 130)* nAreaNo;						
-						break;
-
-				} // end ni switch
-
 				pPlayer->nPlayerHP -= sEnemy.nAtk;
+				printMultiple(" ", SCREEN_PADDING);
 				printf ("%s dealt %d damage !\n", sEnemy.strName, sEnemy.nAtk);
 			}
 
@@ -297,11 +290,16 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 		}
 
 		// If Enemy killed player.
-		if(pPlayer->nPlayerHP <= 0){
+		if(pPlayer->nPlayerHP <= 0)
 			return LOSE;
-		}
 
 	} //end ng lahat
+
+	// Double check result
+	if(sEnemy.nHP <= 0)
+		return WIN; 
+	else if(pPlayer->nPlayerHP <= 0)
+		return LOSE;
 
 	return 0;
 }
