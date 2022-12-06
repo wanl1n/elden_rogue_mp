@@ -1,4 +1,5 @@
 // ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "title_screen.h" // When player completes the area.
 #include "roundtable_screen.h" // When player completes the area.
 #include "areas_screen.h" // Contains constants needed for Area Screen.
 #include "battle_screen.h" // When Player triggers a battle.
@@ -31,17 +32,11 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	// Initializing variables.
 	int nFloor = 1; 
 	int nCleared = 0;
-	// int *pFloor = &nFloor;
+	int nBossClear = 0;
 
 	// Initializing Initial Player Stats. 
 	// NOTE: Don't use nPlayerHP and nWeaponHP for anything other than calculating the formula.
-	int nPlayerHP = pPlayer->nHealth; //for calculating Max HP.
-	int nWeaponHP = pPlayer->sEquippedWeapon.nHP; //for calculating Max HP.
-	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
-	pPlayer->nPlayerMaxHP = nPlayerMaxHP; //Saving Player's Max HP.
-	pPlayer->nPlayerHP = nPlayerMaxHP;
-	pPlayer->nPotions = 8; // Always start with 8 potions.
-	pPlayer->pUsedTiles = NULL;
+	resetPlayerStats(pPlayer);
 	
 	// Saving player location.
 	int* pPlayerLoc = findFastTravelTile(nAreaNumber, nFloor);
@@ -52,17 +47,21 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 		
 		printFloorHeader(nAreaNumber);
 		printFloorMap(nAreaNumber, nFloor, pPlayer);
-		displayUserInterface(nPlayerMaxHP, pPlayer);
+		displayUserInterface(pPlayer->nPlayerMaxHP, pPlayer);
 
 		cPlayerInput = scanCharInput(aMoves, 10);
 
-		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer, &nCleared);
+		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer, &nCleared, &nBossClear);
 
 	}
 
 	// If the player didn't die.
 	if (pPlayer->nPlayerHP > 0) 
 		printf("You cleared the area!");
+	else {
+		resetPlayerStats(pPlayer);
+		openRoundTableHoldScreen(pPlayer);
+	}
 }
 
 
@@ -86,7 +85,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 						pPlayer should be initiated and all members 
 						should have a value.
 						pCleared should be 0 initially.				   */
-void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
+void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear) {
 
 	switch(cInput) {
 		case 'W':
@@ -111,7 +110,7 @@ void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCl
 
 		case 'E':
 		case 'e':
-			usePlayer(nArea, pFloor, pPlayer, pCleared);
+			usePlayer(nArea, pFloor, pPlayer, pCleared, pBossClear);
 			break;
 	}
 }
@@ -353,7 +352,7 @@ int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth) {
 									  {5, 5, 5},
 									  {0, 3, 0}};
 	//CODE: 56
-	int aLeyndellCapitalFloor6[][15] = {{1, 1, 1, 5, 1, 1, 1, 3, 1, 1, 1, 5, 1, 3, 1},
+	int aLeyndellCapitalFloor6[][15] = {{1, 1, 1, 5, 1, 1, 1, 3, 1, 1, 1, 5, 1, 1, 1},
 										{1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1},
 										{1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1},  											 
 										{1, 3, 1, 5, 1, 1, 1, 3, 1, 1, 1, 5, 1, 3, 1}}; 
@@ -1044,8 +1043,6 @@ int checkIfTileUsed(Player* pPlayer, int nFloor) {
 	return 0;
 }
 
-
-
 void setTileToUsed(Player* pPlayer, UsedTile** pUsedTileHead, int nFloor) {
 
 	UsedTile* pUsedTile = *pUsedTileHead;
@@ -1069,14 +1066,36 @@ void setTileToUsed(Player* pPlayer, UsedTile** pUsedTileHead, int nFloor) {
 	
 }
 
+void resetPlayerStats(Player* pPlayer) {
+
+	int nPlayerHP = pPlayer->nHealth; //for calculating Max HP.
+	int nWeaponHP = pPlayer->sEquippedWeapon.nHP; //for calculating Max HP.
+	int nPlayerMaxHP = 100 * (nPlayerHP + nWeaponHP) / 2;
+	pPlayer->nPlayerMaxHP = nPlayerMaxHP; //Saving Player's Max HP.
+	pPlayer->nPlayerHP = nPlayerMaxHP;
+	pPlayer->nPotions = 8; // Always start with 8 potions.
+	pPlayer->pUsedTiles = NULL;
+}
+
+void resetPlayerStatsTo0(Player* pPlayer) {
+	
+	int i;
+
+	pPlayer->nPlayerHP = 0;
+	pPlayer->nRunes = 0;
+
+	for (i = 0; i < 6; i++) {
+		pPlayer->aShards[i] = 0;
+	}
+}
+
 //Utility Functions: Interact
-void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
+void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossResult) {
 
 	//Make a reference map for the current floor.
 	int nLength, nWidth;
 	int nSpawnTile;
 	int nBattleResult = 0;
-	int nBossResult = 0;
 	int nBattleRewards;
 	int* pFloorMap = getFloorMap(nArea, *pFloor, &nLength, &nWidth);
 
@@ -1117,6 +1136,8 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 					if (nBattleResult){
 						nBattleRewards = sEnemy.nMaxHP * 2;
 						pPlayer->nRunes += nBattleRewards;
+					} else {
+						resetPlayerStatsTo0(pPlayer);
 					}
 
 					displayResultScreen(1, nBattleResult, nBattleRewards);
@@ -1153,7 +1174,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 		case TILE_FAST_TRAVEL:
 			if(*pFloor == 1) {
 				openFastTravelScreen(pPlayer);
-			} else if (nBossResult){
+			} else if (*pBossResult){
 				*pCleared = 1;
 				openFastTravelScreen(pPlayer);
 			} else {
@@ -1165,7 +1186,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 		case TILE_BOSS:
 			
 			// If boss hasn't been cleared yet, start battle.
-			if (!nBossResult) {
+			if (!*pBossResult) {
 				//If the area is not The Elden Throne, spawn normally.
 				if (nArea != THE_ELDEN_THRONE)
 					sEnemy = spawnBoss(nArea, 0);
@@ -1175,28 +1196,33 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared) {
 				}
 				
 				//Return 1 if the player won.
-				nBossResult = openBattleScreen(sEnemy, pPlayer, nArea);
+				*pBossResult = openBattleScreen(sEnemy, pPlayer, nArea);
 
 				//If the player won against the boss.
-				if (nBossResult) {
+				if (*pBossResult) {
 					nBattleRewards = sEnemy.nMaxHP * 5;
 					pPlayer->nRunes += nBattleRewards;
 
 					//Set shard to 1.
 					pPlayer->aShards[nArea-1] = 1;
+				} else {
+
+					resetPlayerStatsTo0(pPlayer);
 				}
 
-				displayResultScreen(2, nBattleResult, nBattleRewards);
+
+				displayResultScreen(2, *pBossResult, nBattleRewards);
 			} else {
 				printSystemMessage("You have cleared the boss.");
 			}
+
 			break;
 
 		case TILE_CREDITS:
 
 			printSystemMessage("credits now!!!");
 
-			if (nBossResult){
+			if (*pBossResult){
 				displayCredits();
 				*pCleared = 1;
 			} else {
@@ -1259,6 +1285,8 @@ void displayResultScreen(int nType, int nBattleResult, int nRewards) {
 
 		printHeader("YOU DIED", 8);
 	}
+
+	Sleep(2500);
 }
 
 
@@ -1266,7 +1294,7 @@ void displayResultScreen(int nType, int nBattleResult, int nRewards) {
 // ───────────────────── 〔 PRINTING FUNCTIONS 〕 ────────────────────── //
 void printFloorHeader(int nArea) {
 
-	//system("cls");
+	system("cls");
 	
 	//Print Area Name
 	switch(nArea) {
@@ -1299,7 +1327,7 @@ void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
 	//Get a reference map of the current floor.
 	int nLength, nWidth;
 	int *pBaseFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
-	nPadding = (SCREEN_WIDTH - nWidth) / 2;
+	nPadding = (SCREEN_WIDTH - nWidth) / 4;
 
 	//Put the player in the reference map for printing.
 	int pPlayerLoc[2];
@@ -1471,8 +1499,8 @@ void printBorder(int nType, int nPosition) {
 void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 	int i;
 
-	nPlayerHealth /= 10;
-	nPlayerMaxHP /= 10;
+	nPlayerHealth /= HEADER_WIDTH;
+	nPlayerMaxHP /= HEADER_WIDTH;
 
 	printf("\n");
 	printMultiple(" ", SCREEN_PADDING);

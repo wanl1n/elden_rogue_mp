@@ -74,7 +74,7 @@ Door* createDoorArray(int nArea) {
 							   {LEYNDELL_CAPITAL,54, 0, 1, NULL, NULL},
 							   {LEYNDELL_CAPITAL, 6, 3,13, NULL, NULL},
 							   {LEYNDELL_CAPITAL, 6, 0, 7, NULL, NULL},
-							   {LEYNDELL_CAPITAL, 7, 6,11, NULL, NULL},
+							   {LEYNDELL_CAPITAL, 7, 12,6, NULL, NULL},
 							   {LEYNDELL_CAPITAL, 7, 1, 6, NULL, NULL},
 							   {LEYNDELL_CAPITAL,71, 0, 2, NULL, NULL},
 							   {LEYNDELL_CAPITAL, 7, 9, 0, NULL, NULL},
