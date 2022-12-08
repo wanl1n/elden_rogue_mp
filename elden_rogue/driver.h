@@ -1,6 +1,9 @@
 #ifndef STRUCTURES
 #define STRUCTURES 
 
+typedef char StringName[26];
+typedef char StringJob[11];
+
 //Weapon Structure
 struct WeaponItem {
 

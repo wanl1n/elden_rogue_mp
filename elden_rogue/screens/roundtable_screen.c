@@ -175,13 +175,21 @@ void openShop(Player* pPlayer) {
 void openSaveScreen(Player* pPlayer) {
 	displaySaveScreen(pPlayer);
 
+	FILE* fp;
+
 	int nInputSave = 100; //random value thats not part of the choices.
 
 	while(nInputSave != 0) {
 		nInputSave = scanIntInput(0, 1);
 
 		if (nInputSave) {
-			//save game
+			fp = fopen("save.dat", "wb");
+
+			fwrite(&(pPlayer->strName), sizeof(StringName), 1, fp);
+			fwrite(&(pPlayer->strJobClass), sizeof(StringJob), 1, fp);
+			fwrite(&(pPlayer->nLevel), sizeof(int), 1, fp);
+
+			fclose(fp);
 		} else {
 			openRoundTableHoldScreen(pPlayer);
 		}

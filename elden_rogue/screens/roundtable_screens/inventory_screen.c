@@ -83,6 +83,8 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 		case PREVIOUS:
 			if (nPage > 1) 
 				nPage--;
+			
+			displayInventory(PREVIOUS, pPlayer, nPage);
 			break;
 
 		case NEXT:
@@ -94,6 +96,8 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 
 			if (nPage < nTemp)
 				nPage++;
+
+			displayInventory(NEXT, pPlayer, nPage);
 
 			break;
 
@@ -310,6 +314,13 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 		case NO_EXIST:
 			printSystemMessage("There's no weapon at that index.");
 			break;
+
+		case PREVIOUS:
+		case NEXT:
+			printMultiple(" ", SCREEN_PADDING);
+			printf("You're now at PAGE %d.", nPage);
+			break;
+
 		case I_BACK:
 			printSystemMessage("Going back to Roundtable Hold.");
 			break;

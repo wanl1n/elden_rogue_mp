@@ -1,5 +1,6 @@
 // ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
 #include "title_screen.h" // When player completes the area.
+#include "chara_creation_screen.h" // When player completes the area.
 #include "roundtable_screen.h" // When player completes the area.
 #include "areas_screen.h" // Contains constants needed for Area Screen.
 #include "battle_screen.h" // When Player triggers a battle.
@@ -29,13 +30,13 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	char cPlayerInput;
 	char aMoves[] = {'W', 'w', 'A', 'a', 'S', 's', 'D', 'd', 'E', 'e'};
 
+
 	// Initializing variables.
 	int nFloor = 1; 
 	int nCleared = 0;
 	int nBossClear = 0;
 
 	// Initializing Initial Player Stats. 
-	// NOTE: Don't use nPlayerHP and nWeaponHP for anything other than calculating the formula.
 	resetPlayerStats(pPlayer);
 	
 	// Saving player location.
@@ -837,7 +838,20 @@ int* findFastTravelTile(int nArea, int nFloor) {
 	return aSpawnLoc;
 }
 
-//Utility Functions: Movement
+/* 	movePlayerTile		Moves the location of Player Tile on the map.
+
+	@param	nArea		An integer variable containing the integer 
+						value of the current Area.
+	@param	nFloor		An integer variable containing the integer 
+						value of the current Floor.
+
+	@return				An integer pointer array containing the row 
+						and column of the Fast Travel Tile.
+	
+	Pre-condition		nArea value is within 1 to 6.
+						nFloor should have a corresponding map 
+						(depending on the area number, the integer 
+						value is limited.)						   */
 void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer) {
 
 	int nLength, nWidth;
@@ -1142,6 +1156,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 
 					displayResultScreen(1, nBattleResult, nBattleRewards);
 				}
+				printf("after spawn");
 
 				setTileToUsed(pPlayer, &(pPlayer->pUsedTiles), *pFloor);
 
@@ -1518,6 +1533,8 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 		printf("█");
 	}
 	
+	printf("%d", nPlayerHealth);
+
 	resetColors();
 }
 

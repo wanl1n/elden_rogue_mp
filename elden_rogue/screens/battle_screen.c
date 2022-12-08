@@ -231,7 +231,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 								int nHealingTwo = pPlayer->nPlayerHP + (pPlayer->nPlayerMaxHP * 0.50);
 								
-								pPlayer->nHealth += nHealingTwo;
+								pPlayer->nPlayerHP += nHealingTwo;
 								
 								if(pPlayer->nPlayerHP >= pPlayer->nPlayerMaxHP)
 									pPlayer->nPlayerHP = pPlayer->nPlayerMaxHP;

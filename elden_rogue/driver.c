@@ -36,7 +36,7 @@ int main() {
 	//Initial Player Statistics
 	strcpy(sPlayer.strName, "");
 	strcpy(sPlayer.strJobClass, "");
-	sPlayer.nRunes = 0;
+	sPlayer.nRunes = 500000;
 	sPlayer.nPotions = 8;
 	
 	int i; for(i = 0; i < 6; i++) {

@@ -56,8 +56,6 @@ void displayLevelUpScreen(int nPrompt, Player* pPlayer, int nRuneCost) {
 		case 9:
 			break;
 	}
-	
-	printInputTag();
 }
 
 void levelUp(int nStat, Player* pPlayer, int nRuneCost) {
