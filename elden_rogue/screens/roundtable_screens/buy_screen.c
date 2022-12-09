@@ -342,7 +342,7 @@ void openBuyScreen(Player* pPlayer) {
 
 					if (sStockToBeBought.nCost <= pPlayer->nRunes) {
 
-						addWeapon(pWeaponChosen, &(pPlayer->pInventory)); //fix this
+						addWeapon(pWeaponChosen, &(pPlayer->pInventory));
 						pPlayer->nRunes -= sStockToBeBought.nCost;
 						displayBuyStocks(nInputBuy, pPlayer, pStockOfType);
 
