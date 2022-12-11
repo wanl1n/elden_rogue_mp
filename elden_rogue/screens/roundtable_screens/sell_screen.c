@@ -1,36 +1,21 @@
-#include "../roundtable_screen.h"
-#include "../areas_screen.h"
-#include "inventory_screen.h"
-#include "sell_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "../roundtable_screen.h" //When Player goes back.
+#include "inventory_screen.h" //For altering inventory.
+#include "sell_screen.h"//Contains constants for sell screen.
 
-#include "../../driver.h"
+#include "../../driver.h" //Contains all the structure definitions.
 
-#include "../../config/settings.h"
+#include "../../config/settings.h" //Contains printing settings.
 
-void displaySellShop(int nPrompt, Player* pPlayer, Weapon sWeapon, int nProfit) {
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/*	openSellScreen		Opens the Sell Screen.
 	
-	system("cls");
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
 
-	printHeader("SELL WEAPON", 11);
-	
-	printf("\n\t\tInput the index of the weapon you want to sell.");
-
-	printInventoryGrid(pPlayer, 1);
-
-	printOption(0, "BACK");
-
-	switch(nPrompt) {
-		case SUCCESSFUL:
-			printf("\n\t\tYou sold %s for %d runes.", sWeapon.strWeaponName, nProfit);
-			break;
-		case UNSUCCESSFUL:
-			printSystemMessage("You don't have a weapon at that index.");
-			break;
-		default:
-			break;
-	}
-}
-
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
 void openSellScreen(Player* pPlayer) {
 
 	int nInputIndex = -1;
@@ -83,6 +68,12 @@ void openSellScreen(Player* pPlayer) {
 	openRoundTableHoldScreen(pPlayer);
 }
 
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/*	createPlaceholderWeapon		Creates an empty instance of a weapon.
+
+	@returns					Returns a Weapon pointer variable. 	   */
 Weapon* createPlaceholderWeapon() {
 
 	Weapon* pWeapon = malloc(sizeof(Weapon));
@@ -100,4 +91,47 @@ Weapon* createPlaceholderWeapon() {
 	pWeapon->nFth = 0;
 
 	return pWeapon;
+}
+
+
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/*	displaySellShop		Displays the sell shop.
+	
+	@param nPrompt 		An integer variable containing the player's input 
+						from the Sell Screen.
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param sWeapon		A weapon variable containing the weapon the
+						Player sold.
+	@param nProfit		An integer variable containing the runes the 
+						Player gained from the transaction.
+
+	Pre-condition		nPrompt should be an integer value from 1 or 7.
+						pPlayer should be initiated and all members 
+						should have a value.	  					
+						sWeapon should contain a valid weapon.
+						nProfit should be a valid integer value.  	   */
+void displaySellShop(int nPrompt, Player* pPlayer, Weapon sWeapon, int nProfit) {
+	
+	system("cls");
+
+	printHeader("SELL WEAPON", 11);
+	
+	printf("\n\t\tInput the index of the weapon you want to sell.");
+
+	printInventoryGrid(pPlayer, 1);
+
+	printOption(0, "BACK");
+
+	switch(nPrompt) {
+		case SUCCESSFUL:
+			printf("\n\t\tYou sold %s for %d runes.", sWeapon.strWeaponName, nProfit);
+			break;
+		case UNSUCCESSFUL:
+			printSystemMessage("You don't have a weapon at that index.");
+			break;
+		default:
+			break;
+	}
 }

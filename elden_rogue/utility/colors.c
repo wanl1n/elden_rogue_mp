@@ -21,9 +21,6 @@
  *  https://en.wikipedia.org/wiki/ANSI_escape_code
  */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *                        DO NOT EDIT THIS SCRIPT.                         *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "colors.h"
 

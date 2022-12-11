@@ -1,63 +1,60 @@
-#include "../title_screen.h"
-#include "../chara_creation_screen.h"
-#include "../roundtable_screen.h"
-#include "../areas_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "../roundtable_screen.h" //When Player goes back.
 
-#include "../../driver.h"
+#include "../../driver.h" //Contains all the structure definitions.
 
-#include "../../config/settings.h"
+#include "../../config/settings.h" //Contains printing settings.
 
-void displayLevelUpScreen(int nPrompt, Player* pPlayer, int nRuneCost) {
+
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/* 	openLevelUpScreen	Opens the Level Up Screen.
 	
-	system("cls");
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
 
-	printHeader("ROUNDTABLE HOLD", 15);
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
+void openLevelUpScreen(Player* pPlayer) {
 
-	printf("	LEVEL UP:			RUNES: %d\n"
-		"	Current Job Class: %s\n\n"
-		"	STATISTICS:			[1] HEALTH			%d\n"
-		"   LEVEL		%d 		[2] ENDURANCE			%d\n"
-		"   RUNE COST		%d		[3] DEXTERITY			%d\n"
-		"					[4] STRENGTH			%d\n"
-		"					[5] INTELLIGENCE		%d\n"
-		"					[6] FAITH			%d\n\n"
-		"					[0] BACK\n\n", 
-		pPlayer->nRunes, pPlayer->strJobClass,
-		pPlayer->nHealth,
-		pPlayer->nLevel, pPlayer->nEndurance,
-		nRuneCost, pPlayer->nDexterity,
-		pPlayer->nStrength, pPlayer->nIntelligence, pPlayer->nFaith);
+	int nInputLevelUp = 100; //random value basta wala sa choices
+	int nRuneCost = (pPlayer->nLevel * 100) / 2;
 
-	switch(nPrompt) {
-		case HEALTH:
-			printSystemMessage("You have levelled up your Health.");
-			break;
-		case ENDURANCE:
-			printSystemMessage("You have levelled up your Endurance.");
-			break;
-		case DEXTERITY:
-			printSystemMessage("You have levelled up your Dexterity.");
-			break;
-		case STRENGTH:
-			printSystemMessage("You have levelled up your Strength.");
-			break;
-		case INTELLIGENCE:
-			printSystemMessage("You have levelled up your Intelligence.");
-			break;
-		case FAITH:
-			printSystemMessage("You have levelled up your Faith.");
-			break;
-		case INSUFFICIENT_RUNES:
-			printSystemMessage("You don't have enough runes :(");
-			break;
-		case MAXED_OUT:
-			printSystemMessage("You have reached the maximum level for this stat.");
-			break;
-		case 9:
-			break;
+	displayLevelUpScreen(9, pPlayer, nRuneCost);
+
+	while(nInputLevelUp != 0) {
+
+		nInputLevelUp = scanIntInput(0, 6);
+
+		if (nInputLevelUp == 0) {
+			openRoundTableHoldScreen(pPlayer);
+		} else if (pPlayer->nRunes >= nRuneCost) {
+			levelUp(nInputLevelUp, pPlayer, nRuneCost);
+			displayLevelUpScreen(nInputLevelUp, pPlayer, nRuneCost);
+		} else {
+			displayLevelUpScreen(INSUFFICIENT_RUNES, pPlayer, nRuneCost);
+		}
+
+		nRuneCost = (pPlayer->nLevel * 100) / 2; //Calculate new rune cost after level up.
 	}
 }
 
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/*	levelUp 			Levels up the Player's chosen stat.
+	
+	@param nStat		An integer variable containing the stat needed
+						to level up.
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param nRuneCost	An integer variable containing the cost of the
+						level up.
+
+	Pre-condition		nStat value should be from 1 to 6.
+						pPlayer should be initiated and all members 
+						should have a value.
+						nRuneCost should be an integer value.		   */
 void levelUp(int nStat, Player* pPlayer, int nRuneCost) {
 
 	int nSuccess = 0;
@@ -111,26 +108,69 @@ void levelUp(int nStat, Player* pPlayer, int nRuneCost) {
 	
 }
 
-void openLevelUpScreen(Player* pPlayer) {
 
-	int nInputLevelUp = 100; //random value basta wala sa choices
-	int nRuneCost = (pPlayer->nLevel * 100) / 2;
 
-	displayLevelUpScreen(9, pPlayer, nRuneCost);
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/* 	displayLevelUpScreen 	Displays the Level up Screen.
+	
+	@param nPrompt 			An integer variable containing the player's input 
+							from the Level Up Screen.
+	@param pPlayer			The Player Structure containing all of the 
+							Player's statistics and items.
+	@param nRuneCost		An integer variable containing the current page 
+							of the inventory the Player is on.
 
-	while(nInputLevelUp != 0) {
+	Pre-condition			nPrompt should be an integer value from 1-9.
+							pPlayer should be initiated and all members 
+							should have a value.	  					
+							nRuneCost should be an integer value.          	   */
+void displayLevelUpScreen(int nPrompt, Player* pPlayer, int nRuneCost) {
+	
+	system("cls");
 
-		nInputLevelUp = scanIntInput(0, 6);
+	printHeader("ROUNDTABLE HOLD", 15);
 
-		if (nInputLevelUp == 0) {
-			openRoundTableHoldScreen(pPlayer);
-		} else if (pPlayer->nRunes >= nRuneCost) {
-			levelUp(nInputLevelUp, pPlayer, nRuneCost);
-			displayLevelUpScreen(nInputLevelUp, pPlayer, nRuneCost);
-		} else {
-			displayLevelUpScreen(INSUFFICIENT_RUNES, pPlayer, nRuneCost);
-		}
+	printf("	LEVEL UP:			RUNES: %d\n"
+		"	Current Job Class: %s\n\n"
+		"	STATISTICS:			[1] HEALTH			%d\n"
+		"   LEVEL		%d 		[2] ENDURANCE			%d\n"
+		"   RUNE COST		%d		[3] DEXTERITY			%d\n"
+		"					[4] STRENGTH			%d\n"
+		"					[5] INTELLIGENCE		%d\n"
+		"					[6] FAITH			%d\n\n"
+		"					[0] BACK\n\n", 
+		pPlayer->nRunes, pPlayer->strJobClass,
+		pPlayer->nHealth,
+		pPlayer->nLevel, pPlayer->nEndurance,
+		nRuneCost, pPlayer->nDexterity,
+		pPlayer->nStrength, pPlayer->nIntelligence, pPlayer->nFaith);
 
-		nRuneCost = (pPlayer->nLevel * 100) / 2; //Calculate new rune cost after level up.
+	switch(nPrompt) {
+		case HEALTH:
+			printSystemMessage("You have levelled up your Health.");
+			break;
+		case ENDURANCE:
+			printSystemMessage("You have levelled up your Endurance.");
+			break;
+		case DEXTERITY:
+			printSystemMessage("You have levelled up your Dexterity.");
+			break;
+		case STRENGTH:
+			printSystemMessage("You have levelled up your Strength.");
+			break;
+		case INTELLIGENCE:
+			printSystemMessage("You have levelled up your Intelligence.");
+			break;
+		case FAITH:
+			printSystemMessage("You have levelled up your Faith.");
+			break;
+		case INSUFFICIENT_RUNES:
+			printSystemMessage("You don't have enough runes :(");
+			break;
+		case MAXED_OUT:
+			printSystemMessage("You have reached the maximum level for this stat.");
+			break;
+		case 9:
+			break;
 	}
 }

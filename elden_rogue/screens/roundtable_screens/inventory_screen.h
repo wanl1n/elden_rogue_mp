@@ -11,6 +11,7 @@
 #define NEXT 				3
 #define I_BACK 				0
 #define NO_EXIST			4
+#define LACK_DEX			5
 
 
 void openInventory(Player* pPlayer);

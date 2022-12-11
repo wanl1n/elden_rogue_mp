@@ -1,10 +1,11 @@
-#include "../roundtable_screen.h"
-#include "../areas_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "../roundtable_screen.h" //When Player goes back.
+#include "inventory_screen.h" //Contains constants for inventory screen.
 
-#include "../../driver.h"
+#include "../../driver.h" //Contains all the structure definitions.
 
-#include "../../config/settings.h"
-#include "../../utility/inventory_manager.h"
+#include "../../config/settings.h" //Contains printing settings.
+#include "../../utility/inventory_manager.h" //Contains the functions managing the inventory.
 
 
 
@@ -24,7 +25,7 @@ void openInventory(Player* pPlayer) {
 	// Temporary Variables
 	int nPage = 1;
 
-	displayInventory(5, pPlayer, nPage);
+	displayInventory(-1, pPlayer, nPage);
 
 	while(nInputInventory != 0) {
 
@@ -36,6 +37,23 @@ void openInventory(Player* pPlayer) {
 	}
 }
 
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/*	processInventoryInput	Gets the Player's input and lets the player 
+							select a weapon from their inventory.
+	
+	@param nInput 			An integer variable containing the player's
+							input from the Inventory Screen.
+	@param pPlayer			The Player Structure containing all of the 
+							Player's statistics and items.
+	@param nPage			An integer variable containing the current
+							page of the inventory the Player is on.
+
+	Pre-condition			nInput should be an integer value from 0-3.
+							pPlayer should be initiated and all members 
+							should have a value.	  					
+							nPage should be an integer value.          */
 void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 	
 	// Get the amount of Weapons the Player has.
@@ -65,14 +83,19 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 			// if the index the player inputted has a weapon
 			if (pSelectedWeapon != NULL) { 
 
-				if (strcmp(pPlayer->sEquippedWeapon.strWeaponName, "NONE")){
-					addWeapon(putWeaponInSlot(pPlayer->sEquippedWeapon), &(pPlayer->pInventory));
-				}
+				if (pSelectedWeapon->sWeapon.nDexReq <= pPlayer->nDexterity) {
+					if (strcmp(pPlayer->sEquippedWeapon.strWeaponName, "NONE")){
+						addWeapon(putWeaponInSlot(pPlayer->sEquippedWeapon), &(pPlayer->pInventory));
+					}
 
-				pPlayer->sEquippedWeapon = pSelectedWeapon->sWeapon;
+					pPlayer->sEquippedWeapon = pSelectedWeapon->sWeapon;
 
-				removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
-				displayInventory(SELECT, pPlayer, nPage);
+					removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
+					displayInventory(SELECT, pPlayer, nPage);
+				} else {
+					displayInventory(LACK_DEX, pPlayer, nPage);
+				}	
+				
 
 			} else {
 				displayInventory(NO_EXIST, pPlayer, nPage);
@@ -110,8 +133,14 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 	}
 }
 
+/* 	getPlayerWeapons	Gets the amount of weapons the player has in 
+						their inventory.
 
-// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+	@param pInventoryHead	A pointer pointing to the Slot pointer
+							pointing at the Inventory Head.	
+
+	Pre-condition		pInventoryHead has to be the address of the Slot
+						pointer pointing to the Inventory.  	 	   */
 int getPlayerWeapons(Slot** pInventoryHead) {
 	int nPlayerWeapons = 0;
 
@@ -133,6 +162,13 @@ int getPlayerWeapons(Slot** pInventoryHead) {
 
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/* 	printTopBorderSlots 	Prints the Top Border of the Inventory 
+							screen.
+
+	@param nCols 			An integer variable containing the number of
+							times the border will be printed.
+
+	Pre-condition			nCols has an integer value. 			   */
 void printTopBorderSlots(int nCols) {
 
 	int i;
@@ -146,6 +182,13 @@ void printTopBorderSlots(int nCols) {
 	printf("\n");
 }
 
+/* 	printBottomBorderSlots 	Prints the bottom Border of the Inventory 
+							screen.
+
+	@param nCols 			An integer variable containing the number of
+							times the border will be printed.
+
+	Pre-condition			nCols has an integer value. 			   */
 void printBottomBorderSlots(int nCols) {
 
 	int i;
@@ -159,6 +202,15 @@ void printBottomBorderSlots(int nCols) {
 	printf("\n");
 }
 
+/*	printShopContent	Prints one line of a Weapon in a single slot.
+	
+	@param sWeapon		A Weapon variable containing the Weapon stats to
+						be printed.
+	@param nLine 		An integer variable containing the line number 
+						of the slot being printed.
+
+	Pre-condition		sWeapon should contain valid Weapon values.
+						nLine should be from 1 to 7. 				   */
 void printContentSlot(Weapon sWeapon, int nLine) {
 
 	int nSpaces = 2;
@@ -226,6 +278,7 @@ void printContentSlot(Weapon sWeapon, int nLine) {
 	}
 }
 
+/*	printEmptySlot		Prints one line of an empty slot.			   */
 void printEmptySlot() {
 	
 	printf("│");
@@ -233,6 +286,16 @@ void printEmptySlot() {
 	printf("│");
 }
 
+/*	printInventoryGrid	Displays the weapons in the Player's inventory.
+	
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items. 
+	@param nPage		An integer variable containing the page number
+						the Player is currently viewing.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	   
+						nPage should be an integer value.			   */
 void printInventoryGrid(Player* pPlayer, int nPage) {
 
 	// Contains the values need to be printed.
@@ -288,6 +351,19 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 	}
 }
 
+/* 	displayInventory	Displays the Inventory screen.
+	
+	@param nPrompt 		An integer variable containing the player's input 
+						from the Inventory Screen.
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param nPage		An integer variable containing the current page 
+						of the inventory the Player is on.
+
+	Pre-condition		nPrompt should be an integer value from 0-5.
+						pPlayer should be initiated and all members 
+						should have a value.	  					
+						nPage should be an integer value.          	   */
 void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 	
 	system("cls");
@@ -313,6 +389,10 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 			break;
 		case NO_EXIST:
 			printSystemMessage("There's no weapon at that index.");
+			break;
+
+		case LACK_DEX:
+			printSystemMessage("You don't have enough dexterity to equip that weapon.");
 			break;
 
 		case PREVIOUS:

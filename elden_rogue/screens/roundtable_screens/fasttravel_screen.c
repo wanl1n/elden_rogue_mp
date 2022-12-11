@@ -1,70 +1,21 @@
-#include "../chara_creation_screen.h"
-#include "../title_screen.h"
-#include "../roundtable_screen.h"
-#include "../areas_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "../roundtable_screen.h" //When player goes back.
+#include "../areas_screen.h" //When player fast travels to an area.
 
-#include "../../driver.h"
+#include "../../driver.h" //Contains all the structures used in the code.
 
-#include "../../config/settings.h"
+#include "../../config/settings.h" //Contains printing settings.
 
-//User Interface / Printing Functions
-void displayFastTravelScreen(int nPrompt) {
+
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/* 	openFastTravelScreen	Opens the Fast Travel Screen.
 	
-	system("cls");
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
 
-	printHeader("FAST TRAVEL", 11);
-
-	printOption(1, "STORMVEIL");
-	printOption(2, "RAYA LUCARIA");
-	printOption(3, "REDMANE CASTLE");
-	printOption(4, "VOLCANO MANOR");
-	printOption(5, "LEYNDELL CAPITAL");
-	printOption(6, "THE ELDEN THRONE");
-	printOption(0, "BACK");
-	printf("\n\n");
-
-	switch(nPrompt) {
-		case STORMVEIL:
-			printSystemMessage("Travelling to Stormveil.");
-			break;
-		case RAYA_LUCARIA:
-			printSystemMessage("Travelling to Raya Lucaria.");
-			break;
-		case REDMANE_CASTLE:
-			printSystemMessage("Travelling to Redmane Castle.");
-			break;		
-		case VOLCANO_MANOR:
-			printSystemMessage("Travelling to Volcano Manor.");
-			break;
-		case LEYNDELL_CAPITAL:
-			printSystemMessage("Travelling to Leyndell Capital.");
-			break;
-		case THE_ELDEN_THRONE:
-			printSystemMessage("Travelling to The Elden Throne.");
-			break;
-		case FT_BACK:
-			printSystemMessage("Going back to Roundtable Hold.");
-			break;
-	}
-
-	Sleep(DELAY);
-}
-
-//Utility Functions
-int getPlayerShards(Player* pPlayer) {
-	
-	int nShards = 0;
-	int i;
-
-	for(i = 0; i < 6; i++) {
-		if(pPlayer->aShards[i])
-			nShards++;
-	}
-
-	return nShards;
-}
-
-//Central Fast Travel Function
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void openFastTravelScreen(Player* pPlayer) {
 	displayFastTravelScreen(7);
 
@@ -111,4 +62,79 @@ void openFastTravelScreen(Player* pPlayer) {
 	
 		}
 	}
+}
+
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/*	getPlayerShards		Checks how many areas the Player has cleared.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
+int getPlayerShards(Player* pPlayer) {
+	
+	int nShards = 0;
+	int i;
+
+	for(i = 0; i < 6; i++) {
+		if(pPlayer->aShards[i])
+			nShards++;
+	}
+
+	return nShards;
+}
+
+
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/* 	displayFastTravelScreen		Displays the Fast Travel Screen.
+	
+	@param nPrompt				An integer variable that contains the 
+								Player's input.
+	Pre-condition				nPrompt should be an integer value from 
+								0 to 6.								   */
+void displayFastTravelScreen(int nPrompt) {
+	
+	system("cls");
+
+	printHeader("FAST TRAVEL", 11);
+
+	printOption(1, "STORMVEIL");
+	printOption(2, "RAYA LUCARIA");
+	printOption(3, "REDMANE CASTLE");
+	printOption(4, "VOLCANO MANOR");
+	printOption(5, "LEYNDELL CAPITAL");
+	printOption(6, "THE ELDEN THRONE");
+	printOption(0, "BACK");
+	printf("\n\n");
+
+	//Constants are defined in Roundtable Hold Screen.
+	switch(nPrompt) {
+		case STORMVEIL:
+			printSystemMessage("Travelling to Stormveil.");
+			break;
+		case RAYA_LUCARIA:
+			printSystemMessage("Travelling to Raya Lucaria.");
+			break;
+		case REDMANE_CASTLE:
+			printSystemMessage("Travelling to Redmane Castle.");
+			break;		
+		case VOLCANO_MANOR:
+			printSystemMessage("Travelling to Volcano Manor.");
+			break;
+		case LEYNDELL_CAPITAL:
+			printSystemMessage("Travelling to Leyndell Capital.");
+			break;
+		case THE_ELDEN_THRONE:
+			printSystemMessage("Travelling to The Elden Throne.");
+			break;
+		case FT_BACK:
+			printSystemMessage("Going back to Roundtable Hold.");
+			break;
+	}
+
+	Sleep(DELAY);
 }

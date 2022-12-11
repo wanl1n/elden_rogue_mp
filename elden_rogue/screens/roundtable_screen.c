@@ -52,6 +52,68 @@ void openRoundTableHoldScreen(Player* pPlayer) {
 	}
 }
 
+/* 	openShop 			Opens the shop screen.
+
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
+void openShop(Player* pPlayer) {
+	displayShop();
+
+	int nInputShop;
+
+	while(nInputShop != 0) {
+		nInputShop = scanIntInput(0, 2);
+
+		switch(nInputShop) {
+			case BUY_WEAPON:
+				openBuyScreen(pPlayer);
+				nInputShop = 0;
+				break;
+			case SELL_WEAPON:
+				openSellScreen(pPlayer);
+				nInputShop = 0;
+				break;
+			case S_BACK:
+				openRoundTableHoldScreen(pPlayer);
+				break;
+		}
+	}
+}
+
+/* 	openSaveScreen		Opens the save screen.
+
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
+void openSaveScreen(Player* pPlayer) {
+	displaySaveScreen(pPlayer);
+
+	FILE* fp;
+
+	int nInputSave = 100; //random value thats not part of the choices.
+
+	while(nInputSave != 0) {
+		nInputSave = scanIntInput(0, 1);
+
+		if (nInputSave) {
+			fp = fopen("save.dat", "wb");
+
+			fwrite(pPlayer, sizeof(Player), 1, fp);
+
+			fclose(fp);
+
+			nInputSave = 0;
+		} else {
+			openRoundTableHoldScreen(pPlayer);
+		}
+	}
+}
+
 
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
@@ -118,9 +180,7 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 	Sleep(DELAY);
 }
 
-
-
-//TO BE MOVED
+/* 	displayShop 	Displays the shop screen.						   */
 void displayShop() {
 	
 	system("cls");
@@ -136,62 +196,20 @@ void displayShop() {
 	printf("\n\n");
 }
 
+/*	displaySaveScreen 	Displays the save screen.			
+
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
 void displaySaveScreen(Player* pPlayer) {
 	
 	system("cls");
 
-	printHeader("ROUNDTABLE HOLD", 15);
+	printHeader("SAVE", 15);
 	
 	printf("			SAVE\n"
 		"[1] SAVE\n"
-		"[0] BACK\n\n"
-		"INPUT: ");
-}
-
-void openShop(Player* pPlayer) {
-	displayShop();
-
-	int nInputShop;
-
-	while(nInputShop != 0) {
-		nInputShop = scanIntInput(0, 2);
-
-		switch(nInputShop) {
-			case BUY_WEAPON:
-				openBuyScreen(pPlayer);
-				nInputShop = 0;
-				break;
-			case SELL_WEAPON:
-				openSellScreen(pPlayer);
-				nInputShop = 0;
-				break;
-			case S_BACK:
-				openRoundTableHoldScreen(pPlayer);
-				break;
-		}
-	}
-}
-
-void openSaveScreen(Player* pPlayer) {
-	displaySaveScreen(pPlayer);
-
-	FILE* fp;
-
-	int nInputSave = 100; //random value thats not part of the choices.
-
-	while(nInputSave != 0) {
-		nInputSave = scanIntInput(0, 1);
-
-		if (nInputSave) {
-			fp = fopen("save.dat", "wb");
-
-			fwrite(&(pPlayer->strName), sizeof(StringName), 1, fp);
-			fwrite(&(pPlayer->strJobClass), sizeof(StringJob), 1, fp);
-			fwrite(&(pPlayer->nLevel), sizeof(int), 1, fp);
-
-			fclose(fp);
-		} else {
-			openRoundTableHoldScreen(pPlayer);
-		}
-	}
+		"[0] BACK\n\n");
 }

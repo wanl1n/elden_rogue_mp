@@ -1,97 +1,27 @@
-#include "chara_creation_screen.h"
-#include "title_screen.h"
-#include "roundtable_screen.h"
-#include "areas_screen.h"
-#include "battle_screen.h"
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "roundtable_screen.h" //When the player dies.
+#include "areas_screen.h" //When the player wins the battle.
+#include "battle_screen.h" //Contains the constants used in Battle Screen.
 
-#include "../driver.h"
+#include "../driver.h" //Contains all the structure definitions.
 
-#include "../config/settings.h"
-#include "../utility/colors.h"
+#include "../config/settings.h" //Contains printing settings.
+#include "../utility/colors.h" //Contains the colors used. 
 
 
-void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt) {
 
-	//Sleep(3000);
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/*	openBattleScreen 	Opens the battle screen.
+	
+	@param sEnemy 		An Enemy variable that contains the enemy's stas.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param nAreaNo		An integer variable containing the area number.
 
-	system("cls");
-
-	printHeader("BATTLE TIME", 11);
-
-	printf("\t\t[NAME]: %s\n", pPlayer->strName);
-	printPlayerHealth(pPlayer->nPlayerHP, pPlayer->nPlayerMaxHP);
-	printf("%d", pPlayer->nPlayerHP);
-
-	printf("\t\t[POTIONS]: %d\n\n\n", pPlayer->nPotions);
-	//player sprite
-
-	printf("\t\t[ENEMY NAME]: %s\n", sEnemy.strName);
-	printPlayerHealth(sEnemy.nHP, sEnemy.nMaxHP);
-	printf("%d\n", sEnemy.nHP);
-
-	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);
-	//ENEMY sprite
-
-	if (nTurn) {
-		printHeader("PLAYER TURN", 11);
-		printOption(1, "ATTACK");
-		printOption(2, "DODGE");
-		printOption(3, "POTION");
-		printOption(4, "SKIP");
-	} else {
-		printHeader("ENEMY TURN", 10);
-	}
-
-	printf("\n\n");
-
-	switch(nPrompt) {
-
- 		case PLAYER_DODGE:
-
- 			printMultiple(" ", SCREEN_PADDING);
-			printf("Attempting to dodge.\n");
-
-			break;
-
- 		case PLAYER_POTION_FULL:
-
- 			printMultiple(" ", SCREEN_PADDING);
-			printf("You're still at full health. Try something else.\n");
-			
-			break;
-
- 		case PLAYER_POTION_EMPTY:
-
- 			printMultiple(" ", SCREEN_PADDING);
-			printf("You Do Not Have Any Potions Left. Input a different number.\n");
-
-			break;
-
- 		case PLAYER_SKIP:
-
- 			printMultiple(" ", SCREEN_PADDING);
-			printf("You skipped your turn.\n");
-
-			break;
-
- 		case ENEMY_ATTACK:
-
- 			printMultiple(" ", SCREEN_PADDING);
-			printf("Enemy is trying to attack\n");
-			break;
-		default:
-			break;
-	}
-
-}
-
-void printSubAttacks() {
-	printOption(1, "PHYSICAL");
-	printOption(2, "SORCERY");
-	printOption(3, "INCANTATION");
-}
-
-//Made this integer type.
+	Pre-condition		sEnemy should contain complete stats.
+						pPlayer should be initiated and all members 
+						should have a value.
+						nAreaNo should be an integer from 1-6.		   */
 int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 	int nPlayerTurn = 1;
@@ -304,22 +234,170 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	return 0;
 }
 
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/*	attackPhy 			Gets the player's physical attack damage.
+	
+	@param sEnemy 		An Enemy variable that contains the enemy's stas.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	
+	@return 			An integer value containing the player's physical
+						damage.
+
+	Pre-condition		sEnemy should contain complete stats.
+						pPlayer should be initiated and all members 
+						should have a value. 						   */
 int attackPhy(Enemy sEnemy, Player* pPlayer){
 	int nPhysicalDamage = (pPlayer->nStrength + pPlayer->sEquippedWeapon.nStr) * (1 - sEnemy.fPhysDef);
 	return nPhysicalDamage;
 }
 
+/*	attackSor 			Gets the player's sorcery attack damage.
+	
+	@param sEnemy 		An Enemy variable that contains the enemy's stas.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	
+	@return 			An integer value containing the player's sorcery
+						damage.
+
+	Pre-condition		sEnemy should contain complete stats.
+						pPlayer should be initiated and all members 
+						should have a value. 						   */
 int attackSor(Enemy sEnemy, Player* pPlayer){
 	int nSorceryDamage = (pPlayer->nIntelligence + pPlayer->sEquippedWeapon.nInt) * (1 - sEnemy.fSorcDef);
 	return nSorceryDamage;
 }
 
+/*	attackInc 			Gets the player's incantation attack damage.
+	
+	@param sEnemy 		An Enemy variable that contains the enemy's stas.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	
+	@return 			An integer value containing the player's incantation
+						damage.
+
+	Pre-condition		sEnemy should contain complete stats.
+						pPlayer should be initiated and all members 
+						should have a value. 						   */
 int attackInc(Enemy sEnemy, Player* pPlayer){
 	int nIncantationDamage = (pPlayer->nFaith + pPlayer->sEquippedWeapon.nFth) * (1 - sEnemy.fIncanDef);
 	return nIncantationDamage;
 }
 
+/*	getDodgeRate		Gets the player's dodge rate.
+	
+	@param sEnemy 		An Enemy variable that contains the enemy's stas.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	
+	@return 			An integer value containing the player's dodge
+						rate.
+
+	Pre-condition		sEnemy should contain complete stats.
+						pPlayer should be initiated and all members 
+						should have a value. 						   */
 int getDodgeRate(Enemy sEnemy, Player* pPlayer){
 	int nDodgeRate = (20 +((pPlayer->nEndurance + pPlayer->sEquippedWeapon.nEnd) / 2));
 	return nDodgeRate;
+}
+
+
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/*	displayBattleScreen 	Displays the battle screen.
+
+	@param sEnemy 		An Enemy variable that contains the enemy's stas.
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param nTurn 		An integer variable that contains the current turn.
+	@param nPrompt 		An integer variable that contains the prompt number.
+
+	Pre-condition		sEnemy should contain complete stats.
+						pPlayer should be initiated and all members 
+						should have a value. 
+						nTurn should be either 1 or 0.
+						nPrompt should be 1 to 5.					   */
+void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt) {
+
+	//Sleep(3000);
+
+	system("cls");
+
+	printHeader("BATTLE TIME", 11);
+
+	printf("\t\t[NAME]: %s\n", pPlayer->strName);
+	printPlayerHealth(pPlayer->nPlayerHP, pPlayer->nPlayerMaxHP);
+	printf("%d", pPlayer->nPlayerHP);
+
+	printf("\t\t[POTIONS]: %d\n\n\n", pPlayer->nPotions);
+	//player sprite
+
+	printf("\t\t[ENEMY NAME]: %s\n", sEnemy.strName);
+	printPlayerHealth(sEnemy.nHP, sEnemy.nMaxHP);
+	printf("%d\n", sEnemy.nHP);
+
+	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);
+	//ENEMY sprite
+
+	if (nTurn) {
+		printHeader("PLAYER TURN", 11);
+		printOption(1, "ATTACK");
+		printOption(2, "DODGE");
+		printOption(3, "POTION");
+		printOption(4, "SKIP");
+	} else {
+		printHeader("ENEMY TURN", 10);
+	}
+
+	printf("\n\n");
+
+	switch(nPrompt) {
+
+ 		case PLAYER_DODGE:
+
+ 			printMultiple(" ", SCREEN_PADDING);
+			printf("Attempting to dodge.\n");
+
+			break;
+
+ 		case PLAYER_POTION_FULL:
+
+ 			printMultiple(" ", SCREEN_PADDING);
+			printf("You're still at full health. Try something else.\n");
+			
+			break;
+
+ 		case PLAYER_POTION_EMPTY:
+
+ 			printMultiple(" ", SCREEN_PADDING);
+			printf("You Do Not Have Any Potions Left. Input a different number.\n");
+
+			break;
+
+ 		case PLAYER_SKIP:
+
+ 			printMultiple(" ", SCREEN_PADDING);
+			printf("You skipped your turn.\n");
+
+			break;
+
+ 		case ENEMY_ATTACK:
+
+ 			printMultiple(" ", SCREEN_PADDING);
+			printf("Enemy is trying to attack\n");
+			break;
+		default:
+			break;
+	}
+}
+
+/* 	printSubAttacks 	Prints the subcategories of attacks.		   */
+void printSubAttacks() {
+	printOption(1, "PHYSICAL");
+	printOption(2, "SORCERY");
+	printOption(3, "INCANTATION");
 }

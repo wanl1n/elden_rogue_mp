@@ -66,8 +66,9 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 }
 
 
+
 // ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
-/* 	processInput		Finds the Fast Travel Tile from a given 
+/* 	processInput		Decides what to do with player input. 
 
 	@param	cInput		A character variable containing the Player's
 						input.
@@ -893,13 +894,26 @@ void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer) {
 	free(pCurrentFloor);
 }	
 
-//Utility Functions: TILE_SPAWN
+/*	getRandomBetween	Generate a random number between the parameters.
+	
+	@param nLower		An integer variable containing the lower bound of
+						the random number.
+	@param nUpper		An integer variable containing the upper bound
+						of the random number.
+	
+	@return 			An integer value between nLower and nUpper
+						inclusive.
+	Pre-condition		nLower must be less than nUpper and they should
+						both be valid integer values.				   */
 int getRandomBetween(int nLower, int nUpper) {
 	srand(time(0));
 
 	return (rand() % (nUpper - nLower + 1)) + nLower;
 }
 
+/*	getRandomSpawn		Gets a random spawn from the spawn tile.	   
+
+	@returns			Returns what type of spawn the tile spawns.	   */
 int getRandomSpawn() {
 
 	int nSpawnRandom = getRandomBetween(1, 100);
@@ -911,6 +925,13 @@ int getRandomSpawn() {
 	}
 }
 
+/*	spawnEnemy		Gets a randomly generated enemy based on the Area.
+	
+	@param nArea 	An integer variable containing the area number.
+	
+	@return 		Returns a randomly generated enemy given the area.
+
+	Pre-condition 	nArea must be from 1-6 inclusive.				   */
 Enemy spawnEnemy(int nArea) {
 	
 	//Making a new Enemy instance.
@@ -960,6 +981,17 @@ Enemy spawnEnemy(int nArea) {
 	return sEnemy;
 }
 
+/*	spawnBoss		Gets the boss stats for a specific area.
+	
+	@param nArea 	An integer variable containing the area number. 
+	@param nEldenThroneStage	An integer variable containing the 
+								stage number of the boss in The 
+								Elden Throne.
+
+	@return 		Returns an Enemy variable containing the boss.
+
+	Pre-condition	nArea must be 1-6 only.
+					nEldenThroneStage should only be 0 or 1.		   */
 Enemy spawnBoss(int nArea, int nEldenThroneStage) {
 
 	Enemy sEnemy;
@@ -1031,12 +1063,30 @@ Enemy spawnBoss(int nArea, int nEldenThroneStage) {
 	return sEnemy;
 }
 
+/*	spawnTreasure	Generates the rune rewards from a spawn tile.
+	
+	@param nArea 	An integer variable containing the area number. 
+
+	@return 		Returns an integer variable containing the amount of 
+					runes the Player will earn..
+
+	Pre-condition	nArea must be 1-6 only.							   */
 int spawnTreasure(int nArea) {
 	int nRewards = getRandomBetween(50, 150) * nArea;
 
 	return nRewards;
 }
 
+/*	checkIfTileUsed		Checks if the Player is on a used tile.
+	
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param nFloor 		An integer variable containing the floor
+						number of the current floor.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.
+						nFloor should be an integer value.		  	   */
 int checkIfTileUsed(Player* pPlayer, int nFloor) {
 	
 	UsedTile* pUsedTileHead = pPlayer->pUsedTiles;
@@ -1057,6 +1107,19 @@ int checkIfTileUsed(Player* pPlayer, int nFloor) {
 	return 0;
 }
 
+/* 	setTileToUsed		Adds a used tile to the Used Tiles List.
+	
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param pUsedTileHead	A UsedTile pointer poiting to the UsedTile
+							Head.
+	@param nFloor 		An integer variable containing the floor number
+						of the current floor.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   
+						pUsedTileHead should be a valid UsedTile pointer. 
+						nFloor should be a valid integer value.		   */
 void setTileToUsed(Player* pPlayer, UsedTile** pUsedTileHead, int nFloor) {
 
 	UsedTile* pUsedTile = *pUsedTileHead;
@@ -1080,6 +1143,14 @@ void setTileToUsed(Player* pPlayer, UsedTile** pUsedTileHead, int nFloor) {
 	
 }
 
+/*	resetPlayerStats 	Sets Player stats to initial values when entering
+						a new area.
+
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
 void resetPlayerStats(Player* pPlayer) {
 
 	int nPlayerHP = pPlayer->nHealth; //for calculating Max HP.
@@ -1091,6 +1162,13 @@ void resetPlayerStats(Player* pPlayer) {
 	pPlayer->pUsedTiles = NULL;
 }
 
+/*	resetPlayerStatsto0	Sets Player stats to 0.
+
+	@param	pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.						   */
 void resetPlayerStatsTo0(Player* pPlayer) {
 	
 	int i;
@@ -1103,7 +1181,25 @@ void resetPlayerStatsTo0(Player* pPlayer) {
 	}
 }
 
-//Utility Functions: Interact
+/*	usePlayer 			Sets Player stats to initial values when entering
+						a new area.
+	
+	@param nArea 		An integer variable containing the area number. 	
+	@param pFloor 		An integer pointer pointing to the integer containing
+						the current floor number.
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param pCleared 	A Boolean flag (integer pointer) that checks if the 
+						area has been cleared or not.
+	@param pBossResult	An integer pointer pointing to the result of the 
+						boss battle.
+
+	Pre-condition		nArea must be 1-6 only.						   
+						pFloor should be an integer value.		  	   
+						pPlayer should be initiated and all members 
+						should have a value.
+						pCleared should be either 1 or 0.
+						pBossResult should be either 1 or 0.		   */
 void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossResult) {
 
 	//Make a reference map for the current floor.
@@ -1254,8 +1350,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
-/* 	displayUserInterface	Prints the User Interface of the Character 
-							Creation Screen.
+/* 	displayUserInterface	Prints the User Interface of the Area Screen.
 	
 	@param	nPlayerMaxHP	An integer value containing the Player's 
 							Max HP.
@@ -1307,6 +1402,12 @@ void displayResultScreen(int nType, int nBattleResult, int nRewards) {
 
 
 // ───────────────────── 〔 PRINTING FUNCTIONS 〕 ────────────────────── //
+/* 	printFloorHeader	Prints the name of the area in the header.
+	
+	@param nArea 		An integer variable containing the area number
+						of the current area.
+
+	Pre-condition		nArea should be 1 to 6.						   */
 void printFloorHeader(int nArea) {
 
 	system("cls");
@@ -1334,6 +1435,19 @@ void printFloorHeader(int nArea) {
 	}
 }
 
+/*	printFloorMap	Prints the Floor Map of the current floor the player
+					is in.
+
+	@param nArea 	An integer variable containing the area number. 	
+	@param nFloor 	An integer variable containing the current floor 
+					number.
+	@param pPlayer	The Player Structure containing all of the Player's 
+					statistics and items.
+
+	Pre-condition	nArea must be 1-6 only.						   
+					pFloor should be an integer value.		  	   
+					pPlayer should be initiated and all members 
+					should have a value.							   */
 void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
 
 	int nRow, nCol;
@@ -1373,6 +1487,14 @@ void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
 	}
 }
 
+/*	printBorder 		Prints the border of the tiles.
+	
+	@param nType 		An integer variable containing the tile type.
+	@param nPosition 	An integer variable containing what type of 
+						border to print.
+
+	Pre-condition		nType has to be from 0 to 8.
+						nPosition has to be 1 to 3. 				   */
 void printBorder(int nType, int nPosition) {
 	switch(nPosition) {
 		case TOP:
@@ -1511,6 +1633,14 @@ void printBorder(int nType, int nPosition) {
 	resetColors();
 }
 
+/* 	printPlayerHealth 		Prints a health bar.
+	
+	@param nPlayerHealth 	An integer variable containing the player's
+							current health.
+	@param nPlayerMaxHP 	An integer variable containing the player's
+							max health.
+
+	Pre-condition 			nPlayerHealth should be less than max hp.*/
 void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 	int i;
 
@@ -1538,6 +1668,12 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 	resetColors();
 }
 
+/* 	printItems 		Prints the players items.
+	
+	@param nPotions	An integer variable containing the player's potions.
+	@param nRunes 	An integer variable containing the player's runes.
+
+	Pre-condition	nPotions cannot be more than 8.					   */
 void printItems(int nPotions, int nRunes) {
 	
 	printf("\n");
@@ -1547,6 +1683,7 @@ void printItems(int nPotions, int nRunes) {
 	printf("[POTIONS]: %d", nPotions);
 }
 
+/* 	printPlayerMoves 	Prints the player's possible moves.			   */
 void printPlayerMoves() {
 	int nPadding;
 	nPadding = SCREEN_PADDING + ((SCREEN_WIDTH - 40) / 2);
@@ -1582,7 +1719,7 @@ void printPlayerMoves() {
 
 	printMultiple(" ", nPadding);
 	colorText(COLOR_CONTROL_BACK);
-	printf("┌ X ┐");
+	printf("┌───┐");
 	resetColors();
 	printf("  ╚───╝  ╚───╝  ╚───╝  ╚───╝  ");
 	colorText(COLOR_CONTROL_INTERACT);

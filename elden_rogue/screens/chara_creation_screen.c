@@ -294,11 +294,11 @@ void displayJobScreen(int nPrompt, Player* pPlayer) {
 	Sleep(DELAY);
 }
 
-/* 	displayJobScreen	Prints the User Interface of the Job Class 
-						Screen.
+/* 	displayJobClassScreen	Prints the User Interface of the Job Class 
+							Screen.
 	
-	@param	nJobClass	An integer value containing the Player's
-						chosen Job Class.							 */
+	@param	nJobClass		An integer value containing the Player's
+							chosen Job Class.						   */
 void displayJobClassScreen(int nJobClass) {
 	
 	system("cls");
@@ -351,7 +351,6 @@ void displayJobClassScreen(int nJobClass) {
 	}
 
 	printf("\t\t[0] BACK			[1] CONFIRM\n");
-
 }
 
 
