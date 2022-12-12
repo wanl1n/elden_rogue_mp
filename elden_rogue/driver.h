@@ -59,7 +59,7 @@ struct QuestLine {
 	char strNPCName[16];
 	char strQuestName[13];
 
-	char aDialogue[16][DIALOGUE_LENGTH];
+	char aDialogue[19][DIALOGUE_LENGTH];
 };
 typedef struct QuestLine Quest;
 
@@ -98,6 +98,7 @@ typedef struct Player {
 	//Store Quest Progress
 	Quest* pQuestLine;
 	int nQuestProgress;
+	int nCompletedQuests;
 
 } Player;
 

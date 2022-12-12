@@ -1,3 +1,4 @@
+
 #include "questline_screen.h"
 #include "../roundtable_screen.h"
 #include "../../utility/inventory_manager.h"
@@ -17,7 +18,8 @@ void openQuestScreen(Player* pPlayer) {
 		// Player has not yet started a quest.
 		pPlayer->pQuestLine = createQuestline(TWINKLE_TOES);
 
-	} else if (pPlayer->pQuestLine->nQuestNumber == 1 && pPlayer->pQuestLine->nStage == 4) {
+	} 
+	else if (pPlayer->nCompletedQuests == 1 && pPlayer->pQuestLine->nQuestNumber != 2) {
 		// Player is done with 1st quest.
 		pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
 			
@@ -41,14 +43,24 @@ void openQuestScreen(Player* pPlayer) {
 		// If player is done.
 		else if (pPlayer->pQuestLine->nQuestStatus == QUEST_COMPLETE){
 			
+			giveQuestRewards(pPlayer);
+
 			// Set to next stage
 			pPlayer->pQuestLine->nStage++;
 			pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE;
+			pPlayer->nQuestProgress = 0;
 
-			openQuestScreen(pPlayer);
+			if (pPlayer->pQuestLine->nStage < 4) {
+				openQuestScreen(pPlayer);
+			} else {
+				pPlayer->nCompletedQuests += 1;
+				talkingComplete(pPlayer);
+			}
+			
 		}	
 	}
 }
+
 
 
 // ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
@@ -56,7 +68,8 @@ Quest* createQuestline(int nQuestline) {
 
 	Quest* pQuest = malloc(sizeof(Quest));
 	
-	char aFleta[19][DIALOGUE_LENGTH] = {"Hi, traveller! I'm Fleta Harrisone. I heard you were going on an adventure. Would you mind doing something for me while you're out there? I'll give you 100 runes for it.", // Intro (1)
+	char aFleta[19][DIALOGUE_LENGTH] = {// Intro (1)
+										"Hi, traveller! I'm Fleta Harrisone. I heard you were going on an adventure. Would you mind doing something for me while you're out there? I'll give you 100 runes for it.", 
 										// [1] Sure, what is it? (2)
 									    "Great! Here's the deal. Recently, the creatures in the Stormveil Castle have been loud and I can't sleep at all! I would really appreciate if you can get rid of at least 5 of them, but if you wanna kill more of them that would be great too.",
 									    // [0] Not up for it, sorry. (3)
@@ -93,25 +106,25 @@ Quest* createQuestline(int nQuestline) {
 									    "I know you have a lot on your plate, and I appreciate you agreeing to defeat the Starscourge Radahn in the Redmane Castle.",
 									    // Completed TWINKLE TOES III (19)
 									    "You are amazing! Thanks for defeating that weird guy. Honestly, the world is so much better without him. Anyway, as promised, you can take this. I was once an adventurer like you, until I took an arrow to the knee. But this really helped me in my travels and I hope it does the same for you!"};
-	char aHilda[19][DIALOGUE_LENGTH] = {"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										"",
-										""};
+	char aHilda[19][DIALOGUE_LENGTH] = {"1",
+										"2",
+										"3",
+										"4",
+										"5",
+										"6",
+										"7",
+										"8",
+										"9",
+										"10",
+										"11",
+										"12",
+										"13",
+										"14",
+										"15",
+										"16",
+										"17",
+										"18",
+										"19"};
 
 	int i;
 	
@@ -127,7 +140,7 @@ Quest* createQuestline(int nQuestline) {
 			strcpy(pQuest->strNPCName, "FLETA HARRISONE");
 			strcpy(pQuest->strQuestName, "TWINKLE TOES");
 
-			for(i = 0; i < 16; i++) {
+			for(i = 0; i < 19; i++) {
 				strcpy(pQuest->aDialogue[i], aFleta[i]);
 			}
 
@@ -136,9 +149,9 @@ Quest* createQuestline(int nQuestline) {
 		case SWIFT_BROIL:
 
 			strcpy(pQuest->strNPCName, "HILDA AYTONE");
-			strcpy(pQuest->strQuestName, "");
+			strcpy(pQuest->strQuestName, "SWIFT BROIL");
 
-			for(i = 0; i < 16; i++) {
+			for(i = 0; i < 19; i++) {
 				strcpy(pQuest->aDialogue[i], aHilda[i]);
 			}
 
@@ -199,7 +212,7 @@ int checkQuestProgress(Player* pPlayer) {
 						return QUEST_IN_PROG;
 					break;
 				case 3:
-					if (pPlayer->nQuestProgress >= 1) // 
+					if (pPlayer->nQuestProgress >= 1) // Kill Leyndell Capital boss.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
@@ -209,6 +222,7 @@ int checkQuestProgress(Player* pPlayer) {
 			break;
 
 	}
+	
 	return 0;
 }
 
@@ -259,6 +273,96 @@ void talkingInProgress(Player* pPlayer) {
 	openRoundTableHoldScreen(pPlayer);
 }
 
+void talkingComplete(Player* pPlayer) {
+
+	int nLine = 19;
+	displayQuestScreen(pPlayer, nLine);
+
+	scanIntInput(0, 0);
+	openRoundTableHoldScreen(pPlayer);
+}
+
+void giveQuestRewards(Player* pPlayer) {
+
+	int nStage = pPlayer->pQuestLine->nStage;
+
+	switch(pPlayer->pQuestLine->nQuestNumber) {
+		
+		// For Twinkle Toes Quest,
+		case TWINKLE_TOES:
+
+			// Depending on the stage, give rewards
+			switch (nStage) {
+				case 1:
+					pPlayer->nRunes += 100;
+					break;
+				case 2:
+					pPlayer->nRunes += 200;
+					break;
+				case 3:
+					addWeapon(createUniqueWeapon(pPlayer), &(pPlayer->pInventory));
+					break;
+			}
+
+			break;
+
+		// For Swift Broil Quest,
+		case SWIFT_BROIL:
+
+			// Depending on the stage, give rewards
+			switch (nStage) {
+				case 1:
+					pPlayer->nRunes += 100;
+					break;
+				case 2:
+					pPlayer->nRunes += 200;
+					break;
+				case 3:
+					addWeapon(createUniqueWeapon(pPlayer), &(pPlayer->pInventory));
+					break;
+			}
+
+			break;
+
+	}
+}
+
+Slot* createUniqueWeapon(Player* pPlayer) {
+
+	Weapon sWeapon;
+	Slot* pSlot = malloc(sizeof(Slot));
+
+	sWeapon.nWeaponIndex = 0;
+	sWeapon.nWeaponType = 7; //WEAPON_SPECIAL
+
+	if (pPlayer->pQuestLine->nQuestNumber == 1) {
+		strcpy(sWeapon.strWeaponName, "SWIFT SLIPPER");
+
+		sWeapon.nDexReq = 32;
+		sWeapon.nHP = 10;
+		sWeapon.nInt = 10;
+		sWeapon.nEnd = 10;
+		sWeapon.nStr = 70;
+		sWeapon.nFth = 30;
+	} else {
+		strcpy(sWeapon.strWeaponName, "GIANT'S BELT");
+
+		sWeapon.nDexReq = 32;
+		sWeapon.nHP = 10;
+		sWeapon.nInt = 10;
+		sWeapon.nEnd = 10;
+		sWeapon.nStr = 70;
+		sWeapon.nFth = 30;
+	}
+
+	pSlot->sWeapon = sWeapon;
+	pSlot->pNext = NULL;
+
+	return pSlot;
+}
+
+
+
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
 void displayQuestScreen(Player* pPlayer, int nLine) {
 
@@ -266,18 +370,162 @@ void displayQuestScreen(Player* pPlayer, int nLine) {
 
 	printHeader("FLETA HARRISONE", 15);
 
-	printMultiple(" ", SCREEN_PADDING * 2);
-	printf("%s\n\n", pPlayer->pQuestLine->aDialogue[nLine-1]);
+	printTopBorder();
+	printNPC(pPlayer);
+	printDiaTopBorder();
 
-	if (nLine != 4 && nLine != 5 && nLine != 4+6 && nLine != 5+6 && nLine != 4+12 && nLine != 5+12 && nLine % 6 != 0) {
-		printMultiple(" ", SCREEN_PADDING * 3);
-		printf("[1] Okay.\n");
-		printMultiple(" ", SCREEN_PADDING * 3);
-		printf("[0] Nah.\n");
+	printDialogueText(pPlayer->pQuestLine->aDialogue[nLine-1]);
+	// printMultiple(" ", SCREEN_PADDING * 2);
+	// printf("%s\n\n", pPlayer->pQuestLine->aDialogue[nLine-1]);
+
+	printDiaBottBorder();
+	printBottomBorder();
+
+	if (nLine != 4 && nLine != 5 && nLine != 4+6 && nLine != 5+6 && nLine != 4+12 && nLine != 5+12 && nLine % 6 != 0 && nLine != 19) {
+		
+		printMultiple(" ", SCREEN_PADDING * 4);
+		printf("1 ► Okay.\n");
+		printMultiple(" ", SCREEN_PADDING * 4);
+		printf("0 ► Nah.\n");
+
 	} else {
-		printMultiple(" ", SCREEN_PADDING * 3);
-		printf("[0] Back to Roundtable Hold.\n");
+		printMultiple(" ", SCREEN_PADDING * 4);
+		printf("0 ► Back.\n");
 	}
 	
 }
 
+void printTopBorder() {
+	
+	printMultiple(" ", SCREEN_PADDING);
+
+	printf("╔");
+	printMultiple("═", SCREEN_WIDTH);
+	printf("╗");
+
+	printf("\n");
+}
+
+void printNPC(Player* pPlayer) {
+
+	int i;
+
+	char aFletaSprite[12][SCREEN_WIDTH - 3] = {"                                                                  ",
+											   "                             FLETA                                ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  "};
+	char aHildaSprite[12][SCREEN_WIDTH - 3] = {"                                                                  ",
+											   "                              HILDA                               ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  ",
+											   "                                                                  "};
+
+	for (i = 0; i < 12; i++) {
+		
+		printMultiple(" ", SCREEN_PADDING);
+		printf("║");
+		printMultiple(" ", 2);
+
+		if (pPlayer->pQuestLine->nQuestNumber == 1) 
+			printf("%s", aFletaSprite[i]);
+		else 
+			printf("%s", aHildaSprite[i]);
+
+		printMultiple(" ", 2);
+		printf("║");
+
+		printf("\n");
+	}
+}
+
+void printDiaTopBorder() {
+	
+	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 2) + 2);
+
+	printMultiple(" ", SCREEN_PADDING);
+
+	printf("║");
+	printMultiple(" ", SCREEN_PADDING);
+
+	printf("╓");
+	printMultiple("—", nDialogueWidth);
+	printf("╖");
+
+	printMultiple(" ", SCREEN_PADDING);
+	printf("║");
+
+	printf("\n");
+}
+
+void printDialogueText(char* aDialogueLine) {
+
+	int i;
+
+	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 4) + 2) -1 ;
+	int nDiagLines = ceil(350.0 / nDialogueWidth);
+
+	for (i = 0; i < nDiagLines; i++) {
+		printMultiple(" ", SCREEN_PADDING);
+
+		printf("║");
+		printMultiple(" ", SCREEN_PADDING);
+
+		printf("║");
+		printMultiple(" ", SCREEN_PADDING);
+
+		printf("%-*.*s ", nDialogueWidth, nDialogueWidth, aDialogueLine + (i * nDialogueWidth));
+
+		printMultiple(" ", SCREEN_PADDING);
+		printf("║");
+
+		printMultiple(" ", SCREEN_PADDING);
+		printf("║");
+
+		printf("\n");
+	}
+}
+
+void printDiaBottBorder() {
+
+	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 2) + 2);
+
+	printMultiple(" ", SCREEN_PADDING);
+
+	printf("║");
+	printMultiple(" ", SCREEN_PADDING);
+
+	printf("╙");
+	printMultiple("—", nDialogueWidth);
+	printf("╜");
+
+	printMultiple(" ", SCREEN_PADDING);
+	printf("║");
+
+	printf("\n");
+}
+
+void printBottomBorder() {
+	
+	printMultiple(" ", SCREEN_PADDING);
+
+	printf("╚");
+	printMultiple("═", SCREEN_WIDTH);
+	printf("╝");
+
+	printf("\n");
+}

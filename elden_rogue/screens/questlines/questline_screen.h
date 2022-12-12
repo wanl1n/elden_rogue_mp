@@ -16,8 +16,17 @@ int checkQuestProgress();
 
 void talkingStage(Player* pPlayer);
 void talkingInProgress(Player* pPlayer);
+void talkingComplete(Player* pPlayer);
+void giveQuestRewards(Player* pPlayer);
+
+Slot* createUniqueWeapon(Player* pPlayer);
 
 void displayQuestScreen(Player* pPlayer, int nLine);
-
+void printTopBorder();
+void printNPC(Player* pPlayer);
+void printDiaTopBorder();
+void printDialogueText(char* aDialogueLine);
+void printDiaBottBorder();
+void printBottomBorder();
 
 #endif 

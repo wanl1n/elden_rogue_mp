@@ -55,6 +55,7 @@ int main() {
 
 	pPlayer->pQuestLine = NULL;
 	pPlayer->nQuestProgress = 0;
+	pPlayer->nCompletedQuests = 0;
 
 	resetColors();
 	openTitleScreen(pPlayer);

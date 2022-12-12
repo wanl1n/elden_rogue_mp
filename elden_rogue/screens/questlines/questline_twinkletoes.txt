@@ -1,28 +1,21 @@
 QUESTLINE: TWINKLE TOES
 
-Hi, traveller! I'm Fleta Harrisone. I heard you were going on an adventure. 
-Would you mind doing something for me while you're out there? I'll give you 
-100 runes for it.
+Hi, traveller! I'm Fleta Harrisone. I heard you were going on an adventure. Would you mind doing something for me while you're out there? I'll give you 100 runes for it.
 
 	[1] Sure, what is it?
 	[0] Not up for it, sorry.
 
 [1]
-	Great! Here's the deal. Recently, the creatures in the Stormveil Castle 
-	have been loud and I can't sleep at all! I would really appreciate if you 
-	can get rid of at least 5 of them, but if you wanna kill more of them that 
-	would be great too.
+	Great! Here's the deal. Recently, the creatures in the Stormveil Castle have been loud and I can't sleep at all! I would really appreciate if you can get rid of at least 5 of them, but if you wanna kill more of them that would be great too.
 
 [0]
-	Aw that sucks. Well, it's fine. I wish you safe travels and if you ever 
-	feel like you might be up for it, I'll be here!
+	Aw that sucks. Well, it's fine. I wish you safe travels and if you ever feel like you might be up for it, I'll be here!
 
 	[1] Alright, I'll take you up on that.
 	[0] Eh... that's too much for me.
 
 [1]
-	Thanks for accepting my request! I wish you safe travels and success in 
-	your journey ahead.
+	Thanks for accepting my request! I wish you safe travels and success in your journey ahead.
 
 [0]
 	Oh, that's okay. I understand. Best of luck in your travels!
@@ -44,21 +37,16 @@ another request. I'll give you 200 runes this time.
 	[0] Nah, one's enough.
 
 [1]
-	Okay so I've been walking past the Raya Lucaria Academy and I've noticed
-	how messy that place is. Can you possibly clear up some space there? Around 7 tiles should be good. I'm
-	too scared to go in but perhaps it'd make the place look cleaner.
+	Okay so I've been walking past the Raya Lucaria Academy and I've noticed how messy that place is. Can you possibly clear up some space there? Around 7 tiles should be good. I'm too scared to go in but perhaps it'd make the place look cleaner.
 
 [0]
-	Can't be helped. Someone like you must be busy with other things. That's
-	perfectly okay. See you around and I hope you come back safe! If you ever
-	change your mind, I'm right here.
+	Can't be helped. Someone like you must be busy with other things. That's perfectly okay. See you around and I hope you come back safe! If you ever change your mind, I'm right here.
 
 	[1] I'll help.
 	[0] You don't need me for that.
 
 [1]
-	You're such a dear for that! This whole place honestly needs a little
-	revamp and you are making it much easier for us. Thank you!
+	You're such a dear for that! This whole place honestly needs a little revamp and you are making it much easier for us. Thank you!
 
 [0]
 	Oh, well an extra hand never hurt anyone. But if you're too busy, that's fine. Best of luck in your travels!
@@ -69,17 +57,13 @@ QUEST STARTED: TWINKLE TOES II
 You getting around to clearing out 7 tiles in the Raya Lucaria Academy? No rush.
 
 [Completed]
-You're so sweet. Thanks for going out of your way to do this. I already feel
-the change in atmosphere. Here's your 200 runes! By the way, if you're up
-for it, there's just one more thing I need. I'll give you something special.
+You're so sweet. Thanks for going out of your way to do this. I already feel the change in atmosphere. Here's your 200 runes! By the way, if you're up for it, there's just one more thing I need. I'll give you something special.
 
 	[1] What is it?
 	[0] Sorry, I can't right now.
 
 [1]
-	Yay! So, the big guy at Redmane Castle, Starscourge Radahn? Yeah, he's 
-	been pestering me lately. Not sure why. If you can put him in his place,
-	I'd appreciate it so much!
+	Yay! So, the big guy at Redmane Castle, Starscourge Radahn? Yeah, he's been pestering me lately. Not sure why. If you can put him in his place,	I'd appreciate it so much!
 
 [0]
 	Oh, okay. But if you ever feel like hearing me out, do come by again!
@@ -102,10 +86,7 @@ QUEST STARTED: TWINKLE TOES III
 I know you have a lot on your plate, and I appreciate you agreeing to defeat the Starscourge Radahn in the Redmane Castle.
 
 [Completed]
-You are amazing! Thanks for defeating that weird guy. Honestly, the world
-is so much better without him. Anyway, as promised, you can take this. I was
-once an adventurer like you, until I took an arrow to the knee. But this 
-really helped me in my travels and I hope it does the same for you!
+You are amazing! Thanks for defeating that weird guy. Honestly, the world is so much better without him. Anyway, as promised, you can take this. I was once an adventurer like you, until I took an arrow to the knee. But this really helped me in my travels and I hope it does the same for you!
 
 SWIFT SLIPPER acquired.
 

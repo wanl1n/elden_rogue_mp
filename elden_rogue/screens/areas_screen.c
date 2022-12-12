@@ -1215,6 +1215,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 	Door* pDoorList;
 	Door* pCurrentDoor;
 
+	int nPotions = pPlayer->nPotions;
 	int nTileUsed = 0;
 
 	switch(nTileType) {
@@ -1250,9 +1251,13 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 
 					sEnemy = spawnEnemy(nArea);
 					printSystemMessage("You encountered an enemy.");
+					
+					nPotions = pPlayer->nPotions; // To check if Player used any weapons.
+
 					nBattleResult = openBattleScreen(sEnemy, pPlayer, nArea);
 
 					if (nBattleResult){
+						
 						nBattleRewards = sEnemy.nMaxHP * 2;
 						pPlayer->nRunes += nBattleRewards;
 
@@ -1263,7 +1268,17 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 									pPlayer->nQuestProgress++;
 								}
 							}
+
+							// If Swift Broil is Active and at Stage 1
+							if (pPlayer->pQuestLine->nQuestNumber == 2 && pPlayer->pQuestLine->nQuestStatus == 1) {
+								// If player did not use any potions during the battle.
+								if (pPlayer->pQuestLine->nStage == 1 && pPlayer->nPotions == nPotions)
+									pPlayer->nQuestProgress++;
+								if (pPlayer->pQuestLine->nStage == 2)
+									pPlayer->nQuestProgress++;
+							}
 						}
+
 					} else {
 						resetPlayerStatsTo0(pPlayer);
 					}
@@ -1343,6 +1358,11 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 							if (nArea == REDMANE_CASTLE) {
 								pPlayer->nQuestProgress++;
 							}
+						}
+
+						if (pPlayer->pQuestLine->nQuestNumber == 2 && pPlayer->pQuestLine->nQuestStatus == 1 && pPlayer->pQuestLine->nStage == 3) {
+							if (nArea == LEYNDELL_CAPITAL)
+								pPlayer->nQuestProgress++;
 						}
 					}
 				} else {
