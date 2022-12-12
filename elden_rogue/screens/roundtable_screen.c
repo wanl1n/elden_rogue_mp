@@ -9,6 +9,7 @@
 #include "roundtable_screens/inventory_screen.h"
 #include "roundtable_screens/buy_screen.h"
 #include "roundtable_screens/sell_screen.h"
+#include "questlines/questline_screen.h"
 
 #include "../driver.h" //Contains all the structures used in the code.
 
@@ -27,9 +28,12 @@ void openRoundTableHoldScreen(Player* pPlayer) {
 
 	int nInputRoundTable;
 
-	nInputRoundTable = scanIntInput(0, 5);
+	nInputRoundTable = scanIntInput(0, 6);
 	displayRoundTableHoldScreen(nInputRoundTable, pPlayer);
-
+	
+	//display npc icon with exclamation point here.
+	//Input 6 to interact.
+	
 	switch(nInputRoundTable) {
 		case FAST_TRAVEL:
 			openFastTravelScreen(pPlayer);
@@ -45,6 +49,9 @@ void openRoundTableHoldScreen(Player* pPlayer) {
 			break;
 		case SAVE:
 			openSaveScreen(pPlayer);
+			break;
+		case NPC_INTERACT:
+			openQuestScreen(pPlayer);
 			break;
 		case QUIT_GAME:
 			openTitleScreen(pPlayer);
@@ -143,14 +150,34 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 
 	int i; for(i = 0; i < 6; i++) {
 		printf("[%d]", pPlayer->aShards[i]);
-	}		
+	}
 
-	printf("\n\n");
+	printf("\n");		
+	
+	if (pPlayer->pQuestLine != NULL) {
+		printf("\tQUEST STATUS: ");
+		switch(pPlayer->pQuestLine->nQuestStatus) {
+			case 0:
+				printf("Inactive\n");
+				break;
+			case 1:
+				printf("In Progress\n");
+				break;
+			case 2:
+				printf("Complete\n");
+				break;
+		}
+
+		printf("\tQUEST PROGRESS: %d", pPlayer->nQuestProgress);
+	}
+
+	printf("\n");
 	printOption(1, "FAST TRAVEL");
 	printOption(2, "LEVEL UP");
 	printOption(3, "INVENTORY");
 	printOption(4, "SHOP");
 	printOption(5, "SAVE");
+	printOption(6, "INTERACT WITH NPC");
 	printOption(0, "QUIT GAME");
 	printf("\n\n");
 
@@ -185,9 +212,7 @@ void displayShop() {
 	
 	system("cls");
 	
-	printHeader("ROUNDTABLE HOLD", 15);
-	
-	printf("\t\tSHOP\n");
+	printHeader("SHOP", 4);
 
 	printf("\n\n");
 	printOption(1, "BUY WEAPONS");
@@ -207,9 +232,8 @@ void displaySaveScreen(Player* pPlayer) {
 	
 	system("cls");
 
-	printHeader("SAVE", 15);
+	printHeader("SAVE", 4);
 	
-	printf("			SAVE\n"
-		"[1] SAVE\n"
-		"[0] BACK\n\n");
+	printOption(1, "SAVE");
+	printOption(0, "BACK");
 }

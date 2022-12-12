@@ -24,6 +24,8 @@
 #include "screens/roundtable_screens/buy_screen.c"
 #include "screens/roundtable_screens/sell_screen.c"
 
+#include "screens/questlines/questline_screen.c"
+
 
 int main() {
 
@@ -50,6 +52,9 @@ int main() {
 	Weapon sWeaponBase = {0, "NONE", 0, 0, 0, 0, 0, 0, 0};
 	pPlayer->pInventory = NULL;
 	pPlayer->sEquippedWeapon = sWeaponBase;
+
+	pPlayer->pQuestLine = NULL;
+	pPlayer->nQuestProgress = 0;
 
 	resetColors();
 	openTitleScreen(pPlayer);

@@ -1,0 +1,283 @@
+#include "questline_screen.h"
+#include "../roundtable_screen.h"
+#include "../../utility/inventory_manager.h"
+#include "../../utility/scanner.h"
+
+#include "../../driver.h" //Contains all the structures used in the code.
+
+
+
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+void openQuestScreen(Player* pPlayer) {
+	
+	printf(" open quest screen \n");
+
+	// First, get the details of the Quest.
+	if (pPlayer->pQuestLine == NULL) {
+		// Player has not yet started a quest.
+		pPlayer->pQuestLine = createQuestline(TWINKLE_TOES);
+
+	} else if (pPlayer->pQuestLine->nQuestNumber == 1 && pPlayer->pQuestLine->nStage == 4) {
+		// Player is done with 1st quest.
+		pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
+			
+	} 
+
+	// If there's no active quest, ask player if they want to take a quest.
+	if (pPlayer->pQuestLine->nQuestStatus != QUEST_IN_PROG) {
+	
+		talkingStage(pPlayer);
+
+	} 
+	// If there's an active quest, check quest progress
+	else if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
+
+		pPlayer->pQuestLine->nQuestStatus = checkQuestProgress(pPlayer);
+
+		// If player isn't done yet.
+		if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
+			talkingInProgress(pPlayer);
+		} 
+		// If player is done.
+		else if (pPlayer->pQuestLine->nQuestStatus == QUEST_COMPLETE){
+			
+			// Set to next stage
+			pPlayer->pQuestLine->nStage++;
+			pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE;
+
+			openQuestScreen(pPlayer);
+		}	
+	}
+}
+
+
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+Quest* createQuestline(int nQuestline) {
+
+	Quest* pQuest = malloc(sizeof(Quest));
+	
+	char aFleta[19][DIALOGUE_LENGTH] = {"Hi, traveller! I'm Fleta Harrisone. I heard you were going on an adventure. Would you mind doing something for me while you're out there? I'll give you 100 runes for it.", // Intro (1)
+										// [1] Sure, what is it? (2)
+									    "Great! Here's the deal. Recently, the creatures in the Stormveil Castle have been loud and I can't sleep at all! I would really appreciate if you can get rid of at least 5 of them, but if you wanna kill more of them that would be great too.",
+									    // [0] Not up for it, sorry. (3)
+									    "Aw that sucks. Well, it's fine. I wish you safe travels and if you ever feel like you might be up for it, I'll be here!",
+										// [1] Alright, I'll take you up on that. (4)
+									    "Thanks for accepting my request! I wish you safe travels and success in your journey ahead.", 
+										// [0] Eh... that's too much for me. (5)
+									    "Oh, that's okay. I understand. Best of luck in your travels!",
+									    // In Progress TWINKLE TOES I (6)
+									    "Still waiting for you to kill 5 creatures from Stormveil Castle. Really looking forward to a good sleep soon.",
+									    // Completed TWINKLE TOES I (7)
+									    "Thank you so much! I've been sleeping wayyy better now thanks to you. Here's 100 runes as promised! If you're up for it, I actually have another request. I'll give you 200 runes this time.",
+										// [1] Sure, I gotchu. (8)
+									    "Okay so I've been walking past the Raya Lucaria Academy and I've noticed how messy that place is. Can you possibly clear up some space there? Around 7 tiles should be good. I'm too scared to go in but perhaps it'd make the place look cleaner.",
+										// [0] Nah, one's enough. (9)
+									    "Can't be helped. Someone like you must be busy with other things. That's perfectly okay. See you around and I hope you come back safe! If you ever change your mind, I'm right here.",
+									    // [1] I'll help. (10)
+									    "You're such a dear for that! This whole place honestly needs a little revamp and you are making it much easier for us. Thank you!",
+									    // [0] You don't need me for that. (11)
+									    "Oh, well an extra hand never hurt anyone. But if you're too busy, that's fine. Best of luck in your travels!",
+									    // In Progress (12)
+									 	"You getting around to clearing out 7 tiles in the Raya Lucaria Academy? No rush.",
+									    // Completed TWINKLE TOES II (13)
+									    "You're so sweet. Thanks for going out of your way to do this. I already feel the change in atmosphere. Here's your 200 runes! By the way, if you're up for it, there's just one more thing I need. I'll give you something special.",
+									    // [1] What is it? (14)
+									    "Yay! So, the big guy at Redmane Castle, Starscourge Radahn? Yeah, he's been pestering me lately. Not sure why. If you can put him in his place, I'd appreciate it so much!",
+									    // [0] Sorry, I can't right now. (15)
+									    "Oh, okay. But if you ever feel like hearing me out, do come by again!",
+									    // [1] Oh, him? Sure, that's too easy. (16)
+									    "You are a godsend. I hope you shut that dude up once and for all. Thanks!",
+									    // [0] Ah... I don't think I can. (17)
+									    "Oh, I understand. Facing him might be quite intimidating. That's alright! Safe travels to you, traveller!",
+									    // In progress (18)
+									    "I know you have a lot on your plate, and I appreciate you agreeing to defeat the Starscourge Radahn in the Redmane Castle.",
+									    // Completed TWINKLE TOES III (19)
+									    "You are amazing! Thanks for defeating that weird guy. Honestly, the world is so much better without him. Anyway, as promised, you can take this. I was once an adventurer like you, until I took an arrow to the knee. But this really helped me in my travels and I hope it does the same for you!"};
+	char aHilda[19][DIALOGUE_LENGTH] = {"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										"",
+										""};
+
+	int i;
+	
+	// Initializing a Quest Line.
+	pQuest->nQuestNumber = nQuestline;
+	pQuest->nStage = 1;
+	pQuest->nQuestStatus = QUEST_INACTIVE;
+	
+	switch(nQuestline) {
+
+		case TWINKLE_TOES:
+
+			strcpy(pQuest->strNPCName, "FLETA HARRISONE");
+			strcpy(pQuest->strQuestName, "TWINKLE TOES");
+
+			for(i = 0; i < 16; i++) {
+				strcpy(pQuest->aDialogue[i], aFleta[i]);
+			}
+
+			break;
+
+		case SWIFT_BROIL:
+
+			strcpy(pQuest->strNPCName, "HILDA AYTONE");
+			strcpy(pQuest->strQuestName, "");
+
+			for(i = 0; i < 16; i++) {
+				strcpy(pQuest->aDialogue[i], aHilda[i]);
+			}
+
+			break;
+	}
+
+	return pQuest;
+}
+
+int checkQuestProgress(Player* pPlayer) {
+	
+	int nStage = pPlayer->pQuestLine->nStage;
+
+	switch(pPlayer->pQuestLine->nQuestNumber) {
+		
+		// For Twinkle Toes Quest,
+		case TWINKLE_TOES:
+
+			// Depending on the stage, check progress
+			switch (nStage) {
+				case 1:
+					if (pPlayer->nQuestProgress >= 5) // Killed 5 or more creatures from Stormveil.
+						return QUEST_COMPLETE;
+					else
+						return QUEST_IN_PROG;
+					break;
+				case 2:
+					if (pPlayer->nQuestProgress >= 7) // Collected 7 or more rune tiles from Redmane Castle.
+						return QUEST_COMPLETE;
+					else
+						return QUEST_IN_PROG;
+					break;
+				case 3:
+					if (pPlayer->nQuestProgress >= 1) // Killed Starscourge Radahn.
+						return QUEST_COMPLETE;
+					else
+						return QUEST_IN_PROG;
+					break;
+			}
+
+			break;
+
+		// For Swift Broil Quest,
+		case SWIFT_BROIL:
+
+			// Depending on the stage, check progress
+			switch (nStage) {
+				case 1:
+					if (pPlayer->nQuestProgress >= 1) // Won a battle without using potions.
+						return QUEST_COMPLETE;
+					else
+						return QUEST_IN_PROG;
+					break;
+				case 2:
+					if (pPlayer->nQuestProgress >= 10) // Kill 10 enemies.
+						return QUEST_COMPLETE;
+					else
+						return QUEST_IN_PROG;
+					break;
+				case 3:
+					if (pPlayer->nQuestProgress >= 1) // 
+						return QUEST_COMPLETE;
+					else
+						return QUEST_IN_PROG;
+					break;
+			}
+
+			break;
+
+	}
+	return 0;
+}
+
+void talkingStage(Player* pPlayer) {
+	
+	int nInput, i;
+	int nStage = pPlayer->pQuestLine->nStage;
+
+	int nLine = 1 + (6 * (nStage - 1)); //line 7
+	
+	displayQuestScreen(pPlayer, nLine);
+
+	for(i = 0; i < 2; i++) {
+		
+		nInput = scanIntInput(0, 1);
+
+		if (nInput == 1) {
+
+			nLine = (2 + (6 * (nStage - 1))) + (2*i); // 8 and 10
+			displayQuestScreen(pPlayer, nLine);
+
+			pPlayer->pQuestLine->nQuestStatus = QUEST_IN_PROG;
+			pPlayer->nQuestProgress = 0; 
+			// Quest is now active
+
+		} else {
+
+			nLine = (3 + (6 * (nStage - 1))) + (2*i); // 9 and 11
+			displayQuestScreen(pPlayer, nLine);
+			pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE; 
+			openRoundTableHoldScreen(pPlayer);
+		}
+	}
+
+	// After accepting the quest, go back to roundtable hold.
+	scanIntInput(0, 0);
+	openRoundTableHoldScreen(pPlayer);
+}
+
+void talkingInProgress(Player* pPlayer) {
+
+	int nStage = pPlayer->pQuestLine->nStage;
+
+	int nLine = 6 * nStage;
+	displayQuestScreen(pPlayer, nLine);
+
+	scanIntInput(0, 0);
+	openRoundTableHoldScreen(pPlayer);
+}
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+void displayQuestScreen(Player* pPlayer, int nLine) {
+
+	system("cls");
+
+	printHeader("FLETA HARRISONE", 15);
+
+	printMultiple(" ", SCREEN_PADDING * 2);
+	printf("%s\n\n", pPlayer->pQuestLine->aDialogue[nLine-1]);
+
+	if (nLine != 4 && nLine != 5 && nLine != 4+6 && nLine != 5+6 && nLine != 4+12 && nLine != 5+12 && nLine % 6 != 0) {
+		printMultiple(" ", SCREEN_PADDING * 3);
+		printf("[1] Okay.\n");
+		printMultiple(" ", SCREEN_PADDING * 3);
+		printf("[0] Nah.\n");
+	} else {
+		printMultiple(" ", SCREEN_PADDING * 3);
+		printf("[0] Back to Roundtable Hold.\n");
+	}
+	
+}
+

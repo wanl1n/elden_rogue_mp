@@ -29,8 +29,6 @@ void openInventory(Player* pPlayer) {
 
 	while(nInputInventory != 0) {
 
-		// displayInventory(5, pPlayer, nPage);
-
 		nInputInventory = scanIntInput(0, 3); // Contains the Player's choice.
 
 		processInventoryInput(nInputInventory, pPlayer, nPage);

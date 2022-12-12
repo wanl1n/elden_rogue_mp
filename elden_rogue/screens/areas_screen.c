@@ -1237,6 +1237,15 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 					pPlayer->nRunes += nTreasure;
 					printSystemMessage("You got some runes!");
 
+					if (pPlayer->pQuestLine != NULL) {
+						// If Twinkle Toes is Active and at Stage 2
+						if (pPlayer->pQuestLine->nQuestNumber == 1 && pPlayer->pQuestLine->nQuestStatus == 1 && pPlayer->pQuestLine->nStage == 2) {
+							if (nArea == RAYA_LUCARIA) {
+								pPlayer->nQuestProgress++;
+							}
+						}
+					}
+						
 				} else if (nSpawnTile == ENEMY) {
 
 					sEnemy = spawnEnemy(nArea);
@@ -1246,16 +1255,27 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 					if (nBattleResult){
 						nBattleRewards = sEnemy.nMaxHP * 2;
 						pPlayer->nRunes += nBattleRewards;
+
+						if (pPlayer->pQuestLine != NULL) {
+							// If Twinkle Toes is Active and at Stage 1
+							if (pPlayer->pQuestLine->nQuestNumber == 1 && pPlayer->pQuestLine->nQuestStatus == 1 && pPlayer->pQuestLine->nStage == 1) {
+								if (nArea == STORMVEIL) {
+									pPlayer->nQuestProgress++;
+								}
+							}
+						}
 					} else {
 						resetPlayerStatsTo0(pPlayer);
 					}
+					// printf(" battle over back to areas ");
 
 					displayResultScreen(1, nBattleResult, nBattleRewards);
 				}
-				printf("after spawn");
+				// printf("after spawn");
 
 				setTileToUsed(pPlayer, &(pPlayer->pUsedTiles), *pFloor);
 
+				// printf(" set tile to used ");
 			} else {
 
 				printSystemMessage("This tile is cleared.");
@@ -1316,6 +1336,15 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 
 					//Set shard to 1.
 					pPlayer->aShards[nArea-1] = 1;
+
+					if (pPlayer->pQuestLine != NULL) {
+						// If Twinkle Toes is Active and at Stage 3
+						if (pPlayer->pQuestLine->nQuestNumber == 1 && pPlayer->pQuestLine->nQuestStatus == 1 && pPlayer->pQuestLine->nStage == 3) {
+							if (nArea == REDMANE_CASTLE) {
+								pPlayer->nQuestProgress++;
+							}
+						}
+					}
 				} else {
 
 					resetPlayerStatsTo0(pPlayer);
@@ -1380,6 +1409,8 @@ void displayUserInterface(int nPlayerMaxHP, Player* pPlayer) {
 							nRewards should not exceed maximum Rune 
 							amount.   								   */
 void displayResultScreen(int nType, int nBattleResult, int nRewards) {
+	
+	system("cls");
 	
 	if (nBattleResult) {
 
@@ -1662,8 +1693,6 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 		// printf("█ ");
 		printf("█");
 	}
-	
-	printf("%d", nPlayerHealth);
 
 	resetColors();
 }

@@ -1,6 +1,8 @@
 #ifndef STRUCTURES
 #define STRUCTURES 
 
+#define DIALOGUE_LENGTH		350
+
 typedef char StringName[26];
 typedef char StringJob[11];
 
@@ -48,6 +50,19 @@ struct UsedTileLoc {
 };
 typedef struct UsedTileLoc UsedTile;
 
+struct QuestLine {
+
+	int nQuestNumber;
+	int nStage;
+	int nQuestStatus;
+
+	char strNPCName[16];
+	char strQuestName[13];
+
+	char aDialogue[16][DIALOGUE_LENGTH];
+};
+typedef struct QuestLine Quest;
+
 typedef struct Player {
 
 	char strName[26];
@@ -79,6 +94,10 @@ typedef struct Player {
 
 	//Store Map Progress
 	UsedTile* pUsedTiles;
+
+	//Store Quest Progress
+	Quest* pQuestLine;
+	int nQuestProgress;
 
 } Player;
 

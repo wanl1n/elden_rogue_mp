@@ -7,6 +7,7 @@
 #define INVENTORY			3
 #define SHOP				4
 #define SAVE 				5
+#define NPC_INTERACT		6
 #define QUIT_GAME			0
 
 //FAST TRAVEL CHOICES
