@@ -10,8 +10,22 @@
 
 void printOption(int nNumber, char strName[]) {
 	printf("\n");
-	printMultiple(" ", SCREEN_PADDING + OPTION_PADDING);
-	printf("[%d] %s", nNumber, strName);
+	
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("┌");
+	printMultiple("—", OPTION_WIDTH);
+	printf("┐");
+	printf("\n");
+
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("│  %d  ►  %-*.*s │", nNumber, OPTION_WIDTH-9, OPTION_WIDTH-9, strName);
+	printf("\n");
+
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("└");
+	printMultiple("—", OPTION_WIDTH);
+	printf("┘");
+	
 }
 
 void printMultiple(char strText[], int nTimes) {
@@ -22,14 +36,14 @@ void printMultiple(char strText[], int nTimes) {
 
 void printInputError() {
 	colorText(COLOR_PRINTER_ERROR);
-	printSystemMessage("Please enter a valid input.");
+	printSystemMessage("That's not a valid input.");
 	resetColors();
 }
 
 void printInputTag() {
 	printf("\n");
-	printMultiple(" ", SCREEN_PADDING);
-	printf("[INPUT]: ");
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("What do you wanna do? ► ");
 }
 
 void printScreenDivider() {
@@ -40,17 +54,17 @@ void printScreenDivider() {
 }
 
 void printMessage(char strTag[], char strMessage[], int nColor) {
-	printf("\n");
-	printMultiple(" ", SCREEN_PADDING);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
 	if(nColor != -1) {
 		colorText(nColor);
 	}
-	printf("[%s]: %s", strTag, strMessage);
+	printf("%s says ►  %s", strTag, strMessage);
+	printf("\n");
 	resetColors();
 }
 
 void printSystemMessage(char strMessage[]) {
-	printMessage("SYSTEM MESSAGE", strMessage, -1);
+	printMessage("The elder", strMessage, -1);
 }
 
 void printHeader(char strHeader[], int nLength) {

@@ -21,7 +21,7 @@
 //Printing Spacings
 #define SHOP_SLOT_WIDTH		32
 #define SHOP_SCREEN_PADDING	6
-#define SHOP_SLOT_HEIGHT	18
+#define SHOP_SLOT_HEIGHT	19
 
 void openBuyScreen(Player* pPlayer);
 

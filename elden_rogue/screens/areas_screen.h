@@ -24,6 +24,10 @@
 #define TILE_CREDITS		7
 #define TILE_PLAYER			8
 
+#define TILE_TREASURE		51
+#define TILE_ENEMY 			52
+#define TILE_CLEARED		53
+
 //BORDER SIDES
 #define TOP 				1
 #define MIDDLE				2
@@ -40,32 +44,40 @@
 #define ENEMY				0
 
 
-int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth);
-void printFloorHeader(int nArea);
-void printFloorMap(int nArea, int nFloorLength, Player* pPlayer);
-void printBorder(int nType, int nPosition);
-
-void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP);
-void printItems(int nPotions, int nRunes);
-void printPlayerMoves();
-void displayResultScreen(int nType, int nBattleResult, int nRewards);
-
-void displayUserInterface(int nPlayerMaxHP, Player* pPlayer);
-
-int* findFastTravelTile(int nArea, int nFloor);
-
+// ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
 void openAreaScreen(int nAreaNumber, Player* pPlayer);
-void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear);
 
+// ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+int processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear);
+
+int* getFloorMap(int nArea, int nFloor, int* nFloorLength, int* nFloorWidth);
+int* findFastTravelTile(int nArea, int nFloor);
 void movePlayerTile(int nDirection, int nArea, int nFloor, Player* pPlayer);
-void resetPlayerStats(Player* pPlayer);
-void resetPlayerStatsTo0(Player* pPlayer);
 
 int getRandomBetween(int nLower, int nUpper);
 int getRandomSpawn();
 Enemy spawnEnemy(int nArea);
 Enemy spawnBoss(int nArea, int nEldenThroneStage);
 int spawnTreasure(int nArea);
-void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear);
+
+int checkIfTileUsed(Player* pPlayer, int nFloor);
+void setTileToUsed(Player* pPlayer, UsedTile** pUsedTileHead, int nFloor);
+
+void resetPlayerStats(Player* pPlayer);
+void resetPlayerStatsTo0(Player* pPlayer);
+
+int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear);
+
+// ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+void displayUserInterface(int nPlayerMaxHP, Player* pPlayer, int nPrompt);
+void displayResultScreen(int nType, int nBattleResult, int nRewards);
+
+void printFloorHeader(int nArea);
+void printFloorMap(int nArea, int nFloorLength, Player* pPlayer);
+void printBorder(int nType, int nPosition);
+void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP);
+void printItems(int nPotions, int nRunes);
+void printPlayerMoves();
+
 
 #endif 

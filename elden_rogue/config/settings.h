@@ -5,5 +5,6 @@
 #define SCREEN_PADDING	2
 #define HEADER_WIDTH	30
 #define OPTION_PADDING	10
+#define OPTION_WIDTH	30
 
 #endif

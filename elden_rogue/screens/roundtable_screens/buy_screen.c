@@ -225,7 +225,6 @@ void printTopShopBorders(int nCols) {
 		printf("╗");
 	}
 
-	printf("\n");
 }
 
 /*	printBottomShopBorder	Prints the bottom borders of the shop.
@@ -352,7 +351,7 @@ void printShopContent(Stock sShopStock, int nLine) {
 			printMultiple(" ", nSpaces);
 			printf("│");
 			break;
-		case SHOP_SLOT_HEIGHT:
+		case 18:
 			printf("│");
 			printMultiple(" ", (SHOP_SLOT_WIDTH-6)/2);
 			printf("> %0.*d <", 2, sWeapon.nWeaponIndex);
@@ -401,33 +400,38 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 	
 	system("cls");
 
-	int i, j;
+	int i, j, k;
 
 	printHeader("BUY A WEAPON", 12);
 	
-	printMultiple(" ", SCREEN_PADDING*4);
-	printf("[RUNES]: %d\n", pPlayer->nRunes);
-	printMultiple(" ", SCREEN_PADDING*4);
-	printf("CHOOSE A WEAPON\n");
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("YOUR RUNES ► %d\n", pPlayer->nRunes);
+	printf("\n");
 
-	printTopShopBorders(4);
+	for (j = 1; j <= 2; j++) {
 
-	for (j = 1; j <= SHOP_SLOT_HEIGHT; j++) {
-		for (i = 0; i < 4; i++) {
-			printShopContent(pStockList[i], j);
+		printMultiple(" ", SCREEN_PADDING);
+		printTopShopBorders(2);
+
+		for (i = 0; i < SHOP_SLOT_HEIGHT; i++) {
+
+			printMultiple(" ", SCREEN_PADDING);
+
+			for (k = 0 + ((j-1)*2); k < 2 + ((j-1)*2); k++) {
+				printShopContent(pStockList[k], i);
+			}
+			
+			printf("\n");
 		}
-		printf("\n");
+		
+		printMultiple(" ", SCREEN_PADDING);
+		printBottomShopBorder(2);
 	}
-	
-	printBottomShopBorder(4);
 	
 	printOption(B_BACK, "BACK");
 	
-	printf("\n");
-	printMultiple(" ", SCREEN_PADDING*4);
-	printf("Note: INPUT THE WEAPON NUMBER (lower right).\n");
-
-	printf("\n");
+	printf("\n\n");
+	printSystemMessage("Just tell me the number.");
 
 	switch(nPrompt) {
 		case ITEM_ONE:
@@ -439,8 +443,7 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 				pStockList[nPrompt - 1].sWeapon.strWeaponName);
 			break;
 		case UNSUCCESSFUL:
-			printMultiple(" ", SCREEN_PADDING*4);
-			printf("[SYSTEM MESSAGE]: You don't have enough runes to buy that.\n"); 
+			printSystemMessage("You don't have enough runes to buy that.");
 			break;
 		case B_BACK:
 			printSystemMessage("Going back to Weapon Types.");
@@ -466,8 +469,10 @@ void displayBuyTypes(int nPrompt, Player* pPlayer) {
 
 	printHeader("ROUNDTABLE HOLD", 15);
 	
-	printf("\n[RUNES]: %d\n", pPlayer->nRunes);
-	printf("\n\t\tCHOOSE A WEAPON TYPE\n");
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("YOUR RUNES ► %d\n", pPlayer->nRunes);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("CHOOSE A WEAPON TYPE\n");
 
 	printOption(WEAPON_SWORD, "SWORD");
 	printOption(WEAPON_KATANA, "KATANA");
@@ -476,6 +481,7 @@ void displayBuyTypes(int nPrompt, Player* pPlayer) {
 	printOption(WEAPON_STAVE, "STAVE");
 	printOption(WEAPON_SEAL, "SEAL");
 	printOption(B_BACK, "BACK");
+	printf("\n");
 
 	switch(nPrompt) {
 		case WEAPON_SWORD:

@@ -32,8 +32,8 @@ void openCharacterCreationScreen(Player* pPlayer) {
 
 			case NAME:
 
-				printMultiple(" ", SCREEN_PADDING);
-				printf("[INPUT NAME]: ");
+				printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+				printf("What do you want to be called? ► ");
 				scanf(" %25[^\n]s", aInputName);
 				
 				// Catches the excess characters over 25.
@@ -54,6 +54,7 @@ void openCharacterCreationScreen(Player* pPlayer) {
 
 				if (!strcmp(pPlayer->strName, "")) {
 
+					printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
 					printf("Please set your name");
 
 					if (!strcmp(pPlayer->strJobClass, ""))
@@ -62,7 +63,10 @@ void openCharacterCreationScreen(Player* pPlayer) {
 					printf(" first.\n");
 
 				} else if (!strcmp(pPlayer->strJobClass, "")) {
+
+					printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
 					printf("Please set your job first.\n");
+
 				} else {
 					nComplete = 1;
 					openRoundTableHoldScreen(pPlayer);
@@ -205,15 +209,16 @@ void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 	system("cls");
 
 	printHeader("CHARACTER CREATION", 18);
-	
-	printf("\t\tNAME: %s\n"
-		   "\t\tJOB CLASS: %s\n",
-		   pPlayer->strName, pPlayer->strJobClass);
+
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("NAME: %s\n", pPlayer->strName);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("JOB CLASS: %s\n", pPlayer->strJobClass);
 
 	printOption(1, "NAME");
 	printOption(2, "JOB CLASS");
 	printOption(3, "CONFIRM");
-	printOption(0, "BACK");\
+	printOption(0, "BACK");
 	printf("\n\n");
 	
 	switch(nPrompt) {
@@ -230,12 +235,12 @@ void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 			printSystemMessage("Going back to title screen...");
 			break;
 		case SET_NAME:
-			printMultiple(" ", SCREEN_PADDING);
-			printf("[SYSTEM MESSAGE]: You set your name to %s.", pPlayer->strName);
+			printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+			printf("The elder says ►  Nice to meet you, %s.\n", pPlayer->strName);
 			break;
 		case SET_JOB:
-			printMultiple(" ", SCREEN_PADDING);
-			printf("[SYSTEM MESSAGE]: You set your job to %s.", pPlayer->strJobClass);
+			printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+			printf("The elder says ►  You're a/an %s now.\n", pPlayer->strJobClass);
 			break;
 		case 6:
 			break;
@@ -259,12 +264,14 @@ void displayJobScreen(int nPrompt, Player* pPlayer) {
 	system("cls");
 
 	printHeader("JOB CLASS", 9);
-	printf("\tCurrent Job: %s\n\n"
-			"\tOPTIONS:\n"
-			"\t[1] VAGABOND      [4] HERO\n"
-			"\t[2] SAMURAI	  [5] PROPHET\n"
-			"\t[3] WARRIOR	  [6] ASTROLOGER\n\n", 
-			pPlayer->strJobClass);
+	printf("\tCurrent Job: %s\n\n", pPlayer->strJobClass);
+
+	printOption(1, "VAGABOND");
+	printOption(2, "SAMURAI");
+	printOption(3, "WARRIOR");
+	printOption(4, "HERO");
+	printOption(5, "PROPHET");
+	printOption(6, "ASTROLOGER");
 	
 	printMultiple(" ", SCREEN_PADDING);
 	

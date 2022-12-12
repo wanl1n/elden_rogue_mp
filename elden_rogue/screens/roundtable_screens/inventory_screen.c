@@ -485,17 +485,16 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 
 	printInventoryGrid(pPlayer, nPage);
 
-	printf("\n\n");
-	printMultiple(" ", SCREEN_PADDING);
-	printf("OPTIONS:\n");
+	printf("\n");
 	printOption(1, "SELECT WEAPON");
 	printOption(2, "PREVIOUS PAGE");
 	printOption(3, "NEXT PAGE");
 	printOption(0, "BACK");
-	printf("\n\n");
+	printf("\n");
 
 	switch(nPrompt) {
 		case SELECT:
+			printMultiple(" ", SCREEN_PADDING);
 			printf("You equipped %s.", pPlayer->sEquippedWeapon.strWeaponName);
 			break;
 		case NO_EXIST:

@@ -35,6 +35,7 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	int nFloor = 1; 
 	int nCleared = 0;
 	int nBossClear = 0;
+	int nPrompt = -1;
 
 	// Initializing Initial Player Stats. 
 	resetPlayerStats(pPlayer);
@@ -48,11 +49,11 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 		
 		printFloorHeader(nAreaNumber);
 		printFloorMap(nAreaNumber, nFloor, pPlayer);
-		displayUserInterface(pPlayer->nPlayerMaxHP, pPlayer);
+		displayUserInterface(pPlayer->nPlayerMaxHP, pPlayer, nPrompt);
 
 		cPlayerInput = scanCharInput(aMoves, 10);
 
-		processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer, &nCleared, &nBossClear);
+		nPrompt = processInput(cPlayerInput, nAreaNumber, &nFloor, pPlayer, &nCleared, &nBossClear);
 
 	}
 
@@ -80,6 +81,8 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 	@param	pCleared	An integer pointer variable containing the 
 						address of the Boolean flag in integer form.
 	
+	@return 			An integer value containing prompt type.
+
 	Pre-condition		nArea value is within 1 to 6.
 						nFloor should have a corresponding map 
 						(depending on the area number, the integer 
@@ -87,7 +90,9 @@ void openAreaScreen(int nAreaNumber, Player* pPlayer) {
 						pPlayer should be initiated and all members 
 						should have a value.
 						pCleared should be 0 initially.				   */
-void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear) {
+int processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear) {
+
+	int nPrompt;
 
 	switch(cInput) {
 		case 'W':
@@ -112,9 +117,11 @@ void processInput(char cInput, int nArea, int* pFloor, Player* pPlayer, int* pCl
 
 		case 'E':
 		case 'e':
-			usePlayer(nArea, pFloor, pPlayer, pCleared, pBossClear);
+			nPrompt = usePlayer(nArea, pFloor, pPlayer, pCleared, pBossClear);
 			break;
 	}
+
+	return nPrompt;
 }
 
 /* 	getFloorMap				Gets the Floor Map given the floor number 
@@ -1193,6 +1200,8 @@ void resetPlayerStatsTo0(Player* pPlayer) {
 						area has been cleared or not.
 	@param pBossResult	An integer pointer pointing to the result of the 
 						boss battle.
+	
+	@return 			An integer value containing the prompt type.
 
 	Pre-condition		nArea must be 1-6 only.						   
 						pFloor should be an integer value.		  	   
@@ -1200,7 +1209,7 @@ void resetPlayerStatsTo0(Player* pPlayer) {
 						should have a value.
 						pCleared should be either 1 or 0.
 						pBossResult should be either 1 or 0.		   */
-void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossResult) {
+int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossResult) {
 
 	//Make a reference map for the current floor.
 	int nLength, nWidth;
@@ -1217,12 +1226,13 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 
 	int nPotions = pPlayer->nPotions;
 	int nTileUsed = 0;
+	int nSpecialPrompt;
 
 	switch(nTileType) {
 
 		case TILE_EMPTY:
 
-			printSystemMessage("There's nothing there.");
+			return TILE_EMPTY;
 			break;
 
 		case TILE_SPECIAL:
@@ -1236,7 +1246,8 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 
 					int nTreasure = spawnTreasure(nArea);
 					pPlayer->nRunes += nTreasure;
-					printSystemMessage("You got some runes!");
+					nSpecialPrompt = TILE_TREASURE;
+					// printSystemMessage("You got some runes!");
 
 					if (pPlayer->pQuestLine != NULL) {
 						// If Twinkle Toes is Active and at Stage 2
@@ -1250,7 +1261,9 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 				} else if (nSpawnTile == ENEMY) {
 
 					sEnemy = spawnEnemy(nArea);
-					printSystemMessage("You encountered an enemy.");
+					nSpecialPrompt = TILE_ENEMY;
+
+					// printSystemMessage("You encountered an enemy.");
 					
 					nPotions = pPlayer->nPotions; // To check if Player used any weapons.
 
@@ -1282,25 +1295,22 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 					} else {
 						resetPlayerStatsTo0(pPlayer);
 					}
-					// printf(" battle over back to areas ");
 
 					displayResultScreen(1, nBattleResult, nBattleRewards);
 				}
-				// printf("after spawn");
 
 				setTileToUsed(pPlayer, &(pPlayer->pUsedTiles), *pFloor);
 
-				// printf(" set tile to used ");
+				return nSpecialPrompt;
+
 			} else {
 
-				printSystemMessage("This tile is cleared.");
+				return TILE_CLEARED;
 			}
 
 			break;
 
 		case TILE_DOOR:
-
-			printSystemMessage("You entered a room.\n");
 
 			pDoorList = createConnectedDoorList(nArea);
 			pCurrentDoor = findDoor(pDoorList, nArea, *pFloor, pPlayer->aPlayerLoc[0], pPlayer->aPlayerLoc[1]);
@@ -1315,6 +1325,10 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 			pPlayer->aPlayerLoc[0] = pCurrentDoor->nRow;
 			pPlayer->aPlayerLoc[1] = pCurrentDoor->nCol;
 
+
+			free(pDoorList);
+
+			return TILE_DOOR;
 			break;
 
 		case TILE_FAST_TRAVEL:
@@ -1327,6 +1341,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 				printSystemMessage("You haven't cleared the boss.");
 			}
 
+			return TILE_FAST_TRAVEL;
 			break;
 
 		case TILE_BOSS:
@@ -1376,6 +1391,7 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 				printSystemMessage("You have cleared the boss.");
 			}
 
+			return TILE_BOSS;
 			break;
 
 		case TILE_CREDITS:
@@ -1388,12 +1404,15 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 			} else {
 				printSystemMessage("You haven't cleared the boss.");
 			}
+
+			return TILE_CREDITS;
 			
 			break;
 	}
 
 	free(pFloorMap);
-	free(pDoorList);
+
+	return 0;
 }
 
 
@@ -1408,11 +1427,42 @@ void usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBos
 
 	Pre-condition			pPlayer should be initiated and all 
 							members should have a value.			   */
-void displayUserInterface(int nPlayerMaxHP, Player* pPlayer) {
+void displayUserInterface(int nPlayerMaxHP, Player* pPlayer, int nPrompt) {
 	
 	printPlayerHealth(pPlayer->nPlayerHP, nPlayerMaxHP);
 	printItems(pPlayer->nPotions, pPlayer->nRunes);
 	printPlayerMoves();
+
+	switch(nPrompt) {
+		case TILE_EMPTY:
+			printSystemMessage("There's nothing there.");
+			break;
+		case TILE_TREASURE:
+			printSystemMessage("You found some runes!");
+			break;
+		case TILE_ENEMY:
+			printSystemMessage("You encountered an enemy.");
+			break;
+		case TILE_FAST_TRAVEL:
+			printSystemMessage("You fast travelled.");
+			break;
+		case TILE_DOOR:
+			printSystemMessage("You entered another room.");
+			break;
+		case TILE_BOSS:
+			printSystemMessage("You encountered a boss.");
+			break;
+		case TILE_CREDITS:
+			printSystemMessage("Thank you for playing!");
+			break;
+
+		case TILE_CLEARED:
+			printSystemMessage("You cleared this tile.");
+			break;
+		default:
+			break;
+
+	}
 }
 
 /* 	displayResultScreen		Prints the User Interface of the Result
@@ -1507,7 +1557,7 @@ void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
 	//Get a reference map of the current floor.
 	int nLength, nWidth;
 	int *pBaseFloor = getFloorMap(nArea, nFloor, &nLength, &nWidth);
-	nPadding = (SCREEN_WIDTH - nWidth) / 4;
+	nPadding = ((SCREEN_WIDTH - (nWidth * 4)) / 2) - (nWidth - 2);
 
 	//Put the player in the reference map for printing.
 	int pPlayerLoc[2];
@@ -1517,7 +1567,6 @@ void printFloorMap(int nArea, int nFloor, Player* pPlayer) {
 	
 	//Print Board.
 	for(nRow = 0; nRow < nLength; nRow++) {
-
 		printMultiple(" ", nPadding);
 		for(nCol = 0; nCol < nWidth; nCol++) {
 			printBorder(*(pBaseFloor + (nRow * nWidth) + nCol), TOP);
@@ -1767,7 +1816,7 @@ void printPlayerMoves() {
 	printf(" │\n");
 
 	printMultiple(" ", nPadding);
-	colorText(COLOR_CONTROL_BACK);
+	colorText(COLOR_CONTROL_DISABLED);
 	printf("┌───┐");
 	resetColors();
 	printf("  ╚───╝  ╚───╝  ╚───╝  ╚───╝  ");
@@ -1781,7 +1830,7 @@ void printPlayerMoves() {
 	
 	printMultiple(" ", nPadding);
 	printf("│ ");
-	colorText(COLOR_CONTROL_BACK);
+	colorText(COLOR_CONTROL_DISABLED);
 	printf("¤");
 	resetColors();
 	printf(" │                              │ ");

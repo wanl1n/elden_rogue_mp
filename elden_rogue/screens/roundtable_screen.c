@@ -140,35 +140,49 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 
 	printHeader("ROUNDTABLE HOLD", 15);
 	
-	printf("\tNAME: %s\n"
-		   "\tJOB CLASS: %s\n"
-		   "\tLEVEL: %d\n"
-		   "\tRUNES: %d\n"
-		   "\tSHARDS: ",
-		   pPlayer->strName, pPlayer->strJobClass, pPlayer->nLevel,
-		   pPlayer->nRunes);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("Hi, %s! \n\n", pPlayer->strName);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("┌ JOB    ► %s \n", pPlayer->strJobClass);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("├ LEVEL  ► %d \n", pPlayer->nLevel);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("├ RUNES  ► %d \n", pPlayer->nRunes);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("└ SHARDS ► ", pPlayer->nLevel);
+	
 
 	int i; for(i = 0; i < 6; i++) {
-		printf("[%d]", pPlayer->aShards[i]);
+		if (pPlayer->aShards[i]) {
+			printf("■ ");
+		} else {
+			printf("□ ");
+		}
 	}
 
 	printf("\n");		
 	
 	if (pPlayer->pQuestLine != NULL) {
-		printf("\tQUEST STATUS: ");
+
+		printf("\n");	
+
+		printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+		printf("!! QUEST    ► ");
+
 		switch(pPlayer->pQuestLine->nQuestStatus) {
 			case 0:
-				printf("Inactive\n");
+				printf("INACTIVE\n");
 				break;
 			case 1:
-				printf("In Progress\n");
+				printf("IN PROGRESS\n");
 				break;
 			case 2:
-				printf("Complete\n");
+				printf("COMPLETE\n");
 				break;
 		}
 
-		printf("\tQUEST PROGRESS: %d", pPlayer->nQuestProgress);
+		printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+		printf(">> PROGRESS ► %d", pPlayer->nQuestProgress);
 	}
 
 	printf("\n");

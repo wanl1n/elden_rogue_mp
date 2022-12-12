@@ -444,29 +444,35 @@ void displayQuestScreen(Player* pPlayer, int nLine) {
 
 	system("cls");
 
-	printHeader("FLETA HARRISONE", 15);
+	if (pPlayer->pQuestLine->nQuestNumber == 1) {
+		if (pPlayer->pQuestLine->nQuestStatus == 1){
+			printHeader("FLETA HARRISONE", 15);
+		} else {
+			printHeader("???", 3);
+		}
+	} else if (pPlayer->pQuestLine->nQuestNumber == 2) {
+		if (pPlayer->pQuestLine->nQuestStatus == 1){
+			printHeader("HILDA AYTONE", 12);
+		} else {
+			printHeader("???", 3);
+		}
+	}
 
 	printTopBorder();
 	printNPC(pPlayer);
 	printDiaTopBorder();
 
 	printDialogueText(pPlayer->pQuestLine->aDialogue[nLine-1]);
-	// printMultiple(" ", SCREEN_PADDING * 2);
-	// printf("%s\n\n", pPlayer->pQuestLine->aDialogue[nLine-1]);
 
 	printDiaBottBorder();
 	printBottomBorder();
 
 	if (nLine != 4 && nLine != 5 && nLine != 4+6 && nLine != 5+6 && nLine != 4+12 && nLine != 5+12 && nLine % 6 != 0 && nLine != 19) {
 		
-		printMultiple(" ", SCREEN_PADDING * 4);
-		printf("1 ► Okay.\n");
-		printMultiple(" ", SCREEN_PADDING * 4);
-		printf("0 ► Nah.\n");
-
+		printOption(1, "OKAY.");
+		printOption(0, "NAH.");
 	} else {
-		printMultiple(" ", SCREEN_PADDING * 4);
-		printf("0 ► Back.\n");
+		printOption(0, "BACK.");
 	}
 	
 }
