@@ -31,7 +31,7 @@ void openInventory(Player* pPlayer) {
 
 		nInputInventory = scanIntInput(0, 3); // Contains the Player's choice.
 
-		processInventoryInput(nInputInventory, pPlayer, nPage);
+		processInventoryInput(nInputInventory, pPlayer, &nPage);
 	}
 }
 
@@ -52,7 +52,7 @@ void openInventory(Player* pPlayer) {
 							pPlayer should be initiated and all members 
 							should have a value.	  					
 							nPage should be an integer value.          */
-void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
+void processInventoryInput(int nInput, Player* pPlayer, int* pPage) {
 	
 	// Get the amount of Weapons the Player has.
 	int nPlayerWeapons;
@@ -64,6 +64,7 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 	// Slot containing the Player's selected weapon.
 	Slot* pSelectedWeapon = NULL;
 	int nTemp;
+	int nPageTotal = INVENTORY_MAX_COLS * INVENTORY_MAX_ROWS;
 
 	switch (nInput) {
 			
@@ -89,42 +90,44 @@ void processInventoryInput(int nInput, Player* pPlayer, int nPage) {
 					pPlayer->sEquippedWeapon = pSelectedWeapon->sWeapon;
 
 					removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
-					displayInventory(SELECT, pPlayer, nPage);
+					displayInventory(SELECT, pPlayer, *pPage);
 				} else {
-					displayInventory(LACK_DEX, pPlayer, nPage);
+					displayInventory(LACK_DEX, pPlayer, *pPage);
 				}	
 				
 
 			} else {
-				displayInventory(NO_EXIST, pPlayer, nPage);
+				displayInventory(NO_EXIST, pPlayer, *pPage);
 			}
 
 			break;
 
 		case PREVIOUS:
-			if (nPage > 1) 
-				nPage--;
+
+			if (*pPage > 1) 
+				*pPage -= 1;
 			
-			displayInventory(PREVIOUS, pPlayer, nPage);
+			displayInventory(PREVIOUS, pPlayer, *pPage);
+
 			break;
 
 		case NEXT:
 
-			nTemp = nPlayerWeapons / 12;
+			nTemp = nPlayerWeapons / nPageTotal;
 
-			if (nPlayerWeapons % 12 != 0)
+			if (nPlayerWeapons % nPageTotal != 0)
 				nTemp++;
 
-			if (nPage < nTemp)
-				nPage++;
+			if (*pPage < nTemp)
+				*pPage += 1;
 
-			displayInventory(NEXT, pPlayer, nPage);
+			displayInventory(NEXT, pPlayer, *pPage);
 
 			break;
 
 		case I_BACK:
 
-			displayInventory(I_BACK, pPlayer, nPage);
+			displayInventory(I_BACK, pPlayer, *pPage);
 			openRoundTableHoldScreen(pPlayer);
 			break;
 
@@ -157,6 +160,86 @@ int getPlayerWeapons(Slot** pInventoryHead) {
 	return nPlayerWeapons;
 }
 
+/*	getSpriteFromWeapon	Gets the corresponding sprite of the given Weapon.
+	
+	@param sWeapon 		A Weapon variable containing the details of the
+						needed weapon.
+	
+	@return 			A character pointer that's pointing to a string.
+
+	Pre-condition 		sWeapon is initialized and has valid values.   */
+char* getSpriteFromWeapon(Weapon sWeapon) {
+	
+	int nIndex, nWeaponOrder, i;
+	int nEmptySpaces;
+	char* strSprite = malloc(sizeof(char) * (SLOT_WIDTH - 3) * 10);
+	
+	char aSprites[24][(SLOT_WIDTH - 3) * 10] = {"SHORT SWORD",
+										  	    "ROGIERS RAPIER",
+										  	    "CODED SWORD",
+										        "SWORD OF NIGHT AND FLAME",
+										        "UCHIGATANA",
+										        "MOONVEIL",
+										        "RIVERS OF BLOOD",
+										        "HAND OF MALENIA",
+										        "WHIP",
+										        "URUMI",
+										        "THORNED WHIP",
+										        "HOSLOW’S PETAL WHIP",
+										        "CLAYMORE",
+										        "STARSCOURGE GREATSWORD",
+										        "INSEPARABLE SWORD",
+										        "MALIKETHS BLACK BLADE",
+										        "ASTROLOGERS STAFF",
+										        "ALBINAURIC STAFF",
+										        "STAFF OF THE GUILTY",
+										        "CARIAN REGAL SCEPTER",
+										        "FINGER SEAL",
+										        "GODSLAYERS SEAL",
+										        "GOLDEN ORDER SEAL",
+										        "DRAGON COMMUNION SEAL"};
+	
+	if (!strcmp(sWeapon.strWeaponName, "SHORT SWORD") || 
+		!strcmp(sWeapon.strWeaponName, "UCHIGATANA") ||
+		!strcmp(sWeapon.strWeaponName, "WHIP") ||
+		!strcmp(sWeapon.strWeaponName, "CLAYMORE") ||
+		!strcmp(sWeapon.strWeaponName, "ASTROLOGER’S STAFF") ||
+		!strcmp(sWeapon.strWeaponName, "FINGER SEAL"))
+		nWeaponOrder = 0;
+	else if (!strcmp(sWeapon.strWeaponName, "ROGIER'S RAPIER") ||
+		!strcmp(sWeapon.strWeaponName, "MOONVEIL") ||
+		!strcmp(sWeapon.strWeaponName, "URUMI") ||
+		!strcmp(sWeapon.strWeaponName, "STARSCOURGE GREATSWORD") ||
+		!strcmp(sWeapon.strWeaponName, "ALBINAURIC STAFF") ||
+		!strcmp(sWeapon.strWeaponName, "GODSLAYER’S SEAL"))
+		nWeaponOrder = 1;
+	else if (!strcmp(sWeapon.strWeaponName, "CODED SWORD") ||
+		!strcmp(sWeapon.strWeaponName, "RIVERS OF BLOOD") ||
+		!strcmp(sWeapon.strWeaponName, "THORNED WHIP") ||
+		!strcmp(sWeapon.strWeaponName, "INSEPARABLE SWORD") ||
+		!strcmp(sWeapon.strWeaponName, "STAFF OF THE GUILTY") ||
+		!strcmp(sWeapon.strWeaponName, "GOLDEN ORDER SEAL"))
+		nWeaponOrder = 2;
+	else if (!strcmp(sWeapon.strWeaponName, "SWORD OF NIGHT AND FLAME") ||
+		!strcmp(sWeapon.strWeaponName, "HAND OF MALENIA") ||
+		!strcmp(sWeapon.strWeaponName, "HOSLOW’S PETAL WHIP") ||
+		!strcmp(sWeapon.strWeaponName, "MALIKETH’S BLACK BLADE") ||
+		!strcmp(sWeapon.strWeaponName, "CARIAN REGAL SCEPTER") ||
+		!strcmp(sWeapon.strWeaponName, "DRAGON COMMUNION SEAL"))
+		nWeaponOrder = 3;
+
+	nIndex = ((sWeapon.nWeaponType - 1) * 4) + nWeaponOrder;
+	strcpy(strSprite, aSprites[nIndex]);
+
+	nEmptySpaces = ((SLOT_WIDTH - 3) * 10) - strlen(strSprite);
+
+	for (i = 0; i < nEmptySpaces; i++) {
+		strcat(strSprite, " ");
+	}
+
+	return strSprite;
+}
+
 
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
@@ -170,6 +253,8 @@ int getPlayerWeapons(Slot** pInventoryHead) {
 void printTopBorderSlots(int nCols) {
 
 	int i;
+
+	printMultiple(" ", SCREEN_PADDING);
 
 	for (i = 0; i < nCols; i++) {
 		printf("╔");
@@ -190,6 +275,8 @@ void printTopBorderSlots(int nCols) {
 void printBottomBorderSlots(int nCols) {
 
 	int i;
+
+	printMultiple(" ", SCREEN_PADDING);
 
 	for (i = 0; i < nCols; i++) {
 		printf("╚");
@@ -229,14 +316,18 @@ void printContentSlot(Weapon sWeapon, int nLine) {
 			printf("│");
 			break;
 		case 3:
-			printf("│");
-			printMultiple(" ", nSpaces);
-			//add weapon image
-			printf("  <weapon>  ");
-			printMultiple(" ", nSpaces);
-			printf("│");
-			break;
 		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+			printSprite(sWeapon, nLine);
+			break;
+		case 13:
 			printf("│");
 			printf("HP ");
 			printMultiple(" ", nSpaces);
@@ -246,7 +337,7 @@ void printContentSlot(Weapon sWeapon, int nLine) {
 			printf("%*d ", 2, sWeapon.nEnd);
 			printf("│");
 			break;
-		case 5:
+		case 14:
 			printf("│");
 			printf("DEX");
 			printMultiple(" ", nSpaces);
@@ -256,7 +347,7 @@ void printContentSlot(Weapon sWeapon, int nLine) {
 			printf("%*d ", 2, sWeapon.nStr);
 			printf("│");
 			break;
-		case 6:
+		case 15:
 			printf("│");
 			printf("INT");
 			printMultiple(" ", nSpaces);
@@ -266,14 +357,37 @@ void printContentSlot(Weapon sWeapon, int nLine) {
 			printf("%*d ", 2, sWeapon.nFth);
 			printf("│");
 			break;
-		case 7:
+		case 16:
 			printf("│");
-			printMultiple(" ", nSpaces);
-			printf("%*d", SLOT_WIDTH-4, sWeapon.nWeaponIndex);
-			printMultiple(" ", nSpaces);
+			printMultiple(" ", (SLOT_WIDTH-6)/2);
+			printf("> %0.*d <", 2, sWeapon.nWeaponIndex);
+			printMultiple(" ", (SLOT_WIDTH-6)/2);
 			printf("│");
 			break;
 	}
+}
+
+/* 	printSprite 	Prints the sprite of the weapon by line.
+	
+	@param sWeapon 		A Weapon variable containing the details of the
+						needed weapon.
+	@param nLine		An integer variable containing the line number
+						to be printed.
+
+	Pre-condition 		sWeapon is initialized and has valid values.   
+						nLine has to be from 3 to 12.				   */
+void printSprite(Weapon sWeapon, int nLine) {
+
+	char* strSprite = getSpriteFromWeapon(sWeapon);
+	nLine -= 3;
+
+	printf("│");
+	printMultiple(" ", 2);
+	printf("%-*.*s ", SLOT_WIDTH-5, SLOT_WIDTH-5, strSprite + (nLine * (SLOT_WIDTH-5)));
+	printMultiple(" ", 2);
+	printf("│");
+
+	free(strSprite);
 }
 
 /*	printEmptySlot		Prints one line of an empty slot.			   */
@@ -302,10 +416,10 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 
 	int i, j, k; // Counts the rows, columns, and offsets the head.
 
-	// Page numbers start at 1. So, offset the Head by 20 for every additional page.
+	// Page numbers start at 1. So, offset the Head by 8 for every additional page.
 	// nPage - 1 because at the first page (nPage = 1), the condition will be false 
 	// at and there won't be any offset.
-	for (k = 0; k < 20 * (nPage-1); k++) {
+	for (k = 0; k < (INVENTORY_MAX_COLS * INVENTORY_MAX_ROWS) * (nPage-1); k++) {
 		pInventoryHead = pInventoryHead->pNext;
 	}
 
@@ -316,8 +430,9 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 
 		printTopBorderSlots(INVENTORY_MAX_COLS);
 
-		for (k = 1; k <= 7; k++) {
+		for (k = 1; k <= INVENTORY_SLOT_HEIGHT; k++) {
 
+			printMultiple(" ", SCREEN_PADDING);
 			pTempHead = pInventoryHead; //reset every line
 
 			for (j = 0; j < INVENTORY_MAX_COLS; j++) {
@@ -366,9 +481,7 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 	
 	system("cls");
 
-	printHeader("ROUNDTABLE HOLD", 15);
-	printMultiple(" ", 25);
-	printf("--- INVENTORY ---\n\n");
+	printHeader("INVENTORY", 9);
 
 	printInventoryGrid(pPlayer, nPage);
 

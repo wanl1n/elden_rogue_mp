@@ -157,6 +157,55 @@ Stock* getStocksFromType(int nWeaponType) {
 	return pWeaponsOfType;
 }
 
+/* 	getSpriteFromStock 	Gets the sprite of the weapon contained in the 
+						Stock.
+
+	@param sShopStock 	A stock variable containing the weapon details.
+
+	Pre-condition 		sShopStock has to be fully initialized. 	   */
+char* getSpriteFromStock(Stock sShopStock) {
+	
+	int nIndex, i;
+	int nEmptySpaces;
+	char* strSprite = malloc(sizeof(char) * (SHOP_SLOT_WIDTH - 3) * 10);
+
+	char aSprites[24][(SHOP_SLOT_WIDTH - 3) * 10] = { "SHORT SWORD",
+												  	  "ROGIER'S RAPIER",
+												  	  "CODED SWORD",
+												      "SWORD OF NIGHT AND FLAME",
+												      "UCHIGATANA",
+												      "MOONVEIL",
+												      "RIVERS OF BLOOD",
+												      "HAND OF MALENIA",
+												      "WHIP",
+												      "URUMI",
+												      "THORNED WHIP",
+												      "HOSLOW’S PETAL WHIP",
+												      "CLAYMORE",
+												      "STARSCOURGE GREATSWORD",
+												      "INSEPARABLE SWORD",
+												      "MALIKETH’S BLACK BLADE",
+												      "ASTROLOGER’S STAFF",
+												      "ALBINAURIC STAFF",
+												      "STAFF OF THE GUILTY",
+												      "CARIAN REGAL SCEPTER",
+												      "FINGER SEAL",
+												      "GODSLAYER’S SEAL",
+												      "GOLDEN ORDER SEAL",
+												      "DRAGON COMMUNION SEAL"};
+	
+	nIndex = ((sShopStock.sWeapon.nWeaponType - 1) * 4) + (sShopStock.sWeapon.nWeaponIndex - 1);
+	strcpy(strSprite, aSprites[nIndex]);
+
+	nEmptySpaces = 200 - strlen(strSprite);
+
+	for (i = 0; i < nEmptySpaces; i++) {
+		strcat(strSprite, " ");
+	}
+
+	return strSprite;
+}
+
 
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
@@ -206,7 +255,7 @@ void printBottomShopBorder(int nCols) {
 							number of the slot being printed.
 
 	Pre-condition			sShopStock should contain valid Stock values
-							nLine should be from 1 to 9. 			   */
+							nLine should be from 1 to SHOP_SLOT_HEIGHT.*/
 void printShopContent(Stock sShopStock, int nLine) {
 
 	Weapon sWeapon = sShopStock.sWeapon;
@@ -233,28 +282,32 @@ void printShopContent(Stock sShopStock, int nLine) {
 			printf("│");
 			break;
 		case 3:
-			printf("│");
-			printMultiple(" ", (SHOP_SLOT_WIDTH-8)/2);
-			//add weapon image
-			printf("<weapon>");
-			printMultiple(" ", (SHOP_SLOT_WIDTH-8)/2);
-			printf("│");
-			break;
 		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+			printWeaponSprite(sShopStock, nLine);
+			break;
+		case 13:
 			printf("│");
 			printMultiple(" ", nSpaces);
 			printf("COST: %*d", SHOP_SLOT_WIDTH-10, sShopStock.nCost);
 			printMultiple(" ", nSpaces);
 			printf("│");
 			break;
-		case 5:
+		case 14:
 			printf("│");
 			printMultiple(" ", nSpaces);
-			printf("DEXTERITY     │  %*d", SHOP_SLOT_WIDTH-21, sWeapon.nDexReq);
+			printf("DEXTERITY    ││  %*d", SHOP_SLOT_WIDTH-21, sWeapon.nDexReq);
 			printMultiple(" ", nSpaces);
 			printf("│");
 			break;
-		case 6:
+		case 15:
 			printf("│");
 			printMultiple(" ", nSpaces);
 			printf("HP ");
@@ -269,7 +322,7 @@ void printShopContent(Stock sShopStock, int nLine) {
 			printMultiple(" ", nSpaces);
 			printf("│");
 			break;
-		case 7:
+		case 16:
 			printf("│");
 			printMultiple(" ", nSpaces);
 			printf("DEX");
@@ -284,14 +337,14 @@ void printShopContent(Stock sShopStock, int nLine) {
 			printMultiple(" ", nSpaces);
 			printf("│");
 			break;
-		case 8:
+		case 17:
 			printf("│");
 			printMultiple(" ", nSpaces);
 			printf("INT");
 			printMultiple(" ", nStatSpaces);
 			printf("%*d", 2, sWeapon.nInt);
 			printMultiple(" ", nSpaces);
-			printf("│|");
+			printf("││");
 			printMultiple(" ", nSpaces);
 			printf("FTH");
 			printMultiple(" ", nStatSpaces);
@@ -299,14 +352,36 @@ void printShopContent(Stock sShopStock, int nLine) {
 			printMultiple(" ", nSpaces);
 			printf("│");
 			break;
-		case 9:
+		case SHOP_SLOT_HEIGHT:
 			printf("│");
-			printMultiple(" ", nSpaces);
-			printf("%*d", SHOP_SLOT_WIDTH-4, sWeapon.nWeaponIndex);
-			printMultiple(" ", nSpaces);
+			printMultiple(" ", (SHOP_SLOT_WIDTH-6)/2);
+			printf("> %0.*d <", 2, sWeapon.nWeaponIndex);
+			printMultiple(" ", (SHOP_SLOT_WIDTH-6)/2);
 			printf("│");
 			break;
 	}
+}
+
+/* 	printWeaponSprite 		Prints the weapon sprite.
+	
+	@param sShopStock 		A Stock variable containing the weapon details.
+	@param nLine 			An integer variable containing the line number
+							to be printed.
+
+	Pre-condition			sShopStock should contain valid Stock values
+							nLine should be from 3 to 12.			   */
+void printWeaponSprite(Stock sShopStock, int nLine) {
+
+	char* strSprite = getSpriteFromStock(sShopStock);
+	nLine -= 3;
+
+	printf("│");
+	printMultiple(" ", 2);
+	printf("%-*.*s ", SHOP_SLOT_WIDTH-5, SHOP_SLOT_WIDTH-5, strSprite + (nLine * (SHOP_SLOT_WIDTH-5)));
+	printMultiple(" ", 2);
+	printf("│");
+
+	free(strSprite);
 }
 
 /*	displayBuyStocks	Displays the weapons from a specified weapon
@@ -337,7 +412,7 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 
 	printTopShopBorders(4);
 
-	for (j = 1; j <= 9; j++) {
+	for (j = 1; j <= SHOP_SLOT_HEIGHT; j++) {
 		for (i = 0; i < 4; i++) {
 			printShopContent(pStockList[i], j);
 		}

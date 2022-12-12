@@ -21,13 +21,23 @@
 //Printing Spacings
 #define SHOP_SLOT_WIDTH		32
 #define SHOP_SCREEN_PADDING	6
+#define SHOP_SLOT_HEIGHT	18
 
-void printShopSlot(Stock sShopStock);
+void openBuyScreen(Player* pPlayer);
+
+Stock* getStocksFromType(int nWeaponType);
+char* getSpriteFromStock(Stock sShopStock);
+
+void printTopShopBorders(int nCols);
+void printBottomShopBorder(int nCols);
+void printShopContent(Stock sShopStock, int nLine);
+void printWeaponSprite(Stock sShopStock, int nLine);
+
 void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* sStockList);
 void displayBuyTypes(int nPrompt, Player* pPlayer);
 
-Stock* getStocksFromType(int nWeaponType);
 
-void openBuyScreen(Player* pPlayer);
+
+
 
 #endif

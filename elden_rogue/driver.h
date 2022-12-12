@@ -10,7 +10,7 @@ typedef char StringJob[11];
 struct WeaponItem {
 
 	int nWeaponIndex;
-	char strWeaponName[24];
+	char strWeaponName[25];
 
 	int nWeaponType;
 
