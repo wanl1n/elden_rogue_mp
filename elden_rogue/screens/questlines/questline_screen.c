@@ -1,14 +1,22 @@
+// ────────────────────────── 〔 LIBRARIES 〕 ────────────────────────── //
+#include "questline_screen.h" // Constants needed for this screen.
+#include "../roundtable_screen.h" // When player goes back.
 
-#include "questline_screen.h"
-#include "../roundtable_screen.h"
-#include "../../utility/inventory_manager.h"
-#include "../../utility/scanner.h"
+#include "../../utility/inventory_manager.h" // To add the reward to inventory.
+#include "../../utility/scanner.h" // To ask for user input.
 
 #include "../../driver.h" //Contains all the structures used in the code.
 
 
 
 // ────────────────────── 〔 CENTRAL FUNCTION 〕 ─────────────────────── //
+/* 	openQuestScreen 	Opens the quest Screen.
+	
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void openQuestScreen(Player* pPlayer) {
 	
 	printf(" open quest screen \n");
@@ -64,6 +72,15 @@ void openQuestScreen(Player* pPlayer) {
 
 
 // ────────────────────── 〔 UTILITY FUNCTIONS 〕 ────────────────────── //
+/* 	createQuestLine 	Creates the questline and the NPC.
+	
+	@param nQuestline 	An integer variable containing the number of
+						the quest to be created.
+
+	@return 			A Quest pointer variable containing the details
+						of the questline.
+
+	Pre-condition 		nQuestline should only be 1 or 2. 			   */
 Quest* createQuestline(int nQuestline) {
 
 	Quest* pQuest = malloc(sizeof(Quest));
@@ -161,6 +178,14 @@ Quest* createQuestline(int nQuestline) {
 	return pQuest;
 }
 
+/* 	checkQuestProgress 	Checks the player's progress in the current 
+						active quest.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 int checkQuestProgress(Player* pPlayer) {
 	
 	int nStage = pPlayer->pQuestLine->nStage;
@@ -226,6 +251,14 @@ int checkQuestProgress(Player* pPlayer) {
 	return 0;
 }
 
+/* 	talkingStage 		Starts the dialogue to introduce the quest to the
+						Player.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void talkingStage(Player* pPlayer) {
 	
 	int nInput, i;
@@ -262,6 +295,14 @@ void talkingStage(Player* pPlayer) {
 	openRoundTableHoldScreen(pPlayer);
 }
 
+/* 	talkingInProgress 	Prints the dialogue when player is currently 
+						not done with a quest.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void talkingInProgress(Player* pPlayer) {
 
 	int nStage = pPlayer->pQuestLine->nStage;
@@ -273,6 +314,14 @@ void talkingInProgress(Player* pPlayer) {
 	openRoundTableHoldScreen(pPlayer);
 }
 
+/*  talkingComplete 	Prints the dialogue when the player finishes
+						a whole questline.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void talkingComplete(Player* pPlayer) {
 
 	int nLine = 19;
@@ -282,6 +331,13 @@ void talkingComplete(Player* pPlayer) {
 	openRoundTableHoldScreen(pPlayer);
 }
 
+/* 	giveQuestRewards 	Gives the player's rewards from the quest.
+	
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void giveQuestRewards(Player* pPlayer) {
 
 	int nStage = pPlayer->pQuestLine->nStage;
@@ -327,6 +383,17 @@ void giveQuestRewards(Player* pPlayer) {
 	}
 }
 
+/* 	createUniqueWeapon 	Creates the unique weapon that's given as a reward
+						at the final stage completion.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	
+	@return 			Returns a weapon slot variable containing the 
+						weapon details of the reward weapon.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 Slot* createUniqueWeapon(Player* pPlayer) {
 
 	Weapon sWeapon;
@@ -364,6 +431,15 @@ Slot* createUniqueWeapon(Player* pPlayer) {
 
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
+/* 	displayQuestScreen	Displays the Quest Screen.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+	@param nLine 		An integer variable containing the line number
+						to be printed.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void displayQuestScreen(Player* pPlayer, int nLine) {
 
 	system("cls");
@@ -395,6 +471,7 @@ void displayQuestScreen(Player* pPlayer, int nLine) {
 	
 }
 
+/* 	printTopBorder 		Prints the Top border of the Quest Screen. 	   */
 void printTopBorder() {
 	
 	printMultiple(" ", SCREEN_PADDING);
@@ -406,6 +483,13 @@ void printTopBorder() {
 	printf("\n");
 }
 
+/* 	printNPC 			Prints the NPC Sprite.
+
+	@param pPlayer		The Player Structure containing all of the 
+						Player's statistics and items.
+
+	Pre-condition		pPlayer should be initiated and all members 
+						should have a value.	  					   */
 void printNPC(Player* pPlayer) {
 
 	int i;
@@ -453,6 +537,7 @@ void printNPC(Player* pPlayer) {
 	}
 }
 
+/* 	printDiaTopBorder 	Prints the Top border of the dialogue box.	   */
 void printDiaTopBorder() {
 	
 	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 2) + 2);
@@ -472,7 +557,13 @@ void printDiaTopBorder() {
 	printf("\n");
 }
 
-void printDialogueText(char* aDialogueLine) {
+/* 	printDialogueText 		Prints the dialogue of the NPC.
+	
+	@param pDialogueLine 	A character pointer pointing to a string 
+							containing the dialogue line.
+
+	Pre-condition 			pDialogueLine must be initialized.		   */
+void printDialogueText(char* pDialogueLine) {
 
 	int i;
 
@@ -488,7 +579,7 @@ void printDialogueText(char* aDialogueLine) {
 		printf("║");
 		printMultiple(" ", SCREEN_PADDING);
 
-		printf("%-*.*s ", nDialogueWidth, nDialogueWidth, aDialogueLine + (i * nDialogueWidth));
+		printf("%-*.*s ", nDialogueWidth, nDialogueWidth, pDialogueLine + (i * nDialogueWidth));
 
 		printMultiple(" ", SCREEN_PADDING);
 		printf("║");
@@ -500,6 +591,7 @@ void printDialogueText(char* aDialogueLine) {
 	}
 }
 
+/* 	printDiaBottBorder 	Prints the Bottom border of the dialogue box.  */
 void printDiaBottBorder() {
 
 	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 2) + 2);
@@ -519,6 +611,7 @@ void printDiaBottBorder() {
 	printf("\n");
 }
 
+/* 	printBottomBorder 	Prints the bottom border of the Quest Screen.  */
 void printBottomBorder() {
 	
 	printMultiple(" ", SCREEN_PADDING);
