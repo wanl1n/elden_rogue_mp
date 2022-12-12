@@ -128,22 +128,38 @@ void displayLevelUpScreen(int nPrompt, Player* pPlayer, int nRuneCost) {
 	
 	system("cls");
 
-	printHeader("ROUNDTABLE HOLD", 15);
+	printHeader("LEVEL UP", 8);
 
-	printf("	LEVEL UP:			RUNES: %d\n"
-		"	Current Job Class: %s\n\n"
-		"	STATISTICS:			[1] HEALTH			%d\n"
-		"   LEVEL		%d 		[2] ENDURANCE			%d\n"
-		"   RUNE COST		%d		[3] DEXTERITY			%d\n"
-		"					[4] STRENGTH			%d\n"
-		"					[5] INTELLIGENCE		%d\n"
-		"					[6] FAITH			%d\n\n"
-		"					[0] BACK\n\n", 
-		pPlayer->nRunes, pPlayer->strJobClass,
-		pPlayer->nHealth,
-		pPlayer->nLevel, pPlayer->nEndurance,
-		nRuneCost, pPlayer->nDexterity,
-		pPlayer->nStrength, pPlayer->nIntelligence, pPlayer->nFaith);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("YOUR RUNES ► %d\n", pPlayer->nRunes);
+	printf("\n");
+
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("┌ JOB       ► %s \n", pPlayer->strJobClass);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("├ LEVEL     ► %*d  ┬ HEALTH        ► %d \n", 2, pPlayer->nLevel, pPlayer->nHealth);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("│                 ├ ENDURANCE     ► %d \n", pPlayer->nEndurance);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("│                 ├ DEXTERITY     ► %d \n", pPlayer->nDexterity);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("│                 ├ STRENGTH      ► %d \n", pPlayer->nStrength);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("│                 ├ INTELLIGENCE  ► %d \n", pPlayer->nIntelligence);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("│                 ├ FAITH         ► %d \n", pPlayer->nFaith);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("└ RUNE COST ► %d\n", nRuneCost);
+
+	printOption(1, "HEALTH");
+	printOption(2, "ENDURANCE");
+	printOption(3, "DEXTERITY");
+	printOption(4, "STRENGTH");
+	printOption(5, "INTELLIGENCE");
+	printOption(6, "FAITH");
+	printOption(0, "BACK");
+
+	printf("\n");
 
 	switch(nPrompt) {
 		case HEALTH:
