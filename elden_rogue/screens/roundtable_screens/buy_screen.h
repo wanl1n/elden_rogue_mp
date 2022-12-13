@@ -22,11 +22,11 @@
 #define SHOP_SLOT_WIDTH		32
 #define SHOP_SCREEN_PADDING	6
 #define SHOP_SLOT_HEIGHT	19
+#define WEAPON_WIDTH		28
 
 void openBuyScreen(Player* pPlayer);
 
 Stock* getStocksFromType(int nWeaponType);
-char* getSpriteFromStock(Stock sShopStock);
 
 void printTopShopBorders(int nCols);
 void printBottomShopBorder(int nCols);

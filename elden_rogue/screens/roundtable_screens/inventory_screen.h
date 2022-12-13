@@ -19,7 +19,6 @@ void openInventory(Player* pPlayer);
 
 void processInventoryInput(int nInput, Player* pPlayer, int* pPage);
 int getPlayerWeapons(Slot** pInventoryHead);
-char* getSpriteFromWeapon(Weapon sWeapon);
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
 void printTopBorderSlots(int nCols);

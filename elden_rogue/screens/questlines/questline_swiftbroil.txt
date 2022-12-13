@@ -1,0 +1,104 @@
+QUESTLINE: SWIFT BROIL
+
+Greetings, weary traveler. I know you but you don't know me, I'm Hilda Aytone. A little birdie told me you were leaving soon for an adventure. Do you mind if I make a request? I'll give you 200 runes for it!
+
+	[1] Sure, what is it?
+	[0] Not up for it, sorry.
+
+[1]
+	Fleta and I have been arguing a lot about how strong the creatures are. I've been saying they're easy peasy lemon squeezy but she's utterly scared of them. Can you defeat one of them without using potions?
+
+[0]
+	Oh, that's fine. If you ever have some time, do come by!
+
+	[1] Alright, I'll take you up on that.
+	[0] Eh... that's too much for me.
+
+[1]
+	Sounds great! I'll be awaiting your good news.
+
+[0]
+	I guess it just isn't my day today.
+
+
+QUEST STARTED: SWIFT BROIL I
+
+	[0] Thanks!
+
+[In progress]
+Hey, you get around to killing a creature without using potions yet? Fleta's just not budging.
+
+[Completed]
+Ha! I knew they were small fries. *BARK* Thanks for accepting my request! *BARK* Actually, I've got another if *BARK* you're interested. This time it's a serious *BARK* request. I'll give you 500 runes for it *BARK*.
+
+	[1] Sure, I gotchu.
+	[0] Nah, one's enough.
+
+[1]
+	Great! *BARK* Well, I have a dog, *BARK* I'm sure you heard him, his name is Khloe, *BARK* and he's been barking a *BARK* lot lately because the creatures have been *BARK* multipying a LOT *BARK* recently. I would be so grateful *BARK* if you could defeat at least 10 of them. I just want a *BARK* peaceful day without constant barking. 
+
+[0]
+	Oh, well *BARK* if you're ever *BARK* up for it, I'm always here. *BARK*
+
+	[1] I'll help.
+	[0] You don't need me for that.
+
+[1]
+	Khloe and I *BARK* are awaiting your great news. Really *BARK* looking forward to that.
+
+[0]
+	Oh *BARK* okay. Better luck next time I guess. *BARK*
+
+QUEST STARTED: SWIFT BROIL II
+
+[In Progress]
+Anytime now *BARK* would be great *BARK*. Just defeat 10 *BARK* creatures. That's all.
+
+[Completed]
+Ahh... Finally, some peace of mind. Thank you so much! Here's your 500 runes! If you want you can pet Khloe! :)
+
+	[1] What is it?
+	[0] Sorry, I can't right now.
+
+[1]
+	*HAPPY BARK* He says thank you! By the way, one more thing. I'll give you a special weapon I've got if you help me defeat Morgott the Omen King. His aura's been seeping out lately and it's bothering all of us here. Can you do it?
+
+[0]
+	Oh, that's fine. Not all people like dogs but nevertheless we're grateful.
+
+	[1] Oh, him? Sure, that's too easy.
+	[0] Ah... I don't think I can.
+
+[1]
+	I have full confidence in you! Khloe and I will be waiting for your good news right here!
+
+[0]
+	Ah, that's alright. If you think you can do it, do drop by again.
+
+QUEST STARTED: SWIFT BROIL III
+
+	[0] I'll be back.
+
+[In Progress]
+Morgott's aura is still lingering. I hope you defeat him soon. It's time for a little cleansing in the Leyndell Capital.
+
+[Completed]
+WOW! You're awesome! *BARK BARK* Khloe says you're the best! Thanks as always. Here, this weapon has helped me punish some... bad boys and girls. Take it and whip some discipline into those creatures!
+
+GIANT'S BELT acquired.
+
+QUESTLINE: SWIFT BROIL Completed.
+
+	[0] Thanks! I'll take care of it.
+
+
+Weapon Stats:
+
+GIANT'S BELT
+
+HP 		30
+DEX		40
+INT 	20
+END 	15
+STR 	65
+FTH 	15

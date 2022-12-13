@@ -18,55 +18,61 @@
 	Pre-condition		pPlayer should be initiated and all members 
 						should have a value.	  					   */
 void openQuestScreen(Player* pPlayer) {
-	
-	printf(" open quest screen \n");
 
-	// First, get the details of the Quest.
-	if (pPlayer->pQuestLine == NULL) {
-		// Player has not yet started a quest.
-		pPlayer->pQuestLine = createQuestline(TWINKLE_TOES);
+	int nContinue = 1;
 
-	} 
-	else if (pPlayer->nCompletedQuests == 1 && pPlayer->pQuestLine->nQuestNumber != 2) {
-		// Player is done with 1st quest.
-		pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
+	while (nContinue) {
+		
+		// First, get the details of the Quest.
+		if (pPlayer->pQuestLine == NULL) // Player has not yet started a quest.
+			pPlayer->pQuestLine = createQuestline(TWINKLE_TOES);
+
+		else if (pPlayer->nCompletedQuests == 1 && pPlayer->pQuestLine->nQuestNumber != 2) // Player is done with 1st quest.
+			pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
+				
+		else if (pPlayer->nCompletedQuests == 2) 
+			printf("Done.");
+
+		// If there's no active quest, ask player if they want to take a quest.
+		if (pPlayer->pQuestLine->nQuestStatus != QUEST_IN_PROG) {
 			
-	} 
-
-	// If there's no active quest, ask player if they want to take a quest.
-	if (pPlayer->pQuestLine->nQuestStatus != QUEST_IN_PROG) {
-	
-		talkingStage(pPlayer);
-
-	} 
-	// If there's an active quest, check quest progress
-	else if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
-
-		pPlayer->pQuestLine->nQuestStatus = checkQuestProgress(pPlayer);
-
-		// If player isn't done yet.
-		if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
-			talkingInProgress(pPlayer);
+			nContinue = 0;
+			talkingStage(pPlayer);
+			nContinue = 0;
 		} 
-		// If player is done.
-		else if (pPlayer->pQuestLine->nQuestStatus == QUEST_COMPLETE){
-			
-			giveQuestRewards(pPlayer);
+		// If there's an active quest, check quest progress
+		else if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
 
-			// Set to next stage
-			pPlayer->pQuestLine->nStage++;
-			pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE;
-			pPlayer->nQuestProgress = 0;
+			pPlayer->pQuestLine->nQuestStatus = checkQuestProgress(pPlayer);
 
-			if (pPlayer->pQuestLine->nStage < 4) {
-				openQuestScreen(pPlayer);
-			} else {
-				pPlayer->nCompletedQuests += 1;
-				talkingComplete(pPlayer);
-			}
-			
-		}	
-	}
+			// If player isn't done yet.
+			if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
+				
+				talkingInProgress(pPlayer);
+				nContinue = 0;
+			} 
+			// If player is done.
+			else if (pPlayer->pQuestLine->nQuestStatus == QUEST_COMPLETE){
+				
+				giveQuestRewards(pPlayer);
+
+				// Set to next stage
+				pPlayer->pQuestLine->nStage++;
+				pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE;
+				pPlayer->nQuestProgress = 0;
+
+				if (pPlayer->pQuestLine->nStage < 4) {
+					nContinue = 1;
+				} else {
+					pPlayer->nCompletedQuests += 1;
+					nContinue = 0;
+					talkingComplete(pPlayer);
+				}
+				
+			}	
+		}
+	} 
+		
 }
 
 
@@ -123,25 +129,25 @@ Quest* createQuestline(int nQuestline) {
 									    "I know you have a lot on your plate, and I appreciate you agreeing to defeat the Starscourge Radahn in the Redmane Castle.",
 									    // Completed TWINKLE TOES III (19)
 									    "You are amazing! Thanks for defeating that weird guy. Honestly, the world is so much better without him. Anyway, as promised, you can take this. I was once an adventurer like you, until I took an arrow to the knee. But this really helped me in my travels and I hope it does the same for you!"};
-	char aHilda[19][DIALOGUE_LENGTH] = {"1",
-										"2",
-										"3",
-										"4",
-										"5",
-										"6",
-										"7",
-										"8",
-										"9",
-										"10",
-										"11",
-										"12",
-										"13",
-										"14",
-										"15",
-										"16",
-										"17",
-										"18",
-										"19"};
+	char aHilda[19][DIALOGUE_LENGTH] = {"Greetings, weary traveler. I know you but you don't know me, I'm Hilda Aytone. A little birdie told me you were leaving soon for an adventure. Do you mind if I make a request? I'll give you 200 runes for it!",
+										"Fleta and I have been arguing a lot about how strong the creatures are. I've been saying they're easy peasy lemon squeezy but she's utterly scared of them. Can you defeat one of them without using potions?",
+										"Oh, that's fine. If you ever have some time, do come by!",
+										"Sounds great! I'll be awaiting your good news.",
+										"I guess it just isn't my day today.",
+										"Hey, you get around to killing a creature without using potions yet? Fleta's just not budging.",
+										"Ha! I knew they were small fries. *BARK* Thanks for accepting my request! *BARK* Actually, I've got another if *BARK* you're interested. This time it's a serious *BARK* request. I'll give you 500 runes for it *BARK*.",
+										"Great! *BARK* Well, I have a dog, *BARK* I'm sure you heard him, his name is Khloe, *BARK* and he's been barking a *BARK* lot lately because the creatures have been *BARK* multipying a LOT *BARK* recently. I would be so grateful *BARK* if you could defeat at least 10 of them. I just want a *BARK* peaceful day without constant barking.",
+										"Oh, well *BARK* if you're ever *BARK* up for it, I'm always here. *BARK*",
+										"Khloe and I *BARK* are awaiting your great news. Really *BARK* looking forward to that.",
+										"Oh *BARK* okay. Better luck next time I guess. *BARK*",
+										"Anytime now *BARK* would be great *BARK*. Just defeat 10 *BARK* creatures. That's all.",
+										"Ahh... Finally, some peace of mind. Thank you so much! Here's your 500 runes! If you want you can pet Khloe! :)",
+										"*HAPPY BARK* He says thank you! By the way, one more thing. I'll give you a special weapon I've got if you help me defeat Morgott the Omen King. His aura's been seeping out lately and it's bothering all of us here. Can you do it?",
+										"Oh, that's fine. Not all people like dogs but nevertheless we're grateful.",
+										"I have full confidence in you! Khloe and I will be waiting for your good news right here!",
+										"Ah, that's alright. If you think you can do it, do drop by again.",
+										"Morgott's aura is still lingering. I hope you defeat him soon. It's time for a little cleansing in the Leyndell Capital.",
+										"WOW! You're awesome! *BARK BARK* Khloe says you're the best! Thanks as always. Here, this weapon has helped me punish some... bad boys and girls. Take it and whip some discipline into those creatures!"};
 
 	int i;
 	
@@ -287,12 +293,16 @@ void talkingStage(Player* pPlayer) {
 			displayQuestScreen(pPlayer, nLine);
 			pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE; 
 			openRoundTableHoldScreen(pPlayer);
+			i = 2;
 		}
 	}
 
-	// After accepting the quest, go back to roundtable hold.
-	scanIntInput(0, 0);
-	openRoundTableHoldScreen(pPlayer);
+	if (nInput) {
+		// After accepting the quest, go back to roundtable hold.
+		nInput = scanIntInput(0, 0);
+		openRoundTableHoldScreen(pPlayer);
+	}
+	
 }
 
 /* 	talkingInProgress 	Prints the dialogue when player is currently 
@@ -368,10 +378,10 @@ void giveQuestRewards(Player* pPlayer) {
 			// Depending on the stage, give rewards
 			switch (nStage) {
 				case 1:
-					pPlayer->nRunes += 100;
+					pPlayer->nRunes += 200;
 					break;
 				case 2:
-					pPlayer->nRunes += 200;
+					pPlayer->nRunes += 500;
 					break;
 				case 3:
 					addWeapon(createUniqueWeapon(pPlayer), &(pPlayer->pInventory));
@@ -403,6 +413,7 @@ Slot* createUniqueWeapon(Player* pPlayer) {
 	sWeapon.nWeaponType = 7; //WEAPON_SPECIAL
 
 	if (pPlayer->pQuestLine->nQuestNumber == 1) {
+
 		strcpy(sWeapon.strWeaponName, "SWIFT SLIPPER");
 
 		sWeapon.nDexReq = 32;
@@ -411,21 +422,42 @@ Slot* createUniqueWeapon(Player* pPlayer) {
 		sWeapon.nEnd = 10;
 		sWeapon.nStr = 70;
 		sWeapon.nFth = 30;
-	} else {
+
+	} else if (pPlayer->pQuestLine->nQuestNumber == 2) {
+
 		strcpy(sWeapon.strWeaponName, "GIANT'S BELT");
 
-		sWeapon.nDexReq = 32;
-		sWeapon.nHP = 10;
-		sWeapon.nInt = 10;
-		sWeapon.nEnd = 10;
-		sWeapon.nStr = 70;
-		sWeapon.nFth = 30;
+		sWeapon.nDexReq = 40;
+		sWeapon.nHP = 30;
+		sWeapon.nInt = 20;
+		sWeapon.nEnd = 15;
+		sWeapon.nStr = 65;
+		sWeapon.nFth = 15;
 	}
 
 	pSlot->sWeapon = sWeapon;
 	pSlot->pNext = NULL;
 
 	return pSlot;
+}
+
+void petKhloe(Player* pPlayer) {
+
+	int nInput;
+	
+	displayPetScreen(0);
+
+	while(nInput != 0) {
+		
+		nInput = scanIntInput(0, 1);
+
+		if (nInput == 1) {
+			displayPetScreen(1);
+
+		} else {
+			openRoundTableHoldScreen(pPlayer);
+		}
+	}
 }
 
 
@@ -474,6 +506,42 @@ void displayQuestScreen(Player* pPlayer, int nLine) {
 	} else {
 		printOption(0, "BACK.");
 	}
+	
+}
+
+void displayPetScreen(int nState) {
+
+	system("cls");
+
+	printHeader("KHLOE", 5);
+
+	printTopBorder();
+	printDog();
+	printDiaTopBorder();
+
+	printMultiple(" ", SCREEN_PADDING);
+	printf("║");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("║");
+	printMultiple(" ", SCREEN_PADDING);
+
+	if (nState) {
+		printDialogueText("[Tail Wagging] *BARK BARK*!");
+	} else {
+		printDialogueText("[Panting] *Ruff*.");
+	}	
+
+	printMultiple(" ", SCREEN_PADDING);
+	printf("║");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("║");
+	printf("\n");
+
+	printDiaBottBorder();
+	printBottomBorder();
+
+	printOption(1, "WHO'S A GOOD BOY?");
+	printOption(0, "SEE YOU LATER!");
 	
 }
 
@@ -535,6 +603,38 @@ void printNPC(Player* pPlayer) {
 			printf("%s", aFletaSprite[i]);
 		else 
 			printf("%s", aHildaSprite[i]);
+
+		printMultiple(" ", 2);
+		printf("║");
+
+		printf("\n");
+	}
+}
+
+/* 	printDog 		Prints the dog sprite.					 	   */
+void printDog() {
+	
+	int i;
+
+	char aDogSprite[12][SCREEN_WIDTH - 3] = {"                                                                  ",
+										     "                             KHLOE                                ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  ",
+											 "                                                                  "};
+	for (i = 0; i < 12; i++) {
+		
+		printMultiple(" ", SCREEN_PADDING);
+		printf("║");
+		printMultiple(" ", 2);
+
+		printf("%s", aDogSprite[i]);
 
 		printMultiple(" ", 2);
 		printf("║");
