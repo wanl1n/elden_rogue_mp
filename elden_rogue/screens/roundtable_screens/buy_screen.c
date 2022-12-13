@@ -169,30 +169,32 @@ char* getSpriteFromStock(Stock sShopStock) {
 	int nEmptySpaces;
 	char* strSprite = malloc(sizeof(char) * (SHOP_SLOT_WIDTH - 3) * 10);
 
-	char aSprites[24][(SHOP_SLOT_WIDTH - 3) * 10] = { "SHORT SWORD",
-												  	  "ROGIER'S RAPIER",
-												  	  "CODED SWORD",
-												      "SWORD OF NIGHT AND FLAME",
-												      "UCHIGATANA",
-												      "MOONVEIL",
-												      "RIVERS OF BLOOD",
-												      "HAND OF MALENIA",
-												      "WHIP",
-												      "URUMI",
-												      "THORNED WHIP",
-												      "HOSLOW’S PETAL WHIP",
-												      "CLAYMORE",
-												      "STARSCOURGE GREATSWORD",
-												      "INSEPARABLE SWORD",
-												      "MALIKETH’S BLACK BLADE",
-												      "ASTROLOGER’S STAFF",
-												      "ALBINAURIC STAFF",
-												      "STAFF OF THE GUILTY",
-												      "CARIAN REGAL SCEPTER",
-												      "FINGER SEAL",
-												      "GODSLAYER’S SEAL",
-												      "GOLDEN ORDER SEAL",
-												      "DRAGON COMMUNION SEAL"};
+	char aSprites[24][(SHOP_SLOT_WIDTH - 2) * 10] = {"                ███                        █  █                    ██ █   █                    ███   █                       █  █                       ██████                    ███  ███                    █ █                         ███                                           ",
+												  	  "                  █                          ██                         ██                         ██                       █ ██                         ██                       ████ █                      █ █                         ███                                           ",
+												  	  "                  ;                          ;:                         :;                         ;:                       ; ;;                         ;;                       ████ ;                      █ █                         ███                                           ",
+												      "                  █:                         █:█                        █:█                        █:█                        █:█                      █ █:█                        ███                         ██                         █  █                                         ",
+												      "               █                          █                          █                          █                           █                           █                            █  █                         ██                         █ ██                                       ",
+												      "              ;                           █;                           █;                           █                          █;                          █                         █ ;                          █                         ██ █                                        ",
+												      "              █;                          ██;                          ██;                          █;                         ██;                         █;;                       █ █;;                        █;;                       ██ █                                        ",
+												      "             █                           ██                           ██                           █                          ██                          █                           █                          ;;                         ;;                                          ",
+												      "            █████                      ██   ██                    ██     ██                  █        ██                 █         █                  ██       █                 █ █  █   █                   ██  █  ██                  ██ █  ███                                      ",
+												      "            █████  █ █                 ███  ██  █                 ██      ██ █               ██       ██                 ██       ██                 ██       ██                  ██   █ ██                    ██   ██                      █████ █                                     ",
+												      "           ;█████;  ██                ;█;;;;;█;██                ;█;     ;██;                █;       ;█;                █;       ;█;                █;      ;;█;                ;█;    ;;█;                  ;█;;;;;█;                    ;█████;                                      ",
+												      "                 ██                         █ █                    ;;;;█; █                   ;  ██ ;██                  ;;  ██;██                   ;;   █ ██                    ;   ████                    ;; ; ███                     ;;;█;█                                       ",
+												      "                  █                          ███                        ███                        █:█                     █  █:█                       █ █:█                        █:█                         ██                         █  █                                        ",
+												      "                    ██                     █   ██                     ██████                    ███████                    █████████                  ███████                    ██████                       ███                          █                                            ",
+												      "                   ██                       █ ██                         ██                        ███ █                      ███                        ██:                        ██:                        ███                        ██                                            ",
+												      "                     ██                           ██                   ███  ██ █                    █████                      ███████                  ████████ ███               ██████                      ████                       ██                                            ",
+												      "                   ██                        ;█;                       ;██;                       ;██;                       ;█;;█;                      █   ;█;                    █                          █                          █                                             ",
+												      "                   ██                         █                          █                          █  █                       █████                      █                          █                          █                          █                                            ",
+												      "        ;█; █ █:█ ; █ █              ; █ ::█::█; ;                ; █ █:█ ;█                   ; █ ; █;                     █;█ ;                      █                          █                          █                          █                                               ",
+												      "                   █                          ██                         ██                         ██                         ██                         ██                       █  █                         ██                         █  █                                         ",
+												      "              ██   ██                    █:█   █:█                  █;;█  █ █                   █ █  █;█                    █;█ █  █                     █ ██;█                    ████  █                     █ ████                      ███                                          ",
+												      "               █  ██                       ███                        █ . ██                      █   █                       ████                       █ █                        █ █                        █ █                          █                                           ",
+												      "            :::::                    ███████████              :::█::    :::█:::          :   █: ::::  :█  ::         :    █: ::  :█    :         :     █:::::█     :          :    █  :  █    :            :    █: :█   ::              :::: █ █ :::                      █             ",
+												      "          ;  ;███;█;                  █; █   █;                   ██;█  █;;█                  █ ██ █;;█;█                 ██ ███;█; ;                 ;;██  █;;█                  █;;███;;█                    █;;;;;█                      █████                                       "};
+
+
 	
 	nIndex = ((sShopStock.sWeapon.nWeaponType - 1) * 4) + (sShopStock.sWeapon.nWeaponIndex - 1);
 	strcpy(strSprite, aSprites[nIndex]);

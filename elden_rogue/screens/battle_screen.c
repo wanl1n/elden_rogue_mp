@@ -329,13 +329,6 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt) 
 
 	printHeader("BATTLE TIME", 11);
 
-	printf("\t\t[NAME]: %s\n", pPlayer->strName);
-	printPlayerHealth(pPlayer->nPlayerHP, pPlayer->nPlayerMaxHP);
-	printf("%d", pPlayer->nPlayerHP);
-
-	printf("\t\t[POTIONS]: %d\n\n\n", pPlayer->nPotions);
-	//player sprite
-
 	printf("\t\t[ENEMY NAME]: %s\n", sEnemy.strName);
 	printPlayerHealth(sEnemy.nHP, sEnemy.nMaxHP);
 	printf("%d\n", sEnemy.nHP);
@@ -343,6 +336,13 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt) 
 	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);
 	//ENEMY sprite
 
+	printf("\t\t[POTIONS]: %d\n\n\n", pPlayer->nPotions);
+	//player sprite
+	
+	printf("\t\t[NAME]: %s\n", pPlayer->strName);
+	printPlayerHealth(pPlayer->nPlayerHP, pPlayer->nPlayerMaxHP);
+	printf("%d", pPlayer->nPlayerHP);
+	
 	if (nTurn) {
 		printHeader("PLAYER TURN", 11);
 		printOption(1, "ATTACK");
