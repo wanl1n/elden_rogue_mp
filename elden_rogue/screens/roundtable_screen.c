@@ -108,13 +108,13 @@ void openSaveScreen(Player* pPlayer) {
 		nInputSave = scanIntInput(0, 1);
 
 		if (nInputSave) {
-			fp = fopen("save.dat", "wb");
+			fp = fopen("../saves/save.dat", "wb");
 
 			fwrite(pPlayer, sizeof(Player), 1, fp);
 
 			fclose(fp);
 
-			nInputSave = 0;
+			printSystemMessage("Saved your progress.");
 		} else {
 			openRoundTableHoldScreen(pPlayer);
 		}

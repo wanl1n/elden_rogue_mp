@@ -29,8 +29,9 @@ void openLevelUpScreen(Player* pPlayer) {
 		if (nInputLevelUp == 0) {
 			openRoundTableHoldScreen(pPlayer);
 		} else if (pPlayer->nRunes >= nRuneCost) {
-			levelUp(nInputLevelUp, pPlayer, nRuneCost);
 			displayLevelUpScreen(nInputLevelUp, pPlayer, nRuneCost);
+			levelUp(nInputLevelUp, pPlayer, nRuneCost);
+			
 		} else {
 			displayLevelUpScreen(INSUFFICIENT_RUNES, pPlayer, nRuneCost);
 		}
@@ -101,7 +102,7 @@ void levelUp(int nStat, Player* pPlayer, int nRuneCost) {
 
 	if(nSuccess) {
 		pPlayer->nLevel++;
-		pPlayer->nRunes -= nRuneCost; printf("%d", nRuneCost);
+		pPlayer->nRunes -= nRuneCost; 
 	} else {
 		displayLevelUpScreen(MAXED_OUT, pPlayer, nRuneCost);
 	}

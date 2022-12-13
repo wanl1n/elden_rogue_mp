@@ -210,10 +210,34 @@ void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 
 	printHeader("CHARACTER CREATION", 18);
 
-	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
-	printf("NAME: %s\n", pPlayer->strName);
-	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
-	printf("JOB CLASS: %s\n", pPlayer->strJobClass);
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("╓");
+	printMultiple("—", OPTION_WIDTH);
+	printf("╖\n");
+
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("║");
+	printMultiple(" ", 2);
+	printf("NAME  →  %-*.*s", OPTION_WIDTH-13, OPTION_WIDTH-13, pPlayer->strName);
+	printMultiple(" ", 2);
+	printf("║\n");
+
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("╟");
+	printMultiple("—", OPTION_WIDTH);
+	printf("╢\n");
+	
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("║");
+	printMultiple(" ", 2);
+	printf("JOB   →  %-*.*s", OPTION_WIDTH-13, OPTION_WIDTH-13, pPlayer->strJobClass);
+	printMultiple(" ", 2);
+	printf("║\n");
+
+	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printf("╙");
+	printMultiple("—", OPTION_WIDTH);
+	printf("╜\n");
 
 	printOption(1, "NAME");
 	printOption(2, "JOB CLASS");
@@ -357,7 +381,8 @@ void displayJobClassScreen(int nJobClass) {
 			break;
 	}
 
-	printf("\t\t[0] BACK			[1] CONFIRM\n");
+	printOption(1, "CONFIRM");
+	printOption(0, "BACK");
 }
 
 
