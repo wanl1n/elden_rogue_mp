@@ -30,8 +30,10 @@ void openQuestScreen(Player* pPlayer) {
 		else if (pPlayer->nCompletedQuests == 1 && pPlayer->pQuestLine->nQuestNumber != 2) // Player is done with 1st quest.
 			pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
 				
-		else if (pPlayer->nCompletedQuests == 2) 
+		else if (pPlayer->nCompletedQuests == 2) {
 			petKhloe(pPlayer);
+			nContinue = 0;
+		}
 
 		// If there's no active quest, ask player if they want to take a quest.
 		if (pPlayer->pQuestLine->nQuestStatus != QUEST_IN_PROG) {
@@ -204,19 +206,19 @@ int checkQuestProgress(Player* pPlayer) {
 			// Depending on the stage, check progress
 			switch (nStage) {
 				case 1:
-					if (pPlayer->nQuestProgress >= 0) // Killed 5 or more creatures from Stormveil.
+					if (pPlayer->nQuestProgress >= 5) // Killed 5 or more creatures from Stormveil.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 2:
-					if (pPlayer->nQuestProgress >= 0) // Collected 7 or more rune tiles from Redmane Castle.
+					if (pPlayer->nQuestProgress >= 6) // Collected 7 or more rune tiles from Redmane Castle.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 3:
-					if (pPlayer->nQuestProgress >= 0) // Killed Starscourge Radahn.
+					if (pPlayer->nQuestProgress >= 1) // Killed Starscourge Radahn.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
@@ -231,19 +233,19 @@ int checkQuestProgress(Player* pPlayer) {
 			// Depending on the stage, check progress
 			switch (nStage) {
 				case 1:
-					if (pPlayer->nQuestProgress >= 0) // Won a battle without using potions.
+					if (pPlayer->nQuestProgress >= 1) // Won a battle without using potions.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 2:
-					if (pPlayer->nQuestProgress >= 0) // Kill 10 enemies.
+					if (pPlayer->nQuestProgress >= 10) // Kill 10 enemies.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 3:
-					if (pPlayer->nQuestProgress >= 0) // Kill Leyndell Capital boss.
+					if (pPlayer->nQuestProgress >= 1) // Kill Leyndell Capital boss.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
@@ -523,7 +525,7 @@ void displayPetScreen(int nState) {
 
 	system("cls");
 
-	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 4) + 2) -1 ;
+	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 4) + 2) -1;
 	printHeader("KHLOE", 5);
 
 	printTopBorder();
@@ -538,10 +540,8 @@ void displayPetScreen(int nState) {
 
 	if (nState) {
 		printf("%-*.*s ", nDialogueWidth, nDialogueWidth, "[Tail Wagging] BARK BARK! :D");
-		printf("\n");
 	} else {
 		printf("%-*.*s ", nDialogueWidth, nDialogueWidth, "[Panting] Ruff.");
-		printf("\n");		
 	}	
 
 	printMultiple(" ", SCREEN_PADDING);
@@ -581,32 +581,49 @@ void printNPC(Player* pPlayer) {
 
 	int i;
 
-	char aFletaSprite[12][SCREEN_WIDTH - 3] = {"                                                                  ",
-											   "                             FLETA                                ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  "};
-	char aHildaSprite[12][SCREEN_WIDTH - 3] = {"                                                                  ",
-											   "                              HILDA                               ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  ",
-											   "                                                                  "};
+	char aFletaSprite[20][150] = {  "            ████                                  ████            ",
+									"         ███   ███     ███████████ ███████████ ███    ██          ",
+									"       ██       ███ ███          ██         ███         ███       ",
+									"      █    ███    ██                           ███████    █       ",
+									"      █   █  ███  █                             █     █   █       ",
+									"      █  █      ██                              █   ██   █        ",
+									"      █   ██  █  █       ████████ █████████      ██    ██         ",
+									"      ██    █    █    ███        █        ███    █ ████           ",
+									"        ██    ████ ███                      ███  █████            ",
+									"          ████   ██       O           O       ███     ███         ",
+									"        ██    █████                            ██ ███    █        ",
+									"       █    ██    █     ██             ██      █     █    █       ",
+									"       █  ██     ██     ██             ██      ██  ██ █   █       ",
+									"       █   ██ █ █  █   ;;               ;;    ████   █   ██       ",
+									"        █     ██   █          █████           █  ███    █         ",
+									"         █████      █                        █      ████          ",
+									"                     ██████           ███████                     ",
+									"                           ███████████                            ",
+									"                              █   █                               ",
+									"                    ██████████     ███████████                    "};
 
-	for (i = 0; i < 12; i++) {
+	char aHildaSprite[20][150] = {  "                      ███████████ ██████████                      ",
+									"                   ███          ██         ███                    ",
+									"                  ██                          █                   ",
+									"                ███                            ██                 ",
+									"               █                                 █                ",
+									"              █           █████   █████           █               ",
+									"             ██          █     ███     ██         ██              ",
+									"             █          █               █           █             ",
+									"             █         █  =           =  █          █             ",
+									"            ██       ██                   ██       █              ",
+									"            ██      █   ██             ██   █      █              ",
+									"          ██       █    ██             ██    █      █             ",
+									"           ██      █   //               //    █    █              ",
+									"          █        █          █████           █     █             ",
+									"          █         █                        █       ██           ",
+									"         █           ██████           ███████        █            ",
+									"        █                  ███████████               █            ",
+									"       █                      █   █                   █  █        ",
+									"        ██          ██████████     ███████████         ██         ",
+									"         ██     ████       █         █       ████    ██           "};
+
+	for (i = 0; i < 20; i++) {
 		
 		printMultiple(" ", SCREEN_PADDING);
 		printf("║");

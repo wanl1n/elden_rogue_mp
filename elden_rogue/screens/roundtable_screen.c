@@ -119,7 +119,7 @@ void openSaveScreen(Player* pPlayer) {
 
 			for (i = 0; i < nInventorySize; i++) {
 				fwrite(pTempHead, sizeof(Slot), 1, fp);
-				printf(" %s ", pTempHead->sWeapon.strWeaponName);
+				//printf(" %s ", pTempHead->sWeapon.strWeaponName);
 				pTempHead = pTempHead->pNext;
 			}
 

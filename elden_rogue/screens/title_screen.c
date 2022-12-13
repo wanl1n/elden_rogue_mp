@@ -70,6 +70,7 @@ void loadData(Player* pPlayer) {
 	}
 
 	pTempHead->pNext = NULL;
+	pPlayer->pQuestLine = NULL;
 
 	fclose(fp);
 }
