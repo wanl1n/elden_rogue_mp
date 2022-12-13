@@ -1787,17 +1787,17 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 	printf("YOUR HEALTH ► ");
 	
 	for(i = 0; i < nPlayerHealth; i++) {
-		//colorText(COLOR_TILE_PLAYER);
-		// printf("█ ");
-		printf("\e[1;92m█\e[0m");	
-	}
-		if(50 + (nPlayerHealth / 2)){
-			printf("\e[1;93m█\e[0m");
-		}
-		else if(20 + (nPlayerHealth / 2)){
-			printf("\e[1;91m█\e[0m");
-		}
 
+		if(nPlayerHealth < nPlayerMaxHP / 7)
+			printf("\e[1;91m█\e[0m");
+		else if (nPlayerHealth >= nPlayerMaxHP / 2)
+			printf("\e[1;92m█\e[0m");	
+		else if(nPlayerHealth < nPlayerMaxHP / 2)
+			printf("\e[1;93m█\e[0m");
+		
+		
+	}
+		
 	for(i = 0; i < (nPlayerMaxHP - nPlayerHealth); i++) {
 		colorText(COLOR_TILE_OUT);
 		// printf("█ ");
