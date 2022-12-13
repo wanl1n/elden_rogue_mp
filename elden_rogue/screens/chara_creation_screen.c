@@ -338,42 +338,75 @@ void displayJobClassScreen(int nJobClass) {
 
 	switch(nJobClass) {
 		case VAGABOND:
-			printf("\tCLASS TITLE: VAGABOND\n\n"
+			printf("\tCLASS TITLE: VAGABOND		   █   ██,,,,,██\n"
+				"                          		  █ █  █ : : : █\n"
+				"                          		  █ █   █: : :█\n"
+				"                          		█ █ █ █  █ : █\n"
+				"                          		 █████    █:█\n"
+				"                          		   █       █\n"
 				"\tLEVEL			09\n"
 				"\tHEALTH			15 	ENDURANCE		11\n"
 				"\tDEXTERITY		13	STRENGTH		14\n"
 				"\tINTELLIGENCE		09 	FAITH			09\n\n");
 			break;
 		case SAMURAI:
-			printf("\tSAMURAI\n\n"
+			printf("\tSAMURAI		 █      █\n"
+				"       		         ██     ███  \n"
+				"       		         █ █    █:█  \n"
+				"       		         █:█    █:█  \n"
+				"       		        █████  █████\n"
+				"       		                 █\n"
 				"\tLEVEL			09\n"
 				"\tHEALTH			12 	ENDURANCE		13\n"
 				"\tDEXTERITY		15	STRENGTH		12\n"
 				"\tINTELLIGENCE		09	FAITH			08\n\n");
 			break;
 		case WARRIOR:
-			printf("\tWARRIOR\n\n"
+			printf("\tWARRIOR	   █     █\n"
+				"       		   ███  █  █\n"
+				"       		   █:█    █:█\n"
+				"       		   █:█     █:█\n"
+				"       		  █████   ████\n"
+				"       		    █      ██"
 				"\tLEVEL			08\n"
 				"\tHEALTH			11 	ENDURANCE		11\n"
 				"\tDEXTERITY		16	STRENGTH		10\n"
 				"\tINTELLIGENCE		10	FAITH			08\n\n");
 			break;
 		case HERO:
-			printf("\tHERO\n\n"
+			printf("\tHERO	 █  █  ██      ███\n"
+				"    		█:█ █ █ :█    █ : █\n"
+				"    		█:████  ::█ █ : : : █\n"
+				"    		 █  █ █ :█  █ : : : █\n"
+				"    		    █  ██   █ : : : █\n"
+				"    		    █         █ : █\n"
+				"    		    █          ███\n"
 				"\tLEVEL			07\n"
 				"\tHEALTH			14 	ENDURANCE		12\n"
 				"\tDEXTERITY		09	STRENGTH		16\n"
 				"\tINTELLIGENCE		07	FAITH			08\n\n");
 			break;
 		case PROPHET:
-			printf("\tPROPHET\n\n"
+			printf("\tPROPHET	  █     ████\n"
+				"       		 ███   █    █\n"
+				"       		  █     █;;█\n"
+				"       		  █     █ ██   ███\n"
+				"       		  █    ████ ███   █\n"
+				"       		  █    █ █    ;   █\n"
+				"       		  █    ███████████ \n"
 				"\tLEVEL			07\n"
 				"\tHEALTH			10 	ENDURANCE		08\n"
 				"\tDEXTERITY		10	STRENGTH		11\n"
 				"\tINTELLIGENCE		07	FAITH			16\n\n");
 			break;
 		case ASTROLOGER:
-			printf("\tASTROLOGER\n\n"
+			printf("\tASTROLOGER	   ██         ███\n"
+				"          		   ██        █ : █\n"
+				"          		   █████    █: : :█\n"
+				"          		   ██      █ : : : █\n"
+				"          		   ██       █: : :█\n"
+				"          		   ██        █ : █\n"
+				"          		   ██         ███\n"
 				"\tLEVEL			06\n"
 				"\tHEALTH			09 	ENDURANCE		09\n"
 				"\tDEXTERITY		12	STRENGTH		08\n"

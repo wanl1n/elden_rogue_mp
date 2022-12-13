@@ -336,246 +336,73 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 
 	switch(nArea){
 		case STORMVEIL:
-
-			switch(sEnemy.nType){
-				case 1:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    █████\n");
-					printf("\t\t █ █ ████  █ █\n");
-					printf("\t\t ███       ███\n");
-					printf("\t\t   █  ███  █  \n");
-					printf("\t\t   ███   ███ \n");
-					printf("\n");
-					break;
-				case 2:
-					printf("\t\t     ████████\n");
-					printf("\t\t   ██   ::   █ \n");
-					printf("\t\t   █    ::    █\n");
-					printf("\t\t   ██████████████\n");
-					printf("\t\t ███   █   █;;██  \n");
-					printf("\t\t █:█        ;;  ███\n");
-					printf("\t\t █:██    ███;;█    █\n");
-					printf("\t\t █:█ ████  █;; █   █\n");
-					printf("\t\t ███       █;;█    █\n");
-					printf("\t\t   █  ███  █;;  ███\n");
-					printf("\t\t   ███   ███;;██\n");
-					printf("\n");
-					break;
-				case 3:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    ███████\n");
-					printf("\t\t █ █ ████  █    █\n");
-					printf("\t\t ███       █    █\n");
-					printf("\t\t   █  ███  ██  █\n");
-					printf("\t\t   ███   ███ ██\n");
-					printf("\n");
-					break;
-			}
-
+			printf("   █    █     \e[1;97m;;;;\e[0m       \e[1;93m█\e[0m █   \n");
+			printf("  █ █  █ █   ██████     \e[1;93m███\e[0m █ ██\n");
+			printf("     █   █  \e[1;97m;\e[0m█    █\e[1;97m;\e[0m     \e[1;93m█\e[0m   █  █\n");
+			printf("   ██ █   █\e[1;97m;;\e[0m█    █\e[1;97m;;\e[0m  ██\e[1;93m;\e[0m█ █   \n");
+			printf(" ██  █ █ █ \e[1;97m;;;\e[0m████\e[1;97m;;;\e[0m █ █\e[1;93m;\e[0m██  ██\n");
+			printf(" █    █ █ █ ██    ██ █ ██ █  █  █\n");
+			printf("   ██  █ ███\e[1;93m;\e[0m     \e[1;93m;\e[0m ███ █ █ █  \n");
+			printf("  █  █ ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██ ███\n");
+			printf(" █    █ █ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ █ █   █\n");
+			printf("       ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██    \n");
+			printf("\n");
 			break;
-
 		case RAYA_LUCARIA:
-			switch(sEnemy.nType){
-				case 1:
-					printf("\t\t          ████████\n");
-					printf("\t\t         █ :::::: █ \n");
-					printf("\t\t     ████ :  ::  : ████\n");
-					printf("\t\t    █  █:█ :::::: █:█  █\n");
-					printf("\t\t   █ ██ : ████████ : ██ █\n");
-					printf("\t\t  █  █;  :  :;: : :  ;█  █\n");
-					printf("\t\t █   █ ; : ;: : :;: ; █   █\n");
-					printf("\t\t █   █  ;;;;;;;;;;;;  █   █\n");
-					printf("\t\t  █   █              █   █\n");
-					printf("\t\t   █ █ █            █ █ █\n");
-					printf("\t\t    █   █          █   █\n");
-					printf("\t\t   █ █   ██████████   █ █\n");
-					printf("\n");
-					break;
-				case 2:
-					printf("\t\t    █ █ █ █ █   █\n");
-					printf("\t\t   █;█;█;█;█;█ █ █\n");
-					printf("\t\t  ████████████  █ \n");
-					printf("\t\t ███████████████ █\n");
-					printf("\t\t█;;█;  █   █;█ █ █ \n");
-					printf("\t\t█;;█;;     ;;█ █ █\n");
-					printf("\t\t ██;;;;;;;;;;█ █ █\n");
-					printf("\t\t   █████████████ █\n");
-					printf("\t\t ███  ██  ██ █ █ █\n");
-					printf("\t\t   █  ███ ███ ██ █ \n");
-					printf("\t\t   ███   ███   ███\n");
-					printf("\n");
-					break;
-				case 3:
-					printf("\t\t    █████████   █\n");
-					printf("\t\t   █         █ █ █\n");
-					printf("\t\t  █  ███████  █ █\n");
-					printf("\t\t █  █       █ ██ █\n");
-					printf("\t\t█  █   █   █ █ █ █ \n");
-					printf("\t\t█  █   █   █ █ █ █\n");
-					printf("\t\t ██          █ █ █\n");
-					printf("\t\t   █████████████ █\n");
-					printf("\t\t ███         █ █ █\n");
-					printf("\t\t   █  ███   █ ██ █ \n");
-					printf("\t\t   ███   ███   ███\n");
-					printf("\n");
-					break;
-			}
-
+			printf("             \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m██\e[0m    \e[1;93m;\e[0m \e[1;94m███\e[0m\n");
+			printf("\e[1;93m   ███\e[0m      \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █   █\e[0m \e[1;93m;\e[0m \n");
+			printf("\e[1;93m  █   █\e[0m    \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █\e[0m\e[1;93m;\e[0m \e[1;94m█   █\e[0m     \n");
+			printf("\e[1;93m █ ;   █\e[0m    █   █        ███ ;\n");
+			printf("\e[1;93m █ ;   █\e[0m    █   █         █\n");
+			printf("\e[1;93m  █   █\e[0m    \e[1;91m█ ███ █\e[0m       ███\n");
+			printf("\e[1;93m   ███\e[0m   ██       ██      █\e[1;93m:\e[0m    \n");
+			printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
+			printf("\e[1;94m         █         █\e[0m      █\e[1;93m:\e[0m   \n");
+			printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
+			printf("\n");
 			break;
-
 		case REDMANE_CASTLE:
-			switch(sEnemy.nType){
-				case 1:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    █████\n");
-					printf("\t\t █ █ ████  █ █\n");
-					printf("\t\t ███       ███\n");
-					printf("\t\t   █  ███  █  \n");
-					printf("\t\t   ███   ███ \n");
-					printf("\n");
-					break;
-				case 2:
-					printf("\t\t     ████████\n");
-					printf("\t\t   ██   ::   █ \n");
-					printf("\t\t   █    ::    █\n");
-					printf("\t\t   ██████████████\n");
-					printf("\t\t ███   █   █;;██  \n");
-					printf("\t\t █:█        ;;  ███\n");
-					printf("\t\t █:██    ███;;█    █\n");
-					printf("\t\t █:█ ████  █;; █   █\n");
-					printf("\t\t ███       █;;█    █\n");
-					printf("\t\t   █  ███  █;;  ███\n");
-					printf("\t\t   ███   ███;;██\n");
-					printf("\n");
-					break;
-				case 3:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    ███████\n");
-					printf("\t\t █ █ ████  █    █\n");
-					printf("\t\t ███       █    █\n");
-					printf("\t\t   █  ███  ██  █\n");
-					printf("\t\t   ███   ███ ██\n");
-					printf("\n");
-					break;
-			}
-
+			printf("     █     \e[1;91m;:;;;:;     █\n");
+			printf("   ██     \e[1;91m;:;:::;:;     ██ \n");
+			printf("  █\e[1;93m:\e[0m █   \e[1;91m;\e[0m\e[1;93m█\e[0m\e[1;91m;:\e[0m\e[1;93m███\e[0m\e[1;91m:;\e[0m\e[1;93m█\e[0m\e[1;91m;\e[0m   █ \e[1;93m:\e[0m█\n");
+			printf(" █\e[1;93m:\e[0m  █   \e[1;91m:;\e[0m\e[1;93m██   ██\e[1;91m;:\e[0m   █  \e[1;93m:\e[0m█ \n");
+			printf(" █\e[1;93m:\e[0m  █    \e[1;91m:;\e[0m\e[1;93m█   █\e[1;91m;:\e[0m    █  \e[1;93m:\e[0m█\n");
+			printf("  █\e[1;93m:\e[0m █\e[1;93m███\e[0m \e[1;91m██ ███ ██\e[0m \e[1;93m████\e[0m \e[1;93m:\e[0m█\n");
+			printf("   █\e[1;93m:\e[0m█   \e[1;93m█         █\e[0m   █\e[1;93m:\e[0m█    \n");
+			printf("   ██;\e[1;93m███\e[0m;         ;\e[1;93m███\e[0m;██  \n");
+			printf("    ██;;;           ;;; ██   \n");
+			printf("     █ \e[1;93m█             \e[1;93m█\e[0m  █     \n");
+			printf("\n");
 			break;
 
 		case VOLCANO_MANOR:
-			switch(sEnemy.nType){
-				case 1:
-					printf("\t\t ██     ████████\n");
-					printf("\t\t █ █  ██   ::   ██\n");
-					printf("\t\t █  █ █  █ :: █  █\n");
-					printf("\t\t █  █ ███      ███ \n");
-					printf("\t\t █ ██  █ ██████ █   \n");
-					printf("\t\t █ █ █ █ █,,,,█ ████\n");
-					printf("\t\t█████ ██ █,,,,██    █\n");
-					printf("\t\t █ ██ █  █,,,,█      █\n");
-					printf("\t\t ███ ██  █,,,,██    █\n");
-					printf("\t\t      █   ████  █  █ \n");
-					printf("\t\t       ███   ███ ██\n");
-					printf("\n");
-					break;
-				case 2:
-					printf("\t\t  █     ████████\n");
-					printf("\t\t ███  ██   ::   ██  \n");
-					printf("\t\t  █   █  █ :: █  █ \n");
-					printf("\t\t █ █  ███      ███  \n");
-					printf("\t\t █ █   █  █████ █  █████\n");
-					printf("\t\t █ ██  █ █ ;;  ██ █ ;;; █\n");
-					printf("\t\t █ █ ███ █ ;;;  ██ ;;;; █\n");
-					printf("\t\t █ ██ █  █ ;;;; ██ ;;;; █\n");
-					printf("\t\t █ █ ██  █      ██      █\n");
-					printf("\t\t █ █  █    ████████████ █\n");
-					printf("\t\t ███   ███   ███   \n");
-					printf("\n");
-					break;
-				case 3:
-					printf("\t\t         ███ \n");
-					printf("\t\t        █;;;█    \n");
-					printf("\t\t       ███████    \n");
-					printf("\t\t      █ █, ,█ █ \n");
-					printf("\t\t     █  █ , █  █\n");
-					printf("\t\t██████████ ██████████\n");
-					printf("\t\t █  ; ;  ███  ; ;  █ \n");
-					printf("\t\t  █ ; ; █,,,█ ; ; █\n");
-					printf("\t\t  ;█████,,,,,█████;\n");
-					printf("\t\t  ; ; █,,,,,,,█ ; ;\n");
-					printf("\n");
-					break;
-			}
-
+			printf("\e[1;92m        ██████      \e[0m \e[1;91m  ;█; \e[0m\n");
+			printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+			printf("\e[1;92m      █        █    \e[0m \e[1;91m ;██; \e[0m\n");
+			printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+			printf("\e[1;92m        ██████      \e[0m \e[1;91m ;██; \e[0m\n");
+			printf("\e[1;92m     ███ █,,,██  █  \e[0m \e[1;91m ;██; \e[0m\n");
+			printf("\e[1;92m    █   █,,\e[1;93m█\e[0m\e[1;92m,,█ █ █\e[0m  \e[1;91m ;██; \e[0m\n");
+			printf("\e[1;92m   █  █  ,,,,█ ██  █\e[0m \e[1;91m██████\e[0m\n");
+			printf("\e[1;92m   █   ██████   █  █\e[0m \e[1;91m  ██  \e[0m\n");
+			printf("\e[1;92m    █          █ █ █\e[0m \e[1;91m  ██  \e[0m\n");
+			printf("\e[1;92m     ████████████ █ \e[0m \e[1;91m  ██  \e[0m\n");
+			printf("\n");
 			break;
 
 		case LEYNDELL_CAPITAL:
-			switch(sEnemy.nType){
-				case 1:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    █████\n");
-					printf("\t\t █ █ ████  █ █\n");
-					printf("\t\t ███       ███\n");
-					printf("\t\t   █  ███  █  \n");
-					printf("\t\t   ███   ███ \n");
-					printf("\n");
-					break;
-				case 2:
-					printf("\t\t     ████████\n");
-					printf("\t\t   ██   ::   █ \n");
-					printf("\t\t   █    ::    █\n");
-					printf("\t\t   ██████████████\n");
-					printf("\t\t ███   █   █;;██  \n");
-					printf("\t\t █:█        ;;  ███\n");
-					printf("\t\t █:██    ███;;█    █\n");
-					printf("\t\t █:█ ████  █;; █   █\n");
-					printf("\t\t ███       █;;█    █\n");
-					printf("\t\t   █  ███  █;;  ███\n");
-					printf("\t\t   ███   ███;;██\n");
-					printf("\n");
-					break;
-				case 3:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    ███████\n");
-					printf("\t\t █ █ ████  █    █\n");
-					printf("\t\t ███       █    █\n");
-					printf("\t\t   █  ███  ██  █\n");
-					printf("\t\t   ███   ███ ██\n");
-					printf("\n");
-					break;
-			}
-
-			break;
-				
+			printf("     █  █ █;;;;;;;█ █   \n");
+			printf("    █    █;█;███;█;█    \n");
+			printf("   ██    ;█;█   █;█;   \n");
+			printf("  ███   █;;██   ██;;█  \n");
+			printf("  ██   █ ;;;█   █;;; █  \n");
+			printf(" ██   ██ ;██ ███ ██; ██\n");
+			printf("  ██ █  ██         ██  █    \n");
+			printf(" ██   █   █████████   █\n");
+			printf("  ██   █ ;    █    ; █  \n");
+			printf("  :█:   █ ; ; █;  ; █        \n");
+			printf("\n");
+			break;	
 	}
 
 	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);

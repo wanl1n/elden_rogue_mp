@@ -1752,10 +1752,16 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 	printf("[HEALTH]: ");
 	
 	for(i = 0; i < nPlayerHealth; i++) {
-		colorText(COLOR_TILE_PLAYER);
+		//colorText(COLOR_TILE_PLAYER);
 		// printf("█ ");
-		printf("█");
+		printf("\e[1;92m█\e[0m");	
 	}
+		if(nPlayerHealth / 2){
+			printf("\e[1;93m█\e[0m");
+		}
+		else if(20 + (nPlayerHealth / 2)){
+			printf("\e[1;91m█\e[0m");
+		}
 
 	for(i = 0; i < (nPlayerMaxHP - nPlayerHealth); i++) {
 		colorText(COLOR_TILE_OUT);
@@ -1765,7 +1771,6 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 
 	resetColors();
 }
-
 /* 	printItems 		Prints the players items.
 	
 	@param nPotions	An integer variable containing the player's potions.

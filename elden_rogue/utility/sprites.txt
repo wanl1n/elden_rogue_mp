@@ -539,24 +539,16 @@ sprites
 	//vagabond
 	printf("   █   ██,,,,,██\n");
 	printf("  █ █  █ : : : █\n");
-	printf("  █ █  █ : : : █\n");
 	printf("  █ █   █: : :█\n");
-	printf("  █ █   █: : :█\n");
-	printf("  █ █    █ : █\n");
 	printf("█ █ █ █  █ : █\n");
 	printf(" █████    █:█\n");
-	printf("  ███     █:█\n");
 	printf("   █       █\n");
 	//samurai
 	printf("  █      █\n");
 	printf("  ██     ███  \n");
 	printf("  █ █    █:█  \n");
-	printf("  █:█    █:█ \n");
-	printf("  █:█    █:█ \n");
-	printf("  █ █    █:█  \n");
 	printf("  █:█    █:█  \n");
 	printf(" █████  █████\n");
-	printf("         ███\n");
 	printf("          █\n");
 	//warrior
 	printf("    █     █\n");
