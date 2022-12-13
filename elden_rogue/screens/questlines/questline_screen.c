@@ -212,7 +212,7 @@ int checkQuestProgress(Player* pPlayer) {
 						return QUEST_IN_PROG;
 					break;
 				case 2:
-					if (pPlayer->nQuestProgress >= 6) // Collected 7 or more rune tiles from Redmane Castle.
+					if (pPlayer->nQuestProgress >= 7) // Collected 7 or more rune tiles from Redmane Castle.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;

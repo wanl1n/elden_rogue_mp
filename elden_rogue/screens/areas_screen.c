@@ -1351,7 +1351,9 @@ int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBoss
 			break;
 
 		case TILE_FAST_TRAVEL:
+			
 			if(*pFloor == 1) {
+				*pCleared = 1;
 				openFastTravelScreen(pPlayer);
 			} else if (*pBossResult){
 				*pCleared = 1;
@@ -1465,7 +1467,7 @@ void displayUserInterface(int nPlayerMaxHP, Player* pPlayer, int nPrompt) {
 			printSystemMessage("You encountered an enemy.");
 			break;
 		case TILE_FAST_TRAVEL:
-			printSystemMessage("You fast travelled.");
+			printSystemMessage("You haven't cleared the boss.");
 			break;
 		case TILE_DOOR:
 			printSystemMessage("You entered another room.");
@@ -1514,14 +1516,23 @@ void displayResultScreen(int nType, int nBattleResult, int nRewards) {
 			printHeader("GREAT ENEMY FELLED", 18);
 		}
 
-		printf("\t\tYou gained %d runes.", nRewards);
+		printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+		printf("The elder says ►  You gained %d runes.\n\n", nRewards);
+
+		// Print bottom border.
+		printMultiple(" ", SCREEN_PADDING);
+		printf("╚");
+		printMultiple("═", SCREEN_WIDTH-2);
+		printf("╝\n\n");
 
 	} else {
 
+		colorText(COLOR_TILE_BOSS);
 		printHeader("YOU DIED", 8);
+		resetColors();
 	}
 
-	Sleep(2500);
+	Sleep(1500);
 }
 
 
@@ -1773,7 +1784,7 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 
 	printf("\n");
 	printMultiple(" ", SCREEN_PADDING);
-	printf("[HEALTH]: ");
+	printf("YOUR HEALTH ► ");
 	
 	for(i = 0; i < nPlayerHealth; i++) {
 		//colorText(COLOR_TILE_PLAYER);
@@ -1812,7 +1823,7 @@ void printEnemyHealth(int nHP, int nMaxHP) {
 
 	printf("\n");
 	printMultiple(" ", SCREEN_PADDING);
-	printf("[HEALTH]: ");
+	printf("ENEMY HP ► ");
 	
 	for(i = 0; i < nHP; i++) {
 		//colorText(COLOR_TILE_PLAYER);
@@ -1838,9 +1849,9 @@ void printItems(int nPotions, int nRunes) {
 	
 	printf("\n");
 	printMultiple(" ", SCREEN_PADDING);
-	printf("[RUNES]: %d", nRunes);
+	printf("RUNES ►  %d", nRunes);
 	printMultiple(" ", SCREEN_PADDING);
-	printf("[POTIONS]: %d", nPotions);
+	printf("POTIONS ►  %d", nPotions);
 }
 
 /* 	printPlayerMoves 	Prints the player's possible moves.			   */

@@ -115,13 +115,15 @@ void openSaveScreen(Player* pPlayer) {
 
 			fwrite(pPlayer, sizeof(Player), 1, fp);
 
-			nInventorySize = getPlayerWeapons(&(pPlayer->pInventory));
+			if (pPlayer->pInventory != NULL) {
+				nInventorySize = getPlayerWeapons(&(pPlayer->pInventory));
 
-			for (i = 0; i < nInventorySize; i++) {
-				fwrite(pTempHead, sizeof(Slot), 1, fp);
-				//printf(" %s ", pTempHead->sWeapon.strWeaponName);
-				pTempHead = pTempHead->pNext;
+				for (i = 0; i < nInventorySize; i++) {
+					fwrite(pTempHead, sizeof(Slot), 1, fp);
+					pTempHead = pTempHead->pNext;
+				}
 			}
+				
 
 			fclose(fp);
 

@@ -47,7 +47,7 @@ void printInputTag() {
 	// Print bottom border.
 	printMultiple(" ", SCREEN_PADDING);
 	printf("╚");
-	printMultiple("═", SCREEN_WIDTH);
+	printMultiple("═", SCREEN_WIDTH-2);
 	printf("╝\n\n");
 
 	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));

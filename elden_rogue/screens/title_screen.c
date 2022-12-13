@@ -59,17 +59,21 @@ void loadData(Player* pPlayer) {
 	fp = fopen("saves/save.dat", "rb");
 
 	fread(pPlayer, sizeof(Player), 1, fp); // player stats
-	fread(pTempHead, sizeof(Slot), 1, fp); // apply the head
 
-	pPlayer->pInventory = pTempHead; //set head to player inventory
+	if (feof(fp)) {
+		fread(pTempHead, sizeof(Slot), 1, fp); // apply the head
 
-	while(fread(pNewSlot, sizeof(Slot), 1, fp)) {
-		pTempHead->pNext = pNewSlot;
-		pTempHead = pTempHead->pNext;
-		pNewSlot = malloc(sizeof(Slot));
+		pPlayer->pInventory = pTempHead; //set head to player inventory
+
+		while(fread(pNewSlot, sizeof(Slot), 1, fp)) {
+			pTempHead->pNext = pNewSlot;
+			pTempHead = pTempHead->pNext;
+			pNewSlot = malloc(sizeof(Slot));
+		}
+
+		pTempHead->pNext = NULL;
 	}
 
-	pTempHead->pNext = NULL;
 	pPlayer->pQuestLine = NULL;
 
 	fclose(fp);

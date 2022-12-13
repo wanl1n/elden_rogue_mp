@@ -337,12 +337,12 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 
 	//Sleep(3000);
 
-	//system("cls");
+	system("cls");
 
 	printHeader("BATTLE TIME", 11);
 
-	//ENEMY sprite
-	printf("\t\t[ENEMY NAME]: %s\n", sEnemy.strName);
+	printMultiple(" ", SCREEN_PADDING);
+	printf("ENEMY NAME ► %s\n", sEnemy.strName);
 	printEnemyHealth(sEnemy.nHP, sEnemy.nMaxHP);
 	printf("%d\n", sEnemy.nHP);
 
@@ -682,21 +682,29 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 				
 	}
 
-	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("┌");
+	printMultiple("—", 25);
+	printf("┐│");
+	printf("\n");
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("│ \"Imma hit you for %*d!\" ├┘\n", 3, sEnemy.nAtk);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("└");
+	printMultiple("—", 25);
+	printf("┘");
 	printf("\n");
 	
-	printf("\t\t[NAME]: %s\n", pPlayer->strName);
+	printMultiple(" ", SCREEN_PADDING);
+	printf("%s", pPlayer->strName);
 	printPlayerHealth(pPlayer->nPlayerHP, pPlayer->nPlayerMaxHP);
 	printf("%d", pPlayer->nPlayerHP);
-	printf("\n\n\n");
+	printf("\n\n");
 
-	printf("\n\t    ██   \n");
-	printf("\t   ████  \n");
+	printf("\t    ██   \n");
+	printf("\t   ████    YOUR POTIONS  ► %d\n", pPlayer->nPotions);
 	printf("\t  █\e[1;91m████\e[0m█ \n");
 	printf("\t   ████  \n\n");
-
-	printf("\t[POTIONS]: %d\n\n\n", pPlayer->nPotions);
-	printf("\n");
 	
 	if (nTurn) {
 		printHeader("PLAYER TURN", 11);
