@@ -1784,26 +1784,48 @@ void printItems(int nPotions, int nRunes) {
 /* 	printPlayerMoves 	Prints the player's possible moves.			   */
 void printPlayerMoves() {
 	int nPadding;
-	nPadding = SCREEN_PADDING + ((SCREEN_WIDTH - 40) / 2);
+	nPadding = SCREEN_PADDING * (SCREEN_WIDTH / 10);
 
 	printf("\n\n");
-
-	printMultiple(" ", nPadding);
+	
+	printMultiple(" ", nPadding + 8);
 	colorText(COLOR_CONTROL_ARROW);
-	printf("       ┌ A ┐  ┌ W ┐  ┌ S ┐  ┌ D ┐\n");
+	printf("┌ W ┐\n");
 	resetColors();
 
-	printMultiple(" ", nPadding);
-	printf("       ╔───╗  ╔───╗  ╔───╗  ╔───╗\n");
+	printMultiple(" ", nPadding + 8);
+	printf("╔───╗\n");
 
-	printMultiple(" ", nPadding);
-	printf("       │ ");
-	colorText(COLOR_CONTROL_ARROW);
-	printf("◄");
-	resetColors();
-	printf(" │  │ ");
+	printMultiple(" ", nPadding + 8);
+	printf("│ ");
 	colorText(COLOR_CONTROL_ARROW);
 	printf("▲");
+	resetColors();
+	printf(" │\n");
+
+	printMultiple(" ", nPadding + 8);
+	printf("╚───╝\n");
+
+
+	printMultiple(" ", nPadding+1);
+	colorText(COLOR_CONTROL_ARROW);
+	printf("┌ A ┐  ┌ S ┐  ┌ D ┐");
+	resetColors();
+	printMultiple(" ", nPadding);
+	colorText(COLOR_CONTROL_INTERACT);
+	printf("┌ E ┐\n");
+	resetColors();
+
+	printMultiple(" ", nPadding+1);
+	printf("╔───╗  ╔───╗  ╔───╗");
+	printMultiple(" ", nPadding);
+	printf("╔───╗\n");
+
+
+	printMultiple(" ", nPadding+1);
+	printf("│ ");
+	colorText(COLOR_CONTROL_ARROW);
+	printf("◄");
 	resetColors();
 	printf(" │  │ ");
 	colorText(COLOR_CONTROL_ARROW);
@@ -1813,34 +1835,20 @@ void printPlayerMoves() {
 	colorText(COLOR_CONTROL_ARROW);
 	printf("►");
 	resetColors();
-	printf(" │\n");
+	printf(" │");
 
-	printMultiple(" ", nPadding);
-	colorText(COLOR_CONTROL_DISABLED);
-	printf("┌───┐");
-	resetColors();
-	printf("  ╚───╝  ╚───╝  ╚───╝  ╚───╝  ");
-	colorText(COLOR_CONTROL_INTERACT);
-	printf("┌ E ┐");
-	resetColors();
-	printf("\n");
-
-	printMultiple(" ", nPadding);
-	printf("╔───╗                              ╔───╗\n");
-	
 	printMultiple(" ", nPadding);
 	printf("│ ");
-	colorText(COLOR_CONTROL_DISABLED);
-	printf("¤");
-	resetColors();
-	printf(" │                              │ ");
 	colorText(COLOR_CONTROL_INTERACT);
-	printf("O");
+	printf("♦");
 	resetColors();
 	printf(" │\n");
 
+	printMultiple(" ", nPadding+1);
+	printf("╚───╝  ╚───╝  ╚───╝");
 	printMultiple(" ", nPadding);
-	printf("╚───╝                              ╚───╝\n");
+	printf("╚───╝\n");
+	printf("\n");
 
 	resetColors();
 }

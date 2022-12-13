@@ -38,33 +38,35 @@ void openSellScreen(Player* pPlayer) {
 		
 		//find the weapon from inventory at the inputted index.
 		if (nInputIndex != 0) {
-			
 
 			pSelectedWeapon = findWeaponSlot(nInputIndex, pPlayer->pInventory);
 
+
 			//if the weapon exists,
 			if(pSelectedWeapon != NULL) {
+				if (pSelectedWeapon->sWeapon.nWeaponType != 7) {
+					//get the stock list for that type.
+					pStockOfType = getStocksFromType(pSelectedWeapon->sWeapon.nWeaponType); //Array of 4 weapons + their cost.
+					//get the weapon from that specific type.
+					
+					for(i = 0; i < 4; i++) {
+						if (!strcmp(pSelectedWeapon->sWeapon.strWeaponName, pStockOfType[i].sWeapon.strWeaponName)) 
+							nWeaponCost = pStockOfType[i].nCost;
+					}
 
-				//get the stock list for that type.
-				pStockOfType = getStocksFromType(pSelectedWeapon->sWeapon.nWeaponType); //Array of 4 weapons + their cost.
-				//get the weapon from that specific type.
-				
-				for(i = 0; i < 4; i++) {
-					if (!strcmp(pSelectedWeapon->sWeapon.strWeaponName, pStockOfType[i].sWeapon.strWeaponName)) 
-						nWeaponCost = pStockOfType[i].nCost;
+					removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
+					pPlayer->nRunes += nWeaponCost / 2;
+
+					displaySellShop(SUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, nWeaponCost / 2);
+
+				} else {
+					displaySellShop(UNIQUE, pPlayer, pSelectedWeapon->sWeapon, nWeaponCost / 2);
 				}
-
-				removeWeapon(pSelectedWeapon, &(pPlayer->pInventory));
-				pPlayer->nRunes += nWeaponCost / 2;
-
-				displaySellShop(SUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, nWeaponCost / 2);
-
+				
 			} else 
 				displaySellShop(UNSUCCESSFUL, pPlayer, pSelectedWeapon->sWeapon, 0);
 		}
 	}
-
-	printf("lol2");
 	openRoundTableHoldScreen(pPlayer);
 }
 
@@ -119,17 +121,24 @@ void displaySellShop(int nPrompt, Player* pPlayer, Weapon sWeapon, int nProfit) 
 	printHeader("SELL WEAPON", 11);
 	
 	printf("\n\t\tInput the index of the weapon you want to sell.");
+	printf("\n");
 
 	printInventoryGrid(pPlayer, 1);
 
 	printOption(0, "BACK");
+	printf("\n");
 
 	switch(nPrompt) {
 		case SUCCESSFUL:
-			printf("\n\t\tYou sold %s for %d runes.", sWeapon.strWeaponName, nProfit);
+			
+			printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+			printf("You sold %s for %d runes.", sWeapon.strWeaponName, nProfit);
 			break;
 		case UNSUCCESSFUL:
 			printSystemMessage("You don't have a weapon at that index.");
+			break;
+		case UNIQUE:
+			printSystemMessage("You can't sell that weapon!");
 			break;
 		default:
 			break;

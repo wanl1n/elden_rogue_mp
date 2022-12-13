@@ -210,33 +210,33 @@ void displayCharacterCreationScreen(int nPrompt, Player* pPlayer) {
 
 	printHeader("CHARACTER CREATION", 18);
 
-	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printMultiple(" ", ((SCREEN_WIDTH - NAME_WIDTH) / 2)+1);
 	printf("╓");
-	printMultiple("—", OPTION_WIDTH);
+	printMultiple("—", NAME_WIDTH);
 	printf("╖\n");
 
-	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printMultiple(" ", ((SCREEN_WIDTH - NAME_WIDTH) / 2)+1);
 	printf("║");
 	printMultiple(" ", 2);
-	printf("NAME  →  %-*.*s", OPTION_WIDTH-13, OPTION_WIDTH-13, pPlayer->strName);
+	printf("NAME  →  %-*.*s", NAME_WIDTH-13, NAME_WIDTH-13, pPlayer->strName);
 	printMultiple(" ", 2);
 	printf("║\n");
 
-	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printMultiple(" ", ((SCREEN_WIDTH - NAME_WIDTH) / 2)+1);
 	printf("╟");
-	printMultiple("—", OPTION_WIDTH);
+	printMultiple("—", NAME_WIDTH);
 	printf("╢\n");
 	
-	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printMultiple(" ", ((SCREEN_WIDTH - NAME_WIDTH) / 2)+1);
 	printf("║");
 	printMultiple(" ", 2);
-	printf("JOB   →  %-*.*s", OPTION_WIDTH-13, OPTION_WIDTH-13, pPlayer->strJobClass);
+	printf("JOB   →  %-*.*s", NAME_WIDTH-13, NAME_WIDTH-13, pPlayer->strJobClass);
 	printMultiple(" ", 2);
 	printf("║\n");
 
-	printMultiple(" ", ((SCREEN_WIDTH - OPTION_WIDTH) / 2)+1);
+	printMultiple(" ", ((SCREEN_WIDTH - NAME_WIDTH) / 2)+1);
 	printf("╙");
-	printMultiple("—", OPTION_WIDTH);
+	printMultiple("—", NAME_WIDTH);
 	printf("╜\n");
 
 	printOption(1, "NAME");
@@ -288,7 +288,8 @@ void displayJobScreen(int nPrompt, Player* pPlayer) {
 	system("cls");
 
 	printHeader("JOB CLASS", 9);
-	printf("\tCurrent Job: %s\n\n", pPlayer->strJobClass);
+	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+	printf("Current Job  ► %s\n\n", pPlayer->strJobClass);
 
 	printOption(1, "VAGABOND");
 	printOption(2, "SAMURAI");
@@ -296,27 +297,29 @@ void displayJobScreen(int nPrompt, Player* pPlayer) {
 	printOption(4, "HERO");
 	printOption(5, "PROPHET");
 	printOption(6, "ASTROLOGER");
+
+	printf("\n");
 	
 	printMultiple(" ", SCREEN_PADDING);
 	
 	switch(nPrompt) {
 		case VAGABOND:
-			printf("[SYSTEM MESSAGE]: Showing Vagabond stats...\n");
+			printSystemMessage("Showing Vagabond stats.");
 			break;
 		case SAMURAI:
-			printf("[SYSTEM MESSAGE]: Showing Samurai stats...\n");
+			printSystemMessage("Showing Samurai stats.");
 			break;
 		case WARRIOR:
-			printf("[SYSTEM MESSAGE]: Showing Warrior stats...\n");
+			printSystemMessage("Showing Warrior stats.");
 			break;
 		case HERO:
-			printf("[SYSTEM MESSAGE]: Showing Hero stats...\n");
+			printSystemMessage("Showing Hero stats.");
 			break;
 		case PROPHET:
-			printf("[SYSTEM MESSAGE]: Showing Prophet stats...\n");
+			printSystemMessage("Showing Prophet stats.");
 			break;
 		case ASTROLOGER:
-			printf("[SYSTEM MESSAGE]: Showing Astrologer stats...\n");
+			printSystemMessage("Showing Astrologer stats.");
 			break;
 		case 7:
 			break;
@@ -383,6 +386,8 @@ void displayJobClassScreen(int nJobClass) {
 
 	printOption(1, "CONFIRM");
 	printOption(0, "BACK");
+
+	printf("\n");
 }
 
 

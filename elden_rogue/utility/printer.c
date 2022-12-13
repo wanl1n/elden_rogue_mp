@@ -41,7 +41,15 @@ void printInputError() {
 }
 
 void printInputTag() {
+
 	printf("\n");
+
+	// Print bottom border.
+	printMultiple(" ", SCREEN_PADDING);
+	printf("╚");
+	printMultiple("═", SCREEN_WIDTH);
+	printf("╝\n\n");
+
 	printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
 	printf("What do you wanna do? ► ");
 }
@@ -84,12 +92,16 @@ void printHeader(char strHeader[], int nLength) {
 	printf("╗\n");
 
 	// Print center text.
-	printMultiple(" ", SCREEN_PADDING + nHeaderPadding);
-	printf("│");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("╒");
+	printMultiple("═", nHeaderPadding - 1);
+	printf("╡");
 	printMultiple(" ", nSpaces);
 	printf("%s", strHeader);
 	printMultiple(" ", HEADER_WIDTH - nSpaces - nLength);
-	printf("│\n");
+	printf("╞");
+	printMultiple("═", nHeaderPadding - 1);
+	printf("╕\n");
 
 	// Print bottom border.
 	printMultiple(" ", SCREEN_PADDING + nHeaderPadding);
