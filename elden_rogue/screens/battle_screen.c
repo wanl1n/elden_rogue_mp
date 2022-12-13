@@ -29,7 +29,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nDodgeTurn = 0;
 	int nEldenThroneStage = 0;
 
-	//var for move attack sub-options
+	//variables for move attack sub-options
 	int nPhysicalDamage;
 	int nSorceryDamage;
 	int nIncantationDamage;
@@ -38,6 +38,8 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nDodgeRandom;
 	int nHealRandom;
 
+	//if youre in EldenThroneStage 1 then the enemy name is Radagon
+	//if youre in EldenThroneStage 2 then the enemy name is Elden Beast
 	if (!strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER")) {
 		nEldenThroneStage = 1;
 	} else if (!strcmp(sEnemy.strName, "THE ELDEN BEAST")) {
@@ -64,15 +66,17 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 		}	
 
+		//prints the display battle screen
 		displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo, nEldenThroneStage);
 
+		// conditions for player turn
 		if (nPlayerTurn) {
 
 			nPlayerMove = scanIntInput(1, 4);
 
 			switch(nPlayerMove) {
 
-				case MOVE_ATTACK:
+				case MOVE_ATTACK: // attack or 1 is what the player inputted
 
 					printMultiple(" ", SCREEN_PADDING);
 					printf("How do you want to attack?\n");
@@ -82,7 +86,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 					switch(nPlayerMove){
 
-						case ATTACK_PHYSICAL:
+						case ATTACK_PHYSICAL: // player chose physical attack
 
 							nPhysicalDamage = 5000;
 							// nPhysicalDamage = attackPhy(sEnemy, pPlayer);
@@ -92,7 +96,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 							printf ("%s dealt %d damage !", pPlayer->strName, nPhysicalDamage);
 							break;
 
-						case ATTACK_SORCERY:
+						case ATTACK_SORCERY: //player chose sorcery attack
 
 							nSorceryDamage = attackSor(sEnemy, pPlayer);
 							sEnemy.nHP -= nSorceryDamage;
@@ -101,7 +105,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 							printf ("%s dealt %d damage !", pPlayer->strName, nSorceryDamage);
 							break;
 
-						case ATTACK_INCANTATION:
+						case ATTACK_INCANTATION: //player chose sorcery incantation
 
 							nIncantationDamage = attackInc(sEnemy, pPlayer);
 							sEnemy.nHP -= nIncantationDamage;
@@ -110,13 +114,14 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 							printf ("%s dealt %d damage !", pPlayer->strName, nIncantationDamage);
 							break;
 
-					} //end ng switch attack
+					} 
 
+					//this reverts to enemy turn
 					nPlayerTurn = 0;
 
 					break;
 
-				case MOVE_DODGE:
+				case MOVE_DODGE: //player chose 2 or dodge
 
 					displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_DODGE, nAreaNo, nEldenThroneStage);
 					nDodgeRandom = getRandomBetween(1, 100);
@@ -136,7 +141,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 					nPlayerTurn = 0;
 					break;
 
-				case MOVE_POTION:
+				case MOVE_POTION: // player chose 3 or potions
 
 					// If Player has potions.
 					if (pPlayer->nPotions > 0) {
@@ -148,15 +153,15 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 						} else if (pPlayer->nPlayerHP < pPlayer->nPlayerMaxHP) {
 							
-							nHealRandom = getRandomBetween(1, 100);
+							nHealRandom = getRandomBetween(1, 100); //gets a random number between 1 - 100
 
-							if(nHealRandom <= 25){
+							if(nHealRandom <= 25){ //if the number chosen was 1 - 25 then heal 25% of player's max health
 
 								int nHealing = pPlayer->nPlayerHP + (pPlayer->nPlayerMaxHP * 0.25);
 
 								pPlayer->nPlayerHP += nHealing;
 								
-								if(pPlayer->nPlayerHP >= pPlayer->nPlayerMaxHP)
+								if(pPlayer->nPlayerHP >= pPlayer->nPlayerMaxHP) // if player health exceeds to their max health, leave the number as their max health
 									pPlayer->nPlayerHP = pPlayer->nPlayerMaxHP;
 
 								pPlayer->nPotions -= 1;
@@ -165,13 +170,13 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 								printMultiple(" ", SCREEN_PADDING);
 								printf("%s healed %d Health!\n", pPlayer->strName, nHealing);
 
-							} else {
+							} else { //if the number chosen was 26 - 100 then heal 50% of player's max health
 
 								int nHealingTwo = pPlayer->nPlayerHP + (pPlayer->nPlayerMaxHP * 0.50);
 								
 								pPlayer->nPlayerHP += nHealingTwo;
 								
-								if(pPlayer->nPlayerHP >= pPlayer->nPlayerMaxHP)
+								if(pPlayer->nPlayerHP >= pPlayer->nPlayerMaxHP) // if player health exceeds to their max health, leave the number as their max health
 									pPlayer->nPlayerHP = pPlayer->nPlayerMaxHP;
 
 								pPlayer->nPotions -= 1;
@@ -181,7 +186,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 								printf("%s healed %d Health!\n", pPlayer->strName, nHealingTwo);								
 							}
 
-							nPlayerTurn = 0;
+							nPlayerTurn = 0; // end of player turn
 						}
 					} else { // If player has no potions.
 
@@ -190,23 +195,23 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 					break;
 
-				case MOVE_SKIP:
+				case MOVE_SKIP: //if player chose 4 or skip
 
 					displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_SKIP, nAreaNo, nEldenThroneStage);
 
-					nPlayerTurn = 0;
+					nPlayerTurn = 0; // end of player turn
 					
 					break;
 
-			} //end ni switch
+			} 
 
-		} //end ni player turn
+		} 
 
 		// If Player has killed enemy. 
 		if(sEnemy.nHP <= 0 && strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER"))
 			return WIN; 
 
-		if (!nPlayerTurn && sEnemy.nHP > 0) {
+		if (!nPlayerTurn && sEnemy.nHP > 0) { //enemy turn starts here
 
 			displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, ENEMY_ATTACK, nAreaNo, nEldenThroneStage);
 
@@ -231,7 +236,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 		if(pPlayer->nPlayerHP <= 0)
 			return LOSE;
 
-	} //end ng lahat
+	} 
 
 	if (!strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER")) {
 		sEnemy = spawnBoss(nAreaNo, 2);
@@ -650,7 +655,7 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 
 			break;
 
-		case THE_ELDEN_THRONE:
+		case THE_ELDEN_THRONE: 
 			if (nEldenThroneStage == 1) {
 				printf(" \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
 				printf("  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
