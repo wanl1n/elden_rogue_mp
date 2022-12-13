@@ -718,9 +718,13 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 		printOption(4, "SKIP");
 	} else {
 		printHeader("ENEMY TURN", 10);
+
+		printSystemMessage("ENEMY IS ATTACKING!");
 	}
 
 	printf("\n\n");
+
+	Sleep(2000);
 
 	switch(nPrompt) {
 
