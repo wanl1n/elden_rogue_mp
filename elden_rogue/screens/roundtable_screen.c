@@ -98,11 +98,12 @@ void openShop(Player* pPlayer) {
 	Pre-condition		pPlayer should be initiated and all members 
 						should have a value.						   */
 void openSaveScreen(Player* pPlayer) {
+	
 	displaySaveScreen(pPlayer);
 
 	FILE* fp;
 	int nInventorySize, i;
-	Slot** pTempHead = &(pPlayer->pInventory);
+	Slot* pTempHead = pPlayer->pInventory;
 
 	int nInputSave = 100; //random value thats not part of the choices.
 
@@ -117,13 +118,15 @@ void openSaveScreen(Player* pPlayer) {
 			nInventorySize = getPlayerWeapons(&(pPlayer->pInventory));
 
 			for (i = 0; i < nInventorySize; i++) {
-				fwrite(*pTempHead, sizeof(Slot), 1, fp);
-				*pTempHead = (*pTempHead)->pNext;
+				fwrite(pTempHead, sizeof(Slot), 1, fp);
+				printf(" %s ", pTempHead->sWeapon.strWeaponName);
+				pTempHead = pTempHead->pNext;
 			}
 
 			fclose(fp);
 
 			printSystemMessage("Saved your progress.");
+			
 		} else {
 			openRoundTableHoldScreen(pPlayer);
 		}

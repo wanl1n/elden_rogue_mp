@@ -54,16 +54,22 @@ void loadData(Player* pPlayer) {
 
 	FILE* fp;
 	Slot* pTempHead = malloc(sizeof(Slot));
+	Slot* pNewSlot = malloc(sizeof(Slot));
 
 	fp = fopen("saves/save.dat", "rb");
 
-	fread(pPlayer, sizeof(Player), 1, fp);
+	fread(pPlayer, sizeof(Player), 1, fp); // player stats
+	fread(pTempHead, sizeof(Slot), 1, fp); // apply the head
 
-	while(fread(pTempHead, sizeof(Slot), 1, fp)) {
+	pPlayer->pInventory = pTempHead; //set head to player inventory
+
+	while(fread(pNewSlot, sizeof(Slot), 1, fp)) {
+		pTempHead->pNext = pNewSlot;
 		pTempHead = pTempHead->pNext;
+		pNewSlot = malloc(sizeof(Slot));
 	}
 
-	pPlayer->pInventory = pTempHead;
+	pTempHead->pNext = NULL;
 
 	fclose(fp);
 }
@@ -103,10 +109,6 @@ void displayTitleScreen(int nPrompt) {
 	printf("					      \e[1;94m%c                  %c\e[0m\n",186,186);
 	printf("					      \e[1;94m%c\e[0m\e[1;94m[\e[1;93m0\e[0m\e[1;94m]\e[0m \e[1;93mExit\e[0m          \e[1;94m%c\e[0m\n",186,186);
 
-	/*printHeader("ELDEN ROGUE", 11);
-	printOption(1, "START");
-	printOption(2, "CONTINUE");
-	printOption(0, "EXIT");*/
 	printf("\n\n");
 
 	switch(nPrompt) {
