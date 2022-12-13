@@ -1,3 +1,4 @@
+// LIBRARIES
 #include "stdio.h"
 #include "stdlib.h"
 #include "math.h"
@@ -7,12 +8,14 @@
 #include "driver.h"
 #include "conio.h"
 
+// UTILITY FUNCTIONS
 #include "utility/printer.c"
 #include "utility/scanner.c"
 #include "utility/colors.c"
 #include "utility/doors.c"
 #include "utility/inventory_manager.c"
 
+// SCREENS
 #include "screens/title_screen.c"
 #include "screens/chara_creation_screen.c"
 #include "screens/roundtable_screen.c"
@@ -25,6 +28,7 @@
 #include "screens/roundtable_screens/buy_screen.c"
 #include "screens/roundtable_screens/sell_screen.c"
 
+// BONUS
 #include "screens/questlines/questline_screen.c"
 
 

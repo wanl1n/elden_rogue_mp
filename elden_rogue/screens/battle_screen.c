@@ -327,7 +327,11 @@ int getDodgeRate(Enemy sEnemy, Player* pPlayer){
 						Player's statistics and items.
 	@param nTurn 		An integer variable that contains the current turn.
 	@param nPrompt 		An integer variable that contains the prompt number.
-
+	@param nArea 		An integer variable containing the number of the 
+						area.
+	@param nEldenThroneStage 	An integer variable containing the stage 
+								the player is at in the elden throne.
+								
 	Pre-condition		sEnemy should contain complete stats.
 						pPlayer should be initiated and all members 
 						should have a value. 
