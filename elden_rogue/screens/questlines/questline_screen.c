@@ -19,55 +19,60 @@
 						should have a value.	  					   */
 void openQuestScreen(Player* pPlayer) {
 
-	// First, get the details of the Quest.
-	if (pPlayer->pQuestLine == NULL) {
-		// Player has not yet started a quest.
-		pPlayer->pQuestLine = createQuestline(TWINKLE_TOES);
+	int nContinue = 1;
 
-	} 
-	else if (pPlayer->nCompletedQuests == 1 && pPlayer->pQuestLine->nQuestNumber != 2) {
-		// Player is done with 1st quest.
-		pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
-			
-	} else if (pPlayer->nCompletedQuests == 2) {
+	while (nContinue) {
 		
-		// Pet Khloe.			
-	} 
+		// First, get the details of the Quest.
+		if (pPlayer->pQuestLine == NULL) // Player has not yet started a quest.
+			pPlayer->pQuestLine = createQuestline(TWINKLE_TOES);
 
-	// If there's no active quest, ask player if they want to take a quest.
-	if (pPlayer->pQuestLine->nQuestStatus != QUEST_IN_PROG) {
-	
-		talkingStage(pPlayer);
+		else if (pPlayer->nCompletedQuests == 1 && pPlayer->pQuestLine->nQuestNumber != 2) // Player is done with 1st quest.
+			pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
+				
+		else if (pPlayer->nCompletedQuests == 2) 
+			printf("Done.");
 
-	} 
-	// If there's an active quest, check quest progress
-	else if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
-
-		pPlayer->pQuestLine->nQuestStatus = checkQuestProgress(pPlayer);
-
-		// If player isn't done yet.
-		if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
-			talkingInProgress(pPlayer);
+		// If there's no active quest, ask player if they want to take a quest.
+		if (pPlayer->pQuestLine->nQuestStatus != QUEST_IN_PROG) {
+			
+			nContinue = 0;
+			talkingStage(pPlayer);
+			nContinue = 0;
 		} 
-		// If player is done.
-		else if (pPlayer->pQuestLine->nQuestStatus == QUEST_COMPLETE){
-			
-			giveQuestRewards(pPlayer);
+		// If there's an active quest, check quest progress
+		else if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
 
-			// Set to next stage
-			pPlayer->pQuestLine->nStage++;
-			pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE;
-			pPlayer->nQuestProgress = 0;
+			pPlayer->pQuestLine->nQuestStatus = checkQuestProgress(pPlayer);
 
-			if (pPlayer->pQuestLine->nStage < 4) {
-				openQuestScreen(pPlayer);
-			} else {
-				pPlayer->nCompletedQuests += 1;
-				talkingComplete(pPlayer);
-			}
-			
-		}	
-	}
+			// If player isn't done yet.
+			if (pPlayer->pQuestLine->nQuestStatus == QUEST_IN_PROG) {
+				
+				talkingInProgress(pPlayer);
+				nContinue = 0;
+			} 
+			// If player is done.
+			else if (pPlayer->pQuestLine->nQuestStatus == QUEST_COMPLETE){
+				
+				giveQuestRewards(pPlayer);
+
+				// Set to next stage
+				pPlayer->pQuestLine->nStage++;
+				pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE;
+				pPlayer->nQuestProgress = 0;
+
+				if (pPlayer->pQuestLine->nStage < 4) {
+					nContinue = 1;
+				} else {
+					pPlayer->nCompletedQuests += 1;
+					nContinue = 0;
+					talkingComplete(pPlayer);
+				}
+				
+			}	
+		}
+	} 
+		
 }
 
 
@@ -288,12 +293,16 @@ void talkingStage(Player* pPlayer) {
 			displayQuestScreen(pPlayer, nLine);
 			pPlayer->pQuestLine->nQuestStatus = QUEST_INACTIVE; 
 			openRoundTableHoldScreen(pPlayer);
+			i = 2;
 		}
 	}
 
-	// After accepting the quest, go back to roundtable hold.
-	scanIntInput(0, 0);
-	openRoundTableHoldScreen(pPlayer);
+	if (nInput) {
+		// After accepting the quest, go back to roundtable hold.
+		nInput = scanIntInput(0, 0);
+		openRoundTableHoldScreen(pPlayer);
+	}
+	
 }
 
 /* 	talkingInProgress 	Prints the dialogue when player is currently 

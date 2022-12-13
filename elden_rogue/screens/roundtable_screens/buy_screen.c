@@ -157,57 +157,6 @@ Stock* getStocksFromType(int nWeaponType) {
 	return pWeaponsOfType;
 }
 
-/* 	getSpriteFromStock 	Gets the sprite of the weapon contained in the 
-						Stock.
-
-	@param sShopStock 	A stock variable containing the weapon details.
-
-	Pre-condition 		sShopStock has to be fully initialized. 	   */
-char* getSpriteFromStock(Stock sShopStock) {
-	
-	int nIndex, i;
-	int nEmptySpaces;
-	char* strSprite = malloc(sizeof(char) * 24 * 400);
-
-	char aSprites[24][400] = {"                ███                        █  █                    ██ █   █                    ███   █                       █  █                       ██████                    ███  ███                    █ █                         ███                                           ",
-						  	  "                  █                          ██                         ██                         ██                       █ ██                         ██                       ████ █                      █ █                         ███                                           ",
-						  	  "                  ;                          ;:                         :;                         ;:                       ; ;;                         ;;                       ████ ;                      █ █                         ███                                           ",
-						      "                  █:                         █:█                        █:█                        █:█                        █:█                      █ █:█                        ███                         ██                         █  █                                         ",
-						      "               █                          █                          █                          █                           █                           █                            █  █                         ██                         █ ██                                       ",
-						      "              ;                           █;                           █;                           █                          █;                          █                         █ ;                          █                         ██ █                                        ",
-						      "              █;                          ██;                          ██;                          █;                         ██;                         █;;                       █ █;;                        █;;                       ██ █                                        ",
-						      "             █                           ██                           ██                           █                          ██                          █                           █                          ;;                         ;;                                          ",
-						      "            █████                      ██   ██                    ██     ██                  █        ██                 █         █                  ██       █                 █ █  █   █                   ██  █  ██                  ██ █  ███                                      ",
-						      "            █████  █ █                 ███  ██  █                 ██      ██ █               ██       ██                 ██       ██                 ██       ██                  ██   █ ██                    ██   ██                      █████ █                                     ",
-						      "           ;█████;  ██                ;█;;;;;█;██                ;█;     ;██;                █;       ;█;                █;       ;█;                █;      ;;█;                ;█;    ;;█;                  ;█;;;;;█;                    ;█████;                                      ",
-						      "                 ██                         █ █                    ;;;;█; █                   ;  ██ ;██                  ;;  ██;██                   ;;   █ ██                    ;   ████                    ;; ; ███                     ;;;█;█                                       ",
-						      "                  █                          ███                        ███                        █:█                     █  █:█                       █ █:█                        █:█                         ██                         █  █                                        ",
-						      "                    ██                     █   ██                     ██████                    ███████                    █████████                  ███████                    ██████                       ███                          █                                            ",
-						      "                   ██                       █ ██                         ██                        ███ █                      ███                        ██:                        ██:                        ███                        ██                                            ",
-						      "                     ██                           ██                   ███  ██ █                    █████                      ███████                  ████████ ███               ██████                      ████                       ██                                            ",
-						      "                   ██                        ;█;                       ;██;                       ;██;                       ;█;;█;                      █   ;█;                    █                          █                          █                                             ",
-						      "                   ██                         █                          █                          █  █                       █████                      █                          █                          █                          █                                            ",
-						      "        ;█; █ █:█ ; █ █              ; █ ::█::█; ;                ; █ █:█ ;█                   ; █ ; █;                     █;█ ;                      █                          █                          █                          █                                               ",
-						      "                   █                          ██                         ██                         ██                         ██                         ██                       █  █                         ██                         █  █                                         ",
-						      "              ██   ██                    █:█   █:█                  █;;█  █ █                   █ █  █;█                    █;█ █  █                     █ ██;█                    ████  █                     █ ████                      ███                                          ",
-						      "               █  ██                       ███                        █ . ██                      █   █                       ████                       █ █                        █ █                        █ █                          █                                           ",
-						      "            :::::                    ███████████              :::█::    :::█:::          :   █: ::::  :█  ::         :    █: ::  :█    :         :     █:::::█     :          :    █  :  █    :            :    █: :█   ::              :::: █ █ :::                      █             ",
-						      "          ;  ;███;█;                  █; █   █;                   ██;█  █;;█                  █ ██ █;;█;█                 ██ ███;█; ;                 ;;██  █;;█                  █;;███;;█                    █;;;;;█                      █████                                       "};
-
-
-	
-	nIndex = ((sShopStock.sWeapon.nWeaponType - 1) * 4) + (sShopStock.sWeapon.nWeaponIndex - 1);
-	strcpy(strSprite, aSprites[nIndex]);
-
-	nEmptySpaces = 200 - strlen(strSprite);
-
-	for (i = 0; i < nEmptySpaces; i++) {
-		strcat(strSprite, " ");
-	}
-
-	return strSprite;
-}
-
 
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
@@ -373,16 +322,355 @@ void printShopContent(Stock sShopStock, int nLine) {
 							nLine should be from 3 to 12.			   */
 void printWeaponSprite(Stock sShopStock, int nLine) {
 
-	char* strSprite = getSpriteFromStock(sShopStock);
+	char strSprite[60];
 	nLine -= 3;
 
-	printf("│");
-	printMultiple(" ", 2);
-	printf("%-*.*s ", SHOP_SLOT_WIDTH-5, SHOP_SLOT_WIDTH-5, strSprite + (nLine * (SHOP_SLOT_WIDTH-5)));
-	printMultiple(" ", 2);
-	printf("│");
+	char aSwordOne[10][60] = {"                ███         ",
+							  "               █  █         ",
+							  "           ██ █   █         ",
+							  "           ███   █          ",
+							  "             █  █           ",
+							  "            ██████          ",
+							  "          ███  ███          ",
+							  "          █ █               ",
+							  "          ███               ",
+							  "                            "};
+	char aSwordTwo[10][60] = {"                  █         ",
+							  "                 ██         ",
+							  "                ██          ",
+							  "               ██           ",
+							  "            █ ██            ",
+							  "             ██             ",
+							  "          ████ █            ",
+							  "          █ █               ",
+							  "          ███               ",
+							  "                            "};	
+  	char aSwordThr[10][60] = {"                  ;         ",
+							  "                 ;:         ",
+							  "                :;          ",
+							  "               ;:           ",
+							  "            ; ;;            ",
+							  "             ;;             ",
+							  "          ████ ;            ",
+							  "          █ █               ",
+							  "          ███               ",
+							  "                            "};						
+	char aSwordFou[10][60] = {"                  █:        ",
+						      "                 █:█        ",
+						      "                █:█         ",
+						      "               █:█          ",
+						      "              █:█           ",
+						      "           █ █:█            ",
+						      "            ███             ",
+						      "            ██              ",
+						      "           █  █             ",
+						      "                            "};
+	char aKatanaOne[10][60] = {"               █            ",
+							   "              █             ",
+							   "             █              ",
+							   "            █               ",
+							   "            █               ",
+							   "            █               ",
+							   "             █  █           ",
+							   "              ██            ",
+							   "             █ ██           ",
+							   "                            "};
+	char aKatanaTwo[10][60] = {"              ;             ",
+							   "              █;            ",
+							   "               █;           ",
+							   "                █           ",
+							   "               █;           ",
+							   "               █            ",
+							   "             █ ;            ",
+							   "              █             ",
+							   "            ██ █            ",
+							   "                            "};
+	char aKatanaThr[10][60] = {"              █;            ",
+							   "              ██;           ",
+							   "               ██;          ",
+							   "                █;          ",
+							   "               ██;          ",
+							   "               █;;          ",
+							   "             █ █;;          ",
+							   "              █;;           ",
+							   "            ██ █            ",
+							   "                            "};
+	char aKatanaFou[10][60] = {"             █              ",
+							   "             ██             ",
+							   "              ██            ",
+							   "               █            ",
+							   "              ██            ",
+							   "              █             ",
+							   "              █             ",
+							   "             ;;             ",
+						       "            ;;              ",
+							   "                            "};
+	char aWhipOne[10][60] = {"            █████           ",
+							 "           ██   ██          ",
+							 "          ██     ██         ",
+							 "         █        ██        ",
+							 "         █         █        ",
+							 "          ██       █        ",
+							 "         █ █  █   █         ",
+							 "          ██  █  ██         ",
+							 "         ██ █  ███          ",
+							 "                            "};
+	char aWhipTwo[10][60] = {"            █████  █ █      ",
+							 "           ███  ██  █       ",
+							 "          ██      ██ █      ",
+							 "         ██       ██        ",
+							 "         ██       ██        ",
+							 "         ██       ██        ",
+							 "          ██   █ ██         ",
+							 "           ██   ██          ",
+							 "            █████ █         ",
+							 "                            "};
+	char aWhipThr[10][60] = {"           ;█████;  ██      ",
+							 "          ;█;;;;;█;██       ",
+							 "         ;█;     ;██;       ",
+							 "         █;       ;█;       ",
+							 "         █;       ;█;       ",
+							 "         █;      ;;█;       ",
+							 "         ;█;    ;;█;        ",
+							 "          ;█;;;;;█;         ",
+							 "           ;█████;          ",
+							 "                            "};
+	char aWhipFou[10][60] = {"                 ██         ",
+						     "                █ █         ",
+						     "           ;;;;█; █         ",
+						     "          ;  ██ ;██         ",
+						     "         ;;  ██;██          ",
+						     "         ;;   █ ██          ",
+						     "          ;   ████          ",
+						     "          ;; ; ███          ",
+						     "           ;;;█;█           ",
+						     "                            "};
+	char aGreatSwordOne[10][60] = {"                  █         ",
+								   "                 ███        ",
+								   "                ███         ",
+								   "               █:█          ",
+								   "           █  █:█           ",
+								   "            █ █:█           ",
+								   "             █:█            ",
+								   "             ██             ",
+								   "            █  █            ",
+								   "                            "};
+	char aGreatSwordTwo[10][60] = {"                    ██      ",
+								   "               █   ██       ",
+								   "              ██████        ",
+								   "            ███████         ",
+								   "           █████████        ",
+								   "          ███████           ",
+								   "         ██████             ",
+								   "          ███               ",
+								   "           █                ",
+								   "                            "};
+	char aGreatSwordThr[10][60] = {"                   ██       ",
+								   "                █ ██        ",
+								   "                 ██         ",
+								   "               ███ █        ",
+								   "              ███           ",
+								   "             ██:            ",
+								   "            ██:             ",
+								   "           ███              ",
+								   "          ██                ",
+								   "                            "};					      
+	char aGreatSwordFou[10][60] = {"                     ██     ",
+								   "                      ██    ",
+								   "               ███  ██ █    ",
+								   "                █████       ",
+								   "               ███████      ",
+								   "            ████████ ███    ",
+								   "           ██████           ",
+								   "           ████             ",
+								   "          ██                ",
+								   "                            "};
+	char aStaveOne[10][60] = {"                   ██       ",
+							  "                 ;█;        ",
+							  "               ;██;         ",
+							  "              ;██;          ",
+							  "             ;█;;█;         ",
+							  "             █   ;█;        ",
+							  "            █               ",
+							  "           █                ",
+							  "          █                 ",
+							  "                            "};
+	char aStaveTwo[10][60] = {"                   ██       ",
+							  "                  █         ",
+							  "                 █          ",
+							  "                █  █        ",
+							  "               █████        ",
+							  "              █             ",
+							  "             █              ",
+							  "            █               ",
+							  "           █                ",
+							  "                            "};
+	char aStaveThr[10][60] = {"        ;█; █ █:█ ; █ █     ",
+							  "         ; █ ::█::█; ;      ",
+							  "          ; █ █:█ ;█        ",
+							  "           ; █ ; █;         ",
+							  "            █;█ ;           ",
+							  "           █                ",
+							  "          █                 ",
+							  "         █                  ",
+							  "        █                   ",
+							  "                            "};
+	char aStaveFou[10][60] = {"                   █        ",
+						      "                  ██        ",
+						      "                 ██         ",
+						      "                ██          ",
+						      "               ██           ",
+						      "              ██            ",
+						      "           █  █             ",
+						      "            ██              ",
+						      "           █  █             ",
+						      "                            "};
+	char aSealOne[10][60] = {"              ██   ██       ",
+							 "             █:█   █:█      ",
+							 "            █;;█  █ █       ",
+							 "            █ █  █;█        ",
+							 "            █;█ █  █        ",
+							 "             █ ██;█         ",
+							 "           ████  █          ",
+							 "           █ ████           ",
+							 "           ███              ",
+							 "                            "};
+	char aSealTwo[10][60] = {"               █  ██        ",
+							 "               ███          ",
+							 "              █ . ██        ",
+							 "              █   █         ",
+							 "              ████          ",
+							 "             █ █            ",
+							 "            █ █             ",
+							 "           █ █              ",
+							 "            █               ",
+							 "                            "};
+	char aSealThr[10][60] = {"            :::::           ",
+							 "         ███████████        ",
+							 "      :::█::    :::█:::     ",
+							 "     :   █: ::::  :█  ::    ",
+							 "     :    █: ::  :█    :    ",
+							 "     :     █:::::█     :    ",
+							 "      :    █  :  █    :     ",
+							 "       :    █: :█   ::      ",
+							 "        :::: █ █ :::        ",
+							 "              █             "};
+	char aSealFou[10][60] = {"          ;  ;███;█;        ",
+						     "          █; █   █;         ",
+						     "          ██;█  █;;█        ",
+						     "          █ ██ █;;█;█       ",
+						     "          ██ ███;█; ;       ",
+						     "          ;;██  █;;█        ",
+						     "          █;;███;;█         ",
+						     "           █;;;;;█          ",
+						     "            █████           ",
+						     "                            "};	
 
-	free(strSprite);
+	switch (sShopStock.sWeapon.nWeaponType) {
+
+		case WEAPON_SWORD:
+			switch(sShopStock.sWeapon.nWeaponIndex){
+				case ITEM_ONE:
+					strcpy(strSprite, aSwordOne[nLine]);
+					break;
+				case ITEM_TWO:
+					strcpy(strSprite, aSwordTwo[nLine]);
+					break;
+				case ITEM_THREE:
+					strcpy(strSprite, aSwordThr[nLine]);
+					break;
+				case ITEM_FOUR:
+					strcpy(strSprite, aSwordFou[nLine]);
+					break;
+			}
+			break;
+		case WEAPON_KATANA:
+			switch(sShopStock.sWeapon.nWeaponIndex){
+				case ITEM_ONE:
+					strcpy(strSprite, aKatanaOne[nLine]);
+					break;
+				case ITEM_TWO:
+					strcpy(strSprite, aKatanaTwo[nLine]);
+					break;
+				case ITEM_THREE:
+					strcpy(strSprite, aKatanaThr[nLine]);
+					break;
+				case ITEM_FOUR:
+					strcpy(strSprite, aKatanaFou[nLine]);
+					break;
+			}
+			break;
+		case WEAPON_WHIP:
+			switch(sShopStock.sWeapon.nWeaponIndex){
+				case ITEM_ONE:
+					strcpy(strSprite, aWhipOne[nLine]);
+					break;
+				case ITEM_TWO:
+					strcpy(strSprite, aWhipTwo[nLine]);
+					break;
+				case ITEM_THREE:
+					strcpy(strSprite, aWhipThr[nLine]);
+					break;
+				case ITEM_FOUR:
+					strcpy(strSprite, aWhipFou[nLine]);
+					break;
+			}
+			break;
+		case WEAPON_GREATSWORD:
+			switch(sShopStock.sWeapon.nWeaponIndex){
+				case ITEM_ONE:
+					strcpy(strSprite, aGreatSwordOne[nLine]);
+					break;
+				case ITEM_TWO:
+					strcpy(strSprite, aGreatSwordTwo[nLine]);
+					break;
+				case ITEM_THREE:
+					strcpy(strSprite, aGreatSwordThr[nLine]);
+					break;
+				case ITEM_FOUR:
+					strcpy(strSprite, aGreatSwordFou[nLine]);
+					break;
+			}
+			break;
+		case WEAPON_STAVE:
+			switch(sShopStock.sWeapon.nWeaponIndex){
+				case ITEM_ONE:
+					strcpy(strSprite, aStaveOne[nLine]);
+					break;
+				case ITEM_TWO:
+					strcpy(strSprite, aStaveTwo[nLine]);
+					break;
+				case ITEM_THREE:
+					strcpy(strSprite, aStaveThr[nLine]);
+					break;
+				case ITEM_FOUR:
+					strcpy(strSprite, aStaveFou[nLine]);
+					break;
+			}
+			break;
+		case WEAPON_SEAL:
+			switch(sShopStock.sWeapon.nWeaponIndex){
+				case ITEM_ONE:
+					strcpy(strSprite, aSealOne[nLine]);
+					break;
+				case ITEM_TWO:
+					strcpy(strSprite, aSealTwo[nLine]);
+					break;
+				case ITEM_THREE:
+					strcpy(strSprite, aSealThr[nLine]);
+					break;
+				case ITEM_FOUR:
+					strcpy(strSprite, aSealFou[nLine]);
+					break;
+			}
+			break;
+	}
+
+	printf("│");
+	printMultiple(" ", ((SHOP_SLOT_WIDTH - WEAPON_WIDTH) / 2)-1);
+	printf("%s ", strSprite);
+	printMultiple(" ", (SHOP_SLOT_WIDTH - WEAPON_WIDTH) / 2);
+	printf("│");
 }
 
 /*	displayBuyStocks	Displays the weapons from a specified weapon
@@ -412,12 +700,12 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 
 	for (j = 1; j <= 2; j++) {
 
-		printMultiple(" ", SCREEN_PADDING);
+		printMultiple(" ", SCREEN_PADDING+1);
 		printTopShopBorders(2);
 
 		for (i = 0; i < SHOP_SLOT_HEIGHT; i++) {
 
-			printMultiple(" ", SCREEN_PADDING);
+			printMultiple(" ", SCREEN_PADDING+1);
 
 			for (k = 0 + ((j-1)*2); k < 2 + ((j-1)*2); k++) {
 				printShopContent(pStockList[k], i);
@@ -426,7 +714,7 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 			printf("\n");
 		}
 		
-		printMultiple(" ", SCREEN_PADDING);
+		printMultiple(" ", SCREEN_PADDING+1);
 		printBottomShopBorder(2);
 	}
 	
@@ -440,8 +728,8 @@ void displayBuyStocks(int nPrompt, Player* pPlayer, Stock* pStockList) {
 		case ITEM_TWO:
 		case ITEM_THREE:
 		case ITEM_FOUR:
-			printMultiple(" ", SCREEN_PADDING);
-			printf("[SYSTEM MESSAGE]: You bought %s.\n", 
+			printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+			printf("The elder says ►  You bought %s.\n", 
 				pStockList[nPrompt - 1].sWeapon.strWeaponName);
 			break;
 		case UNSUCCESSFUL:
