@@ -38,9 +38,9 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nDodgeRandom;
 	int nHealRandom;
 
-	if (strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER")) {
+	if (!strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER")) {
 		nEldenThroneStage = 1;
-	} else (strcmp(sEnemy.strName, "THE ELDEN BEAST")) {
+	} else if (!strcmp(sEnemy.strName, "THE ELDEN BEAST")) {
 		nEldenThroneStage = 2;
 	}
 
@@ -118,7 +118,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 				case MOVE_DODGE:
 
-					displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_DODGE, nAreaNo);
+					displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_DODGE, nAreaNo, nEldenThroneStage);
 					nDodgeRandom = getRandomBetween(1, 100);
 					nDodgeRate = getDodgeRate(sEnemy, pPlayer);
 
@@ -144,7 +144,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 						// If Player is at full health.
 						if (pPlayer->nPlayerHP >= pPlayer->nPlayerMaxHP) {
 
-							displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_POTION_FULL, nAreaNo);
+							displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_POTION_FULL, nAreaNo, nEldenThroneStage);
 
 						} else if (pPlayer->nPlayerHP < pPlayer->nPlayerMaxHP) {
 							
@@ -161,7 +161,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 								pPlayer->nPotions -= 1;
 								
-								displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo);
+								displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo, nEldenThroneStage);
 								printMultiple(" ", SCREEN_PADDING);
 								printf("%s healed %d Health!\n", pPlayer->strName, nHealing);
 
@@ -176,7 +176,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 								pPlayer->nPotions -= 1;
 
-								displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo);
+								displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo, nEldenThroneStage);
 								printMultiple(" ", SCREEN_PADDING);
 								printf("%s healed %d Health!\n", pPlayer->strName, nHealingTwo);								
 							}
@@ -185,14 +185,14 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 						}
 					} else { // If player has no potions.
 
-						displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_POTION_EMPTY, nAreaNo);
+						displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_POTION_EMPTY, nAreaNo, nEldenThroneStage);
 					}
 
 					break;
 
 				case MOVE_SKIP:
 
-					displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_SKIP, nAreaNo);
+					displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, PLAYER_SKIP, nAreaNo, nEldenThroneStage);
 
 					nPlayerTurn = 0;
 					
@@ -208,7 +208,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 		if (!nPlayerTurn && sEnemy.nHP > 0) {
 
-			displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, ENEMY_ATTACK, nAreaNo);
+			displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, ENEMY_ATTACK, nAreaNo, nEldenThroneStage);
 
 			if (nDodgeTurn) {
 
@@ -217,7 +217,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 			} else {
 				
-				displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, ENEMY_ATTACK, nAreaNo);
+				displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, ENEMY_ATTACK, nAreaNo, nEldenThroneStage);
 
 				pPlayer->nPlayerHP -= sEnemy.nAtk;
 				printMultiple(" ", SCREEN_PADDING);

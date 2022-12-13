@@ -541,7 +541,7 @@ void displayPetScreen(int nState) {
 		printf("\n");
 	} else {
 		printf("%-*.*s ", nDialogueWidth, nDialogueWidth, "[Panting] Ruff.");
-		printf("\n");
+		printf("\n");		
 	}	
 
 	printMultiple(" ", SCREEN_PADDING);

@@ -19,7 +19,7 @@
 #define WIN 	1
 #define LOSE 	0
 
-void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, int nArea);
+void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, int nArea, int nEldenThroneStage);
 int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo);
 void printSubAttacks();
 
