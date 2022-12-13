@@ -20,10 +20,13 @@ void talkingComplete(Player* pPlayer);
 void giveQuestRewards(Player* pPlayer);
 
 Slot* createUniqueWeapon(Player* pPlayer);
+void petKhloe(Player* pPlayer);
 
 void displayQuestScreen(Player* pPlayer, int nLine);
+void displayPetScreen();
 void printTopBorder();
 void printNPC(Player* pPlayer);
+void printDog();
 void printDiaTopBorder();
 void printDialogueText(char* aDialogueLine);
 void printDiaBottBorder();

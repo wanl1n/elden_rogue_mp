@@ -432,10 +432,26 @@ Slot* createUniqueWeapon(Player* pPlayer) {
 	return pSlot;
 }
 
-void petKhloe() {
+void petKhloe(Player* pPlayer) {
 
-	displayQuestScreen()
+	int nInput;
+	
+	displayPetScreen(0);
+
+	while(nInput != 0) {
+		
+		nInput = scanIntInput(0, 1);
+
+		if (nInput == 1) {
+			displayPetScreen(1);
+
+		} else {
+			openRoundTableHoldScreen(pPlayer);
+		}
+	}
 }
+
+
 
 // ─────────────────────── 〔 USER INTERFACE 〕 ──────────────────────── //
 /* 	displayQuestScreen	Displays the Quest Screen.
@@ -484,7 +500,7 @@ void displayQuestScreen(Player* pPlayer, int nLine) {
 	
 }
 
-void displayPetScreen(Player* pPlayer, int nLine) {
+void displayPetScreen(int nState) {
 
 	system("cls");
 
@@ -500,7 +516,11 @@ void displayPetScreen(Player* pPlayer, int nLine) {
 	printf("║");
 	printMultiple(" ", SCREEN_PADDING);
 
-	printf("[Tail Wagging] *BARK BARK*!");
+	if (nState) {
+		printDialogueText("[Tail Wagging] *BARK BARK*!");
+	} else {
+		printDialogueText("[Panting] *Ruff*.");
+	}	
 
 	printMultiple(" ", SCREEN_PADDING);
 	printf("║");
@@ -511,13 +531,8 @@ void displayPetScreen(Player* pPlayer, int nLine) {
 	printDiaBottBorder();
 	printBottomBorder();
 
-	if (nLine != 4 && nLine != 5 && nLine != 4+6 && nLine != 5+6 && nLine != 4+12 && nLine != 5+12 && nLine % 6 != 0 && nLine != 19) {
-		
-		printOption(1, "OKAY.");
-		printOption(0, "NAH.");
-	} else {
-		printOption(0, "BACK.");
-	}
+	printOption(1, "WHO'S A GOOD BOY?");
+	printOption(0, "SEE YOU LATER!");
 	
 }
 
@@ -587,8 +602,11 @@ void printNPC(Player* pPlayer) {
 	}
 }
 
-/* 	printTopBorder 		Prints the dog sprite.					 	   */
+/* 	printDog 		Prints the dog sprite.					 	   */
 void printDog() {
+	
+	int i;
+
 	char aDogSprite[12][SCREEN_WIDTH - 3] = {"                                                                  ",
 										     "                             KHLOE                                ",
 											 "                                                                  ",
@@ -601,7 +619,19 @@ void printDog() {
 											 "                                                                  ",
 											 "                                                                  ",
 											 "                                                                  "};
-	
+	for (i = 0; i < 12; i++) {
+		
+		printMultiple(" ", SCREEN_PADDING);
+		printf("║");
+		printMultiple(" ", 2);
+
+		printf("%s", aDogSprite[i]);
+
+		printMultiple(" ", 2);
+		printf("║");
+
+		printf("\n");
+	}
 }
 
 /* 	printDiaTopBorder 	Prints the Top border of the dialogue box.	   */

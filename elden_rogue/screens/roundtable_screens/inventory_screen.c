@@ -172,38 +172,42 @@ char* getSpriteFromWeapon(Weapon sWeapon) {
 	
 	int nIndex, nWeaponOrder, i;
 	int nEmptySpaces;
-	char* strSprite = malloc(sizeof(char) * (SLOT_WIDTH - 3) * 10);
+	char* strSprite = malloc(sizeof(char) * 24 * 300);
 	
-	char aSprites[24][(SLOT_WIDTH - 3) * 10] = {"         ███         █  █     ██ █   █     ███   █        █  █        ██████     ███  ███     █ █          ███                    ",
-										  	    "           █          ██          ██          ██        █ ██          ██        ████ █       █ █          ███                     ",
-										  	    "           ;           ;:          :;          ;:        ; ;;          ;;        ████ ;       █ █          ███                    ",
-										        "          █:          █:█         █:█         █:█         █:█       █ █:█         ███          ██          █  █                   ",
-										        "       █           █           █           █            █            █             █  █          ██          █ ██                 ",
-										        "      ;            █;            █;            █           █;           █          █ ;           █          ██ █                  ",
-										        "      █;           ██;           ██;           █;          ██;          █;;        █ █;;         █;;        ██ █                  ",
-										        "     █            ██            ██            █           ██           █            █           ;;          ;;                    ",
-										        "     █████       ██   ██     ██     ██   █        █   █        █    ██      █   █ █ █   █     ██ █  ██   ██ █ ███                 ",
-										        "    ████ █ █    ██   ███    ██      ██  ██       █   ██       █   ██      ██    ██  █ ██      ██  ██        ████ █                ",
-										        "   ;███;  ██   ;█;;;█;██   ;█;   ;██;   █;     ;█;   █;     ;█;   █;    ;;█;   ;█;  ;;█;     ;█;;;█;       ;███;                  ",
-										        "          ██          █ █     ;;;;█; █    ;  ██ ;██   ;;  ██;██    ;;   █ ██     ;   ████     ;; ; ███      ;;;█;█                ",
-										        "         █           ███         ███         █:█      █  █:█        █ █:█         █:█          ██          █  █                   ",
-										        "         ██       █   ██      ██████       █████       ███████     █████        █████         ██            █                     ",
-										        "          ██        █ ██          ██         ███ █       ██          ██:         ██:         ███         ██                       ",
-										        "         ██            ██    ███  ██ █      █████       ████████    ██████  █   █████        ███         ██                       ",
-										        "          ██         ;█;        ;██;        ;██;        ;█;;█;       █   ;█;     █           █           █                        ",
-										        "         ██          █           █           █  █        █████       █           █           █           █                        ",
-										        " █ ; █ █: █;  ;█ ::█::█;█    █ █:█ ;█    ; █ ; █;       ;█ ;         █           █           █           █                        ",
-										        "           █           ██          ██          ██          ██          ██        █  █          ██          █  █                   ",
-										        "     ██  ██      █:█  █:█    █;;█ █ █     █ █ █;█      █;█ █  █      █ ██;█     ████  █      █ ████       ███                     ",
-										        "      █  ██        ███         █ . ██       █   █        ████        █ █         █ █         █ █           █                      ",
-										        "                  :::         :   :      █████████   :█: ::: :█:  : █ : : █ :  :  █ : █  :  :   █ █   :   ::: █ :::               ",
-										        " ;  ;███;█;   █; █   █;    ██;█  █;;█   █ ██ █;;█;█  ██ ███;█; ;  ;;██  █;;█   █;;███;;█     █;;;;;█       █████                  "};
+	char aSprites[24][300] = {"         ███         █  █     ██ █   █     ███   █        █  █        ██████     ███  ███     █ █          ███                    ",
+					  	      "           █          ██          ██          ██        █ ██          ██        ████ █       █ █          ███                     ",
+					  	      "           ;           ;:          :;          ;:        ; ;;          ;;        ████ ;       █ █          ███                    ",
+					          "          █:          █:█         █:█         █:█         █:█       █ █:█         ███          ██          █  █                   ",
+					          "       █           █           █           █            █            █             █  █          ██          █ ██                 ",
+					          "      ;            █;            █;            █           █;           █          █ ;           █          ██ █                  ",
+					          "      █;           ██;           ██;           █;          ██;          █;;        █ █;;         █;;        ██ █                  ",
+					          "     █            ██            ██            █           ██           █            █           ;;          ;;                    ",
+					          "     █████       ██   ██     ██     ██   █        █   █        █    ██      █   █ █ █   █     ██ █  ██   ██ █ ███                 ",
+					          "    ████ █ █    ██   ███    ██      ██  ██       █   ██       █   ██      ██    ██  █ ██      ██  ██        ████ █                ",
+					          "   ;███;  ██   ;█;;;█;██   ;█;   ;██;   █;     ;█;   █;     ;█;   █;    ;;█;   ;█;  ;;█;     ;█;;;█;       ;███;                  ",
+					          "          ██          █ █     ;;;;█; █    ;  ██ ;██   ;;  ██;██    ;;   █ ██     ;   ████     ;; ; ███      ;;;█;█                ",
+					          "         █           ███         ███         █:█      █  █:█        █ █:█         █:█          ██          █  █                   ",
+					          "         ██       █   ██      ██████       █████       ███████     █████        █████         ██            █                     ",
+					          "          ██        █ ██          ██         ███ █       ██          ██:         ██:         ███         ██                       ",
+					          "         ██            ██    ███  ██ █      █████       ████████    ██████  █   █████        ███         ██                       ",
+					          "          ██         ;█;        ;██;        ;██;        ;█;;█;       █   ;█;     █           █           █                        ",
+					          "         ██          █           █           █  █        █████       █           █           █           █                        ",
+					          " █ ; █ █: █;  ;█ ::█::█;█    █ █:█ ;█    ; █ ; █;       ;█ ;         █           █           █           █                        ",
+					          "           █           ██          ██          ██          ██          ██        █  █          ██          █  █                   ",
+					          "     ██  ██      █:█  █:█    █;;█ █ █     █ █ █;█      █;█ █  █      █ ██;█     ████  █      █ ████       ███                     ",
+					          "      █  ██        ███         █ . ██       █   █        ████        █ █         █ █         █ █           █                      ",
+					          "                  :::         :   :      █████████   :█: ::: :█:  : █ : : █ :  :  █ : █  :  :   █ █   :   ::: █ :::               ",
+					          " ;  ;███;█;   █; █   █;    ██;█  █;;█   █ ██ █;;█;█  ██ ███;█; ;  ;;██  █;;█   █;;███;;█     █;;;;;█       █████                  "};
 	
+	char aUniqueSprites[2][300] = {"SWIFT SLIPPER",
+													 "GIANT'S BELT"};
+
 	if (!strcmp(sWeapon.strWeaponName, "SHORT SWORD") || 
 		!strcmp(sWeapon.strWeaponName, "UCHIGATANA") ||
 		!strcmp(sWeapon.strWeaponName, "WHIP") ||
 		!strcmp(sWeapon.strWeaponName, "CLAYMORE") ||
 		!strcmp(sWeapon.strWeaponName, "ASTROLOGER’S STAFF") ||
+		!strcmp(sWeapon.strWeaponName, "SWIFT SLIPPER") ||
 		!strcmp(sWeapon.strWeaponName, "FINGER SEAL"))
 		nWeaponOrder = 0;
 	else if (!strcmp(sWeapon.strWeaponName, "ROGIER'S RAPIER") ||
@@ -211,6 +215,7 @@ char* getSpriteFromWeapon(Weapon sWeapon) {
 		!strcmp(sWeapon.strWeaponName, "URUMI") ||
 		!strcmp(sWeapon.strWeaponName, "STARSCOURGE GREATSWORD") ||
 		!strcmp(sWeapon.strWeaponName, "ALBINAURIC STAFF") ||
+		!strcmp(sWeapon.strWeaponName, "GIANT'S BELT") ||
 		!strcmp(sWeapon.strWeaponName, "GODSLAYER’S SEAL"))
 		nWeaponOrder = 1;
 	else if (!strcmp(sWeapon.strWeaponName, "CODED SWORD") ||
@@ -228,8 +233,13 @@ char* getSpriteFromWeapon(Weapon sWeapon) {
 		!strcmp(sWeapon.strWeaponName, "DRAGON COMMUNION SEAL"))
 		nWeaponOrder = 3;
 
-	nIndex = ((sWeapon.nWeaponType - 1) * 4) + nWeaponOrder;
-	strcpy(strSprite, aSprites[nIndex]);
+	if (sWeapon.nWeaponType != 7) {
+		nIndex = ((sWeapon.nWeaponType - 1) * 4) + nWeaponOrder;
+		strcpy(strSprite, aSprites[nIndex]);
+	} else {
+		nIndex = nWeaponOrder;
+		strcpy(strSprite, aUniqueSprites[nIndex]);
+	}
 
 	nEmptySpaces = ((SLOT_WIDTH - 3) * 10) - strlen(strSprite);
 
@@ -423,8 +433,6 @@ void printInventoryGrid(Player* pPlayer, int nPage) {
 		pInventoryHead = pInventoryHead->pNext;
 	}
 
-	printf("\n");
-
 	//Print existing weapons in a 5x4 grid.
 	for(i = 0; i < INVENTORY_MAX_ROWS; i++) {
 
@@ -485,7 +493,6 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 
 	printInventoryGrid(pPlayer, nPage);
 
-	printf("\n");
 	printOption(1, "SELECT WEAPON");
 	printOption(2, "PREVIOUS PAGE");
 	printOption(3, "NEXT PAGE");
@@ -494,29 +501,34 @@ void displayInventory(int nPrompt, Player* pPlayer, int nPage) {
 
 	switch(nPrompt) {
 		case SELECT:
-			printMultiple(" ", SCREEN_PADDING);
-			printf("You equipped %s.", pPlayer->sEquippedWeapon.strWeaponName);
+			printf("\n");
+			printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+			printf("You equipped %s.\n", pPlayer->sEquippedWeapon.strWeaponName);
 			break;
 		case NO_EXIST:
+			printf("\n");
 			printSystemMessage("There's no weapon at that index.");
 			break;
 
 		case LACK_DEX:
+			printf("\n");
 			printSystemMessage("You don't have enough dexterity to equip that weapon.");
 			break;
 
 		case PREVIOUS:
 		case NEXT:
-			printMultiple(" ", SCREEN_PADDING);
-			printf("You're now at PAGE %d.", nPage);
+			printf("\n");
+			printMultiple(" ", SCREEN_PADDING * (SCREEN_WIDTH / 10));
+			printf("You're now at PAGE %d.\n", nPage);
 			break;
 
 		case I_BACK:
+			printf("\n");
 			printSystemMessage("Going back to Roundtable Hold.");
 			break;
 		default:
 			break;
 	}
 
-	Sleep(DELAY);
+	// Sleep(DELAY);
 }
