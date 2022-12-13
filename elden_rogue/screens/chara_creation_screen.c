@@ -75,6 +75,16 @@ void openCharacterCreationScreen(Player* pPlayer) {
 				break;
 
 			case CC_BACK:
+				strcpy(pPlayer->strName, "");
+				strcpy(pPlayer->strJobClass, "");
+				pPlayer->nLevel = 0;
+				pPlayer->nHealth = 0;
+				pPlayer->nEndurance = 0;
+				pPlayer->nDexterity = 0;
+				pPlayer->nStrength = 0;
+				pPlayer->nIntelligence = 0;
+				pPlayer->nFaith = 0;
+
 				nComplete = 1;
 				openTitleScreen(pPlayer);
 				break;
