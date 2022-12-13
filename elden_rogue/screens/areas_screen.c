@@ -1169,37 +1169,37 @@ void resetPlayerStats(Player* pPlayer) {
 	pPlayer->pUsedTiles = NULL;
 }
 
-/*	resetPlayerStatsto0	Sets Player stats to 0.
+// /*	resetPlayerStatsto0	Sets Player stats to 0.
 
-	@param	pPlayer		The Player Structure containing all of the 
-						Player's statistics and items.
+// 	@param	pPlayer		The Player Structure containing all of the 
+// 						Player's statistics and items.
 
-	Pre-condition		pPlayer should be initiated and all members 
-						should have a value.						   */
-void resetPlayerStatsTo0(Player* pPlayer) {
+// 	Pre-condition		pPlayer should be initiated and all members 
+// 						should have a value.						   */
+// void resetPlayerStatsTo0(Player* pPlayer) {
 	
-	int i;
+// 	int i;
 
-	pPlayer->nPlayerHP = 0;
-	pPlayer->nRunes = 0;
+// 	pPlayer->nPlayerHP = 0;
+// 	pPlayer->nRunes = 0;
 
-	if (!strcmp("VAGABOND", pPlayer->strJobClass))
-		setJobClass(VAGABOND, pPlayer);
-	if (!strcmp("SAMURAI", pPlayer->strJobClass))
-		setJobClass(SAMURAI, pPlayer);
-	if (!strcmp("WARRIOR", pPlayer->strJobClass))
-		setJobClass(WARRIOR, pPlayer);
-	if (!strcmp("HERO", pPlayer->strJobClass))
-		setJobClass(HERO, pPlayer);
-	if (!strcmp("PROPHET", pPlayer->strJobClass))
-		setJobClass(PROPHET, pPlayer);
-	if (!strcmp("ASTROLOGER", pPlayer->strJobClass))
-		setJobClass(ASTROLOGER, pPlayer);
+// 	if (!strcmp("VAGABOND", pPlayer->strJobClass))
+// 		setJobClass(VAGABOND, pPlayer);
+// 	if (!strcmp("SAMURAI", pPlayer->strJobClass))
+// 		setJobClass(SAMURAI, pPlayer);
+// 	if (!strcmp("WARRIOR", pPlayer->strJobClass))
+// 		setJobClass(WARRIOR, pPlayer);
+// 	if (!strcmp("HERO", pPlayer->strJobClass))
+// 		setJobClass(HERO, pPlayer);
+// 	if (!strcmp("PROPHET", pPlayer->strJobClass))
+// 		setJobClass(PROPHET, pPlayer);
+// 	if (!strcmp("ASTROLOGER", pPlayer->strJobClass))
+// 		setJobClass(ASTROLOGER, pPlayer);
 
-	for (i = 0; i < 6; i++) {
-		pPlayer->aShards[i] = 0;
-	}
-}
+// 	for (i = 0; i < 6; i++) {
+// 		pPlayer->aShards[i] = 0;
+// 	}
+// }
 
 /*	usePlayer 			Sets Player stats to initial values when entering
 						a new area.
@@ -1312,7 +1312,7 @@ int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBoss
 						}
 
 					} else {
-						resetPlayerStatsTo0(pPlayer);
+						pPlayer->nRunes = 0;
 					}
 
 					displayResultScreen(1, nBattleResult, nBattleRewards);
@@ -1403,7 +1403,7 @@ int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBoss
 					}
 				} else {
 
-					resetPlayerStatsTo0(pPlayer);
+					pPlayer->nRunes = 0;
 				}
 
 

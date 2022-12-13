@@ -65,7 +65,7 @@ int checkIfTileUsed(Player* pPlayer, int nFloor);
 void setTileToUsed(Player* pPlayer, UsedTile** pUsedTileHead, int nFloor);
 
 void resetPlayerStats(Player* pPlayer);
-void resetPlayerStatsTo0(Player* pPlayer);
+// void resetPlayerStatsTo0(Player* pPlayer);
 
 int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBossClear);
 
