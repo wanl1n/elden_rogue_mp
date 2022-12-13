@@ -77,6 +77,7 @@ void printFloorHeader(int nArea);
 void printFloorMap(int nArea, int nFloorLength, Player* pPlayer);
 void printBorder(int nType, int nPosition);
 void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP);
+void printEnemyHealth(int nHP, int nMaxHP);
 void printItems(int nPotions, int nRunes);
 void printPlayerMoves();
 

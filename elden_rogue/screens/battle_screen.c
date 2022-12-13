@@ -88,8 +88,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 						case ATTACK_PHYSICAL: // player chose physical attack
 
-							nPhysicalDamage = 5000;
-							// nPhysicalDamage = attackPhy(sEnemy, pPlayer);
+							nPhysicalDamage = attackPhy(sEnemy, pPlayer);
 							sEnemy.nHP -= nPhysicalDamage;
 
 							printMultiple(" ", SCREEN_PADDING);
@@ -344,7 +343,7 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 
 	//ENEMY sprite
 	printf("\t\t[ENEMY NAME]: %s\n", sEnemy.strName);
-	printPlayerHealth(sEnemy.nHP, sEnemy.nMaxHP);
+	printEnemyHealth(sEnemy.nHP, sEnemy.nMaxHP);
 	printf("%d\n", sEnemy.nHP);
 
 	switch(nArea){
@@ -352,58 +351,58 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 
 			switch(sEnemy.nType){
 				case 1:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    █████\n");
-					printf("\t\t █ █ ████  █ █\n");
-					printf("\t\t ███       ███\n");
-					printf("\t\t   █  ███  █  \n");
-					printf("\t\t   ███   ███ \n");
+					printf("\t\t\t ██  ████████\n");
+					printf("\t\t\t █ ██   ::   █ \n");
+					printf("\t\t\t █ █    ::    █\n");
+					printf("\t\t\t █ ██████████████\n");
+					printf("\t\t\t █ █   █   █   █ \n");
+					printf("\t\t\t █ █          █ \n");
+					printf("\t\t\t█████    █████\n");
+					printf("\t\t\t █ █\e[1;92m;\e[0m████\e[1;91m;;\e[0m█ █\n");
+					printf("\t\t\t ███\e[1;92m;;\e[0m   \e[1;91m;;\e[0m███\n");
+					printf("\t\t\t   █\e[1;92m;;\e[0m███\e[1;91m;;\e[0m█  \n");
+					printf("\t\t\t   ███   ███ \n");
 					printf("\n");
 					break;
 				case 2:
-					printf("\t\t     ████████\n");
-					printf("\t\t   ██   ::   █ \n");
-					printf("\t\t   █    ::    █\n");
-					printf("\t\t   ██████████████\n");
-					printf("\t\t ███   █   █;;██  \n");
-					printf("\t\t █:█        ;;  ███\n");
-					printf("\t\t █:██    ███;;█    █\n");
-					printf("\t\t █:█ ████  █;; █   █\n");
-					printf("\t\t ███       █;;█    █\n");
-					printf("\t\t   █  ███  █;;  ███\n");
-					printf("\t\t   ███   ███;;██\n");
+					printf("\t\t\t     ████████\n");
+					printf("\t\t\t   ██   ::   █ \n");
+					printf("\t\t\t   █    ::    █\n");
+					printf("\t\t\t   ██████████████\n");
+					printf("\t\t\t ███   █   █;;██  \n");
+					printf("\t\t\t █:█        ;;  ███\n");
+					printf("\t\t\t █:██    ███;;█    █\n");
+					printf("\t\t\t █:█\e[1;92m;\e[0m████\e[1;91m;;\e[0m█;; █   █\n");
+					printf("\t\t\t ███\e[1;92m;;\e[0m   \e[1;91m;;\e[0m█;;█    █\n");
+					printf("\t\t\t   █\e[1;92m;;\e[0m███\e[1;91m;;\e[0m█;;  ███\n");
+					printf("\t\t\t   ███   ███;;██\n");
 					printf("\n");
 					break;
 				case 3:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    ███████\n");
-					printf("\t\t █ █ ████  █    █\n");
-					printf("\t\t ███       █    █\n");
-					printf("\t\t   █  ███  ██  █\n");
-					printf("\t\t   ███   ███ ██\n");
+					printf("\t\t\t ██  ████████\n");
+					printf("\t\t\t █ ██   ::   █ \n");
+					printf("\t\t\t █ █    ::    █\n");
+					printf("\t\t\t █ ██████████████\n");
+					printf("\t\t\t █ █   █   █   █ \n");
+					printf("\t\t\t █ █          █ \n");
+					printf("\t\t\t█████    ███████\n");
+					printf("\t\t\t █ █\e[1;92m;\e[0m████\e[1;91m;;\e[0m█    █\n");
+					printf("\t\t\t ███\e[1;92m;;\e[0m   \e[1;91m;;\e[0m█    █\n");
+					printf("\t\t\t   █  ███  ██  █\n");
+					printf("\t\t\t   ███   ███ ██\n");
 					printf("\n");
 					break;
 				case 4:
-					printf("   █    █     \e[1;97m;;;;\e[0m       \e[1;93m█\e[0m █   \n");
-					printf("  █ █  █ █   ██████     \e[1;93m███\e[0m █ ██\n");
-					printf("     █   █  \e[1;97m;\e[0m█    █\e[1;97m;\e[0m     \e[1;93m█\e[0m   █  █\n");
-					printf("   ██ █   █\e[1;97m;;\e[0m█    █\e[1;97m;;\e[0m  ██\e[1;93m;\e[0m█ █   \n");
-					printf(" ██  █ █ █ \e[1;97m;;;\e[0m████\e[1;97m;;;\e[0m █ █\e[1;93m;\e[0m██  ██\n");
-					printf(" █    █ █ █ ██    ██ █ ██ █  █  █\n");
-					printf("   ██  █ ███\e[1;93m;\e[0m     \e[1;93m;\e[0m ███ █ █ █  \n");
-					printf("  █  █ ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██ ███\n");
-					printf(" █    █ █ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ █ █   █\n");
-					printf("       ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██    \n");
+					printf("\t\t\t   █    █     \e[1;97m;;;;\e[0m       \e[1;93m█\e[0m █   \n");
+					printf("\t\t\t  █ █  █ █   ██████     \e[1;93m███\e[0m █ ██\n");
+					printf("\t\t\t     █   █  \e[1;97m;\e[0m█    █\e[1;97m;\e[0m     \e[1;93m█\e[0m   █  █\n");
+					printf("\t\t\t   ██ █   █\e[1;97m;;\e[0m█    █\e[1;97m;;\e[0m  ██\e[1;93m;\e[0m█ █   \n");
+					printf("\t\t\t ██  █ █ █ \e[1;97m;;;\e[0m████\e[1;97m;;;\e[0m █ █\e[1;93m;\e[0m██  ██\n");
+					printf("\t\t\t █    █ █ █ ██    ██ █ ██ █  █  █\n");
+					printf("\t\t\t   ██  █ ███\e[1;93m;\e[0m     \e[1;93m;\e[0m ███ █ █ █  \n");
+					printf("\t\t\t  █  █ ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██ ███\n");
+					printf("\t\t\t █    █ █ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ █ █   █\n");
+					printf("\t\t\t       ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██    \n");
 					printf("\n");
 					break;
 			}
@@ -413,59 +412,59 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 		case RAYA_LUCARIA:
 			switch(sEnemy.nType){
 				case 1:
-					printf("\t\t          ████████\n");
-					printf("\t\t         █ :::::: █ \n");
-					printf("\t\t     ████ :  ::  : ████\n");
-					printf("\t\t    █  █:█ :::::: █:█  █\n");
-					printf("\t\t   █ ██ : ████████ : ██ █\n");
-					printf("\t\t  █  █;  :  :;: : :  ;█  █\n");
-					printf("\t\t █   █ ; : ;: : :;: ; █   █\n");
-					printf("\t\t █   █  ;;;;;;;;;;;;  █   █\n");
-					printf("\t\t  █   █              █   █\n");
-					printf("\t\t   █ █ █            █ █ █\n");
-					printf("\t\t    █   █          █   █\n");
-					printf("\t\t   █ █   ██████████   █ █\n");
+					printf("\t\t\t          ████████\n");
+					printf("\t\t\t         █\e[1;91m :::::: \e[0m█ \n");
+					printf("\t\t\t     ████\e[1;91m :  ::  : \e[0m████\n");
+					printf("\t\t\t    █  █\e[1;93m:\e[0m█\e[1;91m :::::: \e[0m█\e[1;93m:\e[0m█  █\n");
+					printf("\t\t\t   █ ██\e[1;93m : \e[0m████████\e[0m\e[1;93m : \e[0m██ █\n");
+					printf("\t\t\t  █  █\e[1;93m;  :  :;: : :  ;\e[0m█  █\n");
+					printf("\t\t\t █   █\e[1;93m ; : ;: : :;: ; \e[0m█   █\n");
+					printf("\t\t\t █   █\e[1;93m  ;;;;;;;;;;;;  \e[0m█   █\n");
+					printf("\t\t\t  █   █              █   █\n");
+					printf("\t\t\t   █ █ █            █ █ █\n");
+					printf("\t\t\t    █   █          █   █\n");
+					printf("\t\t\t   █ █   ██████████   █ █\n");
 					printf("\n");
 					break;
 				case 2:
-					printf("\t\t    █ █ █ █ █   █\n");
-					printf("\t\t   █;█;█;█;█;█ █ █\n");
-					printf("\t\t  ████████████  █ \n");
-					printf("\t\t ███████████████ █\n");
-					printf("\t\t█;;█;  █   █;█ █ █ \n");
-					printf("\t\t█;;█;;     ;;█ █ █\n");
-					printf("\t\t ██;;;;;;;;;;█ █ █\n");
-					printf("\t\t   █████████████ █\n");
-					printf("\t\t ███  ██  ██ █ █ █\n");
-					printf("\t\t   █  ███ ███ ██ █ \n");
-					printf("\t\t   ███   ███   ███\n");
+					printf("\t\t\t\e[1;92m    █ █ █\e[0m\e[1;94m █ █   █\e[0m\n");
+					printf("\t\t\t\e[1;92m   █;█;█\e[1;94m;█;█;█ █ █\e[0m\n");
+					printf("\t\t\t  ████████████  █ \n");
+					printf("\t\t\t ███████████████ █\n");
+					printf("\t\t\t█;;█;  █   █;█ █ █ \n");
+					printf("\t\t\t█;;█;;     ;;█ █ █\n");
+					printf("\t\t\t ██;;;;;;;;;;█ █ █\n");
+					printf("\t\t\t   █████████████ █\n");
+					printf("\t\t\t ███  \e[1;91m██  ██\e[0m █ █ █\n");
+					printf("\t\t\t   █  \e[1;91m███ ███\e[0m ██ █ \n");
+					printf("\t\t\t   ███   ███   ███\n");
 					printf("\n");
 					break;
 				case 3:
-					printf("\t\t    █████████   █\n");
-					printf("\t\t   █         █ █ █\n");
-					printf("\t\t  █  ███████  █ █\n");
-					printf("\t\t █  █       █ ██ █\n");
-					printf("\t\t█  █   █   █ █ █ █ \n");
-					printf("\t\t█  █   █   █ █ █ █\n");
-					printf("\t\t ██          █ █ █\n");
-					printf("\t\t   █████████████ █\n");
-					printf("\t\t ███         █ █ █\n");
-					printf("\t\t   █  ███   █ ██ █ \n");
-					printf("\t\t   ███   ███   ███\n");
+					printf("\t\t\t    █████████   \e[1;92m█\e[0m\n");
+					printf("\t\t\t   █         █ \e[1;92m█ █\e[0m\n");
+					printf("\t\t\t  █  ███████  █ \e[1;92m█\e[0m\n");
+					printf("\t\t\t █  █       █ ██ █\n");
+					printf("\t\t\t█  █   █   █ █ █ █ \n");
+					printf("\t\t\t█  █   █   █ █ █ █\n");
+					printf("\t\t\t ██          █ █ █\n");
+					printf("\t\t\t   █████████████ █\n");
+					printf("\t\t\t ███\e[1;91m;;;;;;;;;\e[0m█ █ █\n");
+					printf("\t\t\t   █\e[1;91m;;\e[0m███\e[1;91m;;;\e[0m█ ██ █ \n");
+					printf("\t\t\t   ███   ███   ███\n");
 					printf("\n");
 					break;
 				case 4:
-					printf("             \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m██\e[0m    \e[1;93m;\e[0m \e[1;94m███\e[0m\n");
-					printf("\e[1;93m   ███\e[0m      \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █   █\e[0m \e[1;93m;\e[0m \n");
-					printf("\e[1;93m  █   █\e[0m    \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █\e[0m\e[1;93m;\e[0m \e[1;94m█   █\e[0m     \n");
-					printf("\e[1;93m █ ;   █\e[0m    █   █        ███ ;\n");
-					printf("\e[1;93m █ ;   █\e[0m    █   █         █\n");
-					printf("\e[1;93m  █   █\e[0m    \e[1;91m█ ███ █\e[0m       ███\n");
-					printf("\e[1;93m   ███\e[0m   ██       ██      █\e[1;93m:\e[0m    \n");
-					printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
-					printf("\e[1;94m         █         █\e[0m      █\e[1;93m:\e[0m   \n");
-					printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
+					printf("\t\t\t             \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m██\e[0m    \e[1;93m;\e[0m \e[1;94m███\e[0m\n");
+					printf("\t\t\t\e[1;93m   ███\e[0m      \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █   █\e[0m \e[1;93m;\e[0m \n");
+					printf("\t\t\t\e[1;93m  █   █\e[0m    \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █\e[0m\e[1;93m;\e[0m \e[1;94m█   █\e[0m     \n");
+					printf("\t\t\t\e[1;93m █ ;   █\e[0m    █   █        ███ ;\n");
+					printf("\t\t\t\e[1;93m █ ;   █\e[0m    █   █         █\n");
+					printf("\t\t\t\e[1;93m  █   █\e[0m    \e[1;91m█ ███ █\e[0m       ███\n");
+					printf("\t\t\t\e[1;93m   ███\e[0m   ██       ██      █\e[1;93m:\e[0m    \n");
+					printf("\t\t\t\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
+					printf("\t\t\t\e[1;94m         █         █\e[0m      █\e[1;93m:\e[0m   \n");
+					printf("\t\t\t\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
 					printf("\n");
 					break;
 			}
@@ -475,58 +474,58 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 		case REDMANE_CASTLE:
 			switch(sEnemy.nType){
 				case 1:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    █████\n");
-					printf("\t\t █ █ ████  █ █\n");
-					printf("\t\t ███       ███\n");
-					printf("\t\t   █  ███  █  \n");
-					printf("\t\t   ███   ███ \n");
+					printf("\t\t\t ██  ████████\n");
+					printf("\t\t\t █ ██   ::   █ \n");
+					printf("\t\t\t █ █    ::    █\n");
+					printf("\t\t\t █ ██████████████\n");
+					printf("\t\t\t █ █   █   █   █ \n");
+					printf("\t\t\t █ █          █ \n");
+					printf("\t\t\t█████    █████\n");
+					printf("\t\t\t █ █\e[1;91m;\e[0m████ \e[1;91m;;\e[0m█ █\n");
+					printf("\t\t\t ███\e[1;91m;;;;;;;\e[0m███\n");
+					printf("\t\t\t   █\e[1;91m;;\e[0m███\e[1;91m;;\e[0m█  \n");
+					printf("\t\t\t   ███   ███ \n");
 					printf("\n");
 					break;
 				case 2:
-					printf("\t\t     ████████\n");
-					printf("\t\t   ██   ::   █ \n");
-					printf("\t\t   █    ::    █\n");
-					printf("\t\t   ██████████████\n");
-					printf("\t\t ███   █   █;;██  \n");
-					printf("\t\t █:█        ;;  ███\n");
-					printf("\t\t █:██    ███;;█    █\n");
-					printf("\t\t █:█ ████  █;; █   █\n");
-					printf("\t\t ███       █;;█    █\n");
-					printf("\t\t   █  ███  █;;  ███\n");
-					printf("\t\t   ███   ███;;██\n");
+					printf("\t\t\t     ████████\n");
+					printf("\t\t\t   ██   ::   █ \n");
+					printf("\t\t\t   █    ::    █\n");
+					printf("\t\t\t   ██████████████\n");
+					printf("\t\t\t ███   █   █;;██  \n");
+					printf("\t\t\t █:█        ;;  ███\n");
+					printf("\t\t\t █:██    ███;;█    █\n");
+					printf("\t\t\t █:█\e[1;91m;\e[0m████ \e[1;91m;;\e[0m█;; █   █\n");
+					printf("\t\t\t ███\e[1;91m;;;;;;;\e[0m█;;█    █\n");
+					printf("\t\t\t   █\e[1;91m;;\e[0m███\e[1;91m;;\e[0m█;;  ███\n");
+					printf("\t\t\t   ███   ███;;██\n");
 					printf("\n");
 					break;
 				case 3:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    ███████\n");
-					printf("\t\t █ █ ████  █    █\n");
-					printf("\t\t ███       █    █\n");
-					printf("\t\t   █  ███  ██  █\n");
-					printf("\t\t   ███   ███ ██\n");
+					printf("\t\t\t ██  ████████\n");
+					printf("\t\t\t █ ██   ::   █ \n");
+					printf("\t\t\t █ █    ::    █\n");
+					printf("\t\t\t █ ██████████████\n");
+					printf("\t\t\t █ █   █   █   █ \n");
+					printf("\t\t\t █ █          █ \n");
+					printf("\t\t\t█████    ███████\n");
+					printf("\t\t\t █ █\e[1;91m;\e[0m████ \e[1;91m;;\e[0m█    █\n");
+					printf("\t\t\t ███\e[1;91m;;;;;;;\e[0m█    █\n");
+					printf("\t\t\t   █\e[1;91m;;\e[0m███\e[1;91m;;\e[0m██  █\n");
+					printf("\t\t\t   ███   ███ ██\n");
 					printf("\n");
 					break;
 				case 4:
-					printf("     █     \e[1;91m;:;;;:;     █\n");
-					printf("   ██     \e[1;91m;:;:::;:;     ██ \n");
-					printf("  █\e[1;93m:\e[0m █   \e[1;91m;\e[0m\e[1;93m█\e[0m\e[1;91m;:\e[0m\e[1;93m███\e[0m\e[1;91m:;\e[0m\e[1;93m█\e[0m\e[1;91m;\e[0m   █ \e[1;93m:\e[0m█\n");
-					printf(" █\e[1;93m:\e[0m  █   \e[1;91m:;\e[0m\e[1;93m██   ██\e[1;91m;:\e[0m   █  \e[1;93m:\e[0m█ \n");
-					printf(" █\e[1;93m:\e[0m  █    \e[1;91m:;\e[0m\e[1;93m█   █\e[1;91m;:\e[0m    █  \e[1;93m:\e[0m█\n");
-					printf("  █\e[1;93m:\e[0m █\e[1;93m███\e[0m \e[1;91m██ ███ ██\e[0m \e[1;93m████\e[0m \e[1;93m:\e[0m█\n");
-					printf("   █\e[1;93m:\e[0m█   \e[1;93m█         █\e[0m   █\e[1;93m:\e[0m█    \n");
-					printf("   ██;\e[1;93m███\e[0m;         ;\e[1;93m███\e[0m;██  \n");
-					printf("    ██;;;           ;;; ██   \n");
-					printf("     █ \e[1;93m█             \e[1;93m█\e[0m  █     \n");
+					printf("\t\t\t     █     \e[1;91m;:;;;:;     █\n");
+					printf("\t\t\t   ██     \e[1;91m;:;:::;:;     ██ \n");
+					printf("\t\t\t  █\e[1;93m:\e[0m █   \e[1;91m;\e[0m\e[1;93m█\e[0m\e[1;91m;:\e[0m\e[1;93m███\e[0m\e[1;91m:;\e[0m\e[1;93m█\e[0m\e[1;91m;\e[0m   █ \e[1;93m:\e[0m█\n");
+					printf("\t\t\t █\e[1;93m:\e[0m  █   \e[1;91m:;\e[0m\e[1;93m██   ██\e[1;91m;:\e[0m   █  \e[1;93m:\e[0m█ \n");
+					printf("\t\t\t █\e[1;93m:\e[0m  █    \e[1;91m:;\e[0m\e[1;93m█   █\e[1;91m;:\e[0m    █  \e[1;93m:\e[0m█\n");
+					printf("\t\t\t  █\e[1;93m:\e[0m █\e[1;93m███\e[0m \e[1;91m██ ███ ██\e[0m \e[1;93m████\e[0m \e[1;93m:\e[0m█\n");
+					printf("\t\t\t   █\e[1;93m:\e[0m█   \e[1;93m█         █\e[0m   █\e[1;93m:\e[0m█    \n");
+					printf("\t\t\t   ██;\e[1;93m███\e[0m;         ;\e[1;93m███\e[0m;██  \n");
+					printf("\t\t\t    ██;;;           ;;; ██   \n");
+					printf("\t\t\t     █ \e[1;93m█             \e[1;93m█\e[0m  █     \n");
 					printf("\n");
 					break;
 			}
@@ -536,58 +535,58 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 		case VOLCANO_MANOR:
 			switch(sEnemy.nType){
 				case 1:
-					printf("\t\t ██     ████████\n");
-					printf("\t\t █ █  ██   ::   ██\n");
-					printf("\t\t █  █ █  █ :: █  █\n");
-					printf("\t\t █  █ ███      ███ \n");
-					printf("\t\t █ ██  █ ██████ █   \n");
-					printf("\t\t █ █ █ █ █,,,,█ ████\n");
-					printf("\t\t█████ ██ █,,,,██    █\n");
-					printf("\t\t █ ██ █  █,,,,█      █\n");
-					printf("\t\t ███ ██  █,,,,██    █\n");
-					printf("\t\t      █   ████  █  █ \n");
-					printf("\t\t       ███   ███ ██\n");
+					printf("\t\t\t\e[1;91m ██\e[0m     ████████\n");
+					printf("\t\t\t\e[1;91m █ █\e[0m  ██   ::   ██\n");
+					printf("\t\t\t\e[1;91m █  █\e[0m █  █ :: █  █\n");
+					printf("\t\t\t\e[1;91m █  █\e[0m ███      ███ \n");
+					printf("\t\t\t\e[1;91m █ ██\e[0m  █ ██████ █   \n");
+					printf("\t\t\t\e[1;91m █ █\e[0m █ █ █,,,,█ ████\n");
+					printf("\t\t\t\e[1;91m█████\e[0m ██ █,,,,██    █\n");
+					printf("\t\t\t\e[1;91m █ ██\e[0m █  █,,,,█      █\n");
+					printf("\t\t\t\e[1;91m ███\e[0m ██  █,,,,██    █\n");
+					printf("\t\t\t      █   ████  █  █ \n");
+					printf("\t\t\t       ███   ███ ██\n");
 					printf("\n");
 					break;
 				case 2:
-					printf("\t\t  █     ████████\n");
-					printf("\t\t ███  ██   ::   ██  \n");
-					printf("\t\t  █   █  █ :: █  █ \n");
-					printf("\t\t █ █  ███      ███  \n");
-					printf("\t\t █ █   █  █████ █  █████\n");
-					printf("\t\t █ ██  █ █ ;;  ██ █ ;;; █\n");
-					printf("\t\t █ █ ███ █ ;;;  ██ ;;;; █\n");
-					printf("\t\t █ ██ █  █ ;;;; ██ ;;;; █\n");
-					printf("\t\t █ █ ██  █      ██      █\n");
-					printf("\t\t █ █  █    ████████████ █\n");
-					printf("\t\t ███   ███   ███   \n");
+					printf("\t\t\t\e[1;94m  █\e[0m     ████████\n");
+					printf("\t\t\t\e[1;94m ███\e[0m  ██   ::   ██  \n");
+					printf("\t\t\t\e[1;94m  █\e[0m   █  █ :: █  █ \n");
+					printf("\t\t\t █ █  ███      ███  \n");
+					printf("\t\t\t █ █   █  █████ █  █████\n");
+					printf("\t\t\t █ ██  █ █ ;;  ██ █ ;;; █\n");
+					printf("\t\t\t █ █ ███ █ ;;;  ██ ;;;; █\n");
+					printf("\t\t\t █ ██ █  █ ;;;; ██ ;;;; █\n");
+					printf("\t\t\t █ █ ██  █      ██      █\n");
+					printf("\t\t\t █ █  █    ████████████ █\n");
+					printf("\t\t\t ███   ███   ███   \n");
 					printf("\n");
 					break;
 				case 3:
-					printf("\t\t         ███ \n");
-					printf("\t\t        █;;;█    \n");
-					printf("\t\t       ███████    \n");
-					printf("\t\t      █ █, ,█ █ \n");
-					printf("\t\t     █  █ , █  █\n");
-					printf("\t\t██████████ ██████████\n");
-					printf("\t\t █  ; ;  ███  ; ;  █ \n");
-					printf("\t\t  █ ; ; █,,,█ ; ; █\n");
-					printf("\t\t  ;█████,,,,,█████;\n");
-					printf("\t\t  ; ; █,,,,,,,█ ; ;\n");
+					printf("\t\t\t         ███ \n");
+					printf("\t\t\t        █\e[1;93m;;;\e[0m█    \n");
+					printf("\t\t\t       ███████    \n");
+					printf("\t\t\t      █ █, ,█ █ \n");
+					printf("\t\t\t     █  █ , █  █\n");
+					printf("\t\t\t██████████ ██████████\n");
+					printf("\t\t\t █  ; ;  ███  ; ;  █ \n");
+					printf("\t\t\t  █ ; ; █\e[1;93m,,,\e[0m█ ; ; █\n");
+					printf("\t\t\t  ;█████\e[1;93m,,,,,\e[0m█████;\n");
+					printf("\t\t\t  ; ; █\e[1;93m,,,,,,,\e[0m█ ; ;\n");
 					printf("\n");
 					break;
 				case 4:
-					printf("\e[1;92m        ██████      \e[0m \e[1;91m  ;█; \e[0m\n");
-					printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
-					printf("\e[1;92m      █        █    \e[0m \e[1;91m ;██; \e[0m\n");
-					printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
-					printf("\e[1;92m        ██████      \e[0m \e[1;91m ;██; \e[0m\n");
-					printf("\e[1;92m     ███ █,,,██  █  \e[0m \e[1;91m ;██; \e[0m\n");
-					printf("\e[1;92m    █   █,,\e[1;93m█\e[0m\e[1;92m,,█ █ █\e[0m  \e[1;91m ;██; \e[0m\n");
-					printf("\e[1;92m   █  █  ,,,,█ ██  █\e[0m \e[1;91m██████\e[0m\n");
-					printf("\e[1;92m   █   ██████   █  █\e[0m \e[1;91m  ██  \e[0m\n");
-					printf("\e[1;92m    █          █ █ █\e[0m \e[1;91m  ██  \e[0m\n");
-					printf("\e[1;92m     ████████████ █ \e[0m \e[1;91m  ██  \e[0m\n");
+					printf("\t\t\t\e[1;92m        ██████      \e[0m \e[1;91m  ;█; \e[0m\n");
+					printf("\t\t\t\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\t\t\t\e[1;92m      █        █    \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\t\t\t\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\t\t\t\e[1;92m        ██████      \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\t\t\t\e[1;92m     ███ █,,,██  █  \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\t\t\t\e[1;92m    █   █,,\e[1;93m█\e[0m\e[1;92m,,█ █ █\e[0m  \e[1;91m ;██; \e[0m\n");
+					printf("\t\t\t\e[1;92m   █  █  ,,,,█ ██  █\e[0m \e[1;91m██████\e[0m\n");
+					printf("\t\t\t\e[1;92m   █   ██████   █  █\e[0m \e[1;91m  ██  \e[0m\n");
+					printf("\t\t\t\e[1;92m    █          █ █ █\e[0m \e[1;91m  ██  \e[0m\n");
+					printf("\t\t\t\e[1;92m     ████████████ █ \e[0m \e[1;91m  ██  \e[0m\n");
 					printf("\n");
 					break;
 			}
@@ -597,58 +596,58 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 		case LEYNDELL_CAPITAL:
 			switch(sEnemy.nType){
 				case 1:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    █████\n");
-					printf("\t\t █ █ ████  █ █\n");
-					printf("\t\t ███       ███\n");
-					printf("\t\t   █  ███  █  \n");
-					printf("\t\t   ███   ███ \n");
+					printf("\t\t\t ██  ████████\n");
+					printf("\t\t\t █ ██   ::   █ \n");
+					printf("\t\t\t █ █    ::    █\n");
+					printf("\t\t\t █ ██████████████\n");
+					printf("\t\t\t █ █   █   █   █ \n");
+					printf("\t\t\t █ █          █ \n");
+					printf("\t\t\t█████    █████\n");
+					printf("\t\t\t █ █\e[1;93m;\e[0m████\e[1;93m;;\e[0m█ █\n");
+					printf("\t\t\t ███\e[1;93m;;;;;;;\e[0m███\n");
+					printf("\t\t\t   █\e[1;93m;;\e[0m███\e[1;93m;;\e[0m█  \n");
+					printf("\t\t\t   ███   ███ \n");
 					printf("\n");
 					break;
 				case 2:
-					printf("\t\t     ████████\n");
-					printf("\t\t   ██   ::   █ \n");
-					printf("\t\t   █    ::    █\n");
-					printf("\t\t   ██████████████\n");
-					printf("\t\t ███   █   █;;██  \n");
-					printf("\t\t █:█        ;;  ███\n");
-					printf("\t\t █:██    ███;;█    █\n");
-					printf("\t\t █:█ ████  █;; █   █\n");
-					printf("\t\t ███       █;;█    █\n");
-					printf("\t\t   █  ███  █;;  ███\n");
-					printf("\t\t   ███   ███;;██\n");
+					printf("\t\t\t     ████████\n");
+					printf("\t\t\t   ██   ::   █ \n");
+					printf("\t\t\t   █    ::    █\n");
+					printf("\t\t\t   ██████████████\n");
+					printf("\t\t\t ███   █   █;;██  \n");
+					printf("\t\t\t █:█        ;;  ███\n");
+					printf("\t\t\t █:██    ███;;█    █\n");
+					printf("\t\t\t █:█\e[1;93m;\e[0m████\e[1;93m;;\e[0m█;; █   █\n");
+					printf("\t\t\t ███\e[1;93m;;;;;;;\e[0m█;;█    █\n");
+					printf("\t\t\t   █\e[1;93m;;\e[0m███\e[1;93m;;\e[0m█;;  ███\n");
+					printf("\t\t\t   ███   ███;;██\n");
 					printf("\n");
 					break;
 				case 3:
-					printf("\t\t ██  ████████\n");
-					printf("\t\t █ ██   ::   █ \n");
-					printf("\t\t █ █    ::    █\n");
-					printf("\t\t █ ██████████████\n");
-					printf("\t\t █ █   █   █   █ \n");
-					printf("\t\t █ █          █ \n");
-					printf("\t\t█████    ███████\n");
-					printf("\t\t █ █ ████  █    █\n");
-					printf("\t\t ███       █    █\n");
-					printf("\t\t   █  ███  ██  █\n");
-					printf("\t\t   ███   ███ ██\n");
+					printf("\t\t\t ██  ████████\n");
+					printf("\t\t\t █ ██   ::   █ \n");
+					printf("\t\t\t █ █    ::    █\n");
+					printf("\t\t\t █ ██████████████\n");
+					printf("\t\t\t █ █   █   █   █ \n");
+					printf("\t\t\t █ █          █ \n");
+					printf("\t\t\t█████    ███████\n");
+					printf("\t\t\t █ █\e[1;93m;\e[0m████\e[1;93m;;\e[0m█    █\n");
+					printf("\t\t\t ███\e[1;93m;;;;;;;\e[0m█    █\n");
+					printf("\t\t\t   █\e[1;93m;;\e[0m███\e[1;93m;;\e[0m██  █\n");
+					printf("\t\t\t   ███   ███ ██\n");
 					printf("\n");
 					break;
 				case 4:
-					printf("     █  █ █;;;;;;;█ █   \n");
-					printf("    █    █;█;███;█;█    \n");
-					printf("   ██    ;█;█   █;█;   \n");
-					printf("  ███   █;;██   ██;;█  \n");
-					printf("  ██   █ ;;;█   █;;; █  \n");
-					printf(" ██   ██ ;██ ███ ██; ██\n");
-					printf("  ██ █  ██         ██  █    \n");
-					printf(" ██   █   █████████   █\n");
-					printf("  ██   █ ;    █    ; █  \n");
-					printf("  :█:   █ ; ; █;  ; █        \n");
+					printf("\t\t\t     █  █ █;;;;;;;█ █   \n");
+					printf("\t\t\t    █    █;█;███;█;█    \n");
+					printf("\t\t\t   ██    ;█;█   █;█;   \n");
+					printf("\t\t\t  ███   █;;██   ██;;█  \n");
+					printf("\t\t\t  ██   █ ;;;█   █;;; █  \n");
+					printf("\t\t\t ██   ██ ;██ ███ ██; ██\n");
+					printf("\t\t\t  ██ █  ██         ██  █    \n");
+					printf("\t\t\t ██   █   █████████   █\n");
+					printf("\t\t\t  ██   █ ;    █    ; █  \n");
+					printf("\t\t\t  :█:   █ ; ; █;  ; █        \n");
 					printf("\n");
 					break;	
 			}
@@ -657,44 +656,47 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 
 		case THE_ELDEN_THRONE: 
 			if (nEldenThroneStage == 1) {
-				printf(" \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
-				printf("  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
-				printf("\e[1;93m,\e[0m █\e[1;93m;;;\e[0m█\e[1;93m,\e[0m   \e[1;91m;;;;;;;;;\e[0m     \n");
-				printf("\e[1;93m,\e[0m  ███  \e[1;93m,\e[0m \e[1;91m;;;\e[0m█ \e[1;91m;;\e[0m█\e[1;91m;;;\e[0m   \n");
-				printf("    █     \e[1;91m;;;\e[0m█  \e[1;91m;\e[0m█\e[1;91m;;;\e[0m    \n");
-				printf("   ███   \e[1;91m;;;\e[0m█ ███ █\e[1;91m;;\e[0m     \n");
-				printf("    █   \e[1;91m;;\e[0m██   \e[1;93m:\e[0m   ██     \n");
-				printf("    █   \e[1;91m;;\e[0m█ \e[1;93m, ,:, ,\e[0m █    \n");
-				printf("    █   \e[1;91m;;\e[0m█\e[1;93m, ,:::, ,\e[0m█    \n");
-				printf("    █   \e[1;91m;;\e[0m█  \e[1;93m,:::,\e[0m  █     \n");
+				printf("\t\t\t \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
+				printf("\t\t\t  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
+				printf("\t\t\t\e[1;93m,\e[0m █\e[1;93m;;;\e[0m█\e[1;93m,\e[0m   \e[1;91m;;;;;;;;;\e[0m     \n");
+				printf("\t\t\t\e[1;93m,\e[0m  ███  \e[1;93m,\e[0m \e[1;91m;;;\e[0m█ \e[1;91m;;\e[0m█\e[1;91m;;;\e[0m   \n");
+				printf("\t\t\t    █     \e[1;91m;;;\e[0m█  \e[1;91m;\e[0m█\e[1;91m;;;\e[0m    \n");
+				printf("\t\t\t   ███   \e[1;91m;;;\e[0m█ ███ █\e[1;91m;;\e[0m     \n");
+				printf("\t\t\t    █   \e[1;91m;;\e[0m██   \e[1;93m:\e[0m   ██     \n");
+				printf("\t\t\t    █   \e[1;91m;;\e[0m█ \e[1;93m, ,:, ,\e[0m █    \n");
+				printf("\t\t\t    █   \e[1;91m;;\e[0m█\e[1;93m, ,:::, ,\e[0m█    \n");
+				printf("\t\t\t    █   \e[1;91m;;\e[0m█  \e[1;93m,:::,\e[0m  █     \n");
 				printf("\n");
 			} else if (nEldenThroneStage == 2) {
-				printf("\e[1;94m  ██     ███     ██\e[0m\n");
-				printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█   █   █   █ \e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\n");
-				printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█  █ █ █  █\e[0m \e[1;93m;\e[0m █\e[0m\n");
-				printf("\e[1;94m  ██\e[0m\e[1;93m;\e[0m \e[1;94m███ \e[0m\e[1;93m;\e[0m \e[1;94m███\e[0m \e[1;93m;\e[0m\e[1;94m██\e[0m\n");
-				printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m  \e[1;93m;  \e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m\n");
-				printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ █ \e[0m\e[1;93m; ; ;\e[0m \e[1;94m█ █ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
-				printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m;  ;  ;\e[0m \e[1;94m█ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
-				printf("\e[1;94m  █ █\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m█ █\e[0m\n");
-				printf("\e[1;94m █ ██\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m██ █\e[0m\n");
-				printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m; ; ; ; ;\e[0m \e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+				printf("\t\t\t\e[1;94m  ██     ███     ██\e[0m\n");
+				printf("\t\t\t\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█   █   █   █ \e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+				printf("\t\t\t\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█  █ █ █  █\e[0m \e[1;93m;\e[0m █\e[0m\n");
+				printf("\t\t\t\e[1;94m  ██\e[0m\e[1;93m;\e[0m \e[1;94m███ \e[0m\e[1;93m;\e[0m \e[1;94m███\e[0m \e[1;93m;\e[0m\e[1;94m██\e[0m\n");
+				printf("\t\t\t\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m  \e[1;93m;  \e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+				printf("\t\t\t\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ █ \e[0m\e[1;93m; ; ;\e[0m \e[1;94m█ █ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+				printf("\t\t\t\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m;  ;  ;\e[0m \e[1;94m█ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+				printf("\t\t\t\e[1;94m  █ █\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m█ █\e[0m\n");
+				printf("\t\t\t\e[1;94m █ ██\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m██ █\e[0m\n");
+				printf("\t\t\t\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m; ; ; ; ;\e[0m \e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█\e[0m\n");
 			}
 				
 	}
 
 	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);
+	printf("\n");
 	
 	printf("\t\t[NAME]: %s\n", pPlayer->strName);
 	printPlayerHealth(pPlayer->nPlayerHP, pPlayer->nPlayerMaxHP);
 	printf("%d", pPlayer->nPlayerHP);
+	printf("\n\n\n");
 
-	printf("\n    ██   \n");
-	printf("   ████  \n");
-	printf("  █\e[1;91m████\e[0m█ \n");
-	printf("   ████  \n");
+	printf("\n\t    ██   \n");
+	printf("\t   ████  \n");
+	printf("\t  █\e[1;91m████\e[0m█ \n");
+	printf("\t   ████  \n\n");
 
 	printf("\t[POTIONS]: %d\n\n\n", pPlayer->nPotions);
+	printf("\n");
 	
 	if (nTurn) {
 		printHeader("PLAYER TURN", 11);

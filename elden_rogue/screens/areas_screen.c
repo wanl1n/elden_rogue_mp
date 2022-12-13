@@ -1780,7 +1780,7 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 		// printf("█ ");
 		printf("\e[1;92m█\e[0m");	
 	}
-		if(nPlayerHealth / 2){
+		if(50 + (nPlayerHealth / 2)){
 			printf("\e[1;93m█\e[0m");
 		}
 		else if(20 + (nPlayerHealth / 2)){
@@ -1788,6 +1788,39 @@ void printPlayerHealth(int nPlayerHealth, int nPlayerMaxHP) {
 		}
 
 	for(i = 0; i < (nPlayerMaxHP - nPlayerHealth); i++) {
+		colorText(COLOR_TILE_OUT);
+		// printf("█ ");
+		printf("█");
+	}
+
+	resetColors();
+}
+
+/* 	printEnemyHealth 		Prints a health bar.
+	
+	@param nHP 				An integer variable containing the enemy's
+							current health.
+	@param nMaxHP 			An integer variable containing the enemy's
+							max health.
+
+	Pre-condition 			nHP should be less than max hp.*/
+void printEnemyHealth(int nHP, int nMaxHP) {
+	int i;
+
+	nHP /= HEADER_WIDTH;
+	nMaxHP /= HEADER_WIDTH;
+
+	printf("\n");
+	printMultiple(" ", SCREEN_PADDING);
+	printf("[HEALTH]: ");
+	
+	for(i = 0; i < nHP; i++) {
+		//colorText(COLOR_TILE_PLAYER);
+		// printf("█ ");
+		printf("\e[1;91m█\e[0m");	
+	}
+
+	for(i = 0; i < (nMaxHP - nHP); i++) {
 		colorText(COLOR_TILE_OUT);
 		// printf("█ ");
 		printf("█");
