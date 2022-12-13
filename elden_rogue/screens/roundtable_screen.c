@@ -98,6 +98,7 @@ void openShop(Player* pPlayer) {
 	Pre-condition		pPlayer should be initiated and all members 
 						should have a value.						   */
 void openSaveScreen(Player* pPlayer) {
+	
 	displaySaveScreen(pPlayer);
 
 	FILE* fp;
@@ -110,17 +111,19 @@ void openSaveScreen(Player* pPlayer) {
 		nInputSave = scanIntInput(0, 1);
 
 		if (nInputSave) {
+			printf(" save ");
 			fp = fopen("saves/save.dat", "wb");
 
 			fwrite(pPlayer, sizeof(Player), 1, fp);
-
+			printf(" saved ");
 			nInventorySize = getPlayerWeapons(&(pPlayer->pInventory));
 
 			for (i = 0; i < nInventorySize; i++) {
 				fwrite(*pTempHead, sizeof(Slot), 1, fp);
+				printf(" %s ", (*pTempHead)->sWeapon.strWeaponName);
 				*pTempHead = (*pTempHead)->pNext;
 			}
-
+			printf(" inventory ");
 			fclose(fp);
 
 			printSystemMessage("Saved your progress.");
