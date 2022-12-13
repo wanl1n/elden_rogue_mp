@@ -27,6 +27,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nPlayerTurn = 1;
 	int nPlayerMove;
 	int nDodgeTurn = 0;
+	int nEldenThroneStage = 0;
 
 	//var for move attack sub-options
 	int nPhysicalDamage;
@@ -36,6 +37,12 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	int nDodgeRate;
 	int nDodgeRandom;
 	int nHealRandom;
+
+	if (strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER")) {
+		nEldenThroneStage = 1;
+	} else (strcmp(sEnemy.strName, "THE ELDEN BEAST")) {
+		nEldenThroneStage = 2;
+	}
 
 	// While the battle is not yet over,
 	while(pPlayer->nPlayerHP > 0 && sEnemy.nHP > 0){
@@ -57,7 +64,7 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 		}	
 
-		displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo);
+		displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo, nEldenThroneStage);
 
 		if (nPlayerTurn) {
 
@@ -322,7 +329,7 @@ int getDodgeRate(Enemy sEnemy, Player* pPlayer){
 						should have a value. 
 						nTurn should be either 1 or 0.
 						nPrompt should be 1 to 5.					   */
-void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, int nArea) {
+void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, int nArea, int nEldenThroneStage) {
 
 	//Sleep(3000);
 
@@ -644,30 +651,30 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 			break;
 
 		case THE_ELDEN_THRONE:
-			if(nEldenThroneStage == 1) {
-			printf(" \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
-			printf("  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
-			printf("\e[1;93m,\e[0m █\e[1;93m;;;\e[0m█\e[1;93m,\e[0m   \e[1;91m;;;;;;;;;\e[0m     \n");
-			printf("\e[1;93m,\e[0m  ███  \e[1;93m,\e[0m \e[1;91m;;;\e[0m█ \e[1;91m;;\e[0m█\e[1;91m;;;\e[0m   \n");
-			printf("    █     \e[1;91m;;;\e[0m█  \e[1;91m;\e[0m█\e[1;91m;;;\e[0m    \n");
-			printf("   ███   \e[1;91m;;;\e[0m█ ███ █\e[1;91m;;\e[0m     \n");
-			printf("    █   \e[1;91m;;\e[0m██   \e[1;93m:\e[0m   ██     \n");
-			printf("    █   \e[1;91m;;\e[0m█ \e[1;93m, ,:, ,\e[0m █    \n");
-			printf("    █   \e[1;91m;;\e[0m█\e[1;93m, ,:::, ,\e[0m█    \n");
-			printf("    █   \e[1;91m;;\e[0m█  \e[1;93m,:::,\e[0m  █     \n");
-			printf("\n");
-		} else if(nEldenThroneStage == 2) {
-			printf("\e[1;94m  ██     ███     ██\e[0m\n");
-			printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█   █   █   █ \e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\n");
-			printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█  █ █ █  █\e[0m \e[1;93m;\e[0m █\e[0m\n");
-			printf("\e[1;94m  ██\e[0m\e[1;93m;\e[0m \e[1;94m███ \e[0m\e[1;93m;\e[0m \e[1;94m███\e[0m \e[1;93m;\e[0m\e[1;94m██\e[0m\n");
-			printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m  \e[1;93m;  \e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m\n");
-			printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ █ \e[0m\e[1;93m; ; ;\e[0m \e[1;94m█ █ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
-			printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m;  ;  ;\e[0m \e[1;94m█ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
-			printf("\e[1;94m  █ █\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m█ █\e[0m\n");
-			printf("\e[1;94m █ ██\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m██ █\e[0m\n");
-			printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m; ; ; ; ;\e[0m \e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█\e[0m\n");
-		}
+			if (nEldenThroneStage == 1) {
+				printf(" \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
+				printf("  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
+				printf("\e[1;93m,\e[0m █\e[1;93m;;;\e[0m█\e[1;93m,\e[0m   \e[1;91m;;;;;;;;;\e[0m     \n");
+				printf("\e[1;93m,\e[0m  ███  \e[1;93m,\e[0m \e[1;91m;;;\e[0m█ \e[1;91m;;\e[0m█\e[1;91m;;;\e[0m   \n");
+				printf("    █     \e[1;91m;;;\e[0m█  \e[1;91m;\e[0m█\e[1;91m;;;\e[0m    \n");
+				printf("   ███   \e[1;91m;;;\e[0m█ ███ █\e[1;91m;;\e[0m     \n");
+				printf("    █   \e[1;91m;;\e[0m██   \e[1;93m:\e[0m   ██     \n");
+				printf("    █   \e[1;91m;;\e[0m█ \e[1;93m, ,:, ,\e[0m █    \n");
+				printf("    █   \e[1;91m;;\e[0m█\e[1;93m, ,:::, ,\e[0m█    \n");
+				printf("    █   \e[1;91m;;\e[0m█  \e[1;93m,:::,\e[0m  █     \n");
+				printf("\n");
+			} else if (nEldenThroneStage == 2) {
+				printf("\e[1;94m  ██     ███     ██\e[0m\n");
+				printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█   █   █   █ \e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+				printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█  █ █ █  █\e[0m \e[1;93m;\e[0m █\e[0m\n");
+				printf("\e[1;94m  ██\e[0m\e[1;93m;\e[0m \e[1;94m███ \e[0m\e[1;93m;\e[0m \e[1;94m███\e[0m \e[1;93m;\e[0m\e[1;94m██\e[0m\n");
+				printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m  \e[1;93m;  \e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+				printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ █ \e[0m\e[1;93m; ; ;\e[0m \e[1;94m█ █ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+				printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m;  ;  ;\e[0m \e[1;94m█ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+				printf("\e[1;94m  █ █\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m█ █\e[0m\n");
+				printf("\e[1;94m █ ██\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m██ █\e[0m\n");
+				printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m; ; ; ; ;\e[0m \e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+			}
 				
 	}
 
