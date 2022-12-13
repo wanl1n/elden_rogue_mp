@@ -9,5 +9,6 @@
 
 void displayTitleScreen(int nPrompt);
 void openTitleScreen(Player *pPlayer);
+void loadData(Player* pPlayer);
 
 #endif 

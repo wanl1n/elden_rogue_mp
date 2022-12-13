@@ -24,22 +24,48 @@ void openTitleScreen(Player* pPlayer) {
 	displayTitleScreen(nInput);
 
 	switch(nInput) {
+
 		case START:
+
 			if (!strcmp(pPlayer->strName, "") || !strcmp(pPlayer->strJobClass, ""))
 				openCharacterCreationScreen(pPlayer);
 			else
 				openRoundTableHoldScreen(pPlayer);
 			break;
+
 		case CONTINUE:
+
+			loadData(pPlayer);
+
 			if (!strcmp(pPlayer->strName, "") || !strcmp(pPlayer->strJobClass, "")) {
 				printf("You do not have saved data. Redirecting you to character creation.\n");
 				openCharacterCreationScreen(pPlayer);
 			} else
 				openRoundTableHoldScreen(pPlayer);			
 			break;
+
 		case EXIT:
 			break;
 	}
+}
+
+
+void loadData(Player* pPlayer) {
+
+	FILE* fp;
+	Slot* pTempHead = malloc(sizeof(Slot));
+
+	fp = fopen("saves/save.dat", "rb");
+
+	fread(pPlayer, sizeof(Player), 1, fp);
+
+	while(fread(pTempHead, sizeof(Slot), 1, fp)) {
+		pTempHead = pTempHead->pNext;
+	}
+
+	pPlayer->pInventory = pTempHead;
+
+	fclose(fp);
 }
 
 

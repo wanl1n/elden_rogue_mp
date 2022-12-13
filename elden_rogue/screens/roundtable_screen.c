@@ -32,7 +32,7 @@ void openRoundTableHoldScreen(Player* pPlayer) {
 	displayRoundTableHoldScreen(nInputRoundTable, pPlayer);
 	
 	//display npc icon with exclamation point here.
-	//Input 6 to interact.
+	//Input 7 to interact.
 	
 	switch(nInputRoundTable) {
 		case FAST_TRAVEL:
@@ -101,6 +101,8 @@ void openSaveScreen(Player* pPlayer) {
 	displaySaveScreen(pPlayer);
 
 	FILE* fp;
+	int nInventorySize, i;
+	Slot** pTempHead = &(pPlayer->pInventory);
 
 	int nInputSave = 100; //random value thats not part of the choices.
 
@@ -108,9 +110,16 @@ void openSaveScreen(Player* pPlayer) {
 		nInputSave = scanIntInput(0, 1);
 
 		if (nInputSave) {
-			fp = fopen("../saves/save.dat", "wb");
+			fp = fopen("saves/save.dat", "wb");
 
 			fwrite(pPlayer, sizeof(Player), 1, fp);
+
+			nInventorySize = getPlayerWeapons(&(pPlayer->pInventory));
+
+			for (i = 0; i < nInventorySize; i++) {
+				fwrite(*pTempHead, sizeof(Slot), 1, fp);
+				*pTempHead = (*pTempHead)->pNext;
+			}
 
 			fclose(fp);
 

@@ -31,7 +31,7 @@ void openQuestScreen(Player* pPlayer) {
 			pPlayer->pQuestLine = createQuestline(SWIFT_BROIL);
 				
 		else if (pPlayer->nCompletedQuests == 2) 
-			printf("Done.");
+			petKhloe(pPlayer);
 
 		// If there's no active quest, ask player if they want to take a quest.
 		if (pPlayer->pQuestLine->nQuestStatus != QUEST_IN_PROG) {
@@ -204,19 +204,19 @@ int checkQuestProgress(Player* pPlayer) {
 			// Depending on the stage, check progress
 			switch (nStage) {
 				case 1:
-					if (pPlayer->nQuestProgress >= 5) // Killed 5 or more creatures from Stormveil.
+					if (pPlayer->nQuestProgress >= 0) // Killed 5 or more creatures from Stormveil.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 2:
-					if (pPlayer->nQuestProgress >= 7) // Collected 7 or more rune tiles from Redmane Castle.
+					if (pPlayer->nQuestProgress >= 0) // Collected 7 or more rune tiles from Redmane Castle.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 3:
-					if (pPlayer->nQuestProgress >= 1) // Killed Starscourge Radahn.
+					if (pPlayer->nQuestProgress >= 0) // Killed Starscourge Radahn.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
@@ -231,19 +231,19 @@ int checkQuestProgress(Player* pPlayer) {
 			// Depending on the stage, check progress
 			switch (nStage) {
 				case 1:
-					if (pPlayer->nQuestProgress >= 1) // Won a battle without using potions.
+					if (pPlayer->nQuestProgress >= 0) // Won a battle without using potions.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 2:
-					if (pPlayer->nQuestProgress >= 10) // Kill 10 enemies.
+					if (pPlayer->nQuestProgress >= 0) // Kill 10 enemies.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
 					break;
 				case 3:
-					if (pPlayer->nQuestProgress >= 1) // Kill Leyndell Capital boss.
+					if (pPlayer->nQuestProgress >= 0) // Kill Leyndell Capital boss.
 						return QUEST_COMPLETE;
 					else
 						return QUEST_IN_PROG;
@@ -441,6 +441,13 @@ Slot* createUniqueWeapon(Player* pPlayer) {
 	return pSlot;
 }
 
+/* 	petKhloe 	Lets the player pet the dog.
+
+	@param	pPlayer					The Player Structure containing all 
+									of the Player's statistics and items. 
+
+	Pre-condition					pPlayer should be initiated and all 
+									members should have a value.	   */
 void petKhloe(Player* pPlayer) {
 
 	int nInput;
@@ -509,10 +516,14 @@ void displayQuestScreen(Player* pPlayer, int nLine) {
 	
 }
 
+/* 	displayPetScreen 	Displays Khloe the dog.
+	
+	@param nState 		An integer value containing the dog's mood.	   */
 void displayPetScreen(int nState) {
 
 	system("cls");
 
+	int nDialogueWidth = SCREEN_WIDTH - ((SCREEN_PADDING * 4) + 2) -1 ;
 	printHeader("KHLOE", 5);
 
 	printTopBorder();
@@ -526,9 +537,11 @@ void displayPetScreen(int nState) {
 	printMultiple(" ", SCREEN_PADDING);
 
 	if (nState) {
-		printDialogueText("[Tail Wagging] *BARK BARK*!");
+		printf("%-*.*s ", 50, 50, "[Tail Wagging] BARK BARK! :D");
+		printf("\n");
 	} else {
-		printDialogueText("[Panting] *Ruff*.");
+		printf("%-*.*s ", nDialogueWidth, nDialogueWidth, "[Panting] Ruff.");
+		printf("\n");
 	}	
 
 	printMultiple(" ", SCREEN_PADDING);
@@ -611,24 +624,28 @@ void printNPC(Player* pPlayer) {
 	}
 }
 
-/* 	printDog 		Prints the dog sprite.					 	   */
+/* 	printDog 		Prints the dog sprite.					 		   */
 void printDog() {
 	
 	int i;
 
-	char aDogSprite[12][SCREEN_WIDTH - 3] = {"                                                                  ",
-										     "                             KHLOE                                ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  ",
-											 "                                                                  "};
-	for (i = 0; i < 12; i++) {
+	char aDogSprite[16][101] = {"               █                    █                             ",
+								"              █ ██       **      ███ █                            ",
+								"             █    ██   ██████   █     █                           ",
+								"             █ █    ███      ███   █  █                           ",
+								"             █  █                 █  █                            ",
+								"              █  █ ___       ___    █                             ",
+								"               █  /             \\   ██ █                          ",
+								"              █     ██       ██       █                           ",
+								"            ██    ;;;   ███   ;;;    █ █                          ",
+								"            █ ██         █          ██ █                          ",
+								"             █  ████            ████  █ █                         ",
+								"            █ ██    ████████████    ██                            ",
+								"                      █             ███                           ",
+								"                     █                ████                        ",
+								"                █████   █  █              █    ██                 ",
+								"               █       █  █                █  █  █                "};
+	for (i = 0; i < 16; i++) {
 		
 		printMultiple(" ", SCREEN_PADDING);
 		printf("║");
