@@ -381,6 +381,19 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 					printf("\t\t   ███   ███ ██\n");
 					printf("\n");
 					break;
+				case 4:
+					printf("   █    █     \e[1;97m;;;;\e[0m       \e[1;93m█\e[0m █   \n");
+					printf("  █ █  █ █   ██████     \e[1;93m███\e[0m █ ██\n");
+					printf("     █   █  \e[1;97m;\e[0m█    █\e[1;97m;\e[0m     \e[1;93m█\e[0m   █  █\n");
+					printf("   ██ █   █\e[1;97m;;\e[0m█    █\e[1;97m;;\e[0m  ██\e[1;93m;\e[0m█ █   \n");
+					printf(" ██  █ █ █ \e[1;97m;;;\e[0m████\e[1;97m;;;\e[0m █ █\e[1;93m;\e[0m██  ██\n");
+					printf(" █    █ █ █ ██    ██ █ ██ █  █  █\n");
+					printf("   ██  █ ███\e[1;93m;\e[0m     \e[1;93m;\e[0m ███ █ █ █  \n");
+					printf("  █  █ ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██ ███\n");
+					printf(" █    █ █ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ █ █   █\n");
+					printf("       ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██    \n");
+					printf("\n");
+					break;
 			}
 
 			break;
@@ -428,6 +441,19 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 					printf("\t\t ███         █ █ █\n");
 					printf("\t\t   █  ███   █ ██ █ \n");
 					printf("\t\t   ███   ███   ███\n");
+					printf("\n");
+					break;
+				case 4:
+					printf("             \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m██\e[0m    \e[1;93m;\e[0m \e[1;94m███\e[0m\n");
+					printf("\e[1;93m   ███\e[0m      \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █   █\e[0m \e[1;93m;\e[0m \n");
+					printf("\e[1;93m  █   █\e[0m    \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █\e[0m\e[1;93m;\e[0m \e[1;94m█   █\e[0m     \n");
+					printf("\e[1;93m █ ;   █\e[0m    █   █        ███ ;\n");
+					printf("\e[1;93m █ ;   █\e[0m    █   █         █\n");
+					printf("\e[1;93m  █   █\e[0m    \e[1;91m█ ███ █\e[0m       ███\n");
+					printf("\e[1;93m   ███\e[0m   ██       ██      █\e[1;93m:\e[0m    \n");
+					printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
+					printf("\e[1;94m         █         █\e[0m      █\e[1;93m:\e[0m   \n");
+					printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
 					printf("\n");
 					break;
 			}
@@ -478,6 +504,19 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 					printf("\t\t   ███   ███ ██\n");
 					printf("\n");
 					break;
+				case 4:
+					printf("     █     \e[1;91m;:;;;:;     █\n");
+					printf("   ██     \e[1;91m;:;:::;:;     ██ \n");
+					printf("  █\e[1;93m:\e[0m █   \e[1;91m;\e[0m\e[1;93m█\e[0m\e[1;91m;:\e[0m\e[1;93m███\e[0m\e[1;91m:;\e[0m\e[1;93m█\e[0m\e[1;91m;\e[0m   █ \e[1;93m:\e[0m█\n");
+					printf(" █\e[1;93m:\e[0m  █   \e[1;91m:;\e[0m\e[1;93m██   ██\e[1;91m;:\e[0m   █  \e[1;93m:\e[0m█ \n");
+					printf(" █\e[1;93m:\e[0m  █    \e[1;91m:;\e[0m\e[1;93m█   █\e[1;91m;:\e[0m    █  \e[1;93m:\e[0m█\n");
+					printf("  █\e[1;93m:\e[0m █\e[1;93m███\e[0m \e[1;91m██ ███ ██\e[0m \e[1;93m████\e[0m \e[1;93m:\e[0m█\n");
+					printf("   █\e[1;93m:\e[0m█   \e[1;93m█         █\e[0m   █\e[1;93m:\e[0m█    \n");
+					printf("   ██;\e[1;93m███\e[0m;         ;\e[1;93m███\e[0m;██  \n");
+					printf("    ██;;;           ;;; ██   \n");
+					printf("     █ \e[1;93m█             \e[1;93m█\e[0m  █     \n");
+					printf("\n");
+					break;
 			}
 
 			break;
@@ -523,6 +562,20 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 					printf("\t\t  █ ; ; █,,,█ ; ; █\n");
 					printf("\t\t  ;█████,,,,,█████;\n");
 					printf("\t\t  ; ; █,,,,,,,█ ; ;\n");
+					printf("\n");
+					break;
+				case 4:
+					printf("\e[1;92m        ██████      \e[0m \e[1;91m  ;█; \e[0m\n");
+					printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\e[1;92m      █        █    \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\e[1;92m        ██████      \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\e[1;92m     ███ █,,,██  █  \e[0m \e[1;91m ;██; \e[0m\n");
+					printf("\e[1;92m    █   █,,\e[1;93m█\e[0m\e[1;92m,,█ █ █\e[0m  \e[1;91m ;██; \e[0m\n");
+					printf("\e[1;92m   █  █  ,,,,█ ██  █\e[0m \e[1;91m██████\e[0m\n");
+					printf("\e[1;92m   █   ██████   █  █\e[0m \e[1;91m  ██  \e[0m\n");
+					printf("\e[1;92m    █          █ █ █\e[0m \e[1;91m  ██  \e[0m\n");
+					printf("\e[1;92m     ████████████ █ \e[0m \e[1;91m  ██  \e[0m\n");
 					printf("\n");
 					break;
 			}
@@ -573,9 +626,48 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 					printf("\t\t   ███   ███ ██\n");
 					printf("\n");
 					break;
+				case 4:
+					printf("     █  █ █;;;;;;;█ █   \n");
+					printf("    █    █;█;███;█;█    \n");
+					printf("   ██    ;█;█   █;█;   \n");
+					printf("  ███   █;;██   ██;;█  \n");
+					printf("  ██   █ ;;;█   █;;; █  \n");
+					printf(" ██   ██ ;██ ███ ██; ██\n");
+					printf("  ██ █  ██         ██  █    \n");
+					printf(" ██   █   █████████   █\n");
+					printf("  ██   █ ;    █    ; █  \n");
+					printf("  :█:   █ ; ; █;  ; █        \n");
+					printf("\n");
+					break;	
 			}
 
 			break;
+
+		case THE_ELDEN_THRONE:
+			if(nEldenThroneStage == 1) {
+			printf(" \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
+			printf("  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
+			printf("\e[1;93m,\e[0m █\e[1;93m;;;\e[0m█\e[1;93m,\e[0m   \e[1;91m;;;;;;;;;\e[0m     \n");
+			printf("\e[1;93m,\e[0m  ███  \e[1;93m,\e[0m \e[1;91m;;;\e[0m█ \e[1;91m;;\e[0m█\e[1;91m;;;\e[0m   \n");
+			printf("    █     \e[1;91m;;;\e[0m█  \e[1;91m;\e[0m█\e[1;91m;;;\e[0m    \n");
+			printf("   ███   \e[1;91m;;;\e[0m█ ███ █\e[1;91m;;\e[0m     \n");
+			printf("    █   \e[1;91m;;\e[0m██   \e[1;93m:\e[0m   ██     \n");
+			printf("    █   \e[1;91m;;\e[0m█ \e[1;93m, ,:, ,\e[0m █    \n");
+			printf("    █   \e[1;91m;;\e[0m█\e[1;93m, ,:::, ,\e[0m█    \n");
+			printf("    █   \e[1;91m;;\e[0m█  \e[1;93m,:::,\e[0m  █     \n");
+			printf("\n");
+		} else if(nEldenThroneStage == 2) {
+			printf("\e[1;94m  ██     ███     ██\e[0m\n");
+			printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█   █   █   █ \e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+			printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█  █ █ █  █\e[0m \e[1;93m;\e[0m █\e[0m\n");
+			printf("\e[1;94m  ██\e[0m\e[1;93m;\e[0m \e[1;94m███ \e[0m\e[1;93m;\e[0m \e[1;94m███\e[0m \e[1;93m;\e[0m\e[1;94m██\e[0m\n");
+			printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m  \e[1;93m;  \e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+			printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ █ \e[0m\e[1;93m; ; ;\e[0m \e[1;94m█ █ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+			printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m;  ;  ;\e[0m \e[1;94m█ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+			printf("\e[1;94m  █ █\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m█ █\e[0m\n");
+			printf("\e[1;94m █ ██\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m██ █\e[0m\n");
+			printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m; ; ; ; ;\e[0m \e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+		}
 				
 	}
 

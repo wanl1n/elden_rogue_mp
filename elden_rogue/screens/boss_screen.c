@@ -41,21 +41,36 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 	while(pPlayer->nPlayerHP > 0 && sEnemy.nHP > 0){
 
 		// Get the enemy's damage for that turn.
-		switch(sEnemy.nType){
+		switch(nArea){
 
-			case 1:
-				sEnemy.nAtk = getRandomBetween(70, 80) * nAreaNo;
+			case STORMVEIL:
+				sEnemy.nAtk = getRandomBetween(150, 300) * nAreaNo;
 				break;
 
-			case 2:
-				sEnemy.nAtk = getRandomBetween(110, 120) * nAreaNo;
+			case RAYA_LUCARIA:
+				sEnemy.nAtk = getRandomBetween(200, 300) * nAreaNo;
 				break;
 
-			case 3:
-				sEnemy.nAtk = getRandomBetween(120, 130) * nAreaNo;						
+			case REDMANE_CASTLE:
+				sEnemy.nAtk = getRandomBetween(200, 400) * nAreaNo;						
+				break;
+
+			case VOLCANO_MANOR:
+				sEnemy.nAtk = getRandomBetween(250, 350) * nAreaNo;						
+				break;
+
+			case LEYNDELL_CAPITAL:
+				sEnemy.nAtk = getRandomBetween(250, 500) * nAreaNo;						
+				break;
+
+			case THE_ELDEN_THRONE:
+				sEnemy.nAtk = getRandomBetween(300, 600) * nAreaNo;	
+				sEnemy.nAtk = getRandomBetween(450, 900) * nAreaNo;			
 				break;
 
 		}	
+
+		if(nTileType)
 
 		displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, 0, nAreaNo);
 
@@ -403,6 +418,32 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 			printf("  :█:   █ ; ; █;  ; █        \n");
 			printf("\n");
 			break;	
+
+		case THE_ELDEN_THRONE:
+			if(nEldenThroneStage == 1) {
+			printf(" \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
+			printf("  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
+			printf("\e[1;93m,\e[0m █\e[1;93m;;;\e[0m█\e[1;93m,\e[0m   \e[1;91m;;;;;;;;;\e[0m     \n");
+			printf("\e[1;93m,\e[0m  ███  \e[1;93m,\e[0m \e[1;91m;;;\e[0m█ \e[1;91m;;\e[0m█\e[1;91m;;;\e[0m   \n");
+			printf("    █     \e[1;91m;;;\e[0m█  \e[1;91m;\e[0m█\e[1;91m;;;\e[0m    \n");
+			printf("   ███   \e[1;91m;;;\e[0m█ ███ █\e[1;91m;;\e[0m     \n");
+			printf("    █   \e[1;91m;;\e[0m██   \e[1;93m:\e[0m   ██     \n");
+			printf("    █   \e[1;91m;;\e[0m█ \e[1;93m, ,:, ,\e[0m █    \n");
+			printf("    █   \e[1;91m;;\e[0m█\e[1;93m, ,:::, ,\e[0m█    \n");
+			printf("    █   \e[1;91m;;\e[0m█  \e[1;93m,:::,\e[0m  █     \n");
+			printf("\n");
+		} else {
+			printf("\e[1;94m  ██     ███     ██\e[0m\n");
+			printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█   █   █   █ \e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+			printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█  █ █ █  █\e[0m \e[1;93m;\e[0m █\e[0m\n");
+			printf("\e[1;94m  ██\e[0m\e[1;93m;\e[0m \e[1;94m███ \e[0m\e[1;93m;\e[0m \e[1;94m███\e[0m \e[1;93m;\e[0m\e[1;94m██\e[0m\n");
+			printf("\e[1;94m █\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m  \e[1;93m;  \e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m \e[1;93m;\e[0m\e[1;94m█\e[0m\n");
+			printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ █ \e[0m\e[1;93m; ; ;\e[0m \e[1;94m█ █ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+			printf("\e[1;94m █\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m;  ;  ;\e[0m \e[1;94m█ \e[0m\e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+			printf("\e[1;94m  █ █\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m█ █\e[0m\n");
+			printf("\e[1;94m █ ██\e[0m \e[1;93m; ; ; ; ;\e[0m \e[1;94m██ █\e[0m\n");
+			printf("\e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█ \e[0m\e[1;93m; ; ; ; ;\e[0m \e[1;94m█\e[0m \e[1;93m;\e[0m \e[1;94m█\e[0m\n");
+		}
 	}
 
 	printf("\t\t[INCOMING ENEMY DAMAGE]: %d\n", sEnemy.nAtk);
