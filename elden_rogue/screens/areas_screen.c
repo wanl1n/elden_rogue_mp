@@ -1054,7 +1054,7 @@ Enemy spawnBoss(int nArea, int nEldenThroneStage) {
 				sEnemy.fPhysDef = 0.35;
 				sEnemy.fSorcDef = 0.25;
 				sEnemy.fIncanDef = 0.40;
-			} else {
+			} else if (nEldenThroneStage == 2){
 				strcpy(sEnemy.strName, "THE ELDEN BEAST");
 				sEnemy.nHP = 1250;
 				sEnemy.nAtk = getRandomBetween(450, 900);
@@ -1182,6 +1182,19 @@ void resetPlayerStatsTo0(Player* pPlayer) {
 
 	pPlayer->nPlayerHP = 0;
 	pPlayer->nRunes = 0;
+
+	if (!strcmp("VAGABOND", pPlayer->strJobClass))
+		setJobClass(VAGABOND, pPlayer);
+	if (!strcmp("SAMURAI", pPlayer->strJobClass))
+		setJobClass(SAMURAI, pPlayer);
+	if (!strcmp("WARRIOR", pPlayer->strJobClass))
+		setJobClass(WARRIOR, pPlayer);
+	if (!strcmp("HERO", pPlayer->strJobClass))
+		setJobClass(HERO, pPlayer);
+	if (!strcmp("PROPHET", pPlayer->strJobClass))
+		setJobClass(PROPHET, pPlayer);
+	if (!strcmp("ASTROLOGER", pPlayer->strJobClass))
+		setJobClass(ASTROLOGER, pPlayer);
 
 	for (i = 0; i < 6; i++) {
 		pPlayer->aShards[i] = 0;

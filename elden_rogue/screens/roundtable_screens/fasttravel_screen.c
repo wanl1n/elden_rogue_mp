@@ -47,7 +47,7 @@ void openFastTravelScreen(Player* pPlayer) {
 	
 			case THE_ELDEN_THRONE:
 
-				if (pPlayer->aShards[LEYNDELL_CAPITAL]) {
+				if (pPlayer->aShards[LEYNDELL_CAPITAL-1]) {
 					openAreaScreen(nInputFastTravel, pPlayer);
 				} else {
 					printSystemMessage("You have to clear Leyndell Capital to unlock.");

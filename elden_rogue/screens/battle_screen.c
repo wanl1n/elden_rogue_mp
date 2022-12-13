@@ -77,7 +77,8 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 						case ATTACK_PHYSICAL:
 
-							nPhysicalDamage = attackPhy(sEnemy, pPlayer);
+							nPhysicalDamage = 5000;
+							// nPhysicalDamage = attackPhy(sEnemy, pPlayer);
 							sEnemy.nHP -= nPhysicalDamage;
 
 							printMultiple(" ", SCREEN_PADDING);
@@ -195,10 +196,10 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 		} //end ni player turn
 
 		// If Player has killed enemy. 
-		if(sEnemy.nHP <= 0)
+		if(sEnemy.nHP <= 0 && strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER"))
 			return WIN; 
 
-		if (!nPlayerTurn) {
+		if (!nPlayerTurn && sEnemy.nHP > 0) {
 
 			displayBattleScreen(pPlayer, sEnemy, nPlayerTurn, ENEMY_ATTACK, nAreaNo);
 
@@ -225,13 +226,13 @@ int openBattleScreen(Enemy sEnemy, Player* pPlayer, int nAreaNo) {
 
 	} //end ng lahat
 
-	// Double check result
-	if(sEnemy.nHP <= 0)
-		return WIN; 
-	else if(pPlayer->nPlayerHP <= 0)
-		return LOSE;
+	if (!strcmp(sEnemy.strName, "RADAGON OF THE GOLDEN ORDER")) {
+		sEnemy = spawnBoss(nAreaNo, 2);
 
-	return 0;
+		openBattleScreen(sEnemy, pPlayer, nAreaNo);
+	}
+
+	return -1;
 }
 
 
@@ -325,7 +326,7 @@ void displayBattleScreen(Player* pPlayer, Enemy sEnemy, int nTurn, int nPrompt, 
 
 	//Sleep(3000);
 
-	system("cls");
+	//system("cls");
 
 	printHeader("BATTLE TIME", 11);
 
