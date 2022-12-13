@@ -1,0 +1,848 @@
+sprites
+
+//swords:
+	//shortsword 10 28 ok
+	printf("                ███         \n");//ok
+	printf("               █  █         \n");//ok
+	printf("           ██ █   █         \n");//ok
+	printf("           ███   █          \n");//ok
+	printf("             █  █           \n");//ok
+	printf("            ██████          \n");//ok
+	printf("          ███  ███          \n");//ok
+	printf("          █ █               \n");//ok
+	printf("          ███               \n");//ok
+	printf("                            \n");//ok
+	// 10 13 ok
+	printf("         ███ \n");//ok
+	printf("        █  █ \n");//ok
+	printf("    ██ █   █ \n");//ok
+	printf("    ███   █  \n");//ok
+	printf("      █  █   \n");//ok
+	printf("     ██████  \n");//ok
+	printf("   ███  ███  \n");//ok
+	printf("   █ █       \n");//ok
+	printf("   ███       \n");//ok
+	printf("             \n");//ok
+	//rogier's rapier 10 ok
+	printf("                  █         \n"); //ok
+	printf("                 ██         \n"); //ok
+	printf("                ██          \n");//ok
+	printf("               ██           \n");//ok
+	printf("            █ ██            \n");//ok
+	printf("             ██             \n");//ok
+	printf("          ████ █            \n");//ok
+	printf("          █ █               \n");//ok
+	printf("          ███               \n");//ok
+	printf("                            \n");//ok
+	//10 13 ok
+	printf("           █ \n");//ok
+	printf("         ██  \n");//ok
+	printf("        ██   \n");//ok
+	printf("       ██    \n");//ok
+	printf("    █ ██     \n");//ok
+	printf("     ██      \n");//ok
+	printf("  ████ █     \n");//ok
+	printf("  █ █        \n");//ok
+	printf("  ███        \n");//ok
+	printf("             \n");//ok
+	//coded sword 10 ok
+	printf("                  ;         \n");//ok
+	printf("                 ;:         \n");//ok
+	printf("                :;          \n");//ok
+	printf("               ;:           \n");//ok
+	printf("            ; ;;            \n");//ok
+	printf("             ;;             \n");//ok
+	printf("          ████ ;            \n");//ok
+	printf("          █ █               \n");//ok
+	printf("          ███               \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("           ; \n");//ok
+	printf("          ;: \n");//ok
+	printf("         :;  \n");//ok
+	printf("        ;:   \n");//ok
+	printf("     ; ;;    \n");//ok
+	printf("      ;;     \n");//ok
+	printf("   ████ ;    \n");//ok
+	printf("   █ █       \n");//ok
+	printf("   ███       \n");//ok
+	printf("             \n");//ok
+	//night and flame 10 ok
+	printf("                  █:        \n");//ok
+	printf("                 █:█        \n");//ok
+	printf("                █:█         \n");//ok
+	printf("               █:█          \n");//ok
+	printf("              █:█           \n");//ok
+	printf("           █ █:█            \n");//ok
+	printf("            ███             \n");//ok
+	printf("            ██              \n");//ok
+	printf("           █  █             \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("          █: \n");//ok
+	printf("         █:█ \n");//ok
+	printf("        █:█  \n");//ok
+	printf("       █:█   \n");//ok
+	printf("      █:█    \n");//ok
+	printf("   █ █:█     \n");//ok
+	printf("    ███      \n");//ok
+	printf("    ██       \n");//ok
+	printf("   █  █      \n");//ok
+	printf("             \n");//ok
+	//katana
+	//uchiga 10 ok
+	printf("               █            \n");//ok
+	printf("              █             \n");//ok
+	printf("             █              \n");//ok
+	printf("            █               \n");//ok
+	printf("            █               \n");//ok
+	printf("            █               \n");//ok
+	printf("             █  █           \n");//ok
+	printf("              ██            \n");//ok
+	printf("             █ ██           \n");//ok
+	printf("                            \n");//ok
+	//10 13 ok
+	printf("       █     \n");//ok
+	printf("      █      \n");//ok
+	printf("     █       \n");//ok
+	printf("    █        \n");//ok
+	printf("    █        \n");//ok
+	printf("    █        \n");//ok
+	printf("     █  █    \n");//ok
+	printf("      ██     \n");//ok
+	printf("     █ ██    \n");//ok
+	printf("             \n");//ok
+	//moon 10 ok
+	printf("              ;             \n");//ok
+	printf("              █;            \n");//ok
+	printf("               █;           \n");//ok
+	printf("                █           \n");//ok
+	printf("               █;           \n");//ok
+	printf("               █            \n");//ok
+	printf("             █ ;            \n");//ok
+	printf("              █             \n");//ok
+	printf("            ██ █            \n");//ok
+	printf("                            \n");//ok
+	//10 13 ok
+	printf("      ;      \n");//ok
+	printf("      █;     \n");//ok
+	printf("       █;    \n");//ok
+	printf("        █    \n");//ok
+	printf("       █;    \n");//ok
+	printf("       █     \n");//ok
+	printf("     █ ;     \n");//ok
+	printf("      █      \n");//ok
+	printf("    ██ █     \n");//ok
+	printf("             \n");//ok
+	//rivers of blood ok
+	printf("              █;            \n");//ok
+	printf("              ██;           \n");//ok
+	printf("               ██;          \n");//ok
+	printf("                █;          \n");//ok
+	printf("               ██;          \n");//ok
+	printf("               █;;          \n");//ok
+	printf("             █ █;;          \n");//ok
+	printf("              █;;           \n");//ok
+	printf("            ██ █            \n");//ok
+	printf("                            \n");//ok
+	// 10 13
+	printf("      █;     \n");//ok
+	printf("      ██;    \n");//ok
+	printf("       ██;   \n");//ok
+	printf("        █;   \n");//ok
+	printf("       ██;   \n");//ok
+	printf("       █;;   \n");//ok
+	printf("     █ █;;   \n");//ok
+	printf("      █;;    \n");//ok
+	printf("    ██ █     \n");//ok
+	printf("             \n");//ok
+	//hand of malenia ok
+	printf("             █              \n");//ok
+	printf("             ██             \n");//ok
+	printf("              ██            \n");//ok
+	printf("               █            \n");//ok
+	printf("              ██            \n");//ok
+	printf("              █             \n");//ok
+	printf("              █             \n");//ok
+	printf("             ;;             \n");//ok
+	printf("            ;;              \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("     █       \n");//ok
+	printf("     ██      \n");//ok
+	printf("      ██     \n");//ok
+	printf("       █     \n");//ok
+	printf("      ██     \n");//ok
+	printf("      █      \n");//ok
+	printf("      █      \n");//ok
+	printf("     ;;      \n");//ok
+	printf("    ;;       \n");//ok
+	printf("             \n");//ok
+	//whip
+	//whip 10 28 ok
+	printf("            █████           \n");//ok
+	printf("           ██   ██          \n");//ok
+	printf("          ██     ██         \n");//ok
+	printf("         █        ██        \n");//ok
+	printf("         █         █        \n");//ok
+	printf("          ██       █        \n");//ok
+	printf("         █ █  █   █         \n");//ok
+	printf("          ██  █  ██         \n");//ok
+	printf("         ██ █  ███          \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("     █████   \n");//ok
+	printf("    ██   ██  \n");//ok
+	printf("   ██     ██ \n");//ok
+	printf("  █        █ \n");//ok
+	printf("  █        █ \n");//ok
+	printf("   ██      █ \n");//ok
+	printf("  █ █ █   █  \n");//ok
+	printf("   ██ █  ██  \n");//ok
+	printf(" ██ █ ███    \n");//ok
+	printf("             \n");//ok
+	//urumi ok
+	printf("            █████  █ █      \n");//ok
+	printf("           ███  ██  █       \n");//ok
+	printf("          ██      ██ █      \n");//ok
+	printf("         ██       ██        \n");//ok
+	printf("         ██       ██        \n");//ok
+	printf("         ██       ██        \n");//ok
+	printf("          ██   █ ██         \n");//ok
+	printf("           ██   ██          \n");//ok
+	printf("            █████ █         \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("    ████ █ █ \n");//ok
+	printf("   ██   ███  \n");//ok
+	printf("  ██      ██ \n");//ok
+	printf(" ██       █  \n");//ok
+	printf(" ██       █  \n");//ok
+	printf(" ██      ██  \n");//ok
+	printf("  ██  █ ██   \n");//ok
+	printf("   ██  ██    \n");//ok
+	printf("    ████ █   \n");//ok
+	printf("             \n");//ok
+	//thorned whip 10 28 ok
+	printf("           ;█████;  ██      \n");//ok
+	printf("          ;█;;;;;█;██       \n");//ok
+	printf("         ;█;     ;██;       \n");//ok
+	printf("         █;       ;█;       \n");//ok
+	printf("         █;       ;█;       \n");//ok
+	printf("         █;      ;;█;       \n");//ok
+	printf("         ;█;    ;;█;        \n");//ok
+	printf("          ;█;;;;;█;         \n");//ok
+	printf("           ;█████;          \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("   ;███;  ██ \n");//ok
+	printf("  ;█;;;█;██  \n");//ok
+	printf(" ;█;   ;██;  \n");//ok
+	printf(" █;     ;█;  \n");//ok
+	printf(" █;     ;█;  \n");//ok
+	printf(" █;    ;;█;  \n");//ok
+	printf(" ;█;  ;;█;   \n");//ok
+	printf("  ;█;;;█;    \n");//ok
+	printf("   ;███;     \n");//ok
+	printf("             \n");//ok
+	//hoslow petal whip ok
+	printf("                 ██         \n");//ok
+	printf("                █ █         \n");//ok
+	printf("           ;;;;█; █         \n");//ok
+	printf("          ;  ██ ;██         \n");//ok
+	printf("         ;;  ██;██          \n");//ok
+	printf("         ;;   █ ██          \n");//ok
+	printf("          ;   ████          \n");//ok
+	printf("          ;; ; ███          \n");//ok
+	printf("           ;;;█;█           \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("          ██ \n");//ok
+	printf("         █ █ \n");//ok
+	printf("    ;;;;█; █ \n");//ok
+	printf("   ;  ██ ;██ \n");//ok
+	printf("  ;;  ██;██  \n");//ok
+	printf("  ;;   █ ██  \n");//ok
+	printf("   ;   ████  \n");//ok
+	printf("   ;; ; ███  \n");//ok
+	printf("    ;;;█;█   \n");//ok
+	printf("             \n");//ok
+	//greatsword:
+	//claymore
+	printf("                  █         \n");//ok
+	printf("                 ███        \n");//ok
+	printf("                ███         \n");//ok
+	printf("               █:█          \n");//ok
+	printf("           █  █:█           \n");//ok
+	printf("            █ █:█           \n");//ok
+	printf("             █:█            \n");//ok
+	printf("             ██             \n");//ok
+	printf("            █  █            \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("         █   \n");//ok
+	printf("        ███  \n");//ok
+	printf("       ███   \n");//ok
+	printf("      █:█    \n");//ok
+	printf("  █  █:█     \n");//ok
+	printf("   █ █:█     \n");//ok
+	printf("    █:█      \n");//ok
+	printf("    ██       \n");//ok
+	printf("   █  █      \n");//ok
+	printf("             \n");//ok
+	//starscourge greatsword 10 13
+	printf("                    ██      \n");//ok
+	printf("               █   ██       \n");//ok
+	printf("              ██████        \n");//ok
+	printf("            ███████         \n");//ok
+	printf("           █████████        \n");//ok
+	printf("          ███████           \n");//ok
+	printf("         ██████             \n");//ok
+	printf("          ███               \n");//ok
+	printf("           █                \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("         ██  \n");//ok
+	printf("     █   ██  \n");//ok
+	printf("    ██████   \n");//ok
+	printf("    █████    \n");//ok
+	printf("   ███████   \n");//ok
+	printf("  █████      \n");//ok
+	printf("  █████      \n");//ok
+	printf("   ██        \n");//ok
+	printf("    █        \n");//ok
+	printf("             \n");//ok
+	//inseparable sword 10 ok
+	printf("                   ██       \n");//ok
+	printf("                █ ██        \n");//ok
+	printf("                 ██         \n");//ok
+	printf("               ███ █        \n");//ok
+	printf("              ███           \n");//ok
+	printf("             ██:            \n");//ok
+	printf("            ██:             \n");//ok
+	printf("           ███              \n");//ok
+	printf("          ██                \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("          ██ \n");//ok
+	printf("       █ ██  \n");//ok
+	printf("        ██   \n");//ok
+	printf("      ███ █  \n");//ok
+	printf("     ██      \n");//ok
+	printf("    ██:      \n");//ok
+	printf("   ██:       \n");//ok
+	printf("  ███        \n");//ok
+	printf(" ██          \n");//ok
+	printf("             \n");//ok
+	//maliketh 10 ok
+	printf("                     ██     \n");//ok
+	printf("                      ██    \n");//ok
+	printf("               ███  ██ █    \n");//ok
+	printf("                █████       \n");//ok
+	printf("               ███████      \n");//ok
+	printf("            ████████ ███    \n");//ok
+	printf("           ██████           \n");//ok
+	printf("           ████             \n");//ok
+	printf("          ██                \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("         ██  \n");//ok
+	printf("          ██ \n");//ok
+	printf("   ███  ██ █ \n");//ok
+	printf("     █████   \n");//ok
+	printf("    ████████ \n");//ok
+	printf("   ██████  █ \n");//ok
+	printf("  █████      \n");//ok
+	printf("  ███        \n");//ok
+	printf(" ██          \n");//ok
+	printf("             \n");//ok
+	//stave
+	//astrologer staff ok
+	printf("                   ██       \n");//ok
+	printf("                 ;█;        \n");//ok
+	printf("               ;██;         \n");//ok
+	printf("              ;██;          \n");//ok
+	printf("             ;█;;█;         \n");//ok
+	printf("             █   ;█;        \n");//ok
+	printf("            █               \n");//ok
+	printf("           █                \n");//ok
+	printf("          █                 \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("          ██ \n");//ok
+	printf("        ;█;  \n");//ok
+	printf("      ;██;   \n");//ok
+	printf("     ;██;    \n");//ok
+	printf("    ;█;;█;   \n");//ok
+	printf("    █   ;█;  \n");//ok
+	printf("   █         \n");//ok
+	printf("  █          \n");//ok
+	printf(" █           \n");//ok
+	printf("             \n");//ok
+	//albinauric staff
+	printf("                   ██       \n");//ok
+	printf("                  █         \n");//ok
+	printf("                 █          \n");//ok
+	printf("                █  █        \n");//ok
+	printf("               █████        \n");//ok
+	printf("              █             \n");//ok
+	printf("             █              \n");//ok
+	printf("            █               \n");//ok
+	printf("           █                \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("         ██  \n");//ok
+	printf("        █    \n");//ok
+	printf("       █     \n");//ok
+	printf("      █  █   \n");//ok
+	printf("     █████   \n");//ok
+	printf("    █        \n");//ok
+	printf("   █         \n");//ok
+	printf("  █          \n");//ok
+	printf(" █           \n");//ok
+	printf("             \n");//ok
+	//staff of the guilty ok
+	printf("        ;█; █ █:█ ; █ █     \n");//ok
+	printf("         ; █ ::█::█; ;      \n");//ok
+	printf("          ; █ █:█ ;█        \n");//ok
+	printf("           ; █ ; █;         \n");//ok
+	printf("            █;█ ;           \n");//ok
+	printf("           █                \n");//ok
+	printf("          █                 \n");//ok 
+	printf("         █                  \n");//ok
+	printf("        █                   \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf(" █ ; █ █: █; \n");//ok
+	printf(" ;█ ::█::█;█ \n");//ok
+	printf("   █ █:█ ;█  \n");//ok
+	printf("  ; █ ; █;   \n");//ok
+	printf("    ;█ ;     \n");//ok
+	printf("    █        \n");//ok
+	printf("   █         \n");//ok
+	printf("  █          \n");//ok
+	printf(" █           \n");//ok
+	printf("             \n");//ok
+	//carian regal ok
+	printf("                   █        \n");//ok
+	printf("                  ██        \n");//ok
+	printf("                 ██         \n");//ok
+	printf("                ██          \n");//ok
+	printf("               ██           \n");//ok
+	printf("              ██            \n");//ok
+	printf("           █  █             \n");//ok
+	printf("            ██              \n");//ok
+	printf("           █  █             \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("           █ \n");//ok
+	printf("          ██ \n");//ok
+	printf("         ██  \n");//ok
+	printf("        ██   \n");//ok
+	printf("       ██    \n");//ok
+	printf("      ██     \n");//ok
+	printf("   █  █      \n");//ok
+	printf("    ██       \n");//ok
+	printf("   █  █      \n");//ok
+	printf("             \n");//ok
+
+	//seal
+	//finger seal
+	printf("              ██   ██       \n");//ok
+	printf("             █:█   █:█      \n");//ok
+	printf("            █;;█  █ █       \n");//ok
+	printf("            █ █  █;█        \n");//ok
+	printf("            █;█ █  █        \n");//ok
+	printf("             █ ██;█         \n");//ok
+	printf("           ████  █          \n");//ok
+	printf("           █ ████           \n");//ok
+	printf("           ███              \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("     ██  ██  \n");//ok
+	printf("    █:█  █:█ \n");//ok
+	printf("   █;;█ █ █  \n");//ok
+	printf("   █ █ █;█   \n");//ok
+	printf("   █;█ █  █  \n");//ok
+	printf("    █ ██;█   \n");//ok
+	printf("  ████  █    \n");//ok
+	printf("  █ ████     \n");//ok
+	printf("  ███        \n");//ok
+	printf("             \n");//ok
+	//godslayers seal
+	printf("               █  ██        \n");//ok
+	printf("               ███          \n");//ok
+	printf("              █ . ██        \n");//ok
+	printf("              █   █         \n");//ok
+	printf("              ████          \n");//ok
+	printf("             █ █            \n");//ok
+	printf("            █ █             \n");//ok
+	printf("           █ █              \n");//ok
+	printf("            █               \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf("      █  ██  \n");//ok
+	printf("      ███    \n");//ok
+	printf("     █ . ██  \n");//ok
+	printf("     █   █   \n");//ok
+	printf("     ████    \n");//ok
+	printf("    █ █      \n");//ok
+	printf("   █ █       \n");//ok
+	printf("  █ █        \n");//ok
+	printf("   █         \n");//ok
+	printf("             \n");//ok
+	//golden order
+	printf("            :::::           \n");//ok
+	printf("         ███████████        \n");//ok
+	printf("      :::█::    :::█:::     \n");//ok
+	printf("     :   █: ::::  :█  ::    \n");//ok
+	printf("     :    █: ::  :█    :    \n");//ok
+	printf("     :     █:::::█     :    \n");//ok
+	printf("      :    █  :  █    :     \n");//ok
+	printf("       :    █: :█   ::      \n");//ok
+	printf("        :::: █ █ :::        \n");//ok
+	printf("              █             \n");//ok
+	//10 13
+	printf("             \n");//ok
+	printf("     :::     \n");//ok
+	printf("    :   :    \n");//ok
+	printf("  █████████  \n");//ok
+	printf(" :█: ::: :█: \n");//ok
+	printf(" : █ : : █ : \n");//ok
+	printf(" :  █ : █  : \n");//ok
+	printf(" :   █ █   : \n");//ok
+	printf("  ::: █ :::  \n");//ok
+	printf("             \n");//ok
+	//dragon comm ok
+	printf("          ;  ;███;█;        \n");//ok
+	printf("          █; █   █;         \n");//ok
+	printf("          ██;█  █;;█        \n");//ok
+	printf("          █ ██ █;;█;█       \n");//ok
+	printf("          ██ ███;█; ;       \n");//ok
+	printf("          ;;██  █;;█        \n");//ok
+	printf("          █;;███;;█         \n");//ok
+	printf("           █;;;;;█          \n");//ok
+	printf("            █████           \n");//ok
+	printf("                            \n");//ok
+	//10 13
+	printf(" ;  ;███;█;  \n");//ok
+	printf(" █; █   █;   \n");//ok
+	printf(" ██;█  █;;█  \n");//ok
+	printf(" █ ██ █;;█;█ \n");//ok
+	printf(" ██ ███;█; ; \n");//ok
+	printf(" ;;██  █;;█  \n");//ok
+	printf(" █;;███;;█   \n");//ok
+	printf("  █;;;;;█    \n");//ok
+	printf("   █████     \n");//ok
+	printf("             \n");//ok
+	//player sprite
+	//vagabond
+	printf("   █   ██,,,,,██\n");
+	printf("  █ █  █ : : : █\n");
+	printf("  █ █  █ : : : █\n");
+	printf("  █ █   █: : :█\n");
+	printf("  █ █   █: : :█\n");
+	printf("  █ █    █ : █\n");
+	printf("█ █ █ █  █ : █\n");
+	printf(" █████    █:█\n");
+	printf("  ███     █:█\n");
+	printf("   █       █\n");
+	//samurai
+	printf("  █      █\n");
+	printf("  ██     ███  \n");
+	printf("  █ █    █:█  \n");
+	printf("  █:█    █:█ \n");
+	printf("  █:█    █:█ \n");
+	printf("  █ █    █:█  \n");
+	printf("  █:█    █:█  \n");
+	printf(" █████  █████\n");
+	printf("         ███\n");
+	printf("          █\n");
+	//warrior
+	printf("    █     █\n");
+	printf("   ███     █\n");
+	printf("   █:█  █ █:█\n");
+	printf("   █:█   █ ::█\n");
+	printf("   █:█    █ :█\n");
+	printf("   █:█    █ :█\n");
+	printf("   █:█     █:█\n");
+	printf("  █████   ████\n");
+	printf("   ███   ██████\n");
+	printf("    █      ██\n");
+	//hero
+	printf(" █  █  ██      ███\n");
+	printf("█:█ █ █ :█    █ : █\n");
+	printf("█: ███  ::█  █: : :█\n");
+	printf("█:████  ::█ █ : : : █\n");
+	printf(" █  █ █ :█  █ : : : █\n");
+	printf("    █  ██   █ : : : █\n");
+	printf("    █        █: : :█\n");
+	printf("    █        █: : :█\n");
+	printf("    █         █ : █\n");
+	printf("    █          ███\n");
+	//prophet
+	printf("  █     ████\n");
+	printf(" ███   █    █\n");
+	printf(" ███   █    █\n");
+	printf("  █     █;;█\n");
+	printf("  █     █  █\n");
+	printf("  █     █  █\n");
+	printf("  █     █ ██   ███\n");
+	printf("  █    ████ ███   █\n");
+	printf("  █    █ █    ;   █\n");
+	printf("  █    ███████████ \n");
+	//astrologer
+	printf("   ██         ███\n");
+	printf("   ██        █ : █\n");
+	printf("   █████    █: : :█\n");
+	printf("   ██      █ : : : █\n");
+	printf("   ██      █ : : : █\n");
+	printf("   ██      █ : : : █\n");
+	printf("   ██       █: : :█\n");
+	printf("   ██       █: : :█\n");
+	printf("   ██        █ : █\n");
+	printf("   ██         ███\n");
+	//potion
+	printf("     █\n");
+	printf("   █████\n");
+	printf("    █ █\n");
+	printf("  ██   ██ \n");
+	printf(" █ ;     █\n");
+	printf("█ ;;      █\n");
+	printf(" █;;     █\n");
+	printf("  █;    █\n");
+	printf("   █████\n");
+
+	printf("    ██   \n");
+	printf("   ████  \n");
+	printf("  █;;;;█ \n");
+	printf("   ████  \n");
+	
+	printf("\n");
+	//tsinelas
+	printf("    █████\n");
+	printf("   █     █\n");
+	printf("  █   █   █\n");
+	printf("  █  ███  █ \n");
+	printf("  █ █  █  █\n");
+	printf(" █ █    ██ \n");
+	printf(" ██      █\n");
+	printf("  █     █\n");
+	printf("   █████\n");
+	printf("\n");
+	//giant belt
+	printf("      ████████\n");
+	printf("    ██        ██\n");
+	printf("   █   ██████   █\n");
+	printf("   █  █      █  █\n");
+	printf("   █  █      █  █\n");
+	printf("  █ ██ █    █ ██ █\n");
+	printf("   █  ████████  █ \n");
+	printf("    ██ █:,:█  █\n");
+	printf("      ████████ \n");
+	printf("              \n");
+	//STORMVEIL, REDMANE, LEYNDELL
+	//warrior
+	printf(" ██  ████████\n");
+	printf(" █ ██   ::   █ \n");
+	printf(" █ █    ::    █\n");
+	printf(" █ ██████████████\n");
+	printf(" █ █   █   █   █ \n");
+	printf(" █ █          █ \n");
+	printf("█████    █████\n");
+	printf(" █ █ ████  █ █\n");
+	printf(" ███       ███\n");
+	printf("   █  ███  █  \n");
+	printf("   ███   ███ \n");
+	printf("\n");
+	//archer
+	printf("     ████████\n");
+	printf("   ██   ::   █ \n");
+	printf("   █    ::    █\n");
+	printf("   ██████████████\n");
+	printf(" ███   █   █;;██  \n");
+	printf(" █:█        ;;  ███\n");
+	printf(" █:██    ███;;█    █\n");
+	printf(" █:█ ████  █;; █   █\n");
+	printf(" ███       █;;█    █\n");
+	printf("   █  ███  █;;  ███\n");
+	printf("   ███   ███;;██\n");
+	printf("\n");
+	//knight
+	printf(" ██  ████████\n");
+	printf(" █ ██   ::   █ \n");
+	printf(" █ █    ::    █\n");
+	printf(" █ ██████████████\n");
+	printf(" █ █   █   █   █ \n");
+	printf(" █ █          █ \n");
+	printf("█████    ███████\n");
+	printf(" █ █ ████  █    █\n");
+	printf(" ███       █    █\n");
+	printf("   █  ███  ██  █\n");
+	printf("   ███   ███ ██\n");
+	printf("\n");
+	//RAYA LUCARIA ACADEMY
+	//living jar
+	printf("          ████████\n");
+	printf("         █ :::::: █ \n");
+	printf("     ████ :  ::  : ████\n");
+	printf("    █  █:█ :::::: █:█  █\n");
+	printf("   █ ██ : ████████ : ██ █\n");
+	printf("  █  █;  :  :;: : :  ;█  █\n");
+	printf(" █   █ ; : ;: : :;: ; █   █\n");
+	printf(" █   █  ;;;;;;;;;;;;  █   █\n");
+	printf("  █   █              █   █\n");
+	printf("   █ █ █            █ █ █\n");
+	printf("    █   █          █   █\n");
+	printf("   █ █   ██████████   █ █\n");
+	printf("\n");
+	//glinstone sorcerer
+	printf("    █ █ █ █ █   █\n");
+	printf("   █;█;█;█;█;█ █ █\n");
+	printf("  ████████████  █ \n");
+	printf(" ███████████████ █\n");
+	printf("█;;█;  █   █;█ █ █ \n");
+	printf("█;;█;;     ;;█ █ █\n");
+	printf(" ██;;;;;;;;;;█ █ █\n");
+	printf("   █████████████ █\n");
+	printf(" ███  ██  ██ █ █ █\n");
+	printf("   █  ███ ███ ██ █ \n");
+	printf("   ███   ███   ███\n");
+	printf("\n");
+	//battlemage
+	printf("    █████████   █\n");
+	printf("   █         █ █ █\n");
+	printf("  █  ███████  █ █\n");
+	printf(" █  █       █ ██ █\n");
+	printf("█  █   █   █ █ █ █ \n");
+	printf("█  █   █   █ █ █ █\n");
+	printf(" ██          █ █ █\n");
+	printf("   █████████████ █\n");
+	printf(" ███         █ █ █\n");
+	printf("   █  ███   █ ██ █ \n");
+	printf("   ███   ███   ███\n");
+	printf("\n");
+	//volcano manor
+	//man serpent
+	printf(" ██     ████████\n");
+	printf(" █ █  ██   ::   ██\n");
+	printf(" █  █ █  █ :: █  █\n");
+	printf(" █  █ ███      ███ \n");
+	printf(" █ ██  █ ██████ █   \n");
+	printf(" █ █ █ █ █,,,,█ ████\n");
+	printf("█████ ██ █,,,,██    █\n");
+	printf(" █ ██ █  █,,,,█      █\n");
+	printf(" ███ ██  █,,,,██    █\n");
+	printf("      █   ████  █  █ \n");
+	printf("       ███   ███ ██\n");
+	printf("\n");
+	//mage serpent
+	printf("  █     ████████\n");
+	printf(" ███  ██   ::   ██  \n");
+	printf("  █   █  █ :: █  █ \n");
+	printf(" █ █  ███      ███  \n");
+	printf(" █ █   █  █████ █  █████\n");
+	printf(" █ ██  █ █ ;;  ██ █ ;;; █\n");
+	printf(" █ █ ███ █ ;;;  ██ ;;;; █\n");
+	printf(" █ ██ █  █ ;;;; ██ ;;;; █\n");
+	printf(" █ █ ██  █      ██      █\n");
+	printf(" █ █  █    ████████████ █\n");
+	printf(" ███   ███   ███   \n");
+	printf("\n");
+	//abductor virgin
+	printf("         ███ \n");
+	printf("        █;;;█    \n");
+	printf("       ███████    \n");
+	printf("      █ █, ,█ █ \n");
+	printf("     █  █ , █  █\n");
+	printf("██████████ ██████████\n");
+	printf(" █  ; ;  ███  ; ;  █ \n");
+	printf("  █ ; ; █,,,█ ; ; █\n");
+	printf("  ;█████,,,,,█████;\n");
+	printf("  ; ; █,,,,,,,█ ; ;\n");
+	printf("\n");
+	//boss
+	//godrick the grafted
+	printf("   █    █     \e[1;97m;;;;\e[0m       \e[1;93m█\e[0m █   \n");
+	printf("  █ █  █ █   ██████     \e[1;93m███\e[0m █ ██\n");
+	printf("     █   █  \e[1;97m;\e[0m█    █\e[1;97m;\e[0m     \e[1;93m█\e[0m   █  █\n");
+	printf("   ██ █   █\e[1;97m;;\e[0m█    █\e[1;97m;;\e[0m  ██\e[1;93m;\e[0m█ █   \n");
+	printf(" ██  █ █ █ \e[1;97m;;;\e[0m████\e[1;97m;;;\e[0m █ █\e[1;93m;\e[0m██  ██\n");
+	printf(" █    █ █ █ ██    ██ █ ██ █  █  █\n");
+	printf("   ██  █ ███\e[1;93m;\e[0m     \e[1;93m;\e[0m ███ █ █ █  \n");
+	printf("  █  █ ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██ ███\n");
+	printf(" █    █ █ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ █ █   █\n");
+	printf("       ██ \e[1;93m;;;\e[0m     \e[1;93m;;;\e[0m  ██ ██    \n");
+	printf("\n");
+	//rennala
+	printf("             \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m██\e[0m    \e[1;93m;\e[0m \e[1;94m███\e[0m\n");
+	printf("\e[1;93m   ███\e[0m      \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █   █\e[0m \e[1;93m;\e[0m \n");
+	printf("\e[1;93m  █   █\e[0m    \e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█\e[0m\e[1;93m;\e[0m\e[1;94m█   █\e[0m\e[1;93m;\e[0m \e[1;94m█   █\e[0m     \n");
+	printf("\e[1;93m █ ;   █\e[0m    █   █        ███ ;\n");
+	printf("\e[1;93m █ ;   █\e[0m    █   █         █\n");
+	printf("\e[1;93m  █   █\e[0m    \e[1;91m█ ███ █\e[0m       ███\n");
+	printf("\e[1;93m   ███\e[0m   ██       ██      █\e[1;93m:\e[0m    \n");
+	printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
+	printf("\e[1;94m         █         █\e[0m      █\e[1;93m:\e[0m   \n");
+	printf("\e[1;94m         █         █\e[0m     \e[1;93m:\e[0m█    \n");
+	printf("\n");
+	//radahn
+	printf("     █     \e[1;91m;:;;;:;     █\n");
+	printf("   ██     \e[1;91m;:;:::;:;     ██ \n");
+	printf("  █\e[1;93m:\e[0m █   \e[1;91m;\e[0m\e[1;93m█\e[0m\e[1;91m;:\e[0m\e[1;93m███\e[0m\e[1;91m:;\e[0m\e[1;93m█\e[0m\e[1;91m;\e[0m   █ \e[1;93m:\e[0m█\n");
+	printf(" █\e[1;93m:\e[0m  █   \e[1;91m:;\e[0m\e[1;93m██   ██\e[1;91m;:\e[0m   █  \e[1;93m:\e[0m█ \n");
+	printf(" █\e[1;93m:\e[0m  █    \e[1;91m:;\e[0m\e[1;93m█   █\e[1;91m;:\e[0m    █  \e[1;93m:\e[0m█\n");
+	printf("  █\e[1;93m:\e[0m █\e[1;93m███\e[0m \e[1;91m██ ███ ██\e[0m \e[1;93m████\e[0m \e[1;93m:\e[0m█\n");
+	printf("   █\e[1;93m:\e[0m█   \e[1;93m█         █\e[0m   █\e[1;93m:\e[0m█    \n");
+	printf("   ██;\e[1;93m███\e[0m;         ;\e[1;93m███\e[0m;██  \n");
+	printf("    ██;;;           ;;; ██   \n");
+	printf("     █ \e[1;93m█             \e[1;93m█\e[0m  █     \n");
+	printf("\n");
+	//rykard
+	printf("\e[1;92m        ██████      \e[0m \e[1;91m  ;█; \e[0m\n");
+	printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+	printf("\e[1;92m      █        █    \e[0m \e[1;91m ;██; \e[0m\n");
+	printf("\e[1;92m       █      █     \e[0m \e[1;91m ;██; \e[0m\n");
+	printf("\e[1;92m        ██████      \e[0m \e[1;91m ;██; \e[0m\n");
+	printf("\e[1;92m     ███ █,,,██  █  \e[0m \e[1;91m ;██; \e[0m\n");
+	printf("\e[1;92m    █   █,,\e[1;93m█\e[0m\e[1;92m,,█ █ █\e[0m  \e[1;91m ;██; \e[0m\n");
+	printf("\e[1;92m   █  █  ,,,,█ ██  █\e[0m \e[1;91m██████\e[0m\n");
+	printf("\e[1;92m   █   ██████   █  █\e[0m \e[1;91m  ██  \e[0m\n");
+	printf("\e[1;92m    █          █ █ █\e[0m \e[1;91m  ██  \e[0m\n");
+	printf("\e[1;92m     ████████████ █ \e[0m \e[1;91m  ██  \e[0m\n");
+	printf("\n");
+	//morgott
+	printf("     █  █ █;;;;;;;█ █   \n");
+	printf("    █    █;█;███;█;█    \n");
+	printf("   ██    ;█;█   █;█;   \n");
+	printf("  ███   █;;██   ██;;█  \n");
+	printf("  ██   █ ;;;█   █;;; █  \n");
+	printf(" ██   ██ ;██ ███ ██; ██\n");
+	printf("  ██ █  ██         ██  █    \n");
+	printf(" ██   █   █████████   █\n");
+	printf("  ██   █ ;    █    ; █  \n");
+	printf("  :█:   █ ; ; █;  ; █        \n");
+	printf("\n");
+	//radagon
+	printf(" \e[1;93m,\e[0m ███ \e[1;93m,\e[0m     \e[1;91m;;;;;\e[0m      \n");
+	printf("  █\e[1;93m;;;\e[0m█ \e[1;93m,\e[0m   \e[1;91m;;;;;;;\e[0m       \n");
+	printf("\e[1;93m,\e[0m █\e[1;93m;;;\e[0m█\e[1;93m,\e[0m   \e[1;91m;;;;;;;;;\e[0m     \n");
+	printf("\e[1;93m,\e[0m  ███  \e[1;93m,\e[0m \e[1;91m;;;\e[0m█ \e[1;91m;;\e[0m█\e[1;91m;;;\e[0m   \n");
+	printf("    █     \e[1;91m;;;\e[0m█  \e[1;91m;\e[0m█\e[1;91m;;;\e[0m    \n");
+	printf("   ███   \e[1;91m;;;\e[0m█ ███ █\e[1;91m;;\e[0m     \n");
+	printf("    █   \e[1;91m;;\e[0m██   \e[1;93m:\e[0m   ██     \n");
+	printf("    █   \e[1;91m;;\e[0m█ \e[1;93m, ,:, ,\e[0m █    \n");
+	printf("    █   \e[1;91m;;\e[0m█\e[1;93m, ,:::, ,\e[0m█    \n");
+	printf("    █   \e[1;91m;;\e[0m█  \e[1;93m,:::,\e[0m  █     \n");
+	printf("\n");
+	//elden beast
+	printf("  ██     ███     ██\n");
+	printf(" █; █   █   █   █ ;█\n");
+	printf(" █ ; █  █ █ █  █ ; █\n");
+	printf("  ██; ███ ; ███ ;██\n");
+	printf(" █; █; █  ;  █ ;█ ;█\n");
+	printf("█ ; █ █ ; ; ; █ █ ; █\n");
+	printf(" █ ; █ ;  ;  ; █ ; █\n");
+	printf("  █ █ ; ; ; ; ; █ █\n");
+	printf(" █ ██ ; ; ; ; ; ██ █\n");
+	printf("█ ; █ ; ; ; ; ; █ ; █\n");
