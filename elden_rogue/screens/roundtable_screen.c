@@ -200,7 +200,7 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 	printOption(3, "INVENTORY");
 	printOption(4, "SHOP");
 	printOption(5, "SAVE");
-	printOption(6, "INTERACT WITH NPC");
+	printOption(6, "VISIT TOWN");
 	printOption(0, "QUIT GAME");
 	printf("\n\n");
 
@@ -223,7 +223,7 @@ void displayRoundTableHoldScreen(int nPrompt, Player* pPlayer) {
 		case QUIT_GAME:
 			printSystemMessage("Going back to Title Screen...");
 			break;
-		case 6:
+		default:
 			break;
 	}
 
