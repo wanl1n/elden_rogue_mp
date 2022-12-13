@@ -27,6 +27,7 @@
 #define TILE_TREASURE		51
 #define TILE_ENEMY 			52
 #define TILE_CLEARED		53
+#define TILE_UNCLEARED		54
 
 //BORDER SIDES
 #define TOP 				1

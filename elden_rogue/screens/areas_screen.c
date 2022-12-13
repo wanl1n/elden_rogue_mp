@@ -1240,6 +1240,7 @@ int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBoss
 	int nPotions = pPlayer->nPotions;
 	int nTileUsed = 0;
 	int nSpecialPrompt;
+	//char cCatcher;
 
 	switch(nTileType) {
 
@@ -1253,7 +1254,12 @@ int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBoss
 			nTileUsed = checkIfTileUsed(pPlayer, *pFloor);
 
 			if (!nTileUsed) {
-				nSpawnTile = getRandomSpawn();
+
+				if (nArea == THE_ELDEN_THRONE)
+					nSpawnTile = TREASURE;
+				else 
+					nSpawnTile = getRandomSpawn();
+
 
 				if (nSpawnTile == TREASURE) {
 
@@ -1409,23 +1415,25 @@ int usePlayer(int nArea, int* pFloor, Player* pPlayer, int* pCleared, int* pBoss
 
 		case TILE_CREDITS:
 
-			printSystemMessage("credits now!!!");
-
 			if (*pBossResult){
+
 				displayCredits();
 				*pCleared = 1;
+
+				getch();
+				openRoundTableHoldScreen(pPlayer);
+				return TILE_CREDITS;
+
 			} else {
-				printSystemMessage("You haven't cleared the boss.");
+				return TILE_UNCLEARED;
 			}
 
-			return TILE_CREDITS;
-			
 			break;
 	}
 
 	free(pFloorMap);
 
-	return 0;
+	return -1;
 }
 
 
@@ -1471,6 +1479,9 @@ void displayUserInterface(int nPlayerMaxHP, Player* pPlayer, int nPrompt) {
 
 		case TILE_CLEARED:
 			printSystemMessage("You cleared this tile.");
+			break;
+		case TILE_UNCLEARED:
+			printSystemMessage("You haven't cleared the boss.");
 			break;
 		default:
 			break;

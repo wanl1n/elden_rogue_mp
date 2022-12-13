@@ -31,6 +31,7 @@ void displayCredits() {
 	printf("					  So, Kassandra Alexei\n\n\n");	
 
 	printf("					     SPECIAL THANKS\n\n");
-	printf("				     Ms. Candy for your guidance.\n");
+	printf("				     Ms. Candy for your guidance.\n\n");
+	printf("				      Press any key to continue.\n");
 
 }

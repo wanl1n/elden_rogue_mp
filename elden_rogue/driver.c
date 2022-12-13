@@ -5,6 +5,7 @@
 #include "windows.h"
 #include "time.h"
 #include "driver.h"
+#include "conio.h"
 
 #include "utility/printer.c"
 #include "utility/scanner.c"
@@ -38,12 +39,15 @@ int main() {
 	//Initial Player Statistics
 	strcpy(sPlayer.strName, "");
 	strcpy(sPlayer.strJobClass, "");
-	sPlayer.nRunes = 500000;
+	// sPlayer.nRunes = 500000; // For testing purposes.
+	sPlayer.nRunes = 0;
 	sPlayer.nPotions = 8;
 	
 	int i; for(i = 0; i < 6; i++) {
 		sPlayer.aShards[i] = 0;
 	}
+
+	// sPlayer.aShards[4] = 1; // Sets Leyndell Capital to cleared for testing purposes.
 
 	Player* pPlayer;
 	pPlayer = &sPlayer;

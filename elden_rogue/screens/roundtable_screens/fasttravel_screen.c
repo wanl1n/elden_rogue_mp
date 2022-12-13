@@ -23,6 +23,7 @@ void openFastTravelScreen(Player* pPlayer) {
 	int nSuccessfulTravel = 0;
 
 	while (!nSuccessfulTravel) {
+		
 		nInputFastTravel = scanIntInput(0, 6);
 	
 		displayFastTravelScreen(nInputFastTravel);
@@ -39,6 +40,7 @@ void openFastTravelScreen(Player* pPlayer) {
 			case LEYNDELL_CAPITAL:
 
 				if (getPlayerShards(pPlayer) >= 2) {
+					nSuccessfulTravel = 1;
 					openAreaScreen(nInputFastTravel, pPlayer);
 				} else {
 					printSystemMessage("You have to clear 2 stages to unlock.");
@@ -48,6 +50,7 @@ void openFastTravelScreen(Player* pPlayer) {
 			case THE_ELDEN_THRONE:
 
 				if (pPlayer->aShards[LEYNDELL_CAPITAL-1]) {
+					nSuccessfulTravel = 1;
 					openAreaScreen(nInputFastTravel, pPlayer);
 				} else {
 					printSystemMessage("You have to clear Leyndell Capital to unlock.");
