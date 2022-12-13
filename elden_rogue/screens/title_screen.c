@@ -53,17 +53,23 @@ void openTitleScreen(Player* pPlayer) {
 void loadData(Player* pPlayer) {
 
 	FILE* fp;
-	//Slot* pTempHead = malloc(sizeof(Slot));
+	Slot* pTempHead = malloc(sizeof(Slot));
+	Slot* pNewSlot = malloc(sizeof(Slot));
 
 	fp = fopen("saves/save.dat", "rb");
 
-	fread(pPlayer, sizeof(Player), 1, fp);
+	fread(pPlayer, sizeof(Player), 1, fp); // player stats
+	fread(pTempHead, sizeof(Slot), 1, fp); // apply the head
 
-	// while(fread(pTempHead, sizeof(Slot), 1, fp)) {
-	// 	pTempHead = pTempHead->pNext;
-	// }
+	pPlayer->pInventory = pTempHead; //set head to player inventory
 
-	// pPlayer->pInventory = pTempHead;
+	while(fread(pNewSlot, sizeof(Slot), 1, fp)) {
+		pTempHead->pNext = pNewSlot;
+		pTempHead = pTempHead->pNext;
+		pNewSlot = malloc(sizeof(Slot));
+	}
+
+	pTempHead->pNext = NULL;
 
 	fclose(fp);
 }

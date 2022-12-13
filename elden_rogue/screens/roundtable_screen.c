@@ -103,7 +103,7 @@ void openSaveScreen(Player* pPlayer) {
 
 	FILE* fp;
 	int nInventorySize, i;
-	Slot** pTempHead = &(pPlayer->pInventory);
+	Slot* pTempHead = pPlayer->pInventory;
 
 	int nInputSave = 100; //random value thats not part of the choices.
 
@@ -111,22 +111,22 @@ void openSaveScreen(Player* pPlayer) {
 		nInputSave = scanIntInput(0, 1);
 
 		if (nInputSave) {
-			printf(" save ");
 			fp = fopen("saves/save.dat", "wb");
 
 			fwrite(pPlayer, sizeof(Player), 1, fp);
-			printf(" saved ");
+
 			nInventorySize = getPlayerWeapons(&(pPlayer->pInventory));
 
 			for (i = 0; i < nInventorySize; i++) {
-				fwrite(*pTempHead, sizeof(Slot), 1, fp);
-				printf(" %s ", (*pTempHead)->sWeapon.strWeaponName);
-				*pTempHead = (*pTempHead)->pNext;
+				fwrite(pTempHead, sizeof(Slot), 1, fp);
+				printf(" %s ", pTempHead->sWeapon.strWeaponName);
+				pTempHead = pTempHead->pNext;
 			}
-			printf(" inventory ");
+
 			fclose(fp);
 
 			printSystemMessage("Saved your progress.");
+			
 		} else {
 			openRoundTableHoldScreen(pPlayer);
 		}
